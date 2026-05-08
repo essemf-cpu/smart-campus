@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Localisation Campus</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="style.css">
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+</head>
+
+<body>
+
+<header>
+
+    <img src="logo coud.png"
+         class="logo">
+
+    <h1>Smart Campus GPS</h1>
+
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h3>📍 Ma position</h3>
+
+        <div id="map"
+             style="height:500px; border-radius:10px;">
+        </div>
+
+    </div>
+
+    <button onclick="partagerPosition()">
+
+     📍 Partager ma position
+
+    </button>
+
+    <div class="card center">
+
+        <button onclick="window.location.href='dashboard.html'">
+
+            Retour Dashboard
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("etudiant");
+
+initialiserCarte();
+
+</script>
+
+</body>
+
+</html>

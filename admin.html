@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>ADMIN COUD</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <img src="logo coud.png" class="logo">
+
+    <h1>ADMIN COUD</h1>
+
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h3>📥 Inscriptions en attente</h3>
+
+        <div id="inscriptions"></div>
+
+    </div>
+
+    <div class="card">
+
+    <h3>🛠️ Demandes maintenance</h3>
+
+    <div id="maintenance-list"></div>
+
+    </div>
+
+        <button class="logout"
+            onclick="logout()">
+
+        Se déconnecter
+
+    </button>
+
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("admin");
+
+</script>
+
+</body>
+
+</html>

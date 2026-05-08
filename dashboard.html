@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Smart Campus</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <img src="logo coud.png" class="logo">
+
+    <h1>Smart Campus</h1>
+
+</header>
+
+<div class="container">
+
+    <button class="logout"
+            onclick="logout()">
+
+        Se déconnecter
+
+    </button>
+
+    <div class="card center">
+
+        <h2 id="welcome"></h2>
+
+    </div>
+
+    <div class="card center">
+
+        <h3>🎫 Mon QR Code</h3>
+
+        <div id="qrcode"></div>
+
+        <div id="qr-info"></div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📚 Guide Étudiant</h3>
+
+        <button onclick="window.location.href='guide.html'">
+
+            Ouvrir le guide
+
+        </button>
+
+    </div>
+
+    <div class="card">
+
+    <h3>👥 Mes Amis</h3>
+
+    <button onclick="window.location.href='amis.html'">
+
+        Ouvrir Amis
+
+    </button>
+
+    </div>
+
+    <div class="card">
+
+    <h3>🔔 Notifications</h3>
+
+    <div id="notifications-list"></div>
+
+   </div>
+
+    <div class="card">
+
+    <h3>🍽️ Restauration</h3>
+
+    <button onclick="window.location.href='restaurant.html'">
+
+        Accéder à la restauration
+
+    </button>
+
+    </div>
+
+    <div class="card">
+
+    <h3>🛠️ Demande de maintenance</h3>
+
+    <input type="text"
+           id="probleme"
+           placeholder="Décris le problème">
+
+    <button onclick="envoyerMaintenance()">
+
+        Envoyer la demande
+
+    </button>
+
+    </div>
+
+    <div class="card">
+
+    <h3>📍 Localisation Campus</h3>
+
+    <button onclick="window.location.href='gps.html'">
+
+        Ouvrir GPS
+
+    </button>
+
+    </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("etudiant");
+
+let user = JSON.parse(localStorage.getItem("user"));
+
+document.getElementById("welcome").innerHTML =
+"Bienvenue " + user.nom;
+
+</script>
+
+</body>
+
+</html>

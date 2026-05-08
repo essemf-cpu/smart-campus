@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Mes Amis</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <img src="logo coud.png"
+         class="logo">
+
+    <h1>Mes Amis</h1>
+
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h3>➕ Ajouter un ami</h3>
+
+        <input type="text"
+               id="friendCarte"
+               placeholder="Numéro carte étudiant">
+
+        <button onclick="ajouterAmi()">
+
+            Ajouter
+
+        </button>
+
+    </div>
+
+    <div class="card">
+
+    <h3>📥 Demandes reçues</h3>
+
+    <div id="friend-requests"></div>
+
+    </div>
+
+    <div class="card">
+
+    <h3>💬 Messages</h3>
+
+    <button onclick="window.location.href='messages.html'">
+
+        Ouvrir messagerie
+
+    </button>
+
+    </div>
+
+    <div class="card">
+
+        <h3>👥 Liste des amis</h3>
+
+        <div id="liste-amis"></div>
+
+    </div>
+
+    <div class="card center">
+
+        <button onclick="window.location.href='dashboard.html'">
+
+            Retour Dashboard
+
+        </button>
+
+    </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("etudiant");
+
+afficherAmis();
+
+</script>
+
+</body>
+
+</html>

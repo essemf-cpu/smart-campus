@@ -1,0 +1,138 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+}
+
+/* FIX MOBILE + IPHONE */
+html {
+    height: 100%;
+}
+
+/* BODY GLOBAL */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f4f9;
+
+}
+
+/* FIX SPÉCIAL IPHONE */
+@supports (-webkit-touch-callout: none) {
+    body {
+        min-height: -webkit-fill-available;
+    }
+}
+
+/* LOGIN */
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+}
+
+.login-container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+/* INPUT */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* BUTTON */
+button {
+    padding: 12px;
+    width: 100%;
+    border: none;
+    background: #0056b3;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #003f88;
+}
+
+/* HEADER */
+header {
+    background: #002147;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+/* LOGO */
+.logo {
+    width: 120px;
+    height: auto;
+    margin-right: 10px;
+}
+
+header h1 {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* CONTAINER */
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 15px;
+}
+
+/* CARDS */
+.card {
+    background: white;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* CENTER */
+.center {
+    text-align: center;
+}
+
+/* LOGOUT */
+.logout {
+    background: red;
+}
+
+/* LIST */
+li {
+    margin-bottom: 10px;
+}
+
+/* MOBILE OPTIMISATION */
+@media (max-width: 600px) {
+    .container {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .login-container {
+        width: 95%;
+    }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Inscription Étudiant</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="login-page">
+
+<div class="login-container">
+
+    <img src="logo coud.png" class="logo">
+
+    <h2>Inscription Étudiant</h2>
+
+    <input type="text"
+           id="nom"
+           placeholder="Nom complet">
+
+    <input type="text"
+           id="carte"
+           placeholder="Numéro carte étudiant">
+
+    <input type="text"
+           id="faculte"
+           placeholder="Faculté">
+
+    <input type="text"
+           id="niveau"
+           placeholder="Niveau d’étude">
+
+    <input type="password"
+           id="password"
+           placeholder="Mot de passe">
+
+    <button onclick="inscription()">
+        S’inscrire
+    </button>
+
+    <p>
+        Déjà inscrit ?
+    </p>
+
+    <a href="index.html">
+        Retour connexion
+    </a>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
