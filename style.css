@@ -286,3 +286,153 @@ li {
 
     transform: scale(0.96);
 }
+
+/* =========================
+   WELCOME CARD
+========================= */
+
+.welcome-card {
+
+    background: linear-gradient(
+        135deg,
+        #002147,
+        #004aad
+    );
+
+    color: white;
+
+    padding: 25px;
+
+    border-radius: 25px;
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.welcome-card h1 {
+
+    margin: 0;
+
+    font-size: 28px;
+}
+
+/* =========================
+   QR CARD
+========================= */
+
+#qrcode canvas {
+
+    width: 220px !important;
+
+    height: 220px !important;
+
+    margin-top: 15px;
+}
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+
+.dashboard-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
+
+    margin-top: 20px;
+}
+
+.app-card {
+
+    background: white;
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    text-decoration: none;
+
+    color: black;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    min-height: 120px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+    transition: 0.2s;
+}
+
+.app-card span {
+
+    margin-top: 12px;
+
+    font-size: 15px;
+}
+
+.app-card:active {
+
+    transform: scale(0.95);
+}
+
+/* =========================
+   NAVBAR MOBILE
+========================= */
+
+.bottom-nav {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    background: white;
+
+    display: flex;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+    padding: 15px 0;
+
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+
+    z-index: 1000;
+}
+
+.bottom-nav a {
+
+    text-decoration: none;
+
+    font-size: 26px;
+
+    color: #002147;
+}
+
+/* =========================
+   BODY SPACE
+========================= */
+
+.container {
+
+    padding-bottom: 120px;
+}
