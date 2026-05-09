@@ -3,67 +3,148 @@
 
 <head>
 
-    <title>Inscription Étudiant</title>
+    <title>Inscription</title>
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
+
+    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-
 </head>
 
-<body class="login-page">
+<body class="auth-body">
 
-<div class="login-container">
+<div class="auth-container">
 
-    <img src="logo coud.png" class="logo">
+    <!-- TOP -->
+    <div class="auth-top">
 
-    <h2>Inscription Étudiant</h2>
+        <img src="logo coud.png"
+             class="auth-logo">
 
-    <input type="text"
-           id="nom"
-           placeholder="Nom complet">
+        <h1>
 
-    <input type="text"
-           id="carte"
-           placeholder="Numéro carte étudiant">
+            Rejoindre Smart Campus
 
-    <input type="text"
-           id="faculte"
-           placeholder="Faculté">
+        </h1>
 
-    <input type="text"
-           id="niveau"
-           placeholder="Niveau d’étude">
+        <p>
 
-    <input type="password"
-           id="password"
-           placeholder="Mot de passe">
+            Créez votre espace étudiant
+            intelligent.
 
-    <button onclick="inscription()">
-        S’inscrire
-    </button>
+        </p>
 
-    <p>
-        Déjà inscrit ?
-    </p>
+    </div>
 
-    <a href="index.html">
-        Retour connexion
-    </a>
+    <!-- CARD -->
+    <div class="auth-card">
+
+        <h2>
+
+            Inscription
+
+        </h2>
+
+        <!-- NOM -->
+        <div class="input-box">
+
+            <i class="fa-solid fa-user"></i>
+
+            <input type="text"
+                   id="nom"
+                   placeholder="Nom complet">
+
+        </div>
+
+        <!-- CARTE -->
+        <div class="input-box">
+
+            <i class="fa-solid fa-id-card"></i>
+
+            <input type="text"
+                   id="carte"
+                   placeholder="Numéro carte étudiant">
+
+        </div>
+
+        <!-- FACULTE -->
+        <div class="input-box">
+
+            <i class="fa-solid fa-building-columns"></i>
+
+            <input type="text"
+                   id="faculte"
+                   placeholder="Faculté">
+
+        </div>
+
+        <!-- NIVEAU -->
+        <div class="input-box">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <input type="text"
+                   id="niveau"
+                   placeholder="Niveau d’étude">
+
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="input-box">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input type="password"
+                   id="password"
+                   placeholder="Mot de passe">
+
+        </div>
+
+        <!-- BUTTON -->
+        <button class="auth-button"
+                onclick="inscription()">
+
+            Créer mon compte
+
+        </button>
+
+        <!-- LINKS -->
+        <div class="auth-links">
+
+            <a href="index.html">
+
+                Déjà inscrit ?
+
+            </a>
+
+            <a href="index.html">
+
+                Connexion
+
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 </body>
-
 </html>
