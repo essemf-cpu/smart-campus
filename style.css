@@ -1197,3 +1197,66 @@ li {
 
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
+
+/* =========================
+   DARK MODE
+========================= */
+
+.dark-mode {
+
+    background: #0F172A;
+
+    color: white;
+}
+
+/* CARDS */
+
+.dark-mode .service-card,
+.dark-mode .friend-card,
+.dark-mode .qr-card,
+.dark-mode .profile-item,
+.dark-mode .message-ami,
+.dark-mode .search-box,
+.dark-mode .chat-input-zone,
+.dark-mode .gps-top-card {
+
+    background: #1E293B;
+
+    color: white;
+}
+
+/* INPUTS */
+
+.dark-mode input {
+
+    background: #334155;
+
+    color: white;
+}
+
+/* NAVBAR */
+
+.dark-mode .bottom-nav {
+
+    background: #1E293B;
+}
+
+.dark-mode .bottom-nav a {
+
+    color: #8E67FF;
+}
+
+/* MESSAGE AMI */
+
+.dark-mode .message-ami {
+
+    background: #1E293B;
+}
+
+/* TEXTES */
+
+.dark-mode small,
+.dark-mode .hello-text {
+
+    color: #CBD5E1;
+}
