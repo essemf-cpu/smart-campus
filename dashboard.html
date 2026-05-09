@@ -62,7 +62,6 @@
     <!-- SERVICES -->
     <div class="premium-grid">
 
-        <!-- QR -->
         <a href="dashboard.html"
            class="premium-card purple-card">
 
@@ -72,7 +71,6 @@
 
         </a>
 
-        <!-- GUIDE -->
         <a href="guide.html"
            class="premium-card">
 
@@ -82,7 +80,6 @@
 
         </a>
 
-        <!-- RESTAURATION -->
         <a href="restauration.html"
            class="premium-card">
 
@@ -92,7 +89,6 @@
 
         </a>
 
-        <!-- GPS -->
         <a href="gps.html"
            class="premium-card">
 
@@ -102,7 +98,6 @@
 
         </a>
 
-        <!-- AMIS -->
         <a href="amis.html"
            class="premium-card">
 
@@ -112,7 +107,6 @@
 
         </a>
 
-        <!-- MESSAGES -->
         <a href="messages.html"
            class="premium-card nav-icon">
 
@@ -154,7 +148,7 @@
 
     </div>
 
-    <!-- QR PREMIUM -->
+    <!-- QR -->
     <div class="wallet-card">
 
         <h2>
@@ -190,7 +184,8 @@
 
         </div>
 
-        <button class="scan-button">
+        <button class="scan-button"
+        onclick="window.location.href='scanner.html'">
 
             <i class="fa-solid fa-camera"></i>
 
@@ -209,8 +204,9 @@
 
         </h3>
 
-        <!-- CARD -->
-        <div class="history-card">
+        <!-- BIBLIOTHEQUE -->
+        <a href="bibliotheque.html"
+           class="history-card">
 
             <div class="history-icon purple-bg">
 
@@ -228,7 +224,7 @@
 
                 <small>
 
-                    Accès • 14 Mai 2024
+                    Votre univers de livres disponible
 
                 </small>
 
@@ -236,36 +232,7 @@
 
             <i class="fa-solid fa-chevron-right"></i>
 
-        </div>
-
-        <!-- CARD -->
-        <div class="history-card">
-
-            <div class="history-icon orange-bg">
-
-                <i class="fa-solid fa-utensils"></i>
-
-            </div>
-
-            <div class="history-info">
-
-                <strong>
-
-                    Restaurant Central
-
-                </strong>
-
-                <small>
-
-                    Paiement • 14 Mai 2024
-
-                </small>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
+        </a>
 
     </div>
 
@@ -327,11 +294,7 @@ JSON.parse(localStorage.getItem("user"));
 document.getElementById("nom-user")
 .innerHTML = user.nom;
 
-/* QR */
-
 genererQR();
-
-/* BADGE */
 
 afficherBadgeMessages();
 

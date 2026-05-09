@@ -10,11 +10,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS -->
     <link rel="stylesheet"
           href="style.css">
 
-    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -66,8 +64,9 @@
     <!-- MENU -->
     <div class="profile-menu-premium">
 
-        <!-- ITEM -->
-        <div class="profile-premium-item">
+        <!-- FACULTE -->
+        <a href="faculte.html"
+           class="profile-premium-item">
 
             <div class="profile-item-left">
 
@@ -79,11 +78,7 @@
 
                 <div>
 
-                    <strong>
-
-                        Faculté
-
-                    </strong>
+                    <strong>Faculté</strong>
 
                     <p id="profile-faculte">
 
@@ -97,10 +92,11 @@
 
             <i class="fa-solid fa-chevron-right"></i>
 
-        </div>
+        </a>
 
-        <!-- ITEM -->
-        <div class="profile-premium-item">
+        <!-- NIVEAU -->
+        <a href="niveau.html"
+           class="profile-premium-item">
 
             <div class="profile-item-left">
 
@@ -112,11 +108,7 @@
 
                 <div>
 
-                    <strong>
-
-                        Niveau
-
-                    </strong>
+                    <strong>Niveau</strong>
 
                     <p id="profile-niveau">
 
@@ -130,10 +122,11 @@
 
             <i class="fa-solid fa-chevron-right"></i>
 
-        </div>
+        </a>
 
-        <!-- ITEM -->
-        <div class="profile-premium-item">
+        <!-- SECURITE -->
+        <a href="securite.html"
+           class="profile-premium-item">
 
             <div class="profile-item-left">
 
@@ -145,11 +138,7 @@
 
                 <div>
 
-                    <strong>
-
-                        Sécurité
-
-                    </strong>
+                    <strong>Sécurité</strong>
 
                     <p>
 
@@ -163,10 +152,11 @@
 
             <i class="fa-solid fa-chevron-right"></i>
 
-        </div>
+        </a>
 
-        <!-- ITEM -->
-        <div class="profile-premium-item">
+        <!-- NOTIFICATIONS -->
+        <a href="notifications.html"
+           class="profile-premium-item">
 
             <div class="profile-item-left">
 
@@ -178,11 +168,7 @@
 
                 <div>
 
-                    <strong>
-
-                        Notifications
-
-                    </strong>
+                    <strong>Notifications</strong>
 
                     <p>
 
@@ -196,13 +182,14 @@
 
             <i class="fa-solid fa-chevron-right"></i>
 
-        </div>
+        </a>
 
     </div>
 
     <!-- LOGOUT -->
-    <button class="premium-logout-button"
-            onclick="logout()">
+    <button
+    class="premium-logout-button"
+    onclick="logout()">
 
         <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -246,6 +233,11 @@
     </a>
 
 </nav>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <!-- SCRIPT -->
 <script src="script.js"></script>

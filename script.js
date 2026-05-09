@@ -179,29 +179,48 @@ function validerUser(id) {
 // =====================
 // QR CODE
 // =====================
-function genererQR() {
+function genererQR(){
 
-    let zone = document.getElementById("qrcode");
+    let zone =
+    document.getElementById(
+        "qrcode"
+    );
 
     if(!zone) return;
 
-    let user = JSON.parse(localStorage.getItem("user"));
+    let user =
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
-    if(!user) return;
+    let texte =
 
-    let texte = `
-Nom : ${user.nom}
-Carte : ${user.carte}
-`;
+`Nom : ${user.nom}
+Carte : ${user.carte}`;
 
     zone.innerHTML = "";
 
     QRCode.toCanvas(
-        document.createElement("canvas"),
-        texte,
-        function(error, canvas) {
 
-            if(error) return console.error(error);
+        document.createElement(
+            "canvas"
+        ),
+
+        texte,
+
+        {
+            width:300,
+            margin:2
+        },
+
+        function(error, canvas){
+
+            if(error){
+
+                console.error(error);
+
+                return;
+            }
 
             zone.appendChild(canvas);
         }
@@ -753,165 +772,191 @@ function ouvrirMessage(friendCarte) {
         "conversation.html?friend=" + friendCarte;
 }
 
-function afficherBadgeMessages() {
+function afficherBadgeMessages(){
 
-    let zone =
-        document.getElementById("message-badge");
+    let badge =
+    document.getElementById(
+        "message-badge"
+    );
 
-    if(!zone) return;
+    if(!badge) return;
 
     let user =
-        JSON.parse(localStorage.getItem("user"));
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
     db.collection("messages")
-      .where("to", "==", user.carte)
-      .where("lu", "==", false)
 
-      .onSnapshot((snapshot) => {
+    .where(
+        "to",
+        "==",
+        user.carte
+    )
 
-        if(snapshot.size <= 0) {
+    .onSnapshot((snapshot)=>{
 
-            zone.style.display = "none";
+        if(snapshot.empty){
 
-        } else {
+            badge.style.display =
+            "none";
 
-            zone.style.display = "flex";
-
-            zone.innerHTML =
-                snapshot.size;
+            return;
         }
+
+        badge.style.display =
+        "flex";
+
+        badge.innerHTML =
+        snapshot.size;
     });
 }
 
-function afficherMessages() {
+function afficherMessages(){
 
     let zone =
-        document.getElementById("messages-list");
+    document.getElementById(
+        "messages-list"
+    );
 
     if(!zone) return;
 
     let user =
-        JSON.parse(localStorage.getItem("user"));
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
     let params =
-        new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
     let friend =
-        params.get("friend");
+    params.get("friend");
 
     db.collection("messages")
-      .orderBy("date")
+    .orderBy("date")
 
-      .onSnapshot((snapshot) => {
+    .onSnapshot((snapshot)=>{
 
         zone.innerHTML = "";
 
-        snapshot.forEach((doc) => {
+        snapshot.forEach((doc)=>{
 
             let m = doc.data();
 
-        if(
-            m.to === user.carte
-        ) {
-
-            db.collection("messages")
-            .doc(doc.id)
-
-            .update({
-
-               lu: true
-             });
-           }
-
             let conversation =
+
             (
-                m.from === user.carte &&
+                m.from === user.carte
+                &&
                 m.to === friend
             )
+
             ||
+
             (
-                m.from === friend &&
+                m.from === friend
+                &&
                 m.to === user.carte
             );
 
-      if(conversation) {
+            if(conversation){
 
-          let expediteur = m.fromNom;
+                let classe =
+                "message-ami";
 
-          let classeMessage = "message-ami";
+                let expediteur =
+                m.fromNom;
 
-       if(m.from === user.carte) {
+                if(
+                    m.from === user.carte
+                ){
 
-          expediteur = "Vous";
+                    classe =
+                    "message-moi";
 
-          classeMessage = "message-moi";
-        }
+                    expediteur =
+                    "Vous";
+                }
 
-          zone.innerHTML += `
+                zone.innerHTML += `
 
-    <div class="${classeMessage}">
+                <div class="${classe}">
 
-        <div class="message-name">
+                    <div class="message-text">
 
-            ${expediteur}
+                        ${m.message}
 
-        </div>
+                    </div>
 
-        <div class="message-text">
+                    <div class="message-date">
 
-            ${m.message}
+                        ${expediteur}
+                        •
+                        ${m.date}
 
-        </div>
+                    </div>
 
-        <div class="message-date">
-
-            ${m.date}
-
-        </div>
-
-    </div>
-`;
+                </div>
+                `;
             }
         });
+
+        zone.scrollTop =
+        zone.scrollHeight;
     });
 }
 
-function afficherConversations() {
+function afficherConversations(){
 
     let zone =
-        document.getElementById("conversations-list");
+    document.getElementById(
+        "conversations-list"
+    );
 
     if(!zone) return;
 
     let user =
-        JSON.parse(localStorage.getItem("user"));
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
     db.collection("friends")
-      .where("userCarte", "==", user.carte)
+    .where(
+        "userCarte",
+        "==",
+        user.carte
+    )
 
-      .onSnapshot((snapshot) => {
+    .onSnapshot((snapshot)=>{
 
         zone.innerHTML = "";
 
-        snapshot.forEach((doc) => {
+        snapshot.forEach((doc)=>{
 
             let ami = doc.data();
 
             zone.innerHTML += `
 
             <div class="conversation-card"
-                 onclick="ouvrirMessage('${ami.friendCarte}')">
 
+            onclick="
+            ouvrirMessage(
+            '${ami.friendCarte}'
+            )">
+
+                <!-- LEFT -->
                 <div class="conversation-left">
 
+                    <!-- AVATAR -->
                     <div class="conversation-avatar">
 
                         <i class="fa-solid fa-user"></i>
 
-                        <div class="online-dot"></div>
-
                     </div>
 
+                    <!-- INFO -->
                     <div class="conversation-info">
 
                         <strong>
@@ -922,7 +967,7 @@ function afficherConversations() {
 
                         <p>
 
-                            Appuyez pour discuter
+                            ${ami.friendCarte}
 
                         </p>
 
@@ -930,17 +975,12 @@ function afficherConversations() {
 
                 </div>
 
+                <!-- RIGHT -->
                 <div class="conversation-right">
 
                     <div class="conversation-time">
 
-                        Maintenant
-
-                    </div>
-
-                    <div class="conversation-badge">
-
-                        1
+                        Smart Campus
 
                     </div>
 
@@ -1059,46 +1099,53 @@ function voirPosition(friendCarte) {
       });
 }
 
-function envoyerMessagePrive() {
+function envoyerMessagePrive(){
 
     let texte =
-        document.getElementById("message").value;
+    document.getElementById(
+        "message"
+    ).value;
+
+    if(!texte) return;
 
     let user =
-        JSON.parse(localStorage.getItem("user"));
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
     let params =
-        new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
     let friend =
-        params.get("friend");
+    params.get("friend");
 
-    if(!texte) {
+    db.collection("messages")
+    .add({
 
-        alert("Entre un message");
+        from:user.carte,
 
-        return;
-    }
+        fromNom:user.nom,
 
-    db.collection("messages").add({
+        to:friend,
 
-        from: user.carte,
+        message:texte,
 
-        fromNom: user.nom,
+        date:new Date()
+        .toLocaleTimeString([],{
 
-        to: friend,
+            hour:"2-digit",
 
-        message: texte,
-
-        lu: false,
-
-        date: new Date().toLocaleString()
-
+            minute:"2-digit"
+        })
     })
 
-    .then(() => {
+    .then(()=>{
 
-        document.getElementById("message").value = "";
+        document.getElementById(
+            "message"
+        ).value = "";
     });
 }
 

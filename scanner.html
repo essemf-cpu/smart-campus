@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Scanner QR</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
+
+    <!-- ICONS -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- QR SCANNER -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+</head>
+
+<body>
+
+<div class="mobile-container">
+
+    <!-- HEADER -->
+    <div class="guide-header">
+
+        <a href="dashboard.html">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </a>
+
+        <h1>
+
+            Scanner QR
+
+        </h1>
+
+    </div>
+
+    <!-- BANNER -->
+    <div class="premium-banner">
+
+        <div>
+
+            <h2>
+
+                Scanner un QR Code Campus
+
+            </h2>
+
+            <p>
+
+                Restaurant • Accès • Étudiant
+
+            </p>
+
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/483/483947.png">
+
+    </div>
+
+    <!-- SCANNER CARD -->
+    <div class="wallet-card">
+
+        <h2>
+
+            Caméra Scanner
+
+        </h2>
+
+        <p class="wallet-subtitle">
+
+            Placez un QR code
+            devant votre caméra.
+
+        </p>
+
+        <!-- CAMERA -->
+        <div id="reader"
+             style="
+             width:100%;
+             margin-top:25px;
+             border-radius:24px;
+             overflow:hidden;
+             ">
+
+        </div>
+
+        <!-- RESULT -->
+        <div class="history-section">
+
+            <div class="history-card">
+
+                <div class="history-icon purple-bg">
+
+                    <i class="fa-solid fa-qrcode"></i>
+
+                </div>
+
+                <div class="history-info">
+
+                    <strong id="scan-result">
+
+                        Aucun QR détecté
+
+                    </strong>
+
+                    <small>
+
+                        Smart Campus Scanner
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NAVBAR -->
+<nav class="ios-navbar">
+
+    <a href="dashboard.html">
+
+        <i class="fa-solid fa-house"></i>
+
+    </a>
+
+    <a href="amis.html">
+
+        <i class="fa-solid fa-user-group"></i>
+
+    </a>
+
+    <a href="messages.html">
+
+        <i class="fa-solid fa-comments"></i>
+
+    </a>
+
+    <a href="gps.html">
+
+        <i class="fa-solid fa-location-dot"></i>
+
+    </a>
+
+    <a href="profile.html">
+
+        <i class="fa-solid fa-user"></i>
+
+    </a>
+
+</nav>
+
+<script>
+
+function onScanSuccess(decodedText){
+
+    document.getElementById(
+        "scan-result"
+    ).innerHTML = decodedText;
+}
+
+let html5QrCode =
+new Html5Qrcode("reader");
+
+Html5Qrcode
+.getCameras()
+
+.then(devices => {
+
+    if(devices && devices.length){
+
+        html5QrCode.start(
+
+            devices[0].id,
+
+            {
+                fps:10,
+                qrbox:250
+            },
+
+            onScanSuccess
+        );
+    }
+})
+
+.catch(err => {
+
+    console.log(err);
+});
+
+</script>
+
+</body>
+</html>

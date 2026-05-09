@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Niveau académique</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
+
+    <!-- ICONS -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="mobile-container">
+
+    <!-- HEADER -->
+    <div class="guide-header">
+
+        <a href="profile.html">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </a>
+
+        <h1>
+
+            Niveau académique
+
+        </h1>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="premium-profile-card">
+
+        <div class="profile-avatar-large">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+        </div>
+
+        <h1 id="niveau-name">
+
+            Niveau
+
+        </h1>
+
+        <p>
+
+            Informations pédagogiques
+
+        </p>
+
+    </div>
+
+    <!-- INFOS -->
+    <div class="profile-menu-premium">
+
+        <!-- ITEM -->
+        <div class="profile-premium-item">
+
+            <div class="profile-item-left">
+
+                <div class="profile-icon purple-bg">
+
+                    <i class="fa-solid fa-book-open"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Parcours
+
+                    </strong>
+
+                    <p>
+
+                        Formation universitaire active
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ITEM -->
+        <div class="profile-premium-item">
+
+            <div class="profile-item-left">
+
+                <div class="profile-icon blue-bg">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Année académique
+
+                    </strong>
+
+                    <p>
+
+                        2025 - 2026
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ITEM -->
+        <div class="profile-premium-item">
+
+            <div class="profile-item-left">
+
+                <div class="profile-icon orange-bg">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Progression
+
+                    </strong>
+
+                    <p>
+
+                        Niveau validé en cours
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NAVBAR -->
+<nav class="ios-navbar">
+
+    <a href="dashboard.html">
+
+        <i class="fa-solid fa-house"></i>
+
+    </a>
+
+    <a href="amis.html">
+
+        <i class="fa-solid fa-user-group"></i>
+
+    </a>
+
+    <a href="messages.html">
+
+        <i class="fa-solid fa-comments"></i>
+
+    </a>
+
+    <a href="gps.html">
+
+        <i class="fa-solid fa-location-dot"></i>
+
+    </a>
+
+    <a href="profile.html">
+
+        <i class="fa-solid fa-user"></i>
+
+    </a>
+
+</nav>
+
+<script>
+
+let user =
+JSON.parse(localStorage.getItem("user"));
+
+document.getElementById(
+    "niveau-name"
+).innerHTML = user.niveau;
+
+</script>
+
+</body>
+</html>
