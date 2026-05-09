@@ -680,20 +680,27 @@ function afficherMessages() {
 
             if(conversation) {
 
-                zone.innerHTML += `
+             let expediteur = m.fromNom;
 
-                    <div class="card">
+            if(m.from === user.carte) {
 
-                        <strong>${m.fromNom}</strong><br>
+             expediteur = "Vous";
+             }
 
-                         <small>${m.from}</small>
+               zone.innerHTML += `
 
-                        ${m.message}<br>
+               <div class="card">
 
-                        <small>${m.date}</small>
+              <strong>${expediteur}</strong><br>
 
-                    </div>
-                `;
+              <small>${m.from}</small><br><br>
+
+              ${m.message}<br>
+
+              <small>${m.date}</small>
+
+              </div>
+              `;
             }
         });
     });
