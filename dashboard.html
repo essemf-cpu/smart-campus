@@ -125,8 +125,17 @@
         <i class="fa-solid fa-user-group"></i>
     </a>
 
-    <a href="messages.html">
-        <i class="fa-solid fa-comments"></i>
+    <a href="messages.html"
+   class="nav-icon">
+
+    <i class="fa-solid fa-comments"></i>
+
+    <span id="message-badge">
+
+        0
+
+    </span>
+
     </a>
 
     <a href="gps.html">
@@ -154,6 +163,7 @@
 verifierConnexion("etudiant");
 
 chargerTheme();
+afficherBadgeMessages();
 
 let user =
 JSON.parse(localStorage.getItem("user"));

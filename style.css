@@ -1290,3 +1290,89 @@ li {
 
     color: #CBD5E1;
 }
+
+/* PAGES PREMIUM */
+
+.dark-mode .card,
+.dark-mode .welcome-banner,
+.dark-mode .search-box,
+.dark-mode .friend-card,
+.dark-mode .profile-item,
+.dark-mode .qr-card,
+.dark-mode .gps-top-card,
+.dark-mode .service-card,
+.dark-mode .chat-input-zone,
+.dark-mode .chat-header,
+.dark-mode .guide-card,
+.dark-mode .resto-card {
+
+    background: #1E293B !important;
+
+    color: white !important;
+}
+
+/* INPUTS */
+
+.dark-mode input {
+
+    background: #334155 !important;
+
+    color: white !important;
+}
+
+/* BODY */
+
+.dark-mode body {
+
+    background: #0F172A;
+}
+
+/* TEXT */
+
+.dark-mode p,
+.dark-mode span,
+.dark-mode small,
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3 {
+
+    color: white;
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.nav-icon {
+
+    position: relative;
+}
+
+#message-badge {
+
+    position: absolute;
+
+    top: -8px;
+
+    right: -10px;
+
+    background: #EF4444;
+
+    color: white;
+
+    width: 20px;
+
+    height: 20px;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-weight: bold;
+}

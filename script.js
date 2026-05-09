@@ -378,7 +378,7 @@ function initialiserCarte() {
     let map = L.map('map').setView([14.6928, -17.4467], 15);
 
     L.tileLayer(
-       'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         {
             attribution: 'OpenStreetMap'
         }
@@ -718,6 +718,26 @@ function ouvrirMessage(friendCarte) {
 
     window.location.href =
         "conversation.html?friend=" + friendCarte;
+}
+
+function afficherBadgeMessages() {
+
+    let zone =
+        document.getElementById("message-badge");
+
+    if(!zone) return;
+
+    let user =
+        JSON.parse(localStorage.getItem("user"));
+
+    db.collection("messages")
+      .where("to", "==", user.carte)
+
+      .onSnapshot((snapshot) => {
+
+        zone.innerHTML =
+            snapshot.size;
+      });
 }
 
 function afficherMessages() {
@@ -1074,5 +1094,3 @@ window.onload = function() {
 
     afficherNotifications();
 };
-
-initialiserCarte
