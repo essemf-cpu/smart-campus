@@ -378,7 +378,7 @@ function initialiserCarte() {
     let map = L.map('map').setView([14.6928, -17.4467], 15);
 
     L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+       'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
         {
             attribution: 'OpenStreetMap'
         }
@@ -393,7 +393,18 @@ function initialiserCarte() {
 
             map.setView([lat, lon], 16);
 
-            L.marker([lat, lon])
+           let icon = L.icon({
+
+             iconUrl:
+             'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+
+             iconSize: [45, 45]
+           });
+
+           L.marker(
+               [lat, lon],
+               { icon: icon }
+           )
              .addTo(map)
              .bindPopup("📍 Vous êtes ici")
              .openPopup();
@@ -836,6 +847,36 @@ function afficherConversations() {
     });
 }
 
+function afficherNomConversation() {
+
+    let params =
+        new URLSearchParams(window.location.search);
+
+    let friend =
+        params.get("friend");
+
+    let zone =
+        document.getElementById("friend-name");
+
+    if(!zone) return;
+
+    db.collection("friends")
+      .where("friendCarte", "==", friend)
+
+      .get()
+
+      .then((snapshot) => {
+
+        if(snapshot.empty) return;
+
+        let data =
+            snapshot.docs[0].data();
+
+        zone.innerHTML =
+            data.friendNom;
+      });
+}
+
 function partagerPosition() {
 
     let user =
@@ -1033,3 +1074,5 @@ window.onload = function() {
 
     afficherNotifications();
 };
+
+initialiserCarte
