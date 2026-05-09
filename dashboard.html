@@ -10,93 +10,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 
 </head>
 
 <body>
 
-<header>
+<div class="app-container">
 
-    <img src="logo coud.png" class="logo">
+    <!-- HEADER -->
+    <div class="top-header">
 
-    <h1>Smart Campus</h1>
+        <div>
 
-</header>
+            <p class="hello-text">
+                Bonjour 👋
+            </p>
 
-<div class="container">
+            <h1 id="nom-user"></h1>
 
-    <button class="logout"
-            onclick="logout()">
+        </div>
 
-        Se déconnecter
+        <div class="profile-circle">
 
-    </button>
+            <i class="fa-solid fa-user"></i>
 
-    <div class="card center">
-
-        <h2 id="welcome"></h2>
+        </div>
 
     </div>
 
-    <div class="card center">
+    <!-- SEARCH -->
+    <div class="search-box">
 
-        <h3>🎫 Mon QR Code</h3>
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+            type="text"
+            placeholder="Rechercher un service..."
+        >
+
+    </div>
+
+    <!-- SERVICES -->
+    <div class="services-grid">
+
+        <a href="guide.html" class="service-card purple">
+            <i class="fa-solid fa-book"></i>
+            <span>Guide</span>
+        </a>
+
+        <a href="maintenance.html" class="service-card blue">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            <span>Maintenance</span>
+        </a>
+
+        <a href="restauration.html" class="service-card orange">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Restauration</span>
+        </a>
+
+        <a href="gps.html" class="service-card red">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>GPS</span>
+        </a>
+
+        <a href="amis.html" class="service-card pink">
+            <i class="fa-solid fa-user-group"></i>
+            <span>Amis</span>
+        </a>
+
+        <a href="messages.html" class="service-card cyan">
+            <i class="fa-solid fa-comments"></i>
+            <span>Messages</span>
+        </a>
+
+    </div>
+
+    <!-- BANNER -->
+    <div class="welcome-banner">
+
+        <div>
+
+            <h2>Bienvenue sur Smart Campus 🎓</h2>
+
+            <p>
+                Votre vie étudiante simplifiée.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- QR -->
+    <div class="qr-card">
+
+        <h2>Mon QR Code</h2>
 
         <div id="qrcode"></div>
 
-        <div id="qr-info"></div>
-
     </div>
-
-<div class="dashboard-grid">
-
-    <a href="guide.html" class="app-card">
-        📘
-        <span>Guide</span>
-    </a>
-
-    <a href="maintenance.html" class="app-card">
-        🛠️
-        <span>Maintenance</span>
-    </a>
-
-    <a href="restauration.html" class="app-card">
-        🍽️
-        <span>Restauration</span>
-    </a>
-
-    <a href="gps.html" class="app-card">
-        📍
-        <span>GPS</span>
-    </a>
-
-    <a href="amis.html" class="app-card">
-        👥
-        <span>Amis</span>
-    </a>
-
-    <a href="messages.html" class="app-card">
-        💬
-        <span>Messages</span>
-    </a>
-
- </div>
 
 </div>
 
+<!-- NAVBAR -->
 <nav class="bottom-nav">
 
-    <a href="dashboard.html">🏠</a>
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
 
-    <a href="amis.html">👥</a>
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
 
-    <a href="messages.html">💬</a>
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
 
-    <a href="gps.html">📍</a>
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
 
-    <a href="profile.html">👤</a>
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
 
 </nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
@@ -110,10 +153,13 @@
 
 verifierConnexion("etudiant");
 
-let user = JSON.parse(localStorage.getItem("user"));
+let user =
+JSON.parse(localStorage.getItem("user"));
 
-document.getElementById("welcome").innerHTML =
-"Bienvenue " + user.nom;
+document.getElementById("nom-user")
+.innerHTML = user.nom;
+
+genererQR();
 
 </script>
 
