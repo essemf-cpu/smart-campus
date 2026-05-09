@@ -714,18 +714,30 @@ function afficherMessages() {
           classeMessage = "message-moi";
         }
 
-           zone.innerHTML += `
+          zone.innerHTML += `
 
-                 <div class="${classeMessage}">
+    <div class="${classeMessage}">
 
-                   <strong>${expediteur}</strong><br>
+        <div class="message-name">
 
-                   ${m.message}<br>
+            ${expediteur}
 
-                  <small>${m.date}</small>
+        </div>
 
-                 </div>
-               `;
+        <div class="message-text">
+
+            ${m.message}
+
+        </div>
+
+        <div class="message-date">
+
+            ${m.date}
+
+        </div>
+
+    </div>
+`;
             }
         });
     });
