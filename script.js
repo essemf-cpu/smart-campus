@@ -732,12 +732,22 @@ function afficherBadgeMessages() {
 
     db.collection("messages")
       .where("to", "==", user.carte)
+      .where("lu", "==", false)
 
       .onSnapshot((snapshot) => {
 
-        zone.innerHTML =
-            snapshot.size;
-      });
+        if(snapshot.size <= 0) {
+
+            zone.style.display = "none";
+
+        } else {
+
+            zone.style.display = "flex";
+
+            zone.innerHTML =
+                snapshot.size;
+        }
+    });
 }
 
 function afficherMessages() {
@@ -766,6 +776,19 @@ function afficherMessages() {
         snapshot.forEach((doc) => {
 
             let m = doc.data();
+
+        if(
+            m.to === user.carte
+        ) {
+
+            db.collection("messages")
+            .doc(doc.id)
+
+            .update({
+
+               lu: true
+             });
+           }
 
             let conversation =
             (
@@ -1005,6 +1028,8 @@ function envoyerMessagePrive() {
 
         message: texte,
 
+        lu: false,
+
         date: new Date().toLocaleString()
 
     })
@@ -1013,41 +1038,6 @@ function envoyerMessagePrive() {
 
         document.getElementById("message").value = "";
     });
-}
-
-function toggleDarkMode() {
-
-    document.body.classList.toggle("dark-mode");
-
-    if(
-        document.body.classList.contains("dark-mode")
-    ) {
-
-        localStorage.setItem(
-            "theme",
-            "dark"
-        );
-
-    } else {
-
-        localStorage.setItem(
-            "theme",
-            "light"
-        );
-    }
-}
-
-function chargerTheme() {
-
-    let theme =
-        localStorage.getItem("theme");
-
-    if(theme === "dark") {
-
-        document.body.classList.add(
-            "dark-mode"
-        );
-    }
 }
 
 // =====================

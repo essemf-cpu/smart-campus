@@ -948,69 +948,6 @@ button:active{
 }
 
 /* =========================
-   DARK MODE
-========================= */
-
-.dark-mode{
-
-    background:#0F172A !important;
-
-    color:white !important;
-}
-
-.dark-mode body{
-
-    background:#0F172A !important;
-}
-
-.dark-mode .card,
-.dark-mode .service-card,
-.dark-mode .friend-card,
-.dark-mode .profile-item,
-.dark-mode .qr-card,
-.dark-mode .search-box,
-.dark-mode .chat-input-zone,
-.dark-mode .chat-header,
-.dark-mode .guide-card,
-.dark-mode .resto-card,
-.dark-mode .message-ami{
-
-    background:#1E293B !important;
-
-    color:white !important;
-
-    box-shadow:none !important;
-}
-
-.dark-mode .bottom-nav{
-
-    background:#1E293B !important;
-}
-
-.dark-mode .bottom-nav a{
-
-    color:#8E67FF !important;
-}
-
-.dark-mode input{
-
-    background:#334155 !important;
-
-    color:white !important;
-}
-
-.dark-mode p,
-.dark-mode span,
-.dark-mode small,
-.dark-mode h1,
-.dark-mode h2,
-.dark-mode h3,
-.dark-mode strong{
-
-    color:white !important;
-}
-
-/* =========================
    MOBILE
 ========================= */
 
