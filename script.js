@@ -544,14 +544,11 @@ function afficherDemandesAmis() {
                 <div class="card">
 
                     👤 ${d.fromNom}<br>
-
-                    📘 ${d.from}
+                    📘 ${d.from}<br><br>
 
                     <button onclick="accepterDemande('${doc.id}','${d.from}','${d.fromNom}')">
                         Accepter
-
                     </button>
-
                 </div>
             `;
         });
