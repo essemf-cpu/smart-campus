@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Profil</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- HEADER -->
+    <div class="profile-header">
+
+        <div class="big-profile">
+
+            <i class="fa-solid fa-user"></i>
+
+        </div>
+
+        <h1 id="profile-name"></h1>
+
+        <p id="profile-carte"></p>
+
+    </div>
+
+    <!-- MENU -->
+    <div class="profile-menu">
+
+        <div class="profile-item">
+
+            <i class="fa-solid fa-building-columns"></i>
+
+            <span id="profile-faculte"></span>
+
+        </div>
+
+        <div class="profile-item">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <span id="profile-niveau"></span>
+
+        </div>
+
+        <div class="profile-item">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <span>Sécurité</span>
+
+        </div>
+
+        <div class="profile-item">
+
+            <i class="fa-solid fa-bell"></i>
+
+            <span>Notifications</span>
+
+        </div>
+
+        <div class="profile-item">
+
+            <i class="fa-solid fa-moon"></i>
+
+            <span>Mode sombre</span>
+
+        </div>
+
+    </div>
+
+    <!-- LOGOUT -->
+    <button class="premium-logout"
+            onclick="logout()">
+
+        Se déconnecter
+
+    </button>
+
+</div>
+
+<!-- NAVBAR -->
+<nav class="bottom-nav">
+
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
+
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
+
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
+
+</nav>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("etudiant");
+
+let user =
+JSON.parse(localStorage.getItem("user"));
+
+document.getElementById("profile-name")
+.innerHTML = user.nom;
+
+document.getElementById("profile-carte")
+.innerHTML = user.carte;
+
+document.getElementById("profile-faculte")
+.innerHTML = user.faculte;
+
+document.getElementById("profile-niveau")
+.innerHTML = user.niveau;
+
+</script>
+
+</body>
+</html>
