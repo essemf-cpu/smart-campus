@@ -670,29 +670,31 @@ function afficherMessages() {
                 m.to === user.carte
             );
 
-            if(conversation) {
+      if(conversation) {
 
-             let expediteur = m.fromNom;
+          let expediteur = m.fromNom;
 
-            if(m.from === user.carte) {
+          let classeMessage = "message-ami";
 
-             expediteur = "Vous";
-            }
+       if(m.from === user.carte) {
 
-            zone.innerHTML += `
+          expediteur = "Vous";
 
-                <div class="card">
+          classeMessage = "message-moi";
+        }
 
-                  <strong>${expediteur}</strong><br>
+           zone.innerHTML += `
 
-                  <small>${m.from}</small><br><br>
+                 <div class="${classeMessage}">
 
-                  ${m.message}<br>
+                   <strong>${expediteur}</strong><br>
+
+                   ${m.message}<br>
 
                   <small>${m.date}</small>
 
-                </div>
-              `;
+                 </div>
+               `;
             }
         });
     });

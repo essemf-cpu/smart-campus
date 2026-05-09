@@ -180,3 +180,53 @@ li {
 
     padding-bottom: 90px;
 }
+
+/* =========================
+   MESSAGES STYLE APP
+========================= */
+
+.message-moi {
+
+    background: #002147;
+
+    color: white;
+
+    padding: 12px;
+
+    border-radius: 18px;
+
+    margin: 10px 0;
+
+    margin-left: 60px;
+
+    text-align: right;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.message-ami {
+
+    background: white;
+
+    color: black;
+
+    padding: 12px;
+
+    border-radius: 18px;
+
+    margin: 10px 0;
+
+    margin-right: 60px;
+
+    text-align: left;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.message-moi small,
+.message-ami small {
+
+    font-size: 11px;
+
+    opacity: 0.7;
+}
