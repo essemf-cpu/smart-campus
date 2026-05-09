@@ -10,66 +10,79 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 
 </head>
 
 <body>
 
-<header>
+<div class="app-container">
 
-    <img src="logo coud.png"
-         class="logo">
+    <!-- HEADER -->
+    <div class="top-header">
 
-    <h1>Restauration Universitaire</h1>
+        <div>
 
-</header>
+            <p class="hello-text">
+                Restaurant universitaire 🍽️
+            </p>
 
-<div class="container">
+            <h1>Restauration</h1>
 
-    <div class="card center">
+        </div>
 
-        <h2>💰 Solde</h2>
+        <div class="profile-circle">
+
+            <i class="fa-solid fa-utensils"></i>
+
+        </div>
+
+    </div>
+
+    <!-- SOLDE -->
+    <div class="resto-balance">
+
+        <p>Solde actuel</p>
 
         <h1 id="solde">0 FCFA</h1>
 
     </div>
 
-    <div class="card center">
+    <!-- QR -->
+    <div class="resto-card center">
 
-        <h3>🎫 QR Restaurant</h3>
+        <h2>🎫 QR Restaurant</h2>
 
         <div id="qrcode"></div>
 
     </div>
 
-    <div class="card">
+    <!-- TICKETS -->
+    <div class="resto-card">
 
-        <h3>🍽️ Acheter tickets</h3>
+        <h2>🍽️ Acheter tickets</h2>
 
-        <button onclick="acheterTicket(500)">
-            Petit déjeuner - 500 FCFA
+        <button class="ticket-btn"
+                onclick="acheterTicket(500)">
+
+            Petit déjeuner — 500 FCFA
+
         </button>
 
-        <button onclick="acheterTicket(1000)">
-            Déjeuner - 1000 FCFA
+        <button class="ticket-btn"
+                onclick="acheterTicket(1000)">
+
+            Déjeuner — 1000 FCFA
+
         </button>
 
-        <button onclick="acheterTicket(800)">
-            Dîner - 800 FCFA
-        </button>
+        <button class="ticket-btn"
+                onclick="acheterTicket(800)">
 
-    </div>
-
-    <div class="card center">
-
-        <button onclick="window.location.href='dashboard.html'">
-
-            Retour Dashboard
+            Dîner — 800 FCFA
 
         </button>
 
@@ -77,11 +90,36 @@
 
 </div>
 
+<!-- NAVBAR -->
+<nav class="bottom-nav">
+
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
+
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
+
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
+
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
 <script src="script.js"></script>
 
@@ -98,5 +136,4 @@ genererQRResto();
 </script>
 
 </body>
-
 </html>

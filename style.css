@@ -1,1378 +1,1023 @@
-/* RESET */
-* {
-    box-sizing: border-box;
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* FIX MOBILE + IPHONE */
-html {
-    height: 100%;
-}
-
-/* BODY GLOBAL */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f1f4f9;
-
-}
-
-/* FIX SPÉCIAL IPHONE */
-@supports (-webkit-touch-callout: none) {
-    body {
-        min-height: -webkit-fill-available;
-    }
-}
-
-/* LOGIN */
-
-.login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    min-height: 100vh;
-}
-
-.login-container {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 350px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    text-align: center;
-}
-
-.login-container h2 {
-    margin-bottom: 20px;
-}
-
-/* INPUT */
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* BUTTON */
-button {
-    padding: 12px;
-    width: 100%;
-    border: none;
-    background: #0056b3;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button:hover {
-    background: #003f88;
-}
-
-/* HEADER */
-header {
-    background: #002147;
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 15px;
-}
-
-/* LOGO */
-.logo {
-    width: 120px;
-    height: auto;
-    margin-right: 10px;
-}
-
-header h1 {
-    font-size: 18px;
-    margin: 0;
-}
-
-/* CONTAINER */
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    padding: 15px;
-}
-
-/* CARDS */
-.card {
-    background: white;
-    padding: 15px;
-    margin-top: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* CENTER */
-.center {
-    text-align: center;
-}
-
-/* LOGOUT */
-.logout {
-    background: red;
-}
-
-/* LIST */
-li {
-    margin-bottom: 10px;
-}
-
-/* MOBILE OPTIMISATION */
-@media (max-width: 600px) {
-    .container {
-        max-width: 100%;
-        padding: 10px;
-    }
-
-    .login-container {
-        width: 95%;
-    }
+html,
+body{
+    width:100%;
+    min-height:100%;
+    font-family:Arial, sans-serif;
+    background:#F4F7FB;
+    color:#111827;
 }
 
 /* =========================
-   NAVBAR MOBILE
+   LINKS
 ========================= */
 
-.bottom-nav {
-
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    background: white;
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
-
-    padding: 12px 0;
-
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-
-    z-index: 1000;
-}
-
-.bottom-nav a {
-
-    text-decoration: none;
-
-    font-size: 24px;
-
-    color: #002147;
-}
-
-/* ESPACE BAS */
-.container {
-
-    padding-bottom: 90px;
-}
-
-/* =========================
-   MESSAGES STYLE APP
-========================= */
-
-.message-moi {
-
-    background: #002147;
-
-    color: white;
-
-    padding: 12px;
-
-    border-radius: 18px;
-
-    margin: 10px 0;
-
-    margin-left: 60px;
-
-    text-align: right;
-
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.message-ami {
-
-    background: white;
-
-    color: black;
-
-    padding: 12px;
-
-    border-radius: 18px;
-
-    margin: 10px 0;
-
-    margin-right: 60px;
-
-    text-align: left;
-
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.message-moi small,
-.message-ami small {
-
-    font-size: 11px;
-
-    opacity: 0.7;
-}
-
-/* =========================
-   DASHBOARD MODERNE
-========================= */
-
-.dashboard-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 15px;
-
-    margin-top: 20px;
-}
-
-.app-card {
-
-    background: white;
-
-    border-radius: 20px;
-
-    padding: 25px;
-
-    text-decoration: none;
-
-    color: black;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 32px;
-
-    font-weight: bold;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-
-    transition: 0.2s;
-}
-
-.app-card span {
-
-    margin-top: 10px;
-
-    font-size: 14px;
-}
-
-.app-card:active {
-
-    transform: scale(0.96);
-}
-
-/* =========================
-   WELCOME CARD
-========================= */
-
-.welcome-card {
-
-    background: linear-gradient(
-        135deg,
-        #002147,
-        #004aad
-    );
-
-    color: white;
-
-    padding: 25px;
-
-    border-radius: 25px;
-
-    margin-top: 20px;
-
-    text-align: center;
-
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-
-.welcome-card h1 {
-
-    margin: 0;
-
-    font-size: 28px;
-}
-
-/* =========================
-   QR CARD
-========================= */
-
-#qrcode canvas {
-
-    width: 220px !important;
-
-    height: 220px !important;
-
-    margin-top: 15px;
-}
-
-/* =========================
-   DASHBOARD GRID
-========================= */
-
-.dashboard-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(2, 1fr);
-
-    gap: 15px;
-
-    margin-top: 20px;
-}
-
-.app-card {
-
-    background: white;
-
-    border-radius: 25px;
-
-    padding: 25px;
-
-    text-decoration: none;
-
-    color: black;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 34px;
-
-    font-weight: bold;
-
-    min-height: 120px;
-
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-
-    transition: 0.2s;
-}
-
-.app-card span {
-
-    margin-top: 12px;
-
-    font-size: 15px;
-}
-
-.app-card:active {
-
-    transform: scale(0.95);
-}
-
-/* =========================
-   NAVBAR MOBILE
-========================= */
-
-.bottom-nav {
-
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    background: white;
-
-    display: flex;
-
-    justify-content: space-around;
-
-    align-items: center;
-
-    padding: 15px 0;
-
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-
-    z-index: 1000;
-}
-
-.bottom-nav a {
-
-    text-decoration: none;
-
-    font-size: 26px;
-
-    color: #002147;
-}
-
-/* =========================
-   BODY SPACE
-========================= */
-
-.container {
-
-    padding-bottom: 120px;
+a{
+    text-decoration:none;
 }
 
 /* =========================
    APP CONTAINER
 ========================= */
 
-.app-container {
+.app-container{
+    padding:20px;
+    padding-bottom:120px;
+}
 
-    padding: 20px;
+/* =========================
+   LOGIN
+========================= */
 
-    padding-bottom: 120px;
+.login-page{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.login-container{
+
+    width:100%;
+    max-width:380px;
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.login-container .logo{
+
+    width:110px;
+
+    margin-bottom:20px;
+}
+
+.login-container h2{
+
+    margin-bottom:25px;
+
+    font-size:26px;
+}
+
+.login-container a{
+
+    color:#6C4DF6;
+
+    font-weight:bold;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+input{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#F3F4F6;
+
+    margin-top:15px;
+
+    outline:none;
+
+    font-size:15px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+button{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:15px;
+
+    margin-top:15px;
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+button:active{
+
+    transform:scale(0.97);
 }
 
 /* =========================
    HEADER
 ========================= */
 
-.top-header {
+.top-header{
 
-    display: flex;
+    display:flex;
 
-    justify-content: space-between;
+    justify-content:space-between;
 
-    align-items: center;
+    align-items:center;
 }
 
-.hello-text {
+.hello-text{
 
-    color: gray;
+    color:gray;
 
-    margin: 0;
+    margin-bottom:5px;
 }
 
-.top-header h1 {
+.top-header h1{
 
-    margin-top: 5px;
-
-    font-size: 30px;
+    font-size:30px;
 }
 
-.profile-circle {
+/* =========================
+   PROFILE ICON
+========================= */
 
-    width: 55px;
+.profile-circle{
 
-    height: 55px;
+    width:55px;
 
-    border-radius: 50%;
+    height:55px;
 
-    background: linear-gradient(
+    border-radius:50%;
+
+    background:linear-gradient(
         135deg,
         #6C4DF6,
         #8E67FF
     );
 
-    display: flex;
+    display:flex;
 
-    justify-content: center;
+    justify-content:center;
 
-    align-items: center;
+    align-items:center;
 
-    color: white;
+    color:white;
 
-    font-size: 22px;
+    font-size:22px;
 }
 
 /* =========================
-   SEARCH
+   SEARCH BOX
 ========================= */
 
-.search-box {
+.search-box{
 
-    background: white;
+    background:white;
 
-    border-radius: 18px;
+    border-radius:22px;
 
-    padding: 14px 18px;
+    padding:15px 18px;
 
-    margin-top: 20px;
+    display:flex;
 
-    display: flex;
+    align-items:center;
 
-    align-items: center;
+    gap:12px;
 
-    gap: 10px;
+    margin-top:20px;
 
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
 }
 
-.search-box input {
+.search-box i{
 
-    border: none;
+    color:#6C4DF6;
+}
 
-    outline: none;
+.search-box input{
 
-    width: 100%;
+    background:none;
 
-    font-size: 15px;
+    margin:0;
+
+    padding:0;
 }
 
 /* =========================
    SERVICES GRID
 ========================= */
 
-.services-grid {
+.services-grid{
 
-    display: grid;
+    display:grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:repeat(3,1fr);
 
-    gap: 15px;
+    gap:15px;
 
-    margin-top: 25px;
+    margin-top:25px;
 }
 
-.service-card {
+.service-card{
 
-    background: white;
+    background:white;
 
-    border-radius: 22px;
+    border-radius:25px;
 
-    padding: 20px;
+    padding:22px;
 
-    text-decoration: none;
+    display:flex;
 
-    color: black;
+    flex-direction:column;
 
-    display: flex;
+    align-items:center;
 
-    flex-direction: column;
+    justify-content:center;
 
-    align-items: center;
+    gap:10px;
 
-    justify-content: center;
+    color:black;
 
-    gap: 10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-
-    transition: 0.2s;
+    transition:0.2s;
 }
 
-.service-card i {
+.service-card i{
 
-    font-size: 24px;
+    font-size:25px;
 }
 
-.service-card span {
+.service-card span{
 
-    font-size: 13px;
+    font-size:13px;
 
-    font-weight: bold;
+    font-weight:bold;
 }
 
-.service-card:active {
+.service-card:active{
 
-    transform: scale(0.95);
+    transform:scale(0.95);
 }
 
 /* COLORS */
 
-.purple i { color: #6C4DF6; }
-.blue i { color: #3B82F6; }
-.orange i { color: #F59E0B; }
-.red i { color: #EF4444; }
-.pink i { color: #EC4899; }
-.cyan i { color: #06B6D4; }
+.purple i{ color:#6C4DF6; }
+.blue i{ color:#3B82F6; }
+.orange i{ color:#F59E0B; }
+.red i{ color:#EF4444; }
+.pink i{ color:#EC4899; }
+.cyan i{ color:#06B6D4; }
 
 /* =========================
-   BANNER
+   WELCOME BANNER
 ========================= */
 
-.welcome-banner {
+.welcome-banner{
 
-    margin-top: 25px;
+    margin-top:25px;
 
-    background: linear-gradient(
+    background:linear-gradient(
         135deg,
         #6C4DF6,
         #8E67FF
     );
 
-    border-radius: 25px;
+    border-radius:28px;
 
-    padding: 25px;
+    padding:25px;
 
-    color: white;
+    color:white;
 }
 
 /* =========================
    QR CARD
 ========================= */
 
-.qr-card {
+.qr-card{
 
-    margin-top: 25px;
+    margin-top:25px;
 
-    background: white;
+    background:white;
 
-    border-radius: 25px;
+    border-radius:28px;
 
-    padding: 25px;
+    padding:25px;
 
-    text-align: center;
+    text-align:center;
 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+}
+
+#qrcode canvas{
+
+    width:220px !important;
+
+    height:220px !important;
+
+    margin-top:15px;
 }
 
 /* =========================
    NAVBAR
 ========================= */
 
-.bottom-nav {
+.bottom-nav{
 
-    position: fixed;
+    position:fixed;
 
-    bottom: 0;
+    bottom:0;
 
-    left: 0;
+    left:0;
 
-    width: 100%;
+    width:100%;
 
-    background: white;
+    background:white;
 
-    display: flex;
+    display:flex;
 
-    justify-content: space-around;
+    justify-content:space-around;
 
-    padding: 18px 0;
+    align-items:center;
 
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    padding:18px 0;
 
-    border-top-left-radius: 25px;
+    border-top-left-radius:25px;
 
-    border-top-right-radius: 25px;
+    border-top-right-radius:25px;
+
+    box-shadow:0 -2px 15px rgba(0,0,0,0.08);
+
+    z-index:999;
 }
 
-.bottom-nav a {
+.bottom-nav a{
 
-    color: #6C4DF6;
+    color:#6C4DF6;
 
-    font-size: 22px;
-
-    text-decoration: none;
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile-header {
-
-    text-align: center;
-
-    margin-top: 20px;
-}
-
-.big-profile {
-
-    width: 100px;
-
-    height: 100px;
-
-    border-radius: 50%;
-
-    margin: auto;
-
-    background: linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: white;
-
-    font-size: 40px;
-}
-
-.profile-header h1 {
-
-    margin-top: 15px;
-
-    margin-bottom: 5px;
-}
-
-.profile-header p {
-
-    color: gray;
-}
-
-/* =========================
-   PROFILE MENU
-========================= */
-
-.profile-menu {
-
-    margin-top: 30px;
-}
-
-.profile-item {
-
-    background: white;
-
-    border-radius: 18px;
-
-    padding: 18px;
-
-    margin-bottom: 15px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-
-    font-weight: bold;
-}
-
-.profile-item i {
-
-    color: #6C4DF6;
-
-    font-size: 18px;
-}
-
-/* =========================
-   LOGOUT
-========================= */
-
-.premium-logout {
-
-    background: #EF4444;
-
-    margin-top: 30px;
-
-    border-radius: 18px;
-}
-
-/* =========================
-   FRIENDS
-========================= */
-
-.section-title {
-
-    margin-top: 25px;
-
-    margin-bottom: 15px;
-
-    font-size: 20px;
-
-    font-weight: bold;
-}
-
-.add-friend-btn {
-
-    background: linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    border-radius: 18px;
-
-    margin-top: 15px;
-}
-
-.friend-card {
-
-    background: white;
-
-    border-radius: 22px;
-
-    padding: 18px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 15px;
-
-    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-}
-
-.friend-avatar {
-
-    width: 55px;
-
-    height: 55px;
-
-    border-radius: 50%;
-
-    background: #F3F4F6;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    font-size: 20px;
-
-    color: #6C4DF6;
-}
-
-.friend-info {
-
-    flex: 1;
-
-    margin-left: 15px;
-
-    display: flex;
-
-    flex-direction: column;
-}
-
-.friend-info small {
-
-    color: gray;
-
-    margin-top: 5px;
-}
-
-.friend-actions {
-
-    display: flex;
-
-    gap: 10px;
-}
-
-.friend-actions button {
-
-    width: 45px;
-
-    height: 45px;
-
-    border-radius: 14px;
-
-    padding: 0;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background: #F3F4F6;
-
-    color: #6C4DF6;
-}
-
-/* =========================
-   CHAT PAGE
-========================= */
-
-.messages-page {
-
-    padding: 20px;
-
-    padding-bottom: 110px;
-}
-
-/* =========================
-   CHAT HEADER
-========================= */
-
-.chat-header {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    margin-bottom: 20px;
-}
-
-.chat-header a {
-
-    font-size: 22px;
-
-    color: black;
-
-    text-decoration: none;
-}
-
-.chat-user {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.chat-avatar {
-
-    width: 50px;
-
-    height: 50px;
-
-    border-radius: 50%;
-
-    background: linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: white;
-}
-
-.chat-user p {
-
-    margin: 0;
-
-    color: #10B981;
-
-    font-size: 13px;
-}
-
-/* =========================
-   MESSAGES
-========================= */
-
-.messages-container {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-}
-
-.message-moi {
-
-    align-self: flex-end;
-
-    background: linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    color: white;
-
-    padding: 14px;
-
-    border-radius: 22px;
-
-    max-width: 75%;
-
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.message-ami {
-
-    align-self: flex-start;
-
-    background: white;
-
-    color: black;
-
-    padding: 14px;
-
-    border-radius: 22px;
-
-    max-width: 75%;
-
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-}
-
-.message-name {
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-    margin-bottom: 5px;
-}
-
-.message-text {
-
-    font-size: 15px;
-
-    line-height: 1.4;
-}
-
-.message-date {
-
-    margin-top: 8px;
-
-    font-size: 11px;
-
-    opacity: 0.7;
-
-    text-align: right;
-}
-
-/* =========================
-   CHAT INPUT
-========================= */
-
-.chat-input-zone {
-
-    position: fixed;
-
-    bottom: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    background: white;
-
-    padding: 15px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
-}
-
-.chat-input-zone input {
-
-    flex: 1;
-
-    border: none;
-
-    background: #F3F4F6;
-
-    border-radius: 20px;
-
-    padding: 14px;
-
-    outline: none;
-}
-
-.chat-input-zone button {
-
-    width: 55px;
-
-    height: 55px;
-
-    border-radius: 50%;
-
-    border: none;
-
-    background: linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    color: white;
-
-    font-size: 18px;
-}
-
-/* =========================
-   GPS PREMIUM
-========================= */
-
-#map {
-
-    width: 100%;
-
-    height: 100vh;
-
-    z-index: 1;
-}
-
-/* =========================
-   TOP CARD
-========================= */
-
-.gps-top-card {
-
-    position: fixed;
-
-    top: 20px;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: 90%;
-
-    background: white;
-
-    padding: 18px;
-
-    border-radius: 22px;
-
-    z-index: 1000;
-
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.gps-top-card h2 {
-
-    margin: 0;
-}
-
-.gps-top-card p {
-
-    margin-top: 5px;
-
-    color: gray;
-}
-
-/* =========================
-   FLOAT BUTTON
-========================= */
-
-.gps-button {
-
-    position: fixed;
-
-    right: 20px;
-
-    bottom: 110px;
-
-    width: 70px;
-
-    height: 70px;
-
-    border-radius: 50%;
-
-    border: none;
-
-    background: linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    color: white;
-
-    font-size: 24px;
-
-    z-index: 1000;
-
-    box-shadow:
-        0 8px 25px rgba(108,77,246,0.5);
-
-    transition: 0.2s;
-}
-
-.gps-button:active {
-
-    transform: scale(0.92);
-}
-
-/* =========================
-   DARK MODE
-========================= */
-
-.dark-mode {
-
-    background: #0F172A;
-
-    color: white;
-}
-
-/* CARDS */
-
-.dark-mode .service-card,
-.dark-mode .friend-card,
-.dark-mode .qr-card,
-.dark-mode .profile-item,
-.dark-mode .message-ami,
-.dark-mode .search-box,
-.dark-mode .chat-input-zone,
-.dark-mode .gps-top-card {
-
-    position: fixed;
-
-    top: 20px;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    width: 90%;
-
-    background: rgba(255,255,255,0.15);
-
-    backdrop-filter: blur(15px);
-
-    -webkit-backdrop-filter: blur(15px);
-
-    border: 1px solid rgba(255,255,255,0.2);
-
-    padding: 18px;
-
-    border-radius: 24px;
-
-    z-index: 1000;
-
-    color: white;
-}
-
-/* INPUTS */
-
-.dark-mode input {
-
-    background: #334155;
-
-    color: white;
-}
-
-/* NAVBAR */
-
-.dark-mode .bottom-nav {
-
-    background: #1E293B;
-}
-
-.dark-mode .bottom-nav a {
-
-    color: #8E67FF;
-}
-
-/* MESSAGE AMI */
-
-.dark-mode .message-ami {
-
-    background: #1E293B;
-}
-
-/* TEXTES */
-
-.dark-mode small,
-.dark-mode .hello-text {
-
-    color: #CBD5E1;
-}
-
-/* PAGES PREMIUM */
-
-.dark-mode .card,
-.dark-mode .welcome-banner,
-.dark-mode .search-box,
-.dark-mode .friend-card,
-.dark-mode .profile-item,
-.dark-mode .qr-card,
-.dark-mode .gps-top-card,
-.dark-mode .service-card,
-.dark-mode .chat-input-zone,
-.dark-mode .chat-header,
-.dark-mode .guide-card,
-.dark-mode .resto-card {
-
-    background: #1E293B !important;
-
-    color: white !important;
-}
-
-/* INPUTS */
-
-.dark-mode input {
-
-    background: #334155 !important;
-
-    color: white !important;
-}
-
-/* BODY */
-
-.dark-mode body {
-
-    background: #0F172A;
-}
-
-/* TEXT */
-
-.dark-mode p,
-.dark-mode span,
-.dark-mode small,
-.dark-mode h1,
-.dark-mode h2,
-.dark-mode h3 {
-
-    color: white;
+    font-size:22px;
 }
 
 /* =========================
    BADGES
 ========================= */
 
-.nav-icon {
+.nav-icon{
 
-    position: relative;
+    position:relative;
 }
 
-#message-badge {
+#message-badge{
 
-    position: absolute;
+    position:absolute;
 
-    top: -8px;
+    top:-8px;
 
-    right: -10px;
+    right:-10px;
 
-    background: #EF4444;
+    width:20px;
 
-    color: white;
+    height:20px;
 
-    width: 20px;
+    border-radius:50%;
 
-    height: 20px;
+    background:#EF4444;
 
-    border-radius: 50%;
+    color:white;
 
-    font-size: 11px;
+    display:flex;
 
-    display: flex;
+    justify-content:center;
 
-    justify-content: center;
+    align-items:center;
 
-    align-items: center;
+    font-size:11px;
 
-    font-weight: bold;
+    font-weight:bold;
+}
+
+/* =========================
+   FRIENDS
+========================= */
+
+.section-title{
+
+    margin-top:25px;
+
+    margin-bottom:15px;
+
+    font-size:20px;
+
+    font-weight:bold;
+}
+
+.add-friend-btn{
+
+    margin-top:18px;
+}
+
+.friend-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.friend-avatar{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    background:#F3F4F6;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#6C4DF6;
+
+    font-size:22px;
+}
+
+.friend-info{
+
+    flex:1;
+
+    margin-left:15px;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.friend-info small{
+
+    color:gray;
+
+    margin-top:4px;
+}
+
+.friend-actions{
+
+    display:flex;
+
+    gap:10px;
+}
+
+.friend-actions button{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:15px;
+
+    padding:0;
+
+    margin:0;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.messages-page{
+
+    padding:20px;
+
+    padding-bottom:110px;
+}
+
+.chat-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.chat-header a{
+
+    color:black;
+
+    font-size:22px;
+}
+
+.chat-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.chat-avatar{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+}
+
+.chat-user p{
+
+    margin-top:4px;
+
+    color:#10B981;
+
+    font-size:13px;
+}
+
+.messages-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.message-moi{
+
+    align-self:flex-end;
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    color:white;
+
+    padding:14px;
+
+    border-radius:24px;
+
+    max-width:75%;
+}
+
+.message-ami{
+
+    align-self:flex-start;
+
+    background:white;
+
+    color:black;
+
+    padding:14px;
+
+    border-radius:24px;
+
+    max-width:75%;
+
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+.message-name{
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-bottom:6px;
+}
+
+.message-date{
+
+    margin-top:8px;
+
+    font-size:11px;
+
+    opacity:0.7;
+
+    text-align:right;
+}
+
+/* =========================
+   CHAT INPUT
+========================= */
+
+.chat-input-zone{
+
+    position:fixed;
+
+    bottom:0;
+
+    left:0;
+
+    width:100%;
+
+    background:white;
+
+    padding:15px;
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    box-shadow:0 -2px 12px rgba(0,0,0,0.08);
+}
+
+.chat-input-zone input{
+
+    flex:1;
+
+    margin:0;
+}
+
+.chat-input-zone button{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    margin:0;
+
+    padding:0;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-header{
+
+    text-align:center;
+
+    margin-top:20px;
+}
+
+.big-profile{
+
+    width:100px;
+
+    height:100px;
+
+    border-radius:50%;
+
+    margin:auto;
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:42px;
+}
+
+.profile-header h1{
+
+    margin-top:18px;
+}
+
+.profile-header p{
+
+    margin-top:8px;
+
+    color:gray;
+}
+
+.profile-menu{
+
+    margin-top:30px;
+}
+
+.profile-item{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:15px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.profile-item i{
+
+    color:#6C4DF6;
+}
+
+.premium-logout{
+
+    background:#EF4444;
+}
+
+/* =========================
+   GUIDE PREMIUM
+========================= */
+
+.guide-card{
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:25px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.guide-card h2,
+.guide-card h3{
+
+    margin-bottom:15px;
+}
+
+.guide-card ul{
+
+    padding-left:20px;
+
+    line-height:2;
+}
+
+/* =========================
+   RESTAURATION PREMIUM
+========================= */
+
+.resto-balance{
+
+    background:linear-gradient(
+        135deg,
+        #F59E0B,
+        #F97316
+    );
+
+    color:white;
+
+    border-radius:30px;
+
+    padding:28px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+}
+
+.resto-balance h1{
+
+    margin-top:10px;
+
+    font-size:38px;
+}
+
+.resto-card{
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.ticket-btn{
+
+    margin-top:12px;
+}
+
+/* =========================
+   GPS
+========================= */
+
+#map{
+
+    width:100%;
+
+    height:100vh;
+
+    z-index:1;
+}
+
+.gps-button{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:110px;
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    border:none;
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    color:white;
+
+    font-size:24px;
+
+    z-index:1000;
+
+    box-shadow:0 8px 25px rgba(108,77,246,0.4);
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+
+    padding:20px;
+
+    padding-bottom:120px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+    background:white;
+
+    border-radius:25px;
+
+    padding:20px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+}
+
+.center{
+
+    text-align:center;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+.dark-mode{
+
+    background:#0F172A !important;
+
+    color:white !important;
+}
+
+.dark-mode body{
+
+    background:#0F172A !important;
+}
+
+.dark-mode .card,
+.dark-mode .service-card,
+.dark-mode .friend-card,
+.dark-mode .profile-item,
+.dark-mode .qr-card,
+.dark-mode .search-box,
+.dark-mode .chat-input-zone,
+.dark-mode .chat-header,
+.dark-mode .guide-card,
+.dark-mode .resto-card,
+.dark-mode .message-ami{
+
+    background:#1E293B !important;
+
+    color:white !important;
+
+    box-shadow:none !important;
+}
+
+.dark-mode .bottom-nav{
+
+    background:#1E293B !important;
+}
+
+.dark-mode .bottom-nav a{
+
+    color:#8E67FF !important;
+}
+
+.dark-mode input{
+
+    background:#334155 !important;
+
+    color:white !important;
+}
+
+.dark-mode p,
+.dark-mode span,
+.dark-mode small,
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode strong{
+
+    color:white !important;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .services-grid{
+
+        grid-template-columns:repeat(3,1fr);
+    }
 }

@@ -10,41 +10,54 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 
 </head>
 
 <body>
 
-<header>
+<div class="app-container">
 
-    <img src="logo coud.png"
-         class="logo">
+    <!-- HEADER -->
+    <div class="top-header">
 
-    <h1>Guide Étudiant</h1>
+        <div>
 
-</header>
+            <p class="hello-text">
+                Bienvenue 🎓
+            </p>
 
-<div class="container">
+            <h1>Guide Étudiant</h1>
 
-    <div class="card">
+        </div>
+
+        <div class="profile-circle">
+
+            <i class="fa-solid fa-book"></i>
+
+        </div>
+
+    </div>
+
+    <!-- CARD -->
+    <div class="guide-card">
 
         <h2>🎓 Bienvenue au COUD</h2>
 
         <p>
 
-            Cette plateforme accompagne les étudiants
-            dans leur vie universitaire.
+            Smart Campus accompagne les étudiants
+            dans leur quotidien universitaire.
 
         </p>
 
     </div>
 
-    <div class="card">
+    <!-- CARD -->
+    <div class="guide-card">
 
         <h3>📚 Bonnes pratiques</h3>
 
@@ -52,17 +65,18 @@
 
             <li>Respecter les horaires</li>
 
-            <li>Garder les lieux propres</li>
-
             <li>Respecter les autres étudiants</li>
 
-            <li>Utiliser les services du campus correctement</li>
+            <li>Garder les lieux propres</li>
+
+            <li>Utiliser les services correctement</li>
 
         </ul>
 
     </div>
 
-    <div class="card">
+    <!-- CARD -->
+    <div class="guide-card">
 
         <h3>🏫 Lieux importants</h3>
 
@@ -70,50 +84,69 @@
 
             <li>Restaurant universitaire</li>
 
-            <li>Pavillons étudiants</li>
-
             <li>Bibliothèque</li>
 
             <li>Infirmerie</li>
 
             <li>Amphithéâtres</li>
 
+            <li>Pavillons étudiants</li>
+
         </ul>
 
     </div>
 
-    <div class="card">
+    <!-- CARD -->
+    <div class="guide-card">
 
         <h3>📌 Règlement intérieur</h3>
 
         <p>
 
-            Les étudiants doivent respecter les règles
-            de vie universitaire et préserver les infrastructures.
+            Chaque étudiant doit préserver les
+            infrastructures et respecter les règles
+            universitaires.
 
         </p>
 
     </div>
 
-    <div class="card center">
-
-        <img src="logo coud.png"
-             width="120">
-
-    </div>
-
-    <div class="card center">
-
-        <button onclick="window.location.href='dashboard.html'">
-
-            Retour Dashboard
-
-        </button>
-
-    </div>
-
 </div>
 
-</body>
+<!-- NAVBAR -->
+<nav class="bottom-nav">
 
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
+
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
+
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
+
+</nav>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("etudiant");
+
+chargerTheme();
+
+</script>
+
+</body>
 </html>
