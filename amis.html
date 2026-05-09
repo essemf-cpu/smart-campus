@@ -5,11 +5,16 @@
 
     <title>Amis</title>
 
+    <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
 
+    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -17,25 +22,37 @@
 
 <body>
 
-<div class="app-container">
+<div class="mobile-container">
 
     <!-- HEADER -->
-    <div class="top-header">
+    <div class="messages-header">
 
         <div>
 
-            <p class="hello-text">
+            <p class="hello-title">
+
                 Réseau étudiant 👥
+
             </p>
 
-            <h1>Mes Amis</h1>
+            <h1>
+
+                Mes Amis
+
+            </h1>
+
+        </div>
+
+        <div class="header-profile">
+
+            <i class="fa-solid fa-user-group"></i>
 
         </div>
 
     </div>
 
     <!-- SEARCH -->
-    <div class="search-box">
+    <div class="modern-search">
 
         <i class="fa-solid fa-magnifying-glass"></i>
 
@@ -45,8 +62,8 @@
 
     </div>
 
-    <!-- AJOUT -->
-    <button class="add-friend-btn"
+    <!-- BUTTON -->
+    <button class="add-friend-button"
             onclick="ajouterAmi()">
 
         <i class="fa-solid fa-user-plus"></i>
@@ -56,18 +73,26 @@
     </button>
 
     <!-- DEMANDES -->
-    <div class="section-title">
+    <div class="section-header">
 
-        Demandes reçues
+        <h2>
+
+            Demandes reçues
+
+        </h2>
 
     </div>
 
     <div id="friend-requests"></div>
 
-    <!-- AMIS -->
-    <div class="section-title">
+    <!-- FRIENDS -->
+    <div class="section-header">
 
-        Mes amis
+        <h2>
+
+            Mes amis
+
+        </h2>
 
     </div>
 
@@ -76,41 +101,51 @@
 </div>
 
 <!-- NAVBAR -->
-<nav class="bottom-nav">
+<nav class="ios-navbar">
 
     <a href="dashboard.html">
+
         <i class="fa-solid fa-house"></i>
+
     </a>
 
     <a href="amis.html">
+
         <i class="fa-solid fa-user-group"></i>
+
     </a>
 
     <a href="messages.html">
+
         <i class="fa-solid fa-comments"></i>
+
     </a>
 
     <a href="gps.html">
+
         <i class="fa-solid fa-location-dot"></i>
+
     </a>
 
     <a href="profile.html">
+
         <i class="fa-solid fa-user"></i>
+
     </a>
 
 </nav>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
-
-chargerTheme();
 
 afficherDemandesAmis();
 

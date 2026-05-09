@@ -5,14 +5,20 @@
 
     <title>GPS Campus</title>
 
+    <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
 
+    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- LEAFLET -->
     <link rel="stylesheet"
     href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
@@ -23,9 +29,60 @@
 <!-- MAP -->
 <div id="map"></div>
 
+<!-- TOP FLOATING CARD -->
+<div class="gps-floating-card">
+
+    <div class="gps-top-row">
+
+        <div>
+
+            <p>
+
+                Localisation actuelle
+
+            </p>
+
+            <h2>
+
+                Smart Campus COUD
+
+            </h2>
+
+        </div>
+
+        <div class="gps-avatar">
+
+            <i class="fa-solid fa-location-dot"></i>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="gps-actions">
+
+        <button onclick="partagerPosition()">
+
+            <i class="fa-solid fa-share-nodes"></i>
+
+            Partager
+
+        </button>
+
+        <button onclick="initialiserCarte()">
+
+            <i class="fa-solid fa-location-crosshairs"></i>
+
+            Recentrer
+
+        </button>
+
+    </div>
+
+</div>
 
 <!-- FLOAT BUTTON -->
-<button class="gps-button"
+<button class="gps-floating-button"
         onclick="partagerPosition()">
 
     <i class="fa-solid fa-location-arrow"></i>
@@ -33,43 +90,54 @@
 </button>
 
 <!-- NAVBAR -->
-<nav class="bottom-nav">
+<nav class="ios-navbar">
 
     <a href="dashboard.html">
+
         <i class="fa-solid fa-house"></i>
+
     </a>
 
     <a href="amis.html">
+
         <i class="fa-solid fa-user-group"></i>
+
     </a>
 
     <a href="messages.html">
+
         <i class="fa-solid fa-comments"></i>
+
     </a>
 
     <a href="gps.html">
+
         <i class="fa-solid fa-location-dot"></i>
+
     </a>
 
     <a href="profile.html">
+
         <i class="fa-solid fa-user"></i>
+
     </a>
 
 </nav>
 
+<!-- LEAFLET -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
-
-chargerTheme();
 
 initialiserCarte();
 

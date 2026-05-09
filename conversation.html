@@ -3,13 +3,18 @@
 
 <head>
 
-    <title>Messages</title>
+    <title>Conversation</title>
+
+    <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
 
+    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -17,26 +22,28 @@
 
 <body>
 
-<div class="messages-page">
+<div class="conversation-page">
 
     <!-- HEADER -->
-    <div class="chat-header">
+    <div class="chat-topbar">
 
-        <a href="amis.html">
+        <div class="chat-left">
 
-            <i class="fa-solid fa-arrow-left"></i>
+            <a href="messages.html">
 
-        </a>
+                <i class="fa-solid fa-arrow-left"></i>
 
-        <div class="chat-user">
+            </a>
 
             <div class="chat-avatar">
 
                 <i class="fa-solid fa-user"></i>
 
+                <div class="online-dot"></div>
+
             </div>
 
-            <div>
+            <div class="chat-user-info">
 
                 <strong id="friend-name">
 
@@ -45,10 +52,20 @@
                 </strong>
 
                 <p id="friend-status">
-                  Hors ligne
+
+                    En ligne
+
                 </p>
 
             </div>
+
+        </div>
+
+        <div class="chat-actions">
+
+            <i class="fa-solid fa-phone"></i>
+
+            <i class="fa-solid fa-video"></i>
 
         </div>
 
@@ -56,16 +73,18 @@
 
     <!-- MESSAGES -->
     <div id="messages-list"
-         class="messages-container"></div>
+         class="chat-messages">
+
+    </div>
 
 </div>
 
 <!-- INPUT -->
-<div class="chat-input-zone">
+<div class="chat-input-bar">
 
     <input type="text"
            id="message"
-           placeholder="Votre message...">
+           placeholder="Écrire un message...">
 
     <button onclick="envoyerMessagePrive()">
 
@@ -75,19 +94,23 @@
 
 </div>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
-chargerTheme();
+
 afficherMessages();
-afficherStatusAmi();
+
 afficherNomConversation();
+
+afficherStatusAmi();
 
 </script>
 

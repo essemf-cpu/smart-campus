@@ -5,11 +5,16 @@
 
     <title>Messages</title>
 
+    <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
 
+    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -17,63 +22,100 @@
 
 <body>
 
-<div class="app-container">
+<div class="mobile-container">
 
     <!-- HEADER -->
-    <div class="top-header">
+    <div class="messages-header">
 
         <div>
 
-            <p class="hello-text">
+            <p class="hello-title">
+
                 Discussions 💬
+
             </p>
 
-            <h1>Messages</h1>
+            <h1>
+
+                Messages
+
+            </h1>
+
+        </div>
+
+        <div class="header-profile">
+
+            <i class="fa-solid fa-comments"></i>
 
         </div>
 
     </div>
 
-    <!-- LISTE CONVERSATIONS -->
-    <div id="conversations-list"></div>
+    <!-- SEARCH -->
+    <div class="modern-search">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input type="text"
+               placeholder="Rechercher une conversation...">
+
+    </div>
+
+    <!-- CONVERSATIONS -->
+    <div id="conversations-list"
+         class="conversation-list">
+
+    </div>
 
 </div>
 
 <!-- NAVBAR -->
-<nav class="bottom-nav">
+<nav class="ios-navbar">
 
     <a href="dashboard.html">
+
         <i class="fa-solid fa-house"></i>
+
     </a>
 
     <a href="amis.html">
+
         <i class="fa-solid fa-user-group"></i>
+
     </a>
 
     <a href="messages.html">
+
         <i class="fa-solid fa-comments"></i>
+
     </a>
 
     <a href="gps.html">
+
         <i class="fa-solid fa-location-dot"></i>
+
     </a>
 
     <a href="profile.html">
+
         <i class="fa-solid fa-user"></i>
+
     </a>
 
 </nav>
 
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
-chargerTheme();
+
 afficherConversations();
 
 </script>

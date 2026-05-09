@@ -510,40 +510,56 @@ function afficherAmis() {
 
             zone.innerHTML += `
 
-    <div class="friend-card">
+            <div class="friend-card">
 
-        <div class="friend-avatar">
+                <div class="friend-left">
 
-            <i class="fa-solid fa-user"></i>
+                    <div class="friend-avatar">
 
-        </div>
+                        <i class="fa-solid fa-user"></i>
 
-        <div class="friend-info">
+                        <div class="online-dot"></div>
 
-            <strong>${ami.friendNom}</strong>
+                    </div>
 
-            <small>${ami.friendCarte}</small>
+                    <div class="friend-info">
 
-        </div>
+                        <strong>
 
-        <div class="friend-actions">
+                            ${ami.friendNom}
 
-            <button onclick="ouvrirMessage('${ami.friendCarte}')">
+                        </strong>
 
-                <i class="fa-solid fa-comments"></i>
+                        <p>
 
-            </button>
+                            ${ami.friendCarte}
 
-            <button onclick="voirPosition('${ami.friendCarte}')">
+                        </p>
 
-                <i class="fa-solid fa-location-dot"></i>
+                    </div>
 
-            </button>
+                </div>
 
-        </div>
+                <div class="friend-actions">
 
-    </div>
-`;
+                    <button
+                    onclick="ouvrirMessage('${ami.friendCarte}')">
+
+                        <i class="fa-solid fa-comments"></i>
+
+                    </button>
+
+                    <button
+                    onclick="voirPosition('${ami.friendCarte}')">
+
+                        <i class="fa-solid fa-location-dot"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+            `;
         });
     });
 }
@@ -571,36 +587,53 @@ function afficherDemandesAmis() {
 
             let d = doc.data();
 
-           zone.innerHTML += `
+            zone.innerHTML += `
 
-    <div class="friend-card">
+            <div class="friend-card">
 
-        <div class="friend-avatar">
+                <div class="friend-left">
 
-            <i class="fa-solid fa-user"></i>
+                    <div class="friend-avatar">
 
-        </div>
+                        <i class="fa-solid fa-user"></i>
 
-        <div class="friend-info">
+                    </div>
 
-            <strong>${d.fromNom}</strong>
+                    <div class="friend-info">
 
-            <small>${d.from}</small>
+                        <strong>
 
-        </div>
+                            ${d.fromNom}
 
-        <div class="friend-actions">
+                        </strong>
 
-            <button onclick="accepterDemande('${doc.id}', '${d.from}', '${d.fromNom}')">
+                        <p>
 
-                <i class="fa-solid fa-check"></i>
+                            ${d.from}
 
-            </button>
+                        </p>
 
-        </div>
+                    </div>
 
-    </div>
-`;
+                </div>
+
+                <div class="friend-actions">
+
+                    <button
+                    onclick="accepterDemande(
+                    '${doc.id}',
+                    '${d.from}',
+                    '${d.fromNom}'
+                    )">
+
+                        <i class="fa-solid fa-check"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+            `;
         });
     });
 }
@@ -866,25 +899,54 @@ function afficherConversations() {
 
             zone.innerHTML += `
 
-                <div class="friend-card"
+            <div class="conversation-card"
+                 onclick="ouvrirMessage('${ami.friendCarte}')">
 
-                     onclick="ouvrirMessage('${ami.friendCarte}')">
+                <div class="conversation-left">
 
-                    <div class="friend-avatar">
+                    <div class="conversation-avatar">
 
                         <i class="fa-solid fa-user"></i>
 
+                        <div class="online-dot"></div>
+
                     </div>
 
-                    <div class="friend-info">
+                    <div class="conversation-info">
 
-                        <strong>${ami.friendNom}</strong>
+                        <strong>
 
-                        <small>${ami.friendCarte}</small>
+                            ${ami.friendNom}
+
+                        </strong>
+
+                        <p>
+
+                            Appuyez pour discuter
+
+                        </p>
 
                     </div>
 
                 </div>
+
+                <div class="conversation-right">
+
+                    <div class="conversation-time">
+
+                        Maintenant
+
+                    </div>
+
+                    <div class="conversation-badge">
+
+                        1
+
+                    </div>
+
+                </div>
+
+            </div>
             `;
         });
     });

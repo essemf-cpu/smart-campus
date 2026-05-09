@@ -8,13 +8,44 @@
     box-sizing:border-box;
 }
 
-html,
+/* =========================
+   VARIABLES
+========================= */
+
+:root{
+
+    --primary:#6C4DF6;
+    --primary-light:#8E67FF;
+
+    --background:#F5F7FB;
+
+    --card:#FFFFFF;
+
+    --text:#111827;
+
+    --text-light:#6B7280;
+
+    --shadow:
+    0 4px 20px rgba(0,0,0,0.05);
+
+    --radius:28px;
+}
+
+/* =========================
+   BODY
+========================= */
+
 body{
-    width:100%;
-    min-height:100%;
-    font-family:Arial, sans-serif;
-    background:#F4F7FB;
-    color:#111827;
+
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+    background:var(--background);
+
+    color:var(--text);
 }
 
 /* =========================
@@ -22,133 +53,30 @@ body{
 ========================= */
 
 a{
+
     text-decoration:none;
+
+    color:inherit;
 }
 
 /* =========================
-   APP CONTAINER
+   MOBILE CONTAINER
 ========================= */
 
-.app-container{
-    padding:20px;
+.mobile-container{
+
+    padding:22px;
+
     padding-bottom:120px;
-}
 
-/* =========================
-   LOGIN
-========================= */
-
-.login-page{
-    display:flex;
-    justify-content:center;
-    align-items:center;
     min-height:100vh;
-    padding:20px;
-}
-
-.login-container{
-
-    width:100%;
-    max-width:380px;
-
-    background:white;
-
-    border-radius:28px;
-
-    padding:30px;
-
-    text-align:center;
-
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-
-.login-container .logo{
-
-    width:110px;
-
-    margin-bottom:20px;
-}
-
-.login-container h2{
-
-    margin-bottom:25px;
-
-    font-size:26px;
-}
-
-.login-container a{
-
-    color:#6C4DF6;
-
-    font-weight:bold;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-input{
-
-    width:100%;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:18px;
-
-    background:#F3F4F6;
-
-    margin-top:15px;
-
-    outline:none;
-
-    font-size:15px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-button{
-
-    width:100%;
-
-    border:none;
-
-    border-radius:18px;
-
-    padding:15px;
-
-    margin-top:15px;
-
-    background:linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
-
-    color:white;
-
-    font-size:15px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-    transition:0.2s;
-}
-
-button:active{
-
-    transform:scale(0.97);
 }
 
 /* =========================
    HEADER
 ========================= */
 
-.top-header{
+.dashboard-header{
 
     display:flex;
 
@@ -157,34 +85,38 @@ button:active{
     align-items:center;
 }
 
-.hello-text{
+.hello-title{
 
-    color:gray;
+    color:var(--text-light);
+
+    font-size:15px;
 
     margin-bottom:5px;
 }
 
-.top-header h1{
+.dashboard-header h1{
 
-    font-size:30px;
+    font-size:32px;
+
+    font-weight:700;
 }
 
 /* =========================
    PROFILE ICON
 ========================= */
 
-.profile-circle{
+.header-profile{
 
-    width:55px;
+    width:58px;
 
-    height:55px;
+    height:58px;
 
     border-radius:50%;
 
     background:linear-gradient(
         135deg,
-        #6C4DF6,
-        #8E67FF
+        var(--primary),
+        var(--primary-light)
     );
 
     display:flex;
@@ -199,16 +131,18 @@ button:active{
 }
 
 /* =========================
-   SEARCH BOX
+   SEARCH
 ========================= */
 
-.search-box{
+.modern-search{
+
+    margin-top:25px;
 
     background:white;
 
-    border-radius:22px;
+    border-radius:20px;
 
-    padding:15px 18px;
+    padding:16px;
 
     display:flex;
 
@@ -216,30 +150,32 @@ button:active{
 
     gap:12px;
 
-    margin-top:20px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    box-shadow:var(--shadow);
 }
 
-.search-box i{
+.modern-search i{
 
-    color:#6C4DF6;
+    color:#9CA3AF;
 }
 
-.search-box input{
+.modern-search input{
+
+    border:none;
+
+    outline:none;
+
+    width:100%;
 
     background:none;
 
-    margin:0;
-
-    padding:0;
+    font-size:15px;
 }
 
 /* =========================
-   SERVICES GRID
+   GRID
 ========================= */
 
-.services-grid{
+.premium-grid{
 
     display:grid;
 
@@ -250,166 +186,78 @@ button:active{
     margin-top:25px;
 }
 
-.service-card{
+/* =========================
+   SERVICE CARD
+========================= */
+
+.premium-card{
 
     background:white;
 
-    border-radius:25px;
+    border-radius:26px;
 
-    padding:22px;
+    min-height:110px;
 
     display:flex;
 
     flex-direction:column;
 
-    align-items:center;
-
     justify-content:center;
 
-    gap:10px;
+    align-items:center;
 
-    color:black;
+    gap:12px;
 
-    box-shadow:0 4px 15px rgba(0,0,0,0.06);
+    box-shadow:var(--shadow);
 
-    transition:0.2s;
+    position:relative;
 }
 
-.service-card i{
+.premium-card i{
 
-    font-size:25px;
+    font-size:24px;
+
+    color:var(--primary);
 }
 
-.service-card span{
+.premium-card span{
 
     font-size:13px;
 
-    font-weight:bold;
+    font-weight:600;
 }
 
-.service-card:active{
-
-    transform:scale(0.95);
-}
-
-/* COLORS */
-
-.purple i{ color:#6C4DF6; }
-.blue i{ color:#3B82F6; }
-.orange i{ color:#F59E0B; }
-.red i{ color:#EF4444; }
-.pink i{ color:#EC4899; }
-.cyan i{ color:#06B6D4; }
-
-/* =========================
-   WELCOME BANNER
-========================= */
-
-.welcome-banner{
-
-    margin-top:25px;
+.purple-card{
 
     background:linear-gradient(
         135deg,
-        #6C4DF6,
-        #8E67FF
+        var(--primary),
+        var(--primary-light)
     );
 
-    border-radius:28px;
+    color:white;
+}
 
-    padding:25px;
+.purple-card i{
 
     color:white;
 }
 
 /* =========================
-   QR CARD
+   BADGE
 ========================= */
-
-.qr-card{
-
-    margin-top:25px;
-
-    background:white;
-
-    border-radius:28px;
-
-    padding:25px;
-
-    text-align:center;
-
-    box-shadow:0 4px 15px rgba(0,0,0,0.06);
-}
-
-#qrcode canvas{
-
-    width:220px !important;
-
-    height:220px !important;
-
-    margin-top:15px;
-}
-
-/* =========================
-   NAVBAR
-========================= */
-
-.bottom-nav{
-
-    position:fixed;
-
-    bottom:0;
-
-    left:0;
-
-    width:100%;
-
-    background:white;
-
-    display:flex;
-
-    justify-content:space-around;
-
-    align-items:center;
-
-    padding:18px 0;
-
-    border-top-left-radius:25px;
-
-    border-top-right-radius:25px;
-
-    box-shadow:0 -2px 15px rgba(0,0,0,0.08);
-
-    z-index:999;
-}
-
-.bottom-nav a{
-
-    color:#6C4DF6;
-
-    font-size:22px;
-}
-
-/* =========================
-   BADGES
-========================= */
-
-.nav-icon{
-
-    position:relative;
-}
 
 #message-badge{
 
     position:absolute;
 
-    top:-8px;
+    top:10px;
 
-    right:-10px;
+    right:10px;
 
-    width:20px;
+    width:22px;
 
-    height:20px;
+    height:22px;
 
     border-radius:50%;
 
@@ -429,26 +277,163 @@ button:active{
 }
 
 /* =========================
-   FRIENDS
+   BANNER
 ========================= */
 
-.section-title{
+.premium-banner{
+
+    margin-top:30px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    border-radius:32px;
+
+    padding:25px;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    overflow:hidden;
+}
+
+.premium-banner img{
+
+    width:110px;
+}
+
+.premium-banner h2{
+
+    font-size:24px;
+
+    margin-bottom:10px;
+}
+
+/* =========================
+   QR CARD
+========================= */
+
+.wallet-card{
+
+    margin-top:30px;
+
+    background:white;
+
+    border-radius:32px;
+
+    padding:25px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+}
+
+.wallet-card h2{
+
+    font-size:24px;
+}
+
+.wallet-subtitle{
+
+    margin-top:10px;
+
+    color:var(--text-light);
+
+    line-height:1.5;
+}
+
+.wallet-qr{
 
     margin-top:25px;
 
-    margin-bottom:15px;
+    background:#F9FAFB;
 
-    font-size:20px;
+    border-radius:24px;
 
-    font-weight:bold;
+    padding:25px;
 }
 
-.add-friend-btn{
+#qrcode{
 
-    margin-top:18px;
+    display:flex;
+
+    justify-content:center;
 }
 
-.friend-card{
+#qrcode canvas{
+
+    width:230px !important;
+
+    height:230px !important;
+
+    image-rendering:pixelated;
+}
+
+.wallet-timer{
+
+    margin-top:20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    color:var(--text-light);
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.scan-button{
+
+    margin-top:25px;
+
+    border:none;
+
+    width:100%;
+
+    height:58px;
+
+    border-radius:22px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+}
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-section{
+
+    margin-top:30px;
+}
+
+.history-section h3{
+
+    margin-bottom:20px;
+}
+
+.history-card{
 
     background:white;
 
@@ -460,22 +445,20 @@ button:active{
 
     align-items:center;
 
-    justify-content:space-between;
+    gap:15px;
 
     margin-bottom:15px;
 
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    box-shadow:var(--shadow);
 }
 
-.friend-avatar{
+.history-icon{
 
     width:55px;
 
     height:55px;
 
-    border-radius:50%;
-
-    background:#F3F4F6;
+    border-radius:18px;
 
     display:flex;
 
@@ -483,99 +466,517 @@ button:active{
 
     align-items:center;
 
-    color:#6C4DF6;
+    color:white;
 
-    font-size:22px;
+    font-size:20px;
 }
 
-.friend-info{
+.purple-bg{
+
+    background:#8B5CF6;
+}
+
+.orange-bg{
+
+    background:#F59E0B;
+}
+
+.history-info{
 
     flex:1;
-
-    margin-left:15px;
 
     display:flex;
 
     flex-direction:column;
 }
 
-.friend-info small{
+.history-info small{
 
-    color:gray;
+    margin-top:5px;
 
-    margin-top:4px;
-}
-
-.friend-actions{
-
-    display:flex;
-
-    gap:10px;
-}
-
-.friend-actions button{
-
-    width:45px;
-
-    height:45px;
-
-    border-radius:15px;
-
-    padding:0;
-
-    margin:0;
+    color:var(--text-light);
 }
 
 /* =========================
-   CHAT
+   IOS NAVBAR
 ========================= */
 
-.messages-page{
+.ios-navbar{
+
+    position:fixed;
+
+    bottom:15px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:92%;
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:18px 0;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    box-shadow:
+    0 6px 25px rgba(0,0,0,0.08);
+
+    z-index:1000;
+}
+
+.ios-navbar a{
+
+    color:var(--primary);
+
+    font-size:22px;
+}
+
+/* =========================
+   GUIDE HEADER
+========================= */
+
+.guide-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:25px;
+}
+
+.guide-header a{
+
+    font-size:22px;
+
+    color:var(--text);
+}
+
+.guide-header h1{
+
+    font-size:28px;
+}
+
+/* =========================
+   GUIDE BANNER
+========================= */
+
+.guide-banner{
+
+    background:linear-gradient(
+        135deg,
+        #4ADE80,
+        #22C55E
+    );
+
+    border-radius:30px;
+
+    padding:25px;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    overflow:hidden;
+}
+
+.guide-banner h2{
+
+    font-size:22px;
+
+    line-height:1.4;
+}
+
+.guide-banner img{
+
+    width:120px;
+}
+
+/* =========================
+   GUIDE LIST
+========================= */
+
+.guide-list{
+
+    margin-top:30px;
+}
+
+/* =========================
+   GUIDE ITEM
+========================= */
+
+.guide-item{
+
+    background:white;
+
+    border-radius:24px;
 
     padding:20px;
 
-    padding-bottom:110px;
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+    box-shadow:var(--shadow);
 }
 
-.chat-header{
+.guide-left{
 
     display:flex;
 
     align-items:center;
 
     gap:15px;
-
-    margin-bottom:25px;
 }
 
-.chat-header a{
+.guide-left p{
 
-    color:black;
+    margin-top:5px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+}
+
+/* =========================
+   GUIDE ICONS
+========================= */
+
+.guide-icon{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
 
     font-size:22px;
 }
 
-.chat-user{
+.green-icon{
 
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
+    background:#22C55E;
 }
 
-.chat-avatar{
+.blue-icon{
 
-    width:52px;
+    background:#3B82F6;
+}
 
-    height:52px;
+.cyan-icon{
 
-    border-radius:50%;
+    background:#06B6D4;
+}
+
+.orange-icon{
+
+    background:#F59E0B;
+}
+
+.purple-icon{
+
+    background:#8B5CF6;
+}
+
+/* =========================
+   RESTO BALANCE
+========================= */
+
+.resto-balance-card{
+
+    margin-top:25px;
 
     background:linear-gradient(
         135deg,
         #6C4DF6,
         #8E67FF
+    );
+
+    border-radius:30px;
+
+    padding:25px;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:var(--shadow);
+}
+
+.resto-balance-card p{
+
+    opacity:0.8;
+
+    margin-bottom:8px;
+}
+
+.resto-balance-card h2{
+
+    font-size:32px;
+}
+
+.balance-icon{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,0.2);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:28px;
+}
+
+/* =========================
+   CATEGORIES
+========================= */
+
+.resto-categories{
+
+    display:flex;
+
+    gap:12px;
+
+    overflow-x:auto;
+
+    margin-top:25px;
+
+    padding-bottom:5px;
+}
+
+.category-pill{
+
+    background:white;
+
+    padding:12px 20px;
+
+    border-radius:30px;
+
+    white-space:nowrap;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    box-shadow:var(--shadow);
+}
+
+.active-pill{
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    color:white;
+}
+
+/* =========================
+   FOOD CARD
+========================= */
+
+.food-card{
+
+    background:white;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+    margin-top:25px;
+
+    box-shadow:var(--shadow);
+}
+
+.food-card img{
+
+    width:100%;
+
+    height:220px;
+
+    object-fit:cover;
+}
+
+.food-info{
+
+    padding:20px;
+}
+
+.food-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+}
+
+.food-top h3{
+
+    font-size:20px;
+
+    margin-bottom:8px;
+}
+
+.food-top p{
+
+    color:var(--text-light);
+
+    line-height:1.5;
+}
+
+.food-top span{
+
+    color:var(--primary);
+
+    font-weight:700;
+
+    font-size:18px;
+}
+
+.food-info button{
+
+    margin-top:20px;
+
+    width:100%;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+}
+
+/* =========================
+   GPS MAP
+========================= */
+
+#map{
+
+    width:100%;
+
+    height:100vh;
+
+    z-index:1;
+}
+
+/* =========================
+   GPS FLOATING CARD
+========================= */
+
+.gps-floating-card{
+
+    position:fixed;
+
+    top:20px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:90%;
+
+    background:rgba(255,255,255,0.95);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:30px;
+
+    padding:20px;
+
+    z-index:1000;
+
+    box-shadow:
+    0 6px 25px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   GPS TOP
+========================= */
+
+.gps-top-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.gps-top-row p{
+
+    color:var(--text-light);
+
+    margin-bottom:5px;
+}
+
+.gps-top-row h2{
+
+    font-size:24px;
+}
+
+/* =========================
+   GPS AVATAR
+========================= */
+
+.gps-avatar{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:22px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
     );
 
     display:flex;
@@ -585,70 +986,457 @@ button:active{
     align-items:center;
 
     color:white;
+
+    font-size:24px;
 }
 
-.chat-user p{
+/* =========================
+   GPS ACTIONS
+========================= */
 
-    margin-top:4px;
+.gps-actions{
 
-    color:#10B981;
+    display:flex;
 
-    font-size:13px;
+    gap:12px;
+
+    margin-top:20px;
 }
 
-.messages-container{
+.gps-actions button{
+
+    flex:1;
+
+    border:none;
+
+    height:52px;
+
+    border-radius:18px;
+
+    background:#F3F4F6;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+/* =========================
+   GPS FLOAT BUTTON
+========================= */
+
+.gps-floating-button{
+
+    position:fixed;
+
+    right:20px;
+
+    bottom:120px;
+
+    width:70px;
+
+    height:70px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    color:white;
+
+    font-size:24px;
+
+    z-index:1000;
+
+    box-shadow:
+    0 8px 25px rgba(108,77,246,0.4);
+}
+
+/* =========================
+   MESSAGES HEADER
+========================= */
+
+.messages-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+/* =========================
+   CONVERSATIONS
+========================= */
+
+.conversation-list{
+
+    margin-top:25px;
+}
+
+/* =========================
+   CONVERSATION CARD
+========================= */
+
+.conversation-card{
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+
+    box-shadow:var(--shadow);
+
+    transition:0.2s;
+}
+
+.conversation-card:active{
+
+    transform:scale(0.98);
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.conversation-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+/* =========================
+   AVATAR
+========================= */
+
+.conversation-avatar{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:22px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:22px;
+
+    position:relative;
+}
+
+/* =========================
+   ONLINE DOT
+========================= */
+
+.online-dot{
+
+    position:absolute;
+
+    right:-2px;
+
+    bottom:-2px;
+
+    width:16px;
+
+    height:16px;
+
+    border-radius:50%;
+
+    background:#22C55E;
+
+    border:3px solid white;
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.conversation-info{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.conversation-info strong{
+
+    font-size:17px;
+}
+
+.conversation-info p{
+
+    margin-top:5px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+}
+
+/* =========================
+   RIGHT
+========================= */
+
+.conversation-right{
 
     display:flex;
 
     flex-direction:column;
 
-    gap:12px;
+    align-items:flex-end;
+
+    gap:10px;
 }
+
+.conversation-time{
+
+    color:var(--text-light);
+
+    font-size:12px;
+}
+
+/* =========================
+   MESSAGE BADGE
+========================= */
+
+.conversation-badge{
+
+    width:24px;
+
+    height:24px;
+
+    border-radius:50%;
+
+    background:#EF4444;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:11px;
+
+    font-weight:bold;
+}
+
+/* =========================
+   CONVERSATION PAGE
+========================= */
+
+.conversation-page{
+
+    padding:20px;
+
+    padding-bottom:120px;
+
+    min-height:100vh;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.chat-topbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.chat-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+.chat-left a{
+
+    font-size:22px;
+
+    color:var(--text);
+}
+
+/* =========================
+   CHAT AVATAR
+========================= */
+
+.chat-avatar{
+
+    width:58px;
+
+    height:58px;
+
+    border-radius:20px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:22px;
+
+    position:relative;
+}
+
+/* =========================
+   USER INFO
+========================= */
+
+.chat-user-info p{
+
+    margin-top:5px;
+
+    color:#22C55E;
+
+    font-size:14px;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.chat-actions{
+
+    display:flex;
+
+    gap:18px;
+
+    font-size:20px;
+
+    color:var(--primary);
+}
+
+/* =========================
+   CHAT MESSAGES
+========================= */
+
+.chat-messages{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+}
+
+/* =========================
+   MY MESSAGE
+========================= */
 
 .message-moi{
 
     align-self:flex-end;
 
+    max-width:75%;
+
     background:linear-gradient(
         135deg,
-        #6C4DF6,
-        #8E67FF
+        var(--primary),
+        var(--primary-light)
     );
 
     color:white;
 
-    padding:14px;
+    padding:15px;
 
-    border-radius:24px;
+    border-radius:24px 24px 8px 24px;
 
-    max-width:75%;
+    box-shadow:var(--shadow);
 }
+
+/* =========================
+   FRIEND MESSAGE
+========================= */
 
 .message-ami{
 
     align-self:flex-start;
 
-    background:white;
-
-    color:black;
-
-    padding:14px;
-
-    border-radius:24px;
-
     max-width:75%;
 
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    background:white;
+
+    padding:15px;
+
+    border-radius:24px 24px 24px 8px;
+
+    box-shadow:var(--shadow);
 }
 
-.message-name{
+/* =========================
+   MESSAGE TEXT
+========================= */
 
-    font-size:13px;
+.message-text{
 
-    font-weight:bold;
+    line-height:1.5;
 
-    margin-bottom:6px;
+    font-size:15px;
 }
+
+/* =========================
+   DATE
+========================= */
 
 .message-date{
 
@@ -662,77 +1450,298 @@ button:active{
 }
 
 /* =========================
-   CHAT INPUT
+   INPUT BAR
 ========================= */
 
-.chat-input-zone{
+.chat-input-bar{
 
     position:fixed;
 
-    bottom:0;
+    bottom:20px;
 
-    left:0;
+    left:50%;
 
-    width:100%;
+    transform:translateX(-50%);
+
+    width:92%;
 
     background:white;
 
-    padding:15px;
+    border-radius:30px;
+
+    padding:12px;
 
     display:flex;
 
-    gap:12px;
-
     align-items:center;
 
-    box-shadow:0 -2px 12px rgba(0,0,0,0.08);
+    gap:12px;
+
+    box-shadow:
+    0 6px 25px rgba(0,0,0,0.08);
 }
 
-.chat-input-zone input{
+/* =========================
+   INPUT
+========================= */
+
+.chat-input-bar input{
 
     flex:1;
 
-    margin:0;
+    border:none;
+
+    outline:none;
+
+    background:none;
+
+    font-size:15px;
+
+    padding:10px;
 }
 
-.chat-input-zone button{
+/* =========================
+   SEND BUTTON
+========================= */
+
+.chat-input-bar button{
 
     width:55px;
 
     height:55px;
 
+    border:none;
+
     border-radius:50%;
 
-    margin:0;
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
 
-    padding:0;
+    color:white;
+
+    font-size:18px;
 }
 
 /* =========================
-   PROFILE
+   SECTION HEADER
 ========================= */
 
-.profile-header{
+.section-header{
+
+    margin-top:35px;
+
+    margin-bottom:20px;
+}
+
+.section-header h2{
+
+    font-size:22px;
+}
+
+/* =========================
+   ADD FRIEND BUTTON
+========================= */
+
+.add-friend-button{
+
+    width:100%;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:24px;
+
+    margin-top:20px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:12px;
+
+    box-shadow:var(--shadow);
+}
+
+/* =========================
+   FRIEND CARD
+========================= */
+
+.friend-card{
+
+    background:white;
+
+    border-radius:28px;
+
+    padding:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+    box-shadow:var(--shadow);
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.friend-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+/* =========================
+   AVATAR
+========================= */
+
+.friend-avatar{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:22px;
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:22px;
+
+    position:relative;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.friend-info{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.friend-info p{
+
+    margin-top:5px;
+
+    color:var(--text-light);
+
+    font-size:14px;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.friend-actions{
+
+    display:flex;
+
+    gap:12px;
+}
+
+/* =========================
+   ACTION BUTTON
+========================= */
+
+.friend-actions button{
+
+    width:48px;
+
+    height:48px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#F3F4F6;
+
+    color:var(--primary);
+
+    font-size:18px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+}
+
+/* =========================
+   PROFILE PREMIUM CARD
+========================= */
+
+.premium-profile-card{
+
+    background:white;
+
+    border-radius:35px;
+
+    padding:35px 25px;
 
     text-align:center;
 
-    margin-top:20px;
+    box-shadow:var(--shadow);
+
+    margin-top:10px;
 }
 
-.big-profile{
+/* =========================
+   AVATAR
+========================= */
 
-    width:100px;
+.profile-avatar-large{
 
-    height:100px;
+    width:110px;
 
-    border-radius:50%;
+    height:110px;
+
+    border-radius:35px;
 
     margin:auto;
 
     background:linear-gradient(
         135deg,
-        #6C4DF6,
-        #8E67FF
+        var(--primary),
+        var(--primary-light)
     );
 
     display:flex;
@@ -746,215 +1755,170 @@ button:active{
     font-size:42px;
 }
 
-.profile-header h1{
+.premium-profile-card h1{
 
-    margin-top:18px;
+    margin-top:20px;
+
+    font-size:30px;
 }
 
-.profile-header p{
+.premium-profile-card p{
 
     margin-top:8px;
 
-    color:gray;
+    color:var(--text-light);
 }
 
-.profile-menu{
+/* =========================
+   BADGES
+========================= */
+
+.profile-badges{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.profile-badge{
+
+    padding:10px 18px;
+
+    border-radius:30px;
+
+    background:#F3F4F6;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+.purple-badge{
+
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-light)
+    );
+
+    color:white;
+}
+
+/* =========================
+   PROFILE MENU
+========================= */
+
+.profile-menu-premium{
 
     margin-top:30px;
 }
 
-.profile-item{
+/* =========================
+   ITEM
+========================= */
+
+.profile-premium-item{
 
     background:white;
 
-    border-radius:20px;
+    border-radius:28px;
 
-    padding:18px;
+    padding:20px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
+
+    box-shadow:var(--shadow);
+}
+
+/* =========================
+   LEFT
+========================= */
+
+.profile-item-left{
 
     display:flex;
 
     align-items:center;
 
     gap:15px;
-
-    margin-bottom:15px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
 }
 
-.profile-item i{
+.profile-item-left p{
 
-    color:#6C4DF6;
-}
+    margin-top:5px;
 
-.premium-logout{
+    color:var(--text-light);
 
-    background:#EF4444;
+    font-size:14px;
 }
 
 /* =========================
-   GUIDE PREMIUM
+   ICON
 ========================= */
 
-.guide-card{
+.profile-icon{
 
-    background:white;
+    width:58px;
 
-    border-radius:28px;
+    height:58px;
 
-    padding:25px;
+    border-radius:20px;
 
-    margin-bottom:18px;
+    display:flex;
 
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
-}
+    justify-content:center;
 
-.guide-card h2,
-.guide-card h3{
-
-    margin-bottom:15px;
-}
-
-.guide-card ul{
-
-    padding-left:20px;
-
-    line-height:2;
-}
-
-/* =========================
-   RESTAURATION PREMIUM
-========================= */
-
-.resto-balance{
-
-    background:linear-gradient(
-        135deg,
-        #F59E0B,
-        #F97316
-    );
+    align-items:center;
 
     color:white;
 
-    border-radius:30px;
-
-    padding:28px;
-
-    text-align:center;
-
-    margin-bottom:20px;
-}
-
-.resto-balance h1{
-
-    margin-top:10px;
-
-    font-size:38px;
-}
-
-.resto-card{
-
-    background:white;
-
-    border-radius:28px;
-
-    padding:25px;
-
-    margin-bottom:20px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
-}
-
-.ticket-btn{
-
-    margin-top:12px;
+    font-size:22px;
 }
 
 /* =========================
-   GPS
+   LOGOUT BUTTON
 ========================= */
 
-#map{
+.premium-logout-button{
 
     width:100%;
 
-    height:100vh;
-
-    z-index:1;
-}
-
-.gps-button{
-
-    position:fixed;
-
-    right:20px;
-
-    bottom:110px;
-
-    width:70px;
-
-    height:70px;
-
-    border-radius:50%;
+    height:60px;
 
     border:none;
 
-    background:linear-gradient(
-        135deg,
-        #6C4DF6,
-        #8E67FF
-    );
+    border-radius:28px;
+
+    margin-top:35px;
+
+    margin-bottom:120px;
+
+    background:#EF4444;
 
     color:white;
 
-    font-size:24px;
+    font-size:16px;
 
-    z-index:1000;
+    font-weight:600;
 
-    box-shadow:0 8px 25px rgba(108,77,246,0.4);
-}
+    display:flex;
 
-/* =========================
-   CONTAINER
-========================= */
+    justify-content:center;
 
-.container{
+    align-items:center;
 
-    padding:20px;
+    gap:12px;
 
-    padding-bottom:120px;
-}
-
-/* =========================
-   CARD
-========================= */
-
-.card{
-
-    background:white;
-
-    border-radius:25px;
-
-    padding:20px;
-
-    margin-bottom:18px;
-
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
-}
-
-.center{
-
-    text-align:center;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:700px){
-
-    .services-grid{
-
-        grid-template-columns:repeat(3,1fr);
-    }
+    box-shadow:
+    0 6px 20px rgba(239,68,68,0.3);
 }

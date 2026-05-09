@@ -10,7 +10,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,22 +20,28 @@
 
 <body>
 
-<div class="app-container">
+<div class="mobile-container">
 
     <!-- HEADER -->
-    <div class="top-header">
+    <div class="dashboard-header">
 
         <div>
 
-            <p class="hello-text">
+            <p class="hello-title">
+
                 Restaurant universitaire 🍽️
+
             </p>
 
-            <h1>Restauration</h1>
+            <h1>
+
+                Restauration
+
+            </h1>
 
         </div>
 
-        <div class="profile-circle">
+        <div class="header-profile">
 
             <i class="fa-solid fa-utensils"></i>
 
@@ -42,92 +49,266 @@
 
     </div>
 
-    <!-- SOLDE -->
-    <div class="resto-balance">
+    <!-- BALANCE -->
+    <div class="resto-balance-card">
 
-        <p>Solde actuel</p>
+        <div>
 
-        <h1 id="solde">0 FCFA</h1>
+            <p>
+
+                Solde disponible
+
+            </p>
+
+            <h2 id="solde">
+
+                0 FCFA
+
+            </h2>
+
+        </div>
+
+        <div class="balance-icon">
+
+            <i class="fa-solid fa-wallet"></i>
+
+        </div>
+
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="resto-categories">
+
+        <div class="category-pill active-pill">
+
+            Petit déjeuner
+
+        </div>
+
+        <div class="category-pill">
+
+            Déjeuner
+
+        </div>
+
+        <div class="category-pill">
+
+            Dîner
+
+        </div>
+
+        <div class="category-pill">
+
+            Boissons
+
+        </div>
+
+    </div>
+
+    <!-- FOOD CARD -->
+    <div class="food-card">
+
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+
+        <div class="food-info">
+
+            <div class="food-top">
+
+                <div>
+
+                    <h3>
+
+                        Petit déjeuner étudiant
+
+                    </h3>
+
+                    <p>
+
+                        Café • Pain • Omelette
+
+                    </p>
+
+                </div>
+
+                <span>
+
+                    500 FCFA
+
+                </span>
+
+            </div>
+
+            <button onclick="acheterTicket(500)">
+
+                Acheter
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FOOD CARD -->
+    <div class="food-card">
+
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
+
+        <div class="food-info">
+
+            <div class="food-top">
+
+                <div>
+
+                    <h3>
+
+                        Déjeuner complet
+
+                    </h3>
+
+                    <p>
+
+                        Riz • Poulet • Boisson
+
+                    </p>
+
+                </div>
+
+                <span>
+
+                    1000 FCFA
+
+                </span>
+
+            </div>
+
+            <button onclick="acheterTicket(1000)">
+
+                Acheter
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FOOD CARD -->
+    <div class="food-card">
+
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd">
+
+        <div class="food-info">
+
+            <div class="food-top">
+
+                <div>
+
+                    <h3>
+
+                        Dîner campus
+
+                    </h3>
+
+                    <p>
+
+                        Salade • Dessert • Jus
+
+                    </p>
+
+                </div>
+
+                <span>
+
+                    800 FCFA
+
+                </span>
+
+            </div>
+
+            <button onclick="acheterTicket(800)">
+
+                Acheter
+
+            </button>
+
+        </div>
 
     </div>
 
     <!-- QR -->
-    <div class="resto-card center">
+    <div class="wallet-card">
 
-        <h2>🎫 QR Restaurant</h2>
+        <h2>
 
-        <div id="qrcode"></div>
+            QR Restaurant
 
-    </div>
+        </h2>
 
-    <!-- TICKETS -->
-    <div class="resto-card">
+        <p class="wallet-subtitle">
 
-        <h2>🍽️ Acheter tickets</h2>
+            Utilisez ce QR Code
+            pour accéder au restaurant.
 
-        <button class="ticket-btn"
-                onclick="acheterTicket(500)">
+        </p>
 
-            Petit déjeuner — 500 FCFA
+        <div class="wallet-qr">
 
-        </button>
+            <div id="qrcode"></div>
 
-        <button class="ticket-btn"
-                onclick="acheterTicket(1000)">
-
-            Déjeuner — 1000 FCFA
-
-        </button>
-
-        <button class="ticket-btn"
-                onclick="acheterTicket(800)">
-
-            Dîner — 800 FCFA
-
-        </button>
+        </div>
 
     </div>
 
 </div>
 
 <!-- NAVBAR -->
-<nav class="bottom-nav">
+<nav class="ios-navbar">
 
     <a href="dashboard.html">
+
         <i class="fa-solid fa-house"></i>
+
     </a>
 
     <a href="amis.html">
+
         <i class="fa-solid fa-user-group"></i>
+
     </a>
 
     <a href="messages.html">
+
         <i class="fa-solid fa-comments"></i>
+
     </a>
 
     <a href="gps.html">
+
         <i class="fa-solid fa-location-dot"></i>
+
     </a>
 
     <a href="profile.html">
+
         <i class="fa-solid fa-user"></i>
+
     </a>
 
 </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- QR -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
-
-chargerTheme();
 
 chargerSolde();
 

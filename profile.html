@@ -5,11 +5,16 @@
 
     <title>Profil</title>
 
+    <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
 
+    <!-- ICONS -->
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -17,63 +22,189 @@
 
 <body>
 
-<div class="app-container">
+<div class="mobile-container">
 
-    <!-- HEADER -->
-    <div class="profile-header">
+    <!-- PROFILE CARD -->
+    <div class="premium-profile-card">
 
-        <div class="big-profile">
+        <div class="profile-avatar-large">
 
             <i class="fa-solid fa-user"></i>
 
         </div>
 
-        <h1 id="profile-name"></h1>
+        <h1 id="profile-name">
 
-        <p id="profile-carte"></p>
+            Étudiant
+
+        </h1>
+
+        <p id="profile-carte">
+
+            Carte étudiant
+
+        </p>
+
+        <div class="profile-badges">
+
+            <div class="profile-badge">
+
+                Étudiant
+
+            </div>
+
+            <div class="profile-badge purple-badge">
+
+                Smart Campus
+
+            </div>
+
+        </div>
 
     </div>
 
     <!-- MENU -->
-    <div class="profile-menu">
+    <div class="profile-menu-premium">
 
-        <div class="profile-item">
+        <!-- ITEM -->
+        <div class="profile-premium-item">
 
-            <i class="fa-solid fa-building-columns"></i>
+            <div class="profile-item-left">
 
-            <span id="profile-faculte"></span>
+                <div class="profile-icon blue-bg">
+
+                    <i class="fa-solid fa-building-columns"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Faculté
+
+                    </strong>
+
+                    <p id="profile-faculte">
+
+                        Information
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
 
         </div>
 
-        <div class="profile-item">
+        <!-- ITEM -->
+        <div class="profile-premium-item">
 
-            <i class="fa-solid fa-graduation-cap"></i>
+            <div class="profile-item-left">
 
-            <span id="profile-niveau"></span>
+                <div class="profile-icon orange-bg">
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Niveau
+
+                    </strong>
+
+                    <p id="profile-niveau">
+
+                        Information
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
 
         </div>
 
-        <div class="profile-item">
+        <!-- ITEM -->
+        <div class="profile-premium-item">
 
-            <i class="fa-solid fa-shield-halved"></i>
+            <div class="profile-item-left">
 
-            <span>Sécurité</span>
+                <div class="profile-icon green-bg">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Sécurité
+
+                    </strong>
+
+                    <p>
+
+                        Protection du compte
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
 
         </div>
 
-        <div class="profile-item">
+        <!-- ITEM -->
+        <div class="profile-premium-item">
 
-            <i class="fa-solid fa-bell"></i>
+            <div class="profile-item-left">
 
-            <span>Notifications</span>
+                <div class="profile-icon purple-bg">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Notifications
+
+                    </strong>
+
+                    <p>
+
+                        Messages et alertes
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
 
         </div>
 
     </div>
 
     <!-- LOGOUT -->
-    <button class="premium-logout"
+    <button class="premium-logout-button"
             onclick="logout()">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
 
         Se déconnecter
 
@@ -82,30 +213,41 @@
 </div>
 
 <!-- NAVBAR -->
-<nav class="bottom-nav">
+<nav class="ios-navbar">
 
     <a href="dashboard.html">
+
         <i class="fa-solid fa-house"></i>
+
     </a>
 
     <a href="amis.html">
+
         <i class="fa-solid fa-user-group"></i>
+
     </a>
 
     <a href="messages.html">
+
         <i class="fa-solid fa-comments"></i>
+
     </a>
 
     <a href="gps.html">
+
         <i class="fa-solid fa-location-dot"></i>
+
     </a>
 
     <a href="profile.html">
+
         <i class="fa-solid fa-user"></i>
+
     </a>
 
 </nav>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>

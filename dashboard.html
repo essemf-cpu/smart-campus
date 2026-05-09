@@ -7,33 +7,41 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
+
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 
 </head>
 
 <body>
 
-<div class="app-container">
+<div class="mobile-container">
 
     <!-- HEADER -->
-    <div class="top-header">
+    <div class="dashboard-header">
 
         <div>
 
-            <p class="hello-text">
+            <p class="hello-title">
+
                 Bonjour 👋
+
             </p>
 
-            <h1 id="nom-user"></h1>
+            <h1 id="nom-user">
+
+                Étudiant
+
+            </h1>
 
         </div>
 
-        <div class="profile-circle">
+        <div class="header-profile">
 
             <i class="fa-solid fa-user"></i>
 
@@ -42,128 +50,276 @@
     </div>
 
     <!-- SEARCH -->
-    <div class="search-box">
+    <div class="modern-search">
 
         <i class="fa-solid fa-magnifying-glass"></i>
 
-        <input
-            type="text"
-            placeholder="Rechercher un service..."
-        >
+        <input type="text"
+               placeholder="Rechercher un service...">
 
     </div>
 
     <!-- SERVICES -->
-    <div class="services-grid">
+    <div class="premium-grid">
 
-        <a href="guide.html" class="service-card purple">
+        <!-- QR -->
+        <a href="dashboard.html"
+           class="premium-card purple-card">
+
+            <i class="fa-solid fa-qrcode"></i>
+
+            <span>QR Code</span>
+
+        </a>
+
+        <!-- GUIDE -->
+        <a href="guide.html"
+           class="premium-card">
+
             <i class="fa-solid fa-book"></i>
+
             <span>Guide</span>
+
         </a>
 
-        <a href="maintenance.html" class="service-card blue">
-            <i class="fa-solid fa-screwdriver-wrench"></i>
-            <span>Maintenance</span>
-        </a>
+        <!-- RESTAURATION -->
+        <a href="restauration.html"
+           class="premium-card">
 
-        <a href="restauration.html" class="service-card orange">
             <i class="fa-solid fa-utensils"></i>
-            <span>Restauration</span>
+
+            <span>Restaurant</span>
+
         </a>
 
-        <a href="gps.html" class="service-card red">
+        <!-- GPS -->
+        <a href="gps.html"
+           class="premium-card">
+
             <i class="fa-solid fa-location-dot"></i>
+
             <span>GPS</span>
+
         </a>
 
-        <a href="amis.html" class="service-card pink">
+        <!-- AMIS -->
+        <a href="amis.html"
+           class="premium-card">
+
             <i class="fa-solid fa-user-group"></i>
+
             <span>Amis</span>
+
         </a>
 
-        <a href="messages.html" class="service-card cyan">
+        <!-- MESSAGES -->
+        <a href="messages.html"
+           class="premium-card nav-icon">
+
             <i class="fa-solid fa-comments"></i>
+
             <span>Messages</span>
+
+            <div id="message-badge">
+
+                0
+
+            </div>
+
         </a>
 
     </div>
 
     <!-- BANNER -->
-    <div class="welcome-banner">
+    <div class="premium-banner">
 
         <div>
 
-            <h2>Bienvenue sur Smart Campus 🎓</h2>
+            <h2>
+
+                Bienvenue sur
+                Smart Campus 🎓
+
+            </h2>
 
             <p>
+
                 Votre vie étudiante simplifiée.
+
             </p>
 
         </div>
 
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png">
+
     </div>
 
-    <!-- QR -->
-    <div class="qr-card">
+    <!-- QR PREMIUM -->
+    <div class="wallet-card">
 
-        <h2>Mon QR Code</h2>
+        <h2>
 
-        <div id="qrcode"></div>
+            Mon QR Code étudiant
+
+        </h2>
+
+        <p class="wallet-subtitle">
+
+            Présentez ce code
+            pour vos accès campus.
+
+        </p>
+
+        <div class="wallet-qr">
+
+            <div id="qrcode"></div>
+
+        </div>
+
+        <div class="wallet-timer">
+
+            <span>
+
+                <i class="fa-regular fa-clock"></i>
+
+                Expire dans 04:59
+
+            </span>
+
+            <i class="fa-solid fa-rotate-right"></i>
+
+        </div>
+
+        <button class="scan-button">
+
+            <i class="fa-solid fa-camera"></i>
+
+            Scanner un QR Code
+
+        </button>
+
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="history-section">
+
+        <h3>
+
+            Historique
+
+        </h3>
+
+        <!-- CARD -->
+        <div class="history-card">
+
+            <div class="history-icon purple-bg">
+
+                <i class="fa-solid fa-book"></i>
+
+            </div>
+
+            <div class="history-info">
+
+                <strong>
+
+                    Bibliothèque
+
+                </strong>
+
+                <small>
+
+                    Accès • 14 Mai 2024
+
+                </small>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- CARD -->
+        <div class="history-card">
+
+            <div class="history-icon orange-bg">
+
+                <i class="fa-solid fa-utensils"></i>
+
+            </div>
+
+            <div class="history-info">
+
+                <strong>
+
+                    Restaurant Central
+
+                </strong>
+
+                <small>
+
+                    Paiement • 14 Mai 2024
+
+                </small>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
 
     </div>
 
 </div>
 
 <!-- NAVBAR -->
-<nav class="bottom-nav">
+<nav class="ios-navbar">
 
     <a href="dashboard.html">
+
         <i class="fa-solid fa-house"></i>
+
     </a>
 
     <a href="amis.html">
+
         <i class="fa-solid fa-user-group"></i>
+
     </a>
 
-    <a href="messages.html"
-   class="nav-icon">
+    <a href="messages.html">
 
-    <i class="fa-solid fa-comments"></i>
-
-    <span id="message-badge">
-
-        0
-
-    </span>
+        <i class="fa-solid fa-comments"></i>
 
     </a>
 
     <a href="gps.html">
+
         <i class="fa-solid fa-location-dot"></i>
+
     </a>
 
     <a href="profile.html">
+
         <i class="fa-solid fa-user"></i>
+
     </a>
 
 </nav>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></script>
-
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- QR -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
+<!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
-
-chargerTheme();
-afficherBadgeMessages();
 
 let user =
 JSON.parse(localStorage.getItem("user"));
@@ -171,10 +327,15 @@ JSON.parse(localStorage.getItem("user"));
 document.getElementById("nom-user")
 .innerHTML = user.nom;
 
+/* QR */
+
 genererQR();
+
+/* BADGE */
+
+afficherBadgeMessages();
 
 </script>
 
 </body>
-
 </html>
