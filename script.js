@@ -81,6 +81,14 @@ function login() {
         }
 
         localStorage.setItem("user", JSON.stringify(user));
+        db.collection("status")
+        .doc(user.carte)
+
+        .set({
+           nom: user.nom,
+
+           online: true
+        });
 
         window.location.href = "dashboard.html";
       });
@@ -621,6 +629,44 @@ function accepterDemande(id, amiCarte, amiNom) {
     alert("Ami ajouté");
 }
 
+function afficherStatusAmi() {
+
+    let params =
+        new URLSearchParams(window.location.search);
+
+    let friend =
+        params.get("friend");
+
+    let zone =
+        document.getElementById("friend-status");
+
+    if(!zone) return;
+
+    db.collection("status")
+      .doc(friend)
+
+      .onSnapshot((doc) => {
+
+        if(!doc.exists) {
+
+            zone.innerHTML = "Hors ligne";
+
+            return;
+        }
+
+        let data = doc.data();
+
+        if(data.online) {
+
+            zone.innerHTML = "🟢 En ligne";
+
+        } else {
+
+            zone.innerHTML = "⚫ Hors ligne";
+        }
+    });
+}
+
 function envoyerMessage() {
 
     let destinataire =
@@ -912,6 +958,21 @@ function envoyerMessagePrive() {
 // LOGOUT
 // =====================
 function logout() {
+
+    let user =
+    JSON.parse(localStorage.getItem("user"));
+
+    if(user) {
+
+      db.collection("status")
+        .doc(user.carte)
+
+        .set({
+
+          nom: user.nom,
+          online: false
+      });
+    }
 
     localStorage.removeItem("user");
 
