@@ -451,6 +451,7 @@ function ajouterAmi() {
     db.collection("friendRequests").add({
 
         from: user.carte,
+
         fromNom: user.nom,
 
         to: friendCarte,
@@ -465,14 +466,6 @@ function ajouterAmi() {
 
         document.getElementById("friendCarte").value = "";
     });
-
-    db.collection("notifications").add({
-
-    to: friendCarte,
-    text: "Nouvelle demande d’ami",
-    date: new Date().toLocaleString(),
-    read: false
-});
 }
 
 function afficherAmis() {
@@ -550,7 +543,9 @@ function afficherDemandesAmis() {
 
                 <div class="card">
 
-                    👤 ${d.from}<br><br>
+                    👤 ${d.fromNom}<br>
+
+                    📘 ${d.from}
 
                     <button onclick="accepterDemande('${doc.id}','${d.from}','${d.fromNom}')">
                         Accepter
@@ -685,21 +680,21 @@ function afficherMessages() {
             if(m.from === user.carte) {
 
              expediteur = "Vous";
-             }
+            }
 
-               zone.innerHTML += `
+            zone.innerHTML += `
 
-               <div class="card">
+                <div class="card">
 
-              <strong>${expediteur}</strong><br>
+                  <strong>${expediteur}</strong><br>
 
-              <small>${m.from}</small><br><br>
+                  <small>${m.from}</small><br><br>
 
-              ${m.message}<br>
+                  ${m.message}<br>
 
-              <small>${m.date}</small>
+                  <small>${m.date}</small>
 
-              </div>
+                </div>
               `;
             }
         });
@@ -807,10 +802,13 @@ function envoyerMessagePrive() {
     db.collection("messages").add({
 
         from: user.carte,
+
         fromNom: user.nom,
 
         to: friend,
+
         message: texte,
+
         date: new Date().toLocaleString()
 
     })
@@ -819,13 +817,6 @@ function envoyerMessagePrive() {
 
         document.getElementById("message").value = "";
     });
-    db.collection("notifications").add({
-
-    to: friend,
-    text: "Nouveau message reçu",
-    date: new Date().toLocaleString(),
-    read: false
-});
 }
 
 // =====================
