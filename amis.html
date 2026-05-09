@@ -3,89 +3,102 @@
 
 <head>
 
-    <title>Mes Amis</title>
-
-    <meta charset="UTF-8">
+    <title>Amis</title>
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 
 </head>
 
 <body>
 
-<header>
+<div class="app-container">
 
-    <img src="logo coud.png"
-         class="logo">
+    <!-- HEADER -->
+    <div class="top-header">
 
-    <h1>Mes Amis</h1>
+        <div>
 
-</header>
+            <p class="hello-text">
+                Réseau étudiant 👥
+            </p>
 
-<div class="container">
+            <h1>Mes Amis</h1>
 
-    <div class="card">
+        </div>
 
-        <h3>➕ Ajouter un ami</h3>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
 
         <input type="text"
                id="friendCarte"
                placeholder="Numéro carte étudiant">
 
-        <button onclick="ajouterAmi()">
-
-            Ajouter
-
-        </button>
-
     </div>
 
-    <div class="card">
+    <!-- AJOUT -->
+    <button class="add-friend-btn"
+            onclick="ajouterAmi()">
 
-    <h3>📥 Demandes reçues</h3>
+        <i class="fa-solid fa-user-plus"></i>
 
-    <div id="friend-requests"></div>
-
-    </div>
-
-    <div class="card">
-
-    <h3>💬 Messages</h3>
-
-    <button onclick="window.location.href='messages.html'">
-
-        Ouvrir messagerie
+        Ajouter un ami
 
     </button>
 
-    </div>
+    <!-- DEMANDES -->
+    <div class="section-title">
 
-    <div class="card">
-
-        <h3>👥 Liste des amis</h3>
-
-        <div id="liste-amis"></div>
+        Demandes reçues
 
     </div>
 
-    <div class="card center">
+    <div id="friend-requests"></div>
 
-        <button onclick="window.location.href='dashboard.html'">
+    <!-- AMIS -->
+    <div class="section-title">
 
-            Retour Dashboard
-
-        </button>
+        Mes amis
 
     </div>
+
+    <div id="liste-amis"></div>
 
 </div>
+
+<!-- NAVBAR -->
+<nav class="bottom-nav">
+
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
+
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
+
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
+
+</nav>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
@@ -97,10 +110,11 @@
 
 verifierConnexion("etudiant");
 
+afficherDemandesAmis();
+
 afficherAmis();
 
 </script>
 
 </body>
-
 </html>

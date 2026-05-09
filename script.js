@@ -491,27 +491,40 @@ function afficherAmis() {
 
             zone.innerHTML += `
 
-                <div class="card">
+    <div class="friend-card">
 
-                    👤 ${ami.friendNom}<br>
-                    📘 ${ami.friendCarte}
+        <div class="friend-avatar">
 
-                    <button
-                        onclick="ouvrirMessage('${ami.friendCarte}')">
+            <i class="fa-solid fa-user"></i>
 
-                        💬 Message
+        </div>
 
-                    </button>
+        <div class="friend-info">
 
-                    <button
-                        onclick="voirPosition('${ami.friendCarte}')">
+            <strong>${ami.friendNom}</strong>
 
-                        📍 Position
+            <small>${ami.friendCarte}</small>
 
-                    </button>
+        </div>
 
-                </div>
-            `;
+        <div class="friend-actions">
+
+            <button onclick="ouvrirMessage('${ami.friendCarte}')">
+
+                <i class="fa-solid fa-comments"></i>
+
+            </button>
+
+            <button onclick="voirPosition('${ami.friendCarte}')">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+`;
         });
     });
 }
@@ -539,18 +552,36 @@ function afficherDemandesAmis() {
 
             let d = doc.data();
 
-            zone.innerHTML += `
+           zone.innerHTML += `
 
-                <div class="card">
+    <div class="friend-card">
 
-                    👤 ${d.fromNom}<br>
-                    📘 ${d.from}<br><br>
+        <div class="friend-avatar">
 
-                    <button onclick="accepterDemande('${doc.id}','${d.from}','${d.fromNom}')">
-                        Accepter
-                    </button>
-                </div>
-            `;
+            <i class="fa-solid fa-user"></i>
+
+        </div>
+
+        <div class="friend-info">
+
+            <strong>${d.fromNom}</strong>
+
+            <small>${d.from}</small>
+
+        </div>
+
+        <div class="friend-actions">
+
+            <button onclick="accepterDemande('${doc.id}', '${d.from}', '${d.fromNom}')">
+
+                <i class="fa-solid fa-check"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+`;
         });
     });
 }

@@ -779,3 +779,117 @@ li {
 
     border-radius: 18px;
 }
+
+/* =========================
+   FRIENDS
+========================= */
+
+.section-title {
+
+    margin-top: 25px;
+
+    margin-bottom: 15px;
+
+    font-size: 20px;
+
+    font-weight: bold;
+}
+
+.add-friend-btn {
+
+    background: linear-gradient(
+        135deg,
+        #6C4DF6,
+        #8E67FF
+    );
+
+    border-radius: 18px;
+
+    margin-top: 15px;
+}
+
+.friend-card {
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.friend-avatar {
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: #F3F4F6;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 20px;
+
+    color: #6C4DF6;
+}
+
+.friend-info {
+
+    flex: 1;
+
+    margin-left: 15px;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.friend-info small {
+
+    color: gray;
+
+    margin-top: 5px;
+}
+
+.friend-actions {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.friend-actions button {
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 14px;
+
+    padding: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: #F3F4F6;
+
+    color: #6C4DF6;
+}
