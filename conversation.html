@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Messages</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="messages-page">
+
+    <!-- HEADER -->
+    <div class="chat-header">
+
+        <a href="amis.html">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </a>
+
+        <div class="chat-user">
+
+            <div class="chat-avatar">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+            <div>
+
+                <strong id="friend-name">
+
+                    Conversation
+
+                </strong>
+
+                <p>Discussion privée</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="messages-list"
+         class="messages-container"></div>
+
+</div>
+
+<!-- INPUT -->
+<div class="chat-input-zone">
+
+    <input type="text"
+           id="message"
+           placeholder="Votre message...">
+
+    <button onclick="envoyerMessagePrive()">
+
+        <i class="fa-solid fa-paper-plane"></i>
+
+    </button>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+verifierConnexion("etudiant");
+
+afficherMessages();
+
+</script>
+
+</body>
+</html>

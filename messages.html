@@ -17,61 +17,52 @@
 
 <body>
 
-<div class="messages-page">
+<div class="app-container">
 
     <!-- HEADER -->
-    <div class="chat-header">
+    <div class="top-header">
 
-        <a href="amis.html">
+        <div>
 
-            <i class="fa-solid fa-arrow-left"></i>
+            <p class="hello-text">
+                Discussions 💬
+            </p>
 
-        </a>
-
-        <div class="chat-user">
-
-            <div class="chat-avatar">
-
-                <i class="fa-solid fa-user"></i>
-
-            </div>
-
-            <div>
-
-                <strong id="friend-name">
-
-                    Conversation
-
-                </strong>
-
-                <p>En ligne</p>
-
-            </div>
+            <h1>Messages</h1>
 
         </div>
 
     </div>
 
-    <!-- MESSAGES -->
-    <div id="messages-list"
-         class="messages-container"></div>
+    <!-- LISTE CONVERSATIONS -->
+    <div id="conversations-list"></div>
 
 </div>
 
-<!-- INPUT -->
-<div class="chat-input-zone">
+<!-- NAVBAR -->
+<nav class="bottom-nav">
 
-    <input type="text"
-           id="message"
-           placeholder="Votre message...">
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
 
-    <button onclick="envoyerMessagePrive()">
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
 
-        <i class="fa-solid fa-paper-plane"></i>
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
 
-    </button>
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
 
-</div>
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
+
+</nav>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
@@ -83,7 +74,7 @@
 
 verifierConnexion("etudiant");
 
-afficherMessages();
+afficherConversations();
 
 </script>
 

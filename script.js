@@ -660,7 +660,7 @@ function envoyerMessage() {
 function ouvrirMessage(friendCarte) {
 
     window.location.href =
-        "messages.html?friend=" + friendCarte;
+        "conversation.html?friend=" + friendCarte;
 }
 
 function afficherMessages() {
@@ -739,6 +739,53 @@ function afficherMessages() {
     </div>
 `;
             }
+        });
+    });
+}
+
+function afficherConversations() {
+
+    let zone =
+        document.getElementById("conversations-list");
+
+    if(!zone) return;
+
+    let user =
+        JSON.parse(localStorage.getItem("user"));
+
+    db.collection("friends")
+      .where("userCarte", "==", user.carte)
+
+      .onSnapshot((snapshot) => {
+
+        zone.innerHTML = "";
+
+        snapshot.forEach((doc) => {
+
+            let ami = doc.data();
+
+            zone.innerHTML += `
+
+                <div class="friend-card"
+
+                     onclick="ouvrirMessage('${ami.friendCarte}')">
+
+                    <div class="friend-avatar">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                    <div class="friend-info">
+
+                        <strong>${ami.friendNom}</strong>
+
+                        <small>${ami.friendCarte}</small>
+
+                    </div>
+
+                </div>
+            `;
         });
     });
 }

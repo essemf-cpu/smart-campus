@@ -3,64 +3,71 @@
 
 <head>
 
-    <title>Localisation Campus</title>
-
-    <meta charset="UTF-8">
+    <title>GPS Campus</title>
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet/dist/leaflet.css"/>
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <link rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 </head>
 
 <body>
 
-<header>
+<!-- MAP -->
+<div id="map"></div>
 
-    <img src="logo coud.png"
-         class="logo">
+<!-- TOP CARD -->
+<div class="gps-top-card">
 
-    <h1>Smart Campus GPS</h1>
+    <h2>📍 Smart Campus GPS</h2>
 
-</header>
+    <p>
 
-<div class="container">
+        Localisation temps réel du campus
 
-    <div class="card">
-
-        <h3>📍 Ma position</h3>
-
-        <div id="map"
-             style="height:500px; border-radius:10px;">
-        </div>
-
-    </div>
-
-    <button onclick="partagerPosition()">
-
-     📍 Partager ma position
-
-    </button>
-
-    <div class="card center">
-
-        <button onclick="window.location.href='dashboard.html'">
-
-            Retour Dashboard
-
-        </button>
-
-    </div>
+    </p>
 
 </div>
+
+<!-- FLOAT BUTTON -->
+<button class="gps-button"
+        onclick="partagerPosition()">
+
+    <i class="fa-solid fa-location-arrow"></i>
+
+</button>
+
+<!-- NAVBAR -->
+<nav class="bottom-nav">
+
+    <a href="dashboard.html">
+        <i class="fa-solid fa-house"></i>
+    </a>
+
+    <a href="amis.html">
+        <i class="fa-solid fa-user-group"></i>
+    </a>
+
+    <a href="messages.html">
+        <i class="fa-solid fa-comments"></i>
+    </a>
+
+    <a href="gps.html">
+        <i class="fa-solid fa-location-dot"></i>
+    </a>
+
+    <a href="profile.html">
+        <i class="fa-solid fa-user"></i>
+    </a>
+
+</nav>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
@@ -79,5 +86,4 @@ initialiserCarte();
 </script>
 
 </body>
-
 </html>
