@@ -454,7 +454,7 @@ function ajouterAmi() {
         fromNom: user.nom,
 
         to: friendCarte,
-        
+
         status: "pending"
 
     })
@@ -684,7 +684,9 @@ function afficherMessages() {
 
                     <div class="card">
 
-                        <strong>${m.from}</strong><br>
+                        <strong>${m.fromNom}</strong><br>
+
+                         <small>${m.from}</small>
 
                         ${m.message}<br>
 
@@ -798,6 +800,8 @@ function envoyerMessagePrive() {
     db.collection("messages").add({
 
         from: user.carte,
+        fromNom: user.nom,
+
         to: friend,
         message: texte,
         date: new Date().toLocaleString()
