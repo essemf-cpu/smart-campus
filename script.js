@@ -692,40 +692,47 @@ function accepterDemande(id, amiCarte, amiNom) {
     alert("Ami ajouté");
 }
 
-function afficherStatusAmi() {
+function afficherStatusAmi(){
 
     let params =
-        new URLSearchParams(window.location.search);
+    new URLSearchParams(
+        window.location.search
+    );
 
     let friend =
-        params.get("friend");
+    params.get("friend");
 
     let zone =
-        document.getElementById("friend-status");
+    document.getElementById(
+        "friend-status"
+    );
 
     if(!zone) return;
 
     db.collection("status")
-      .doc(friend)
+    .doc(friend)
 
-      .onSnapshot((doc) => {
+    .onSnapshot((doc)=>{
 
-        if(!doc.exists) {
+        if(!doc.exists){
 
-            zone.innerHTML = "Hors ligne";
+            zone.innerHTML =
+            "⚫ Hors ligne";
 
             return;
         }
 
         let data = doc.data();
 
-        if(data.online) {
+        if(data.online){
 
-            zone.innerHTML = "🟢 En ligne";
+            zone.innerHTML =
+            "🟢 En ligne";
 
-        } else {
+        }else{
 
-            zone.innerHTML = "⚫ Hors ligne";
+            zone.innerHTML =
+            "⚫ Hors ligne";
         }
     });
 }

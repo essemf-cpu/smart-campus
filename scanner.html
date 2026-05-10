@@ -185,7 +185,9 @@ Html5Qrcode
 
         html5QrCode.start(
 
-            devices[0].id,
+            {
+              facingMode: "environment"
+            },
 
             {
                 fps:10,
