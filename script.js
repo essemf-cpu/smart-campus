@@ -439,33 +439,235 @@ function initialiserCarte() {
 function afficherNotifications() {
 
     let zone =
-        document.getElementById("notifications-list");
+    document.getElementById(
+        "notifications-list"
+    );
 
     if(!zone) return;
 
     let user =
-        JSON.parse(localStorage.getItem("user"));
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
-    db.collection("notifications")
-      .where("to", "==", user.carte)
+    zone.innerHTML = "";
 
-      .onSnapshot((snapshot) => {
+    /* ===================== */
+    /* DEMANDES D'AMIS */
+    /* ===================== */
 
-        zone.innerHTML = "";
+    db.collection("friendRequests")
 
-        snapshot.forEach((doc) => {
+    .where(
+        "to",
+        "==",
+        user.carte
+    )
 
-            let n = doc.data();
+    .where(
+        "status",
+        "==",
+        "pending"
+    )
+
+    .onSnapshot((snapshot)=>{
+
+        snapshot.forEach((doc)=>{
+
+            let d = doc.data();
 
             zone.innerHTML += `
 
-                <div class="card">
+            <div class="history-card">
 
-                    🔔 ${n.text}<br>
+                <div class="history-icon purple-bg">
 
-                    <small>${n.date}</small>
+                    <i class="fa-solid fa-user-plus"></i>
 
                 </div>
+
+                <div class="history-info">
+
+                    <strong>
+
+                        Nouvelle demande d’ami
+
+                    </strong>
+
+                    <small>
+
+                        ${d.fromNom}
+                        vous a ajouté
+
+                    </small>
+
+                </div>
+
+                <button
+                onclick="
+                accepterDemande(
+                '${doc.id}',
+                '${d.from}',
+                '${d.fromNom}'
+                )">
+
+                    ✔
+
+                </button>
+
+            </div>
+            `;
+        });
+    });
+
+    /* ===================== */
+    /* NOUVEAUX MESSAGES */
+    /* ===================== */
+
+    db.collection("messages")
+
+    .where(
+        "to",
+        "==",
+        user.carte
+    )
+
+    .where(
+        "seen",
+        "==",
+        false
+    )
+
+    .onSnapshot((snapshot)=>{
+
+        snapshot.forEach((doc)=>{
+
+            let m = doc.data();
+
+            zone.innerHTML += `
+
+            <div class="history-card">
+
+                <div class="history-icon blue-bg">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                </div>
+
+                <div class="history-info">
+
+                    <strong>
+
+                        Nouveau message
+
+                    </strong>
+
+                    <small>
+
+                        ${m.fromNom}
+                        : ${m.message}
+
+                    </small>
+
+                </div>
+
+            </div>
+            `;
+        });
+    });
+
+    /* ===================== */
+    /* ANNONCES ADMIN */
+    /* ===================== */
+
+    db.collection("annonces")
+
+    .orderBy("date","desc")
+
+    .limit(5)
+
+    .onSnapshot((snapshot)=>{
+
+        snapshot.forEach((doc)=>{
+
+            let a = doc.data();
+
+            zone.innerHTML += `
+
+            <div class="history-card">
+
+                <div class="history-icon orange-bg">
+
+                    <i class="fa-solid fa-bullhorn"></i>
+
+                </div>
+
+                <div class="history-info">
+
+                    <strong>
+
+                        Annonce Campus
+
+                    </strong>
+
+                    <small>
+
+                        ${a.text}
+
+                    </small>
+
+                </div>
+
+            </div>
+            `;
+        });
+    });
+
+    /* ===================== */
+    /* MAINTENANCE */
+    /* ===================== */
+
+    db.collection("maintenance")
+
+    .where(
+        "active",
+        "==",
+        true
+    )
+
+    .onSnapshot((snapshot)=>{
+
+        snapshot.forEach((doc)=>{
+
+            let m = doc.data();
+
+            zone.innerHTML += `
+
+            <div class="history-card">
+
+                <div class="history-icon red-bg">
+
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                </div>
+
+                <div class="history-info">
+
+                    <strong>
+
+                        Maintenance
+
+                    </strong>
+
+                    <small>
+
+                        ${m.text}
+
+                    </small>
+
+                </div>
+
+            </div>
             `;
         });
     });
