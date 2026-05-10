@@ -113,262 +113,10 @@
 
     </div>
 
-    <!-- NOTIFICATION LIST -->
-    <div class="conversation-list">
-
-        <!-- MESSAGE -->
-        <div class="conversation-card notification-item">
-
-            <div class="conversation-left">
-
-                <div class="conversation-avatar">
-
-                    <i class="fa-solid fa-comments"></i>
-
-                </div>
-
-                <div class="conversation-info">
-
-                    <strong>
-
-                        Nouveau message
-
-                    </strong>
-
-                    <p>
-
-                        Amy Sy vous a envoyé un message.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="conversation-right">
-
-                <span class="conversation-time">
-
-                    Maintenant
-
-                </span>
-
-                <div class="conversation-badge">
-
-                    1
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- FRIEND -->
-        <div class="conversation-card notification-item">
-
-            <div class="conversation-left">
-
-                <div class="conversation-avatar">
-
-                    <i class="fa-solid fa-user-plus"></i>
-
-                </div>
-
-                <div class="conversation-info">
-
-                    <strong>
-
-                        Nouvelle demande d’ami
-
-                    </strong>
-
-                    <p>
-
-                        Thomas Bernard souhaite vous ajouter.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="conversation-right">
-
-                <span class="conversation-time">
-
-                    5 min
-
-                </span>
-
-            </div>
-
-        </div>
-
-        <!-- CAMPUS -->
-        <div class="conversation-card notification-item">
-
-            <div class="conversation-left">
-
-                <div class="conversation-avatar">
-
-                    <i class="fa-solid fa-building"></i>
-
-                </div>
-
-                <div class="conversation-info">
-
-                    <strong>
-
-                        Alerte Campus
-
-                    </strong>
-
-                    <p>
-
-                        Fermeture exceptionnelle du pavillon B.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="conversation-right">
-
-                <span class="conversation-time">
-
-                    1 h
-
-                </span>
-
-            </div>
-
-        </div>
-
-        <!-- MAINTENANCE -->
-        <div class="conversation-card notification-item">
-
-            <div class="conversation-left">
-
-                <div class="conversation-avatar">
-
-                    <i class="fa-solid fa-screwdriver-wrench"></i>
-
-                </div>
-
-                <div class="conversation-info">
-
-                    <strong>
-
-                        Maintenance réseau
-
-                    </strong>
-
-                    <p>
-
-                        Une maintenance Wi-Fi est prévue ce soir.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="conversation-right">
-
-                <span class="conversation-time">
-
-                    2 h
-
-                </span>
-
-            </div>
-
-        </div>
-
-        <!-- RESTAURANT -->
-        <div class="conversation-card notification-item">
-
-            <div class="conversation-left">
-
-                <div class="conversation-avatar">
-
-                    <i class="fa-solid fa-utensils"></i>
-
-                </div>
-
-                <div class="conversation-info">
-
-                    <strong>
-
-                        Restaurant Universitaire
-
-                    </strong>
-
-                    <p>
-
-                        Nouveau menu disponible aujourd’hui.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="conversation-right">
-
-                <span class="conversation-time">
-
-                    4 h
-
-                </span>
-
-            </div>
-
-        </div>
-
-        <!-- ADMIN -->
-        <div class="conversation-card notification-item">
-
-            <div class="conversation-left">
-
-                <div class="conversation-avatar">
-
-                    <i class="fa-solid fa-bullhorn"></i>
-
-                </div>
-
-                <div class="conversation-info">
-
-                    <strong>
-
-                        Annonce Administration
-
-                    </strong>
-
-                    <p>
-
-                        Les inscriptions pédagogiques débutent lundi.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="conversation-right">
-
-                <span class="conversation-time">
-
-                    Hier
-
-                </span>
-
-            </div>
-
-        </div>
-
-    </div>
+   <!-- NOTIFICATIONS RÉELLES -->
+<div
+id="notifications-list"
+class="conversation-list">
 
 </div>
 
@@ -398,7 +146,18 @@
 
 </nav>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <script src="script.js"></script>
+
+<script>
+
+afficherNotifications();
+
+</script>
 
 </body>
 </html>
