@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-
-    <title>Sécurité</title>
 
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Sécurité
+
+    </title>
 
     <!-- CSS -->
     <link rel="stylesheet"
@@ -35,7 +39,7 @@
 
         <h1>
 
-            Sécurité
+            Sécurité 🔒
 
         </h1>
 
@@ -48,13 +52,14 @@
 
             <h2>
 
-                Protection de votre compte
+                Protection du compte
 
             </h2>
 
             <p>
 
-                Sécurité • Confidentialité • Accès
+                Modifiez votre mot de passe
+                en toute sécurité.
 
             </p>
 
@@ -64,140 +69,56 @@
 
     </div>
 
-    <!-- OPTION -->
-    <div class="profile-menu-premium">
+    <!-- FORM -->
+    <div class="auth-card"
+         style="margin-top:25px;">
 
-        <!-- PASSWORD -->
-        <div class="profile-premium-item">
+        <h2>
 
-            <div class="profile-item-left">
+            Changer le mot de passe
 
-                <div class="profile-icon blue-bg">
+        </h2>
 
-                    <i class="fa-solid fa-key"></i>
+        <!-- OLD -->
+        <div class="input-box">
 
-                </div>
+            <i class="fa-solid fa-lock"></i>
 
-                <div>
-
-                    <strong>
-
-                        Mot de passe
-
-                    </strong>
-
-                    <p>
-
-                        Modifier votre mot de passe
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
+            <input type="password"
+                   id="ancien-password"
+                   placeholder="Ancien mot de passe">
 
         </div>
 
-        <!-- LOGIN -->
-        <div class="profile-premium-item">
+        <!-- NEW -->
+        <div class="input-box">
 
-            <div class="profile-item-left">
+            <i class="fa-solid fa-key"></i>
 
-                <div class="profile-icon green-bg">
+            <input type="password"
+                   id="nouveau-password"
+                   placeholder="Nouveau mot de passe">
 
-                    <i class="fa-solid fa-shield-halved"></i>
+        </div>
 
-                </div>
-
-                <div>
-
-                    <strong>
-
-                        Connexion sécurisée
-
-                    </strong>
-
-                    <p>
-
-                        Votre session est protégée
-
-                    </p>
-
-                </div>
-
-            </div>
+        <!-- CONFIRM -->
+        <div class="input-box">
 
             <i class="fa-solid fa-check"></i>
 
-        </div>
-
-        <!-- DEVICE -->
-        <div class="profile-premium-item">
-
-            <div class="profile-item-left">
-
-                <div class="profile-icon orange-bg">
-
-                    <i class="fa-solid fa-mobile-screen"></i>
-
-                </div>
-
-                <div>
-
-                    <strong>
-
-                        Appareil connecté
-
-                    </strong>
-
-                    <p>
-
-                        Smartphone actuel autorisé
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-check"></i>
+            <input type="password"
+                   id="confirm-password"
+                   placeholder="Confirmer le mot de passe">
 
         </div>
 
-        <!-- STATUS -->
-        <div class="profile-premium-item">
+        <!-- BUTTON -->
+        <button class="auth-button"
+                onclick="changerMotDePasse()">
 
-            <div class="profile-item-left">
+            Mettre à jour
 
-                <div class="profile-icon purple-bg">
-
-                    <i class="fa-solid fa-user-lock"></i>
-
-                </div>
-
-                <div>
-
-                    <strong>
-
-                        Statut du compte
-
-                    </strong>
-
-                    <p>
-
-                        Compte vérifié et actif
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-circle-check"></i>
-
-        </div>
+        </button>
 
     </div>
 
@@ -212,21 +133,21 @@
 
     </a>
 
-    <a href="amis.html">
+    <a href="guide.html">
 
-        <i class="fa-solid fa-user-group"></i>
-
-    </a>
-
-    <a href="messages.html">
-
-        <i class="fa-solid fa-comments"></i>
+        <i class="fa-solid fa-book"></i>
 
     </a>
 
-    <a href="gps.html">
+    <a href="notifications.html">
 
-        <i class="fa-solid fa-location-dot"></i>
+        <i class="fa-solid fa-bell"></i>
+
+    </a>
+
+    <a href="planning.html">
+
+        <i class="fa-solid fa-calendar"></i>
 
     </a>
 
@@ -237,6 +158,139 @@
     </a>
 
 </nav>
+
+<script>
+
+function changerMotDePasse(){
+
+let ancien =
+document.getElementById(
+"ancien-password"
+).value;
+
+let nouveau =
+document.getElementById(
+"nouveau-password"
+).value;
+
+let confirmation =
+document.getElementById(
+"confirm-password"
+).value;
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+/* DATE */
+
+let maintenant =
+new Date();
+
+/* DERNIER CHANGEMENT */
+
+if(user.passwordLastChange){
+
+let ancienneDate =
+new Date(user.passwordLastChange);
+
+let difference =
+maintenant - ancienneDate;
+
+let jours =
+difference / (1000 * 60 * 60 * 24);
+
+if(jours < 90){
+
+let restant =
+Math.ceil(90 - jours);
+
+alert(
+"Vous pourrez modifier votre mot de passe dans "
++ restant +
+" jour(s)."
+);
+
+return;
+
+}
+
+}
+
+/* VERIFICATION */
+
+if(ancien !== user.password){
+
+alert(
+"Ancien mot de passe incorrect"
+);
+
+return;
+
+}
+
+/* CONFIRMATION */
+
+if(nouveau !== confirmation){
+
+alert(
+"Les mots de passe ne correspondent pas"
+);
+
+return;
+
+}
+
+/* LONGUEUR */
+
+if(nouveau.length < 6){
+
+alert(
+"Le mot de passe doit contenir au moins 6 caractères"
+);
+
+return;
+
+}
+
+/* UPDATE PASSWORD */
+
+user.password = nouveau;
+
+/* SAVE DATE */
+
+user.passwordLastChange =
+maintenant.toISOString();
+
+/* SAVE */
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+alert(
+"Mot de passe modifié avec succès ✅"
+);
+
+/* RESET */
+
+document.getElementById(
+"ancien-password"
+).value = "";
+
+document.getElementById(
+"nouveau-password"
+).value = "";
+
+document.getElementById(
+"confirm-password"
+).value = "";
+
+}
+
+</script>
 
 </body>
 </html>

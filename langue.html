@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Langue
+
+    </title>
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="style.css">
+
+    <!-- ICONS -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="mobile-container">
+
+    <!-- HEADER -->
+    <div class="guide-header">
+
+        <a href="profile.html">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </a>
+
+        <h1>
+
+            Langue 🌍
+
+        </h1>
+
+    </div>
+
+    <!-- BANNER -->
+    <div class="premium-banner">
+
+        <div>
+
+            <h2>
+
+                Choisissez votre langue
+
+            </h2>
+
+            <p>
+
+                L’interface Smart Campus
+                s’adapte automatiquement.
+
+            </p>
+
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3898/3898082.png">
+
+    </div>
+
+    <!-- LANGUES -->
+    <div class="guide-list">
+
+        <!-- FR -->
+        <div class="guide-item"
+             onclick="changerLangue('français')">
+
+            <div class="guide-left">
+
+                <div class="guide-icon blue-icon">
+
+                    🇫🇷
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        Français
+
+                    </strong>
+
+                    <p>
+
+                        Langue actuelle recommandée
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-check"></i>
+
+        </div>
+
+        <!-- EN -->
+        <div class="guide-item"
+             onclick="changerLangue('english')">
+
+            <div class="guide-left">
+
+                <div class="guide-icon green-icon">
+
+                    🇬🇧
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        English
+
+                    </strong>
+
+                    <p>
+
+                        International language
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- AR -->
+        <div class="guide-item"
+             onclick="changerLangue('العربية')">
+
+            <div class="guide-left">
+
+                <div class="guide-icon orange-icon">
+
+                    🇸🇦
+
+                </div>
+
+                <div>
+
+                    <strong>
+
+                        العربية
+
+                    </strong>
+
+                    <p>
+
+                        اللغة العربية
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- NAVBAR -->
+<nav class="ios-navbar">
+
+    <a href="dashboard.html">
+
+        <i class="fa-solid fa-house"></i>
+
+    </a>
+
+    <a href="guide.html">
+
+        <i class="fa-solid fa-book"></i>
+
+    </a>
+
+    <a href="notifications.html">
+
+        <i class="fa-solid fa-bell"></i>
+
+    </a>
+
+    <a href="planning.html">
+
+        <i class="fa-solid fa-calendar"></i>
+
+    </a>
+
+    <a href="profile.html">
+
+        <i class="fa-solid fa-user"></i>
+
+    </a>
+
+</nav>
+
+<script>
+
+function changerLangue(langue){
+
+localStorage.setItem(
+"langue",
+langue
+);
+
+alert(
+"Langue changée : " + langue
+);
+
+}
+
+</script>
+
+</body>
+</html>

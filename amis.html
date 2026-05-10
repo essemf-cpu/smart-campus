@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-
-    <title>Amis</title>
 
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Amis
+
+    </title>
 
     <!-- CSS -->
     <link rel="stylesheet"
@@ -25,19 +29,19 @@
 <div class="mobile-container">
 
     <!-- HEADER -->
-    <div class="messages-header">
+    <div class="dashboard-header">
 
         <div>
 
             <p class="hello-title">
 
-                Réseau étudiant 👥
+                Réseau étudiant
 
             </p>
 
             <h1>
 
-                Mes Amis
+                Mes amis 👥
 
             </h1>
 
@@ -57,14 +61,37 @@
         <i class="fa-solid fa-magnifying-glass"></i>
 
         <input type="text"
-               id="friendCarte"
-               placeholder="Numéro carte étudiant">
+               id="friend-search"
+               placeholder="Rechercher un ami...">
 
     </div>
 
-    <!-- BUTTON -->
-    <button class="add-friend-button"
-            onclick="ajouterAmi()">
+    <!-- STATS -->
+    <div class="premium-banner">
+
+        <div>
+
+            <h2>
+
+                Votre réseau étudiant
+
+            </h2>
+
+            <p>
+
+                Connectez-vous
+                avec vos camarades.
+
+            </p>
+
+        </div>
+
+        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png">
+
+    </div>
+
+    <!-- ADD BUTTON -->
+    <button class="add-friend-button">
 
         <i class="fa-solid fa-user-plus"></i>
 
@@ -72,31 +99,157 @@
 
     </button>
 
-    <!-- DEMANDES -->
+    <!-- FRIEND LIST -->
     <div class="section-header">
 
         <h2>
 
-            Demandes reçues
+            Liste d’amis
 
         </h2>
 
     </div>
 
-    <div id="friend-requests"></div>
+    <!-- FRIEND -->
+    <div class="friend-card searchable-friend">
 
-    <!-- FRIENDS -->
-    <div class="section-header">
+        <div class="friend-left">
 
-        <h2>
+            <div class="friend-avatar">
 
-            Mes amis
+                <i class="fa-solid fa-user"></i>
 
-        </h2>
+            </div>
+
+            <div class="friend-info">
+
+                <strong>
+
+                    Amy Sy
+
+                </strong>
+
+                <p>
+
+                    Hors ligne
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="friend-actions">
+
+            <button onclick="window.location.href='conversation.html'">
+
+                <i class="fa-solid fa-comments"></i>
+
+            </button>
+
+            <button>
+
+                <i class="fa-solid fa-phone"></i>
+
+            </button>
+
+        </div>
 
     </div>
 
-    <div id="liste-amis"></div>
+    <!-- FRIEND -->
+    <div class="friend-card searchable-friend">
+
+        <div class="friend-left">
+
+            <div class="friend-avatar">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+            <div class="friend-info">
+
+                <strong>
+
+                    Thomas Bernard
+
+                </strong>
+
+                <p>
+
+                    Hors ligne
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="friend-actions">
+
+            <button onclick="window.location.href='conversation.html'">
+
+                <i class="fa-solid fa-comments"></i>
+
+            </button>
+
+            <button>
+
+                <i class="fa-solid fa-phone"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- FRIEND -->
+    <div class="friend-card searchable-friend">
+
+        <div class="friend-left">
+
+            <div class="friend-avatar">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+            <div class="friend-info">
+
+                <strong>
+
+                    Julie Dubois
+
+                </strong>
+
+                <p>
+
+                    Hors ligne
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="friend-actions">
+
+            <button onclick="window.location.href='conversation.html'">
+
+                <i class="fa-solid fa-comments"></i>
+
+            </button>
+
+            <button>
+
+                <i class="fa-solid fa-phone"></i>
+
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -109,21 +262,21 @@
 
     </a>
 
-    <a href="amis.html">
+    <a href="guide.html">
 
-        <i class="fa-solid fa-user-group"></i>
-
-    </a>
-
-    <a href="messages.html">
-
-        <i class="fa-solid fa-comments"></i>
+        <i class="fa-solid fa-book"></i>
 
     </a>
 
-    <a href="gps.html">
+    <a href="notifications.html">
 
-        <i class="fa-solid fa-location-dot"></i>
+        <i class="fa-solid fa-bell"></i>
+
+    </a>
+
+    <a href="codifier.html">
+
+        <i class="fa-solid fa-id-card"></i>
 
     </a>
 
@@ -135,21 +288,46 @@
 
 </nav>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
 <!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
-verifierConnexion("etudiant");
+/* SEARCH */
 
-afficherDemandesAmis();
+let searchInput =
+document.getElementById("friend-search");
 
-afficherAmis();
+searchInput.addEventListener(
+"keyup",
+function(){
+
+let filter =
+searchInput.value.toLowerCase();
+
+let cards =
+document.querySelectorAll(
+".searchable-friend"
+);
+
+cards.forEach(function(card){
+
+let text =
+card.innerText.toLowerCase();
+
+if(text.includes(filter)){
+
+card.style.display = "flex";
+
+}else{
+
+card.style.display = "none";
+
+}
+
+});
+
+});
 
 </script>
 

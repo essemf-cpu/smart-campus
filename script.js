@@ -1156,6 +1156,215 @@ function envoyerMessagePrive(){
     });
 }
 
+function initialiserRechercheIntelligente(){
+
+let searchInputs =
+document.querySelectorAll(
+".modern-search input"
+);
+
+searchInputs.forEach(function(input){
+
+input.addEventListener(
+"keyup",
+function(event){
+
+if(event.key !== "Enter"){
+
+return;
+
+}
+
+let valeur =
+input.value
+.toLowerCase()
+.trim();
+
+/* DASHBOARD */
+
+if(
+valeur.includes("dashboard")
+||
+valeur.includes("accueil")
+){
+
+window.location.href =
+"dashboard.html";
+
+}
+
+/* GUIDE */
+
+else if(
+valeur.includes("guide")
+){
+
+window.location.href =
+"guide.html";
+
+}
+
+/* RESTAURATION */
+
+else if(
+valeur.includes("restaurant")
+||
+valeur.includes("restauration")
+||
+valeur.includes("menu")
+){
+
+window.location.href =
+"restauration.html";
+
+}
+
+/* GPS */
+
+else if(
+valeur.includes("gps")
+||
+valeur.includes("carte")
+||
+valeur.includes("localisation")
+){
+
+window.location.href =
+"gps.html";
+
+}
+
+/* AMIS */
+
+else if(
+valeur.includes("ami")
+||
+valeur.includes("amis")
+){
+
+window.location.href =
+"amis.html";
+
+}
+
+/* NOTIFICATIONS */
+
+else if(
+valeur.includes("notification")
+||
+valeur.includes("notifications")
+||
+valeur.includes("alerte")
+){
+
+window.location.href =
+"notifications.html";
+
+}
+
+/* PLANNING */
+
+else if(
+valeur.includes("planning")
+||
+valeur.includes("emploi du temps")
+||
+valeur.includes("cours")
+){
+
+window.location.href =
+"planning.html";
+
+}
+
+/* BIBLIOTHEQUE */
+
+else if(
+valeur.includes("bibliothèque")
+||
+valeur.includes("livre")
+){
+
+window.location.href =
+"bibliotheque.html";
+
+}
+
+/* PROFIL */
+
+else if(
+valeur.includes("profil")
+||
+valeur.includes("compte")
+){
+
+window.location.href =
+"profile.html";
+
+}
+
+/* SECURITE */
+
+else if(
+valeur.includes("sécurité")
+||
+valeur.includes("mot de passe")
+){
+
+window.location.href =
+"securite.html";
+
+}
+
+/* LANGUE */
+
+else if(
+valeur.includes("langue")
+||
+valeur.includes("english")
+||
+valeur.includes("français")
+||
+valeur.includes("arabe")
+){
+
+window.location.href =
+"langue.html";
+
+}
+
+/* QR */
+
+else if(
+valeur.includes("qr")
+||
+valeur.includes("scanner")
+){
+
+window.location.href =
+"scanner.html";
+
+}
+
+/* NOTHING */
+
+else{
+
+alert(
+"Aucun résultat trouvé."
+);
+
+}
+
+});
+});
+
+}
+
+/* INIT */
+
+initialiserRechercheIntelligente();
+
 // =====================
 // LOGOUT
 // =====================
