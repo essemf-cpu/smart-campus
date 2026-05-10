@@ -3,24 +3,22 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <title>
+<title>
 
-        Langue
+Langue
 
-    </title>
+</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet"
-          href="style.css">
+<link rel="stylesheet"
+href="style.css">
 
-    <!-- ICONS -->
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -28,179 +26,144 @@
 
 <div class="mobile-container">
 
-    <!-- HEADER -->
-    <div class="guide-header">
+<div class="guide-header">
 
-        <a href="profile.html">
+<a href="profile.html">
 
-            <i class="fa-solid fa-arrow-left"></i>
+<i class="fa-solid fa-arrow-left"></i>
 
-        </a>
+</a>
 
-        <h1>
+<h1>
 
-            Langue 🌍
+Langue 🌍
 
-        </h1>
+</h1>
 
-    </div>
+</div>
 
-    <!-- BANNER -->
-    <div class="premium-banner">
+<div class="guide-list">
 
-        <div>
+<!-- FR -->
+<div class="guide-item"
+onclick="changerLangue('fr')">
 
-            <h2>
+<div class="guide-left">
 
-                Choisissez votre langue
+<div class="guide-icon blue-icon">
 
-            </h2>
+🇫🇷
 
-            <p>
+</div>
 
-                L’interface Smart Campus
-                s’adapte automatiquement.
+<div>
 
-            </p>
+<strong>
 
-        </div>
+Français
 
-        <img src="https://cdn-icons-png.flaticon.com/512/3898/3898082.png">
+</strong>
 
-    </div>
+<p>
 
-    <!-- LANGUES -->
-    <div class="guide-list">
+Interface française
 
-        <!-- FR -->
-        <div class="guide-item"
-             onclick="changerLangue('français')">
+</p>
 
-            <div class="guide-left">
+</div>
 
-                <div class="guide-icon blue-icon">
+</div>
 
-                    🇫🇷
+</div>
 
-                </div>
+<!-- EN -->
+<div class="guide-item"
+onclick="changerLangue('en')">
 
-                <div>
+<div class="guide-left">
 
-                    <strong>
+<div class="guide-icon green-icon">
 
-                        Français
+🇬🇧
 
-                    </strong>
+</div>
 
-                    <p>
+<div>
 
-                        Langue actuelle recommandée
+<strong>
 
-                    </p>
+English
 
-                </div>
+</strong>
 
-            </div>
+<p>
 
-            <i class="fa-solid fa-check"></i>
+English interface
 
-        </div>
+</p>
 
-        <!-- EN -->
-        <div class="guide-item"
-             onclick="changerLangue('english')">
+</div>
 
-            <div class="guide-left">
+</div>
 
-                <div class="guide-icon green-icon">
+</div>
 
-                    🇬🇧
+<!-- AR -->
+<div class="guide-item"
+onclick="changerLangue('ar')">
 
-                </div>
+<div class="guide-left">
 
-                <div>
+<div class="guide-icon orange-icon">
 
-                    <strong>
+🇸🇦
 
-                        English
+</div>
 
-                    </strong>
+<div>
 
-                    <p>
+<strong>
 
-                        International language
+العربية
 
-                    </p>
+</strong>
 
-                </div>
+<p>
 
-            </div>
+واجهة عربية
 
-            <i class="fa-solid fa-chevron-right"></i>
+</p>
 
-        </div>
+</div>
 
-        <!-- AR -->
-        <div class="guide-item"
-             onclick="changerLangue('العربية')">
+</div>
 
-            <div class="guide-left">
+</div>
 
-                <div class="guide-icon orange-icon">
-
-                    🇸🇦
-
-                </div>
-
-                <div>
-
-                    <strong>
-
-                        العربية
-
-                    </strong>
-
-                    <p>
-
-                        اللغة العربية
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </div>
-
-    </div>
+</div>
 
 </div>
 
 <!-- NAVBAR -->
 <nav class="ios-navbar">
 
-    <!-- HOME -->
-    <a href="dashboard.html">
+<a href="dashboard.html">
 
-        <i class="fa-solid fa-house"></i>
+<i class="fa-solid fa-house"></i>
 
-    </a>
+</a>
 
-    <!-- NOTIFICATIONS -->
-    <a href="notifications.html">
+<a href="notifications.html">
 
-        <i class="fa-solid fa-bell"></i>
+<i class="fa-solid fa-bell"></i>
 
-    </a>
+</a>
 
-    <!-- PROFILE -->
-    <a href="profile.html">
+<a href="profile.html">
 
-        <i class="fa-solid fa-user"></i>
+<i class="fa-solid fa-user"></i>
 
-    </a>
+</a>
 
 </nav>
 
@@ -213,11 +176,39 @@ localStorage.setItem(
 langue
 );
 
+if(langue === "en"){
+
+document.documentElement.lang = "en";
+
 alert(
-"Langue changée : " + langue
+"Language changed to English 🇬🇧"
 );
 
-location.reload();
+}
+
+else if(langue === "ar"){
+
+document.documentElement.lang = "ar";
+
+document.body.style.direction = "rtl";
+
+alert(
+"تم تغيير اللغة إلى العربية 🇸🇦"
+);
+
+}
+
+else{
+
+document.documentElement.lang = "fr";
+
+document.body.style.direction = "ltr";
+
+alert(
+"Langue changée en Français 🇫🇷"
+);
+
+}
 
 }
 

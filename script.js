@@ -509,21 +509,58 @@ function ajouterAmi() {
 function afficherAmis() {
 
     let zone =
-        document.getElementById("liste-amis");
+    document.getElementById(
+        "liste-amis"
+    );
 
     if(!zone) return;
 
     let user =
-        JSON.parse(localStorage.getItem("user"));
+    JSON.parse(
+        localStorage.getItem("user")
+    );
 
     db.collection("friends")
-      .where("userCarte", "==", user.carte)
+    .where(
+        "userCarte",
+        "==",
+        user.carte
+    )
 
-      .onSnapshot((snapshot) => {
+    .onSnapshot((snapshot)=>{
 
         zone.innerHTML = "";
 
-        snapshot.forEach((doc) => {
+        if(snapshot.empty){
+
+            zone.innerHTML = `
+
+            <div class="history-card">
+
+                <div class="history-info">
+
+                    <strong>
+
+                        Aucun ami trouvé
+
+                    </strong>
+
+                    <small>
+
+                        Ajoutez des amis
+                        depuis les notifications
+
+                    </small>
+
+                </div>
+
+            </div>
+            `;
+
+            return;
+        }
+
+        snapshot.forEach((doc)=>{
 
             let ami = doc.data();
 
@@ -531,18 +568,17 @@ function afficherAmis() {
 
             <div class="friend-card">
 
+                <!-- LEFT -->
                 <div class="friend-left">
 
+                    <!-- AVATAR -->
                     <div class="friend-avatar">
 
                         <i class="fa-solid fa-user"></i>
 
-                        ${ami.online ? `
-                          <div class="online-dot"></div>
-                        ` : ``}
-
                     </div>
 
+                    <!-- INFO -->
                     <div class="friend-info">
 
                         <strong>
@@ -561,17 +597,26 @@ function afficherAmis() {
 
                 </div>
 
+                <!-- ACTIONS -->
                 <div class="friend-actions">
 
+                    <!-- MESSAGE -->
                     <button
-                    onclick="ouvrirMessage('${ami.friendCarte}')">
+                    onclick="
+                    ouvrirMessage(
+                    '${ami.friendCarte}'
+                    )">
 
                         <i class="fa-solid fa-comments"></i>
 
                     </button>
 
+                    <!-- GPS -->
                     <button
-                    onclick="voirPosition('${ami.friendCarte}')">
+                    onclick="
+                    voirPosition(
+                    '${ami.friendCarte}'
+                    )">
 
                         <i class="fa-solid fa-location-dot"></i>
 

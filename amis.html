@@ -66,16 +66,17 @@
 
     </div>
 
-        <!-- ADD BUTTON -->
-    <button class="add-friend-button">
+    <!-- ADD -->
+    <button class="add-friend-button"
+    onclick="window.location.href='notifications.html'">
 
         <i class="fa-solid fa-user-plus"></i>
 
-        Ajouter un ami
+        Voir les demandes d’amis
 
     </button>
 
-    <!-- STATS -->
+    <!-- BANNER -->
     <div class="premium-banner">
 
         <div>
@@ -99,7 +100,7 @@
 
     </div>
 
-    <!-- FRIEND LIST -->
+    <!-- TITLE -->
     <div class="section-header">
 
         <h2>
@@ -108,9 +109,12 @@
 
         </h2>
 
-        <div id="liste-amis"></div>
-
     </div>
+
+    <!-- LISTE -->
+    <div id="liste-amis"></div>
+
+</div>
 
 <!-- NAVBAR -->
 <nav class="ios-navbar">
@@ -121,21 +125,9 @@
 
     </a>
 
-    <a href="guide.html">
-
-        <i class="fa-solid fa-book"></i>
-
-    </a>
-
     <a href="notifications.html">
 
         <i class="fa-solid fa-bell"></i>
-
-    </a>
-
-    <a href="codifier.html">
-
-        <i class="fa-solid fa-id-card"></i>
 
     </a>
 
@@ -147,15 +139,28 @@
 
 </nav>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <!-- SCRIPT -->
 <script src="script.js"></script>
 
 <script>
 
+verifierConnexion("etudiant");
+
+/* LOAD AMIS */
+
+afficherAmis();
+
 /* SEARCH */
 
 let searchInput =
-document.getElementById("friend-search");
+document.getElementById(
+"friend-search"
+);
 
 searchInput.addEventListener(
 "keyup",
@@ -166,7 +171,7 @@ searchInput.value.toLowerCase();
 
 let cards =
 document.querySelectorAll(
-".searchable-friend"
+".friend-card"
 );
 
 cards.forEach(function(card){
