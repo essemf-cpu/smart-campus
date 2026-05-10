@@ -176,39 +176,7 @@ localStorage.setItem(
 langue
 );
 
-if(langue === "en"){
-
-document.documentElement.lang = "en";
-
-alert(
-"Language changed to English 🇬🇧"
-);
-
-}
-
-else if(langue === "ar"){
-
-document.documentElement.lang = "ar";
-
-document.body.style.direction = "rtl";
-
-alert(
-"تم تغيير اللغة إلى العربية 🇸🇦"
-);
-
-}
-
-else{
-
-document.documentElement.lang = "fr";
-
-document.body.style.direction = "ltr";
-
-alert(
-"Langue changée en Français 🇫🇷"
-);
-
-}
+location.reload();
 
 }
 

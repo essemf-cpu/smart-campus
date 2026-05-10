@@ -1414,6 +1414,190 @@ alert(
 
 initialiserRechercheIntelligente();
 
+
+// =====================
+// LANGUES
+// =====================
+
+const traductions = {
+
+fr: {
+
+bonjour: "Bonjour 👋",
+
+guide: "Guide",
+
+restaurant: "Restaurant",
+
+amis: "Amis",
+
+messages: "Messages",
+
+profil: "Profil",
+
+notifications: "Notifications",
+
+planning: "Planning",
+
+rechercher: "Rechercher un service..."
+
+},
+
+en: {
+
+bonjour: "Hello 👋",
+
+guide: "Guide",
+
+restaurant: "Restaurant",
+
+amis: "Friends",
+
+messages: "Messages",
+
+profil: "Profile",
+
+notifications: "Notifications",
+
+planning: "Schedule",
+
+rechercher: "Search a service..."
+
+},
+
+ar: {
+
+bonjour: "مرحبا 👋",
+
+guide: "الدليل",
+
+restaurant: "المطعم",
+
+amis: "الأصدقاء",
+
+messages: "الرسائل",
+
+profil: "الملف الشخصي",
+
+notifications: "الإشعارات",
+
+planning: "الجدول",
+
+rechercher: "ابحث عن خدمة..."
+
+}
+
+};
+
+// =====================
+// APPLIQUER LANGUE
+// =====================
+
+function appliquerLangue(){
+
+let langue =
+localStorage.getItem("langue") || "fr";
+
+/* DIRECTION */
+
+if(langue === "ar"){
+
+document.body.style.direction = "rtl";
+
+}else{
+
+document.body.style.direction = "ltr";
+
+}
+
+/* BONJOUR */
+
+let hello =
+document.querySelector(".hello-title");
+
+if(hello){
+
+hello.innerHTML =
+traductions[langue].bonjour;
+}
+
+/* SEARCH */
+
+let search =
+document.querySelector(".modern-search input");
+
+if(search){
+
+search.placeholder =
+traductions[langue].rechercher;
+}
+
+/* CARTES */
+
+document.querySelectorAll(".premium-card span")
+.forEach((item)=>{
+
+let texte =
+item.innerHTML.trim();
+
+if(texte === "Guide"){
+
+item.innerHTML =
+traductions[langue].guide;
+
+}
+
+if(texte === "Restaurant"){
+
+item.innerHTML =
+traductions[langue].restaurant;
+
+}
+
+if(texte === "Amis"){
+
+item.innerHTML =
+traductions[langue].amis;
+
+}
+
+if(texte === "Messages"){
+
+item.innerHTML =
+traductions[langue].messages;
+
+}
+
+});
+
+/* NAVBAR */
+
+document.querySelectorAll(".ios-navbar a")
+.forEach((item,index)=>{
+
+if(index === 2){
+
+item.title =
+traductions[langue].notifications;
+
+}
+
+if(index === 4){
+
+item.title =
+traductions[langue].profil;
+
+}
+
+});
+
+}
+
+/* LOAD */
+
+appliquerLangue();
+
+
 // =====================
 // LOGOUT
 // =====================

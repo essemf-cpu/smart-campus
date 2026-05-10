@@ -1377,6 +1377,8 @@ a{
     flex-direction:column;
 
     gap:15px;
+
+    padding-bottom: 140px;
 }
 
 /* =========================
@@ -1495,16 +1497,55 @@ a{
 
     background:none;
 
-    font-size:15px;
+    font-size:16px;
 
-    padding:10px;
+    padding:12px;
+
+    min-width:0;
 }
 
 /* =========================
    SEND BUTTON
 ========================= */
 
+.chat-input-bar{
+
+    position:fixed;
+
+    bottom:90px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:92%;
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    box-shadow:
+    0 6px 25px rgba(0,0,0,0.08);
+
+    z-index:999;
+}
+
+.section-header h2{
+
+    font-size:22px;
+}
+
 .chat-input-bar button{
+
+    min-width:55px;
 
     width:55px;
 
@@ -1523,22 +1564,8 @@ a{
     color:white;
 
     font-size:18px;
-}
 
-/* =========================
-   SECTION HEADER
-========================= */
-
-.section-header{
-
-    margin-top:35px;
-
-    margin-bottom:20px;
-}
-
-.section-header h2{
-
-    font-size:22px;
+    flex-shrink:0;
 }
 
 /* =========================
@@ -2362,4 +2389,3 @@ a{
 
     background:#F3F4F6;
 }
-
