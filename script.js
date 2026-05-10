@@ -850,6 +850,12 @@ function afficherBadgeMessages(){
         user.carte
     )
 
+    .where(
+        "seen",
+        "==",
+        false
+    )
+
     .onSnapshot((snapshot)=>{
 
         if(snapshot.empty){
@@ -937,6 +943,7 @@ function afficherMessages(){
                 }
 
                 zone.innerHTML += `
+                
 
                 <div class="${classe}">
 
@@ -994,6 +1001,7 @@ function afficherConversations(){
             let ami = doc.data();
 
             zone.innerHTML += `
+            
 
             <div class="conversation-card"
 
@@ -1001,6 +1009,7 @@ function afficherConversations(){
             ouvrirMessage(
             '${ami.friendCarte}'
             )">
+            
 
                 <!-- LEFT -->
                 <div class="conversation-left">
@@ -1034,16 +1043,63 @@ function afficherConversations(){
                 <!-- RIGHT -->
                 <div class="conversation-right">
 
-                    <div class="conversation-time">
-
-                        Hors ligne
+                    <div class="conversation-time"
+                      id="badge-${ami.friendCarte}">
 
                     </div>
 
                 </div>
 
             </div>
+            
             `;
+            db.collection("messages")
+
+.where(
+"from",
+"==",
+ami.friendCarte
+)
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.where(
+"seen",
+"==",
+false
+)
+
+.onSnapshot((snap)=>{
+
+let badge =
+document.getElementById(
+`badge-${ami.friendCarte}`
+);
+
+if(!badge) return;
+
+if(snap.empty){
+
+badge.innerHTML = "";
+
+}else{
+
+badge.innerHTML = `
+
+<div class="conversation-badge">
+
+${snap.size}
+
+</div>
+`;
+
+}
+
+});
         });
     });
 }
@@ -1186,15 +1242,17 @@ function envoyerMessagePrive(){
 
         to:friend,
 
-        message:texte,
+       message:texte,
 
-        date:new Date()
-        .toLocaleTimeString([],{
+         seen:false,
 
-            hour:"2-digit",
+         date:new Date()
+         .toLocaleTimeString([],{
+  
+        hour:"2-digit",
 
-            minute:"2-digit"
-        })
+        minute:"2-digit"
+      })
     })
 
     .then(()=>{
@@ -1203,6 +1261,94 @@ function envoyerMessagePrive(){
             "message"
         ).value = "";
     });
+}
+
+function gererPresenceUtilisateur(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+/* ONLINE */
+
+db.collection("status")
+.doc(user.carte)
+
+.set({
+
+nom:user.nom,
+
+online:true
+
+});
+
+/* HORS LIGNE */
+
+window.addEventListener(
+"beforeunload",
+function(){
+
+navigator.sendBeacon(
+"https://firestore.googleapis.com"
+);
+
+db.collection("status")
+.doc(user.carte)
+
+.update({
+
+online:false
+
+});
+
+});
+
+}
+
+function marquerMessagesCommeLus(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+let friend =
+params.get("friend");
+
+db.collection("messages")
+
+.where("from","==",friend)
+
+.where("to","==",user.carte)
+
+.where("seen","==",false)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("messages")
+.doc(doc.id)
+.update({
+
+seen:true
+
+});
+
+});
+
+});
+
 }
 
 function initialiserRechercheIntelligente(){
@@ -1416,189 +1562,6 @@ initialiserRechercheIntelligente();
 
 
 // =====================
-// LANGUES
-// =====================
-
-const traductions = {
-
-fr: {
-
-bonjour: "Bonjour 👋",
-
-guide: "Guide",
-
-restaurant: "Restaurant",
-
-amis: "Amis",
-
-messages: "Messages",
-
-profil: "Profil",
-
-notifications: "Notifications",
-
-planning: "Planning",
-
-rechercher: "Rechercher un service..."
-
-},
-
-en: {
-
-bonjour: "Hello 👋",
-
-guide: "Guide",
-
-restaurant: "Restaurant",
-
-amis: "Friends",
-
-messages: "Messages",
-
-profil: "Profile",
-
-notifications: "Notifications",
-
-planning: "Schedule",
-
-rechercher: "Search a service..."
-
-},
-
-ar: {
-
-bonjour: "مرحبا 👋",
-
-guide: "الدليل",
-
-restaurant: "المطعم",
-
-amis: "الأصدقاء",
-
-messages: "الرسائل",
-
-profil: "الملف الشخصي",
-
-notifications: "الإشعارات",
-
-planning: "الجدول",
-
-rechercher: "ابحث عن خدمة..."
-
-}
-
-};
-
-// =====================
-// APPLIQUER LANGUE
-// =====================
-
-function appliquerLangue(){
-
-let langue =
-localStorage.getItem("langue") || "fr";
-
-/* DIRECTION */
-
-if(langue === "ar"){
-
-document.body.style.direction = "rtl";
-
-}else{
-
-document.body.style.direction = "ltr";
-
-}
-
-/* BONJOUR */
-
-let hello =
-document.querySelector(".hello-title");
-
-if(hello){
-
-hello.innerHTML =
-traductions[langue].bonjour;
-}
-
-/* SEARCH */
-
-let search =
-document.querySelector(".modern-search input");
-
-if(search){
-
-search.placeholder =
-traductions[langue].rechercher;
-}
-
-/* CARTES */
-
-document.querySelectorAll(".premium-card span")
-.forEach((item)=>{
-
-let texte =
-item.innerHTML.trim();
-
-if(texte === "Guide"){
-
-item.innerHTML =
-traductions[langue].guide;
-
-}
-
-if(texte === "Restaurant"){
-
-item.innerHTML =
-traductions[langue].restaurant;
-
-}
-
-if(texte === "Amis"){
-
-item.innerHTML =
-traductions[langue].amis;
-
-}
-
-if(texte === "Messages"){
-
-item.innerHTML =
-traductions[langue].messages;
-
-}
-
-});
-
-/* NAVBAR */
-
-document.querySelectorAll(".ios-navbar a")
-.forEach((item,index)=>{
-
-if(index === 2){
-
-item.title =
-traductions[langue].notifications;
-
-}
-
-if(index === 4){
-
-item.title =
-traductions[langue].profil;
-
-}
-
-});
-
-}
-
-/* LOAD */
-
-appliquerLangue();
-
-
-// =====================
 // LOGOUT
 // =====================
 function logout() {
@@ -1639,4 +1602,6 @@ window.onload = function() {
     afficherAmis();
 
     afficherNotifications();
+
+    gererPresenceUtilisateur();
 };
