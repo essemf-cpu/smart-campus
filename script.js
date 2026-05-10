@@ -1407,8 +1407,6 @@ window.onload = function() {
 
     afficherMaintenance();
 
-    afficherDemandesAmis();
-
     afficherAmis();
 
     afficherNotifications();
