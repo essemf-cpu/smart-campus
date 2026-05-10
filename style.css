@@ -2282,3 +2282,83 @@ a{
 
     font-size:15px;
 }
+
+/* =========================
+   PDF CARD
+========================= */
+
+.pdf-card{
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    box-shadow:var(--shadow);
+}
+
+/* =========================
+   PDF TOP
+========================= */
+
+.pdf-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.pdf-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:22px;
+
+    background:#EF4444;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    font-size:26px;
+}
+
+.pdf-top h2{
+
+    margin-bottom:6px;
+}
+
+.pdf-top p{
+
+    color:var(--text-light);
+}
+
+/* =========================
+   PDF VIEWER
+========================= */
+
+.pdf-viewer{
+
+    width:100%;
+
+    height:75vh;
+
+    border:none;
+
+    border-radius:24px;
+
+    background:#F3F4F6;
+}
