@@ -739,23 +739,6 @@ function afficherAmis() {
 
             <div class="history-card">
 
-                <div class="history-info">
-
-                    <strong>
-
-                        Aucun ami trouvé
-
-                    </strong>
-
-                    <small>
-
-                        Ajoutez des amis
-                        depuis les notifications
-
-                    </small>
-
-                </div>
-
             </div>
             `;
 
