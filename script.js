@@ -537,7 +537,9 @@ function afficherAmis() {
 
                         <i class="fa-solid fa-user"></i>
 
-                        <div class="online-dot"></div>
+                        ${ami.online ? `
+                          <div class="online-dot"></div>
+                        ` : ``}
 
                     </div>
 
@@ -668,7 +670,8 @@ function accepterDemande(id, amiCarte, amiNom) {
         userNom: user.nom,
 
         friendCarte: amiCarte,
-        friendNom: amiNom
+        friendNom: amiNom,
+        online: false
 
     });
 
@@ -676,6 +679,7 @@ function accepterDemande(id, amiCarte, amiNom) {
 
         userCarte: amiCarte,
         userNom: amiNom,
+        online: false,
 
         friendCarte: user.carte,
         friendNom: user.nom
@@ -987,7 +991,7 @@ function afficherConversations(){
 
                     <div class="conversation-time">
 
-                        Smart Campus
+                        Hors ligne
 
                     </div>
 
