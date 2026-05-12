@@ -1779,95 +1779,6 @@ window.location.href =
 }
 
 // =====================
-// TRADUCTION SIMPLE
-// =====================
-
-function appliquerLangueAuto(){
-
-let langue =
-localStorage.getItem("langue");
-
-if(!langue){
-
-return;
-}
-
-/* FRANÇAIS -> ENGLISH */
-
-if(langue === "en"){
-
-document.body.innerHTML =
-document.body.innerHTML
-
-.replaceAll("Bonjour", "Hello")
-
-.replaceAll("Messages", "Messages")
-
-.replaceAll("Notifications", "Notifications")
-
-.replaceAll("Planning", "Schedule")
-
-.replaceAll("Restauration", "Restaurant")
-
-.replaceAll("Mes amis", "My friends")
-
-.replaceAll("Profil", "Profile")
-
-.replaceAll("Guide Étudiant", "Student Guide")
-
-.replaceAll("Scanner QR", "QR Scanner")
-
-.replaceAll("Langue", "Language")
-
-.replaceAll("Rechercher", "Search")
-
-.replaceAll("Aujourd’hui", "Today")
-
-.replaceAll("Déconnexion", "Logout");
-
-}
-
-/* FRANÇAIS -> ARABE */
-
-if(langue === "ar"){
-
-document.body.style.direction =
-"rtl";
-
-document.body.innerHTML =
-document.body.innerHTML
-
-.replaceAll("Bonjour", "مرحبا")
-
-.replaceAll("Messages", "الرسائل")
-
-.replaceAll("Notifications", "الإشعارات")
-
-.replaceAll("Planning", "الجدول")
-
-.replaceAll("Restauration", "المطعم")
-
-.replaceAll("Mes amis", "الأصدقاء")
-
-.replaceAll("Profil", "الملف الشخصي")
-
-.replaceAll("Guide Étudiant", "دليل الطالب")
-
-.replaceAll("Scanner QR", "ماسح QR")
-
-.replaceAll("Langue", "اللغة")
-
-.replaceAll("Rechercher", "بحث")
-
-.replaceAll("Aujourd’hui", "اليوم")
-
-.replaceAll("Déconnexion", "تسجيل الخروج");
-
-}
-
-}
-
-// =====================
 // LOGOUT
 // =====================
 function logout(){
@@ -2017,7 +1928,5 @@ afficherBadgeMessages();
 gererPresenceUtilisateur();
 
 afficherBadgeNotifications();
-
-appliquerLangueAuto();
 
 };
