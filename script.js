@@ -908,7 +908,7 @@ zone.innerHTML =
 
 
 // =====================
-// CONVERSATIONS
+// CONVERSATIONS PREMIUM
 // =====================
 function afficherConversations(){
 
@@ -932,14 +932,106 @@ db.collection("friends")
 user.carte
 )
 
-.onSnapshot((snapshot)=>{
+.onSnapshot(async(snapshot)=>{
 
 zone.innerHTML = "";
 
-snapshot.forEach((doc)=>{
+let conversations = [];
+
+/* LOOP AMIS */
+
+for(const doc of snapshot.docs){
 
 let ami =
 doc.data();
+
+/* DERNIER MESSAGE */
+
+let dernierMessage =
+"Commencez la discussion";
+
+let heure =
+"";
+
+let dateMessage = 0;
+
+let messagesSnap =
+await db.collection("messages")
+
+.orderBy("date","desc")
+
+.get();
+
+messagesSnap.forEach((mDoc)=>{
+
+let m =
+mDoc.data();
+
+let ok =
+
+(
+m.from === user.carte
+&&
+m.to === ami.friendCarte
+)
+
+||
+
+(
+m.from === ami.friendCarte
+&&
+m.to === user.carte
+);
+
+if(
+ok
+&&
+dateMessage === 0
+){
+
+dernierMessage =
+m.message;
+
+heure =
+m.heure || "";
+
+dateMessage =
+m.date || 0;
+
+}
+
+});
+
+/* PUSH */
+
+conversations.push({
+
+ami:ami,
+
+dernierMessage:
+dernierMessage,
+
+heure:heure,
+
+date:dateMessage
+
+});
+
+}
+
+/* TRI RECENT */
+
+conversations.sort((a,b)=>{
+
+return b.date - a.date;
+
+});
+
+/* RENDER */
+
+conversations.forEach((c)=>{
+
+let ami = c.ami;
 
 zone.innerHTML += `
 
@@ -960,13 +1052,31 @@ ouvrirMessage(
 
 <div class="conversation-info">
 
+<div class="conversation-top-row">
+
 <strong>
 
 ${ami.friendNom}
 
 </strong>
 
-<p id="status-${ami.friendCarte}">
+<span class="conversation-time">
+
+${c.heure}
+
+</span>
+
+</div>
+
+<p class="conversation-preview">
+
+${c.dernierMessage}
+
+</p>
+
+<p
+class="conversation-status"
+id="status-${ami.friendCarte}">
 
 ⚫ Hors ligne
 
@@ -988,50 +1098,6 @@ id="badge-${ami.friendCarte}">
 </div>
 
 `;
-
-/* STATUS */
-
-db.collection("status")
-.doc(ami.friendCarte)
-
-.onSnapshot((statusDoc)=>{
-
-let zoneStatus =
-document.getElementById(
-`status-${ami.friendCarte}`
-);
-
-if(!zoneStatus) return;
-
-if(!statusDoc.exists){
-
-zoneStatus.innerHTML =
-"⚫ Hors ligne";
-
-return;
-}
-
-let data =
-statusDoc.data();
-
-let diff =
-Date.now() -
-(data.lastActive || 0);
-
-if(diff < 45000){
-
-zoneStatus.innerHTML =
-"🟢 En ligne";
-
-}else{
-
-zoneStatus.innerHTML =
-"⚫ Hors ligne";
-
-}
-
-});
-
 
 /* BADGE */
 
@@ -1087,7 +1153,6 @@ ${snap.size}
 });
 
 });
-
 }
 
 
@@ -1147,6 +1212,41 @@ snapshot.size;
 // NOTIFICATIONS
 // =====================
 function afficherNotifications(){
+
+/* MARQUER NOTIFS COMME LUES */
+
+db.collection("friendRequests")
+
+.where(
+"from",
+"==",
+user.carte
+)
+
+.where(
+"status",
+"==",
+"accepted"
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("friendRequests")
+.doc(doc.id)
+
+.update({
+
+notificationSeen:true
+
+});
+
+});
+
+});
 
 let zone =
 document.getElementById(
@@ -1642,14 +1742,12 @@ localStorage.getItem("user")
 if(!user) return;
 
 let demandes = 0;
-let messages = 0;
 let accepted = 0;
 
 function updateBadge(){
 
 let total =
 demandes + 
-messages +
 accepted;
 
 if(total <= 0){
@@ -1709,34 +1807,15 @@ user.carte
 "accepted"
 )
 
+.where(
+"notificationSeen",
+"!=",
+true
+)
+
 .onSnapshot((snapshot)=>{
 
 accepted =
-snapshot.size;
-
-updateBadge();
-
-});
-
-/* MESSAGES */
-
-db.collection("messages")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.where(
-"seen",
-"==",
-false
-)
-
-.onSnapshot((snapshot)=>{
-
-messages =
 snapshot.size;
 
 updateBadge();

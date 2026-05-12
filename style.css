@@ -2583,3 +2583,13 @@ text-overflow:ellipsis;
 max-width:210px;
 
 }
+
+.conversation-status{
+
+font-size:13px;
+
+color:#999;
+
+margin-top:4px;
+
+}
