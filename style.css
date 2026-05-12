@@ -2437,3 +2437,41 @@ justify-content:center;
 box-shadow:0 2px 8px rgba(0,0,0,0.2);
 
 }
+
+.accept-friend-btn{
+
+width:44px;
+height:44px;
+
+border:none;
+
+border-radius:14px;
+
+background:linear-gradient(
+135deg,
+#7c4dff,
+#6a5cff
+);
+
+color:white;
+
+font-size:16px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+transition:0.2s;
+
+box-shadow:
+0 6px 16px rgba(124,77,255,0.25);
+
+}
+
+.accept-friend-btn:active{
+
+transform:scale(0.92);
+
+}

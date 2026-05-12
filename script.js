@@ -369,7 +369,7 @@ JSON.parse(
 localStorage.getItem("user")
 );
 
-/* AJOUT 1 */
+/* AJOUT AMI USER */
 
 db.collection("friends").add({
 
@@ -381,7 +381,7 @@ friendNom:amiNom
 
 });
 
-/* AJOUT 2 */
+/* AJOUT AMI AUTRE */
 
 db.collection("friends").add({
 
@@ -405,14 +405,34 @@ status:"accepted",
 message:
 "Vous et " +
 amiNom +
-" êtes désormais amis"
+" êtes désormais amis",
+
+date:Date.now()
+
+});
+
+/* NOTIFICATION POUR L’AUTRE */
+
+db.collection("notifications")
+.add({
+
+to:amiCarte,
+
+type:"amis",
+
+title:"Demande acceptée",
+
+text:
+user.nom +
+" a accepté votre demande d’ami",
+
+date:Date.now()
 
 });
 
 alert("Ami ajouté");
 
 }
-
 
 // =====================
 // AFFICHER AMIS
@@ -1165,7 +1185,7 @@ return n.type === type;
 
 }
 
-/* TRI PAR DATE */
+/* TRI */
 
 liste.sort((a,b)=>{
 
@@ -1173,7 +1193,7 @@ return b.date - a.date;
 
 });
 
-/* AUCUNE */
+/* VIDE */
 
 if(liste.length === 0){
 
@@ -1188,11 +1208,16 @@ Aucune notification
 `;
 
 return;
+
 }
 
 /* AFFICHAGE */
 
 liste.forEach((n)=>{
+
+let dateFormatee =
+new Date(n.date)
+.toLocaleString();
 
 zone.innerHTML += `
 
@@ -1216,6 +1241,10 @@ ${n.title}
 
 ${n.text}
 
+<br><br>
+
+${dateFormatee}
+
 </small>
 
 </div>
@@ -1231,7 +1260,7 @@ ${n.button || ""}
 }
 
 /* ========================= */
-/* DEMANDES AMIS */
+/* DEMANDES D’AMIS */
 /* ========================= */
 
 db.collection("friendRequests")
@@ -1267,6 +1296,8 @@ souhaite vous ajouter`;
 button = `
 
 <button
+class="accept-friend-btn"
+
 onclick="
 accepterDemande(
 '${doc.id}',
@@ -1274,7 +1305,7 @@ accepterDemande(
 '${d.fromNom}'
 )">
 
-✔
+<i class="fa-solid fa-check"></i>
 
 </button>
 
@@ -1288,15 +1319,10 @@ d.message ||
 
 }
 
-let existe =
-notifications.some(
-(n)=> n.id === doc.id
-);
-
-if(existe) return;
 notifications.push({
 
 id:doc.id,
+
 source:"friends",
 
 type:"amis",
@@ -1321,12 +1347,11 @@ renderNotifications();
 
 });
 
-
 /* ========================= */
-/* MESSAGES */
+/* NOTIFS SYSTÈME */
 /* ========================= */
 
-db.collection("messages")
+db.collection("notifications")
 
 .where(
 "to",
@@ -1334,48 +1359,36 @@ db.collection("messages")
 user.carte
 )
 
-.where(
-"seen",
-"==",
-false
-)
-
 .onSnapshot((snapshot)=>{
 
 notifications =
 notifications.filter((n)=>{
 
-return n.source !== "messages";
+return n.source !== "system";
 
 });
 
 snapshot.forEach((doc)=>{
 
-let m = doc.data();
+let n = doc.data();
 
-let existe =
-notifications.some(
-(n)=> n.id === doc.id
-);
-
-if(existe) return;
 notifications.push({
 
 id:doc.id,
-source:"messages",
 
-type:"messages",
+source:"system",
 
-title:"Nouveau message",
+type:n.type,
 
-text:
-`${m.fromNom} : ${m.message}`,
+title:n.title,
 
-date:m.date || Date.now(),
+text:n.text,
 
-icon:"fa-solid fa-envelope",
+date:n.date,
 
-iconBg:"blue-bg"
+icon:"fa-solid fa-heart",
+
+iconBg:"green-bg"
 
 });
 
@@ -1384,6 +1397,10 @@ iconBg:"blue-bg"
 renderNotifications();
 
 });
+
+/* ========================= */
+/* ANNONCES */
+/* ========================= */
 
 db.collection("annonces")
 
@@ -1426,7 +1443,17 @@ renderNotifications();
 
 });
 
+/* ========================= */
+/* MAINTENANCE */
+/* ========================= */
+
 db.collection("maintenance")
+
+.where(
+"to",
+"==",
+user.carte
+)
 
 .onSnapshot((snapshot)=>{
 
@@ -1453,7 +1480,7 @@ title:"Maintenance",
 
 text:m.probleme || m.text,
 
-date:Date.now(),
+date:m.date || Date.now(),
 
 icon:"fa-solid fa-screwdriver-wrench",
 
@@ -1505,25 +1532,15 @@ pill.innerText
 
 if(texte === "tout"){
 
-renderNotifications(
-"all"
-);
+renderNotifications("all");
 
-}else if(
-texte === "messages"
-){
+}
 
-renderNotifications(
-"messages"
-);
-
-}else if(
+else if(
 texte === "amis"
 ){
 
-renderNotifications(
-"amis"
-);
+renderNotifications("amis");
 
 }
 
@@ -1531,9 +1548,7 @@ else if(
 texte === "annonces"
 ){
 
-renderNotifications(
-"annonces"
-);
+renderNotifications("annonces");
 
 }
 
@@ -1541,9 +1556,7 @@ else if(
 texte === "maintenance"
 ){
 
-renderNotifications(
-"maintenance"
-);
+renderNotifications("maintenance");
 
 }
 
@@ -1551,19 +1564,7 @@ else if(
 texte === "campus"
 ){
 
-renderNotifications(
-"annonces"
-);
-
-}
-
-else if(
-texte === "restaurant"
-){
-
-renderNotifications(
-"restaurant"
-);
+renderNotifications("annonces");
 
 }
 
@@ -1930,3 +1931,5 @@ gererPresenceUtilisateur();
 afficherBadgeNotifications();
 
 };
+
+document.body.style.direction = "ltr";
