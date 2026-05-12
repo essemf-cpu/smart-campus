@@ -1721,6 +1721,200 @@ lastActive:0
 
 }
 
+// =====================
+// SOLDE RESTAURANT
+// =====================
+function chargerSolde(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+/* SOLDE PAR DEFAUT */
+
+if(user.solde === undefined){
+
+user.solde = 5000;
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+}
+
+document.getElementById(
+"solde"
+).innerHTML =
+
+user.solde + " FCFA";
+
+}
+
+// =====================
+// CHARGER TICKETS
+// =====================
+function chargerTickets(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+/* INIT */
+
+if(user.ticketPetitDej === undefined){
+
+user.ticketPetitDej = 0;
+
+}
+
+if(user.ticketDejeuner === undefined){
+
+user.ticketDejeuner = 0;
+
+}
+
+if(user.ticketDiner === undefined){
+
+user.ticketDiner = 0;
+
+}
+
+/* SAVE */
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+/* UI */
+
+let petitdej =
+document.getElementById(
+"ticket-petitdej"
+);
+
+let dejeuner =
+document.getElementById(
+"ticket-dejeuner"
+);
+
+let diner =
+document.getElementById(
+"ticket-diner"
+);
+
+if(petitdej){
+
+petitdej.innerHTML =
+user.ticketPetitDej;
+
+}
+
+if(dejeuner){
+
+dejeuner.innerHTML =
+user.ticketDejeuner;
+
+}
+
+if(diner){
+
+diner.innerHTML =
+user.ticketDiner;
+
+}
+
+}
+
+// =====================
+// ACHETER TICKET
+// =====================
+function acheterTicket(
+prix,
+type
+){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+/* INIT SOLDE */
+
+if(user.solde === undefined){
+
+user.solde = 5000;
+
+}
+
+/* VERIF */
+
+if(user.solde < prix){
+
+alert(
+"Solde insuffisant"
+);
+
+return;
+
+}
+
+/* RETRAIT */
+
+user.solde -= prix;
+
+/* TICKETS */
+
+if(type === "petitdej"){
+
+user.ticketPetitDej =
+(user.ticketPetitDej || 0) + 1;
+
+}
+
+if(type === "dejeuner"){
+
+user.ticketDejeuner =
+(user.ticketDejeuner || 0) + 1;
+
+}
+
+if(type === "diner"){
+
+user.ticketDiner =
+(user.ticketDiner || 0) + 1;
+
+}
+
+/* SAVE */
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+/* REFRESH */
+
+chargerSolde();
+
+chargerTickets();
+
+/* SUCCESS */
+
+alert(
+"Ticket acheté avec succès"
+);
+
+}
 
 // =====================
 // GPS

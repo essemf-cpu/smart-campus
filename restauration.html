@@ -76,6 +76,80 @@
 
     </div>
 
+    <!-- TICKETS -->
+<div class="wallet-card">
+
+    <h2>
+
+        🎫 Mes tickets restaurant
+
+    </h2>
+
+    <div class="history-section">
+
+        <div class="history-card">
+
+            <div class="history-info">
+
+                <strong>
+
+                    Petit déjeuner
+
+                </strong>
+
+            </div>
+
+            <span id="ticket-petitdej">
+
+                0
+
+            </span>
+
+        </div>
+
+        <div class="history-card">
+
+            <div class="history-info">
+
+                <strong>
+
+                    Déjeuner
+
+                </strong>
+
+            </div>
+
+            <span id="ticket-dejeuner">
+
+                0
+
+            </span>
+
+        </div>
+
+        <div class="history-card">
+
+            <div class="history-info">
+
+                <strong>
+
+                    Dîner
+
+                </strong>
+
+            </div>
+
+            <span id="ticket-diner">
+
+                0
+
+            </span>
+
+        </div>
+
+    </div>
+
+
     <!-- CATEGORIES -->
     <div class="resto-categories">
 
@@ -94,12 +168,6 @@
         <div class="category-pill">
 
             Dîner
-
-        </div>
-
-        <div class="category-pill">
-
-            Boissons
 
         </div>
 
@@ -138,7 +206,7 @@
 
             </div>
 
-            <button onclick="acheterTicket(500)">
+            <button onclick="acheterTicket(500, 'petitdej')">
 
                 Acheter
 
@@ -181,7 +249,7 @@
 
             </div>
 
-            <button onclick="acheterTicket(1000)">
+            <button onclick="acheterTicket(1000,'dejeuner')">
 
                 Acheter
 
@@ -224,7 +292,7 @@
 
             </div>
 
-            <button onclick="acheterTicket(800)">
+            <button onclick="acheterTicket(800, 'diner')">
 
                 Acheter
 
@@ -312,6 +380,8 @@ chargerSolde();
 genererQRResto();
 
 afficherBadgeNotifications();
+
+chargerTickets();
 
 </script>
 
