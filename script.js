@@ -1140,10 +1140,99 @@ JSON.parse(
 localStorage.getItem("user")
 );
 
+let notifications = [];
+
+/* ========================= */
+/* RENDER */
+/* ========================= */
+
+function renderNotifications(type="all"){
+
 zone.innerHTML = "";
 
+let liste = notifications;
 
-/* DEMANDES */
+/* FILTRES */
+
+if(type !== "all"){
+
+liste =
+notifications.filter((n)=>{
+
+return n.type === type;
+
+});
+
+}
+
+/* TRI PAR DATE */
+
+liste.sort((a,b)=>{
+
+return b.date - a.date;
+
+});
+
+/* AUCUNE */
+
+if(liste.length === 0){
+
+zone.innerHTML = `
+
+<div class="card">
+
+Aucune notification
+
+</div>
+
+`;
+
+return;
+}
+
+/* AFFICHAGE */
+
+liste.forEach((n)=>{
+
+zone.innerHTML += `
+
+<div class="history-card notification-card">
+
+<div class="history-icon ${n.iconBg}">
+
+<i class="${n.icon}"></i>
+
+</div>
+
+<div class="history-info">
+
+<strong>
+
+${n.title}
+
+</strong>
+
+<small>
+
+${n.text}
+
+</small>
+
+</div>
+
+${n.button || ""}
+
+</div>
+
+`;
+
+});
+
+}
+
+/* ========================= */
+/* DEMANDES AMIS */
+/* ========================= */
 
 db.collection("friendRequests")
 
@@ -1155,14 +1244,19 @@ user.carte
 
 .onSnapshot((snapshot)=>{
 
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "friends";
+
+});
+
 snapshot.forEach((doc)=>{
 
-let d =
-doc.data();
+let d = doc.data();
 
 let texte = "";
-
-let bouton = "";
+let button = "";
 
 if(d.status === "pending"){
 
@@ -1170,7 +1264,7 @@ texte =
 `${d.fromNom}
 souhaite vous ajouter`;
 
-bouton = `
+button = `
 
 <button
 onclick="
@@ -1194,42 +1288,171 @@ d.message ||
 
 }
 
-zone.innerHTML += `
+notifications.push({
 
-<div class="history-card">
+source:"friends",
 
-<div class="history-icon purple-bg">
+type:"amis",
 
-<i class="fa-solid fa-user-plus"></i>
+title:"Amis",
 
-</div>
+text:texte,
 
-<div class="history-info">
+date:d.date || Date.now(),
 
-<strong>
+icon:"fa-solid fa-user-plus",
 
-Amis
+iconBg:"purple-bg",
 
-</strong>
-
-<small>
-
-${texte}
-
-</small>
-
-</div>
-
-${bouton}
-
-</div>
-
-`;
+button:button
 
 });
 
 });
 
+renderNotifications();
+
+});
+
+
+/* ========================= */
+/* MESSAGES */
+/* ========================= */
+
+db.collection("messages")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.where(
+"seen",
+"==",
+false
+)
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "messages";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let m = doc.data();
+
+notifications.push({
+
+source:"messages",
+
+type:"messages",
+
+title:"Nouveau message",
+
+text:
+`${m.fromNom} : ${m.message}`,
+
+date:m.date || Date.now(),
+
+icon:"fa-solid fa-envelope",
+
+iconBg:"blue-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
+
+
+/* ========================= */
+/* FILTRES */
+/* ========================= */
+
+document
+.querySelectorAll(
+".category-pill"
+)
+
+.forEach((pill)=>{
+
+pill.addEventListener(
+"click",
+function(){
+
+document
+.querySelectorAll(
+".category-pill"
+)
+
+.forEach((p)=>{
+
+p.classList.remove(
+"active-pill"
+);
+
+});
+
+pill.classList.add(
+"active-pill"
+);
+
+let texte =
+pill.innerText
+.toLowerCase();
+
+if(texte === "tout"){
+
+renderNotifications(
+"all"
+);
+
+}else if(
+texte === "messages"
+){
+
+renderNotifications(
+"messages"
+);
+
+}else if(
+texte === "amis"
+){
+
+renderNotifications(
+"amis"
+);
+
+}
+
+});
+
+});
+
+}
+
+function afficherBadgeNotifications(){
+
+let badge =
+document.getElementById(
+"notification-badge"
+);
+
+if(!badge) return;
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+let total = 0;
 
 /* MESSAGES */
 
@@ -1249,46 +1472,53 @@ false
 
 .onSnapshot((snapshot)=>{
 
-snapshot.forEach((doc)=>{
+total += snapshot.size;
 
-let m =
-doc.data();
-
-zone.innerHTML += `
-
-<div class="history-card">
-
-<div class="history-icon blue-bg">
-
-<i class="fa-solid fa-envelope"></i>
-
-</div>
-
-<div class="history-info">
-
-<strong>
-
-Nouveau message
-
-</strong>
-
-<small>
-
-${m.fromNom}
-:
-${m.message}
-
-</small>
-
-</div>
-
-</div>
-
-`;
+updateBadge();
 
 });
 
+/* DEMANDES */
+
+db.collection("friendRequests")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.where(
+"status",
+"==",
+"pending"
+)
+
+.onSnapshot((snapshot)=>{
+
+total += snapshot.size;
+
+updateBadge();
+
 });
+
+function updateBadge(){
+
+if(total <= 0){
+
+badge.style.display =
+"none";
+
+return;
+}
+
+badge.style.display =
+"flex";
+
+badge.innerHTML =
+total;
+
+}
 
 }
 
@@ -1555,5 +1785,7 @@ afficherNotifications();
 afficherBadgeMessages();
 
 gererPresenceUtilisateur();
+
+afficherBadgeNotifications();
 
 };
