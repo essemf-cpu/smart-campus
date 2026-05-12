@@ -1452,7 +1452,33 @@ JSON.parse(
 localStorage.getItem("user")
 );
 
+if(!user) return;
+
 let total = 0;
+
+/* FRIEND REQUESTS */
+
+db.collection("friendRequests")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.where(
+"status",
+"==",
+"pending"
+)
+
+.onSnapshot((snapshot)=>{
+
+total += snapshot.size;
+
+mettreAJourBadge();
+
+});
 
 /* MESSAGES */
 
@@ -1474,35 +1500,11 @@ false
 
 total += snapshot.size;
 
-updateBadge();
+mettreAJourBadge();
 
 });
 
-/* DEMANDES */
-
-db.collection("friendRequests")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.where(
-"status",
-"==",
-"pending"
-)
-
-.onSnapshot((snapshot)=>{
-
-total += snapshot.size;
-
-updateBadge();
-
-});
-
-function updateBadge(){
+function mettreAJourBadge(){
 
 if(total <= 0){
 
@@ -1510,18 +1512,17 @@ badge.style.display =
 "none";
 
 return;
+
 }
 
 badge.style.display =
 "flex";
 
-badge.innerHTML =
-total;
+badge.innerHTML = total;
 
 }
 
 }
-
 
 // =====================
 // STATUS UTILISATEUR
