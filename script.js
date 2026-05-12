@@ -1495,6 +1495,57 @@ renderNotifications();
 });
 
 /* ========================= */
+/* RESTAURANT */
+/* ========================= */
+
+db.collection("restaurantNotifications")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "restaurant";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let r = doc.data();
+
+notifications.push({
+
+id:doc.id,
+
+source:"restaurant",
+
+type:"restaurant",
+
+title:r.title,
+
+text:r.text,
+
+date:r.date || Date.now(),
+
+icon:"fa-solid fa-utensils",
+
+iconBg:"green-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
+
+/* ========================= */
 /* FILTRES */
 /* ========================= */
 
@@ -1592,11 +1643,14 @@ if(!user) return;
 
 let demandes = 0;
 let messages = 0;
+let accepted = 0;
 
 function updateBadge(){
 
 let total =
-demandes + messages;
+demandes + 
+messages +
+accepted;
 
 if(total <= 0){
 
@@ -1633,6 +1687,31 @@ user.carte
 .onSnapshot((snapshot)=>{
 
 demandes =
+snapshot.size;
+
+updateBadge();
+
+});
+
+/* DEMANDES ACCEPTEES */
+
+db.collection("friendRequests")
+
+.where(
+"from",
+"==",
+user.carte
+)
+
+.where(
+"status",
+"==",
+"accepted"
+)
+
+.onSnapshot((snapshot)=>{
+
+accepted =
 snapshot.size;
 
 updateBadge();
@@ -1894,6 +1973,25 @@ user.ticketDiner =
 (user.ticketDiner || 0) + 1;
 
 }
+
+/* NOTIFICATION RESTAURANT */
+
+db.collection("restaurantNotifications")
+
+.add({
+
+to:user.carte,
+
+type:"restaurant",
+
+title:"Restaurant universitaire",
+
+text:
+"Ticket acheté avec succès",
+
+date:Date.now()
+
+});
 
 /* SAVE */
 
