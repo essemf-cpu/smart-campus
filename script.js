@@ -1288,8 +1288,15 @@ d.message ||
 
 }
 
+let existe =
+notifications.some(
+(n)=> n.id === doc.id
+);
+
+if(existe) return;
 notifications.push({
 
+id:doc.id,
 source:"friends",
 
 type:"amis",
@@ -1346,8 +1353,15 @@ snapshot.forEach((doc)=>{
 
 let m = doc.data();
 
+let existe =
+notifications.some(
+(n)=> n.id === doc.id
+);
+
+if(existe) return;
 notifications.push({
 
+id:doc.id,
 source:"messages",
 
 type:"messages",
@@ -1371,6 +1385,87 @@ renderNotifications();
 
 });
 
+db.collection("annonces")
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "annonces";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let a = doc.data();
+
+notifications.push({
+
+id:doc.id,
+
+source:"annonces",
+
+type:"annonces",
+
+title:"Annonce campus",
+
+text:a.text,
+
+date:a.date || Date.now(),
+
+icon:"fa-solid fa-bullhorn",
+
+iconBg:"orange-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
+
+db.collection("maintenance")
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "maintenance";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let m = doc.data();
+
+notifications.push({
+
+id:doc.id,
+
+source:"maintenance",
+
+type:"maintenance",
+
+title:"Maintenance",
+
+text:m.probleme || m.text,
+
+date:Date.now(),
+
+icon:"fa-solid fa-screwdriver-wrench",
+
+iconBg:"red-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
 
 /* ========================= */
 /* FILTRES */
@@ -1432,6 +1527,46 @@ renderNotifications(
 
 }
 
+else if(
+texte === "annonces"
+){
+
+renderNotifications(
+"annonces"
+);
+
+}
+
+else if(
+texte === "maintenance"
+){
+
+renderNotifications(
+"maintenance"
+);
+
+}
+
+else if(
+texte === "campus"
+){
+
+renderNotifications(
+"annonces"
+);
+
+}
+
+else if(
+texte === "restaurant"
+){
+
+renderNotifications(
+"restaurant"
+);
+
+}
+
 });
 
 });
@@ -1454,9 +1589,31 @@ localStorage.getItem("user")
 
 if(!user) return;
 
-let total = 0;
+let demandes = 0;
+let messages = 0;
 
-/* FRIEND REQUESTS */
+function updateBadge(){
+
+let total =
+demandes + messages;
+
+if(total <= 0){
+
+badge.style.display =
+"none";
+
+return;
+
+}
+
+badge.style.display =
+"flex";
+
+badge.innerHTML = total;
+
+}
+
+/* DEMANDES */
 
 db.collection("friendRequests")
 
@@ -1474,9 +1631,10 @@ user.carte
 
 .onSnapshot((snapshot)=>{
 
-total += snapshot.size;
+demandes =
+snapshot.size;
 
-mettreAJourBadge();
+updateBadge();
 
 });
 
@@ -1498,29 +1656,12 @@ false
 
 .onSnapshot((snapshot)=>{
 
-total += snapshot.size;
+messages =
+snapshot.size;
 
-mettreAJourBadge();
+updateBadge();
 
 });
-
-function mettreAJourBadge(){
-
-if(total <= 0){
-
-badge.style.display =
-"none";
-
-return;
-
-}
-
-badge.style.display =
-"flex";
-
-badge.innerHTML = total;
-
-}
 
 }
 
@@ -1637,6 +1778,94 @@ window.location.href =
 
 }
 
+// =====================
+// TRADUCTION SIMPLE
+// =====================
+
+function appliquerLangueAuto(){
+
+let langue =
+localStorage.getItem("langue");
+
+if(!langue){
+
+return;
+}
+
+/* FRANÇAIS -> ENGLISH */
+
+if(langue === "en"){
+
+document.body.innerHTML =
+document.body.innerHTML
+
+.replaceAll("Bonjour", "Hello")
+
+.replaceAll("Messages", "Messages")
+
+.replaceAll("Notifications", "Notifications")
+
+.replaceAll("Planning", "Schedule")
+
+.replaceAll("Restauration", "Restaurant")
+
+.replaceAll("Mes amis", "My friends")
+
+.replaceAll("Profil", "Profile")
+
+.replaceAll("Guide Étudiant", "Student Guide")
+
+.replaceAll("Scanner QR", "QR Scanner")
+
+.replaceAll("Langue", "Language")
+
+.replaceAll("Rechercher", "Search")
+
+.replaceAll("Aujourd’hui", "Today")
+
+.replaceAll("Déconnexion", "Logout");
+
+}
+
+/* FRANÇAIS -> ARABE */
+
+if(langue === "ar"){
+
+document.body.style.direction =
+"rtl";
+
+document.body.innerHTML =
+document.body.innerHTML
+
+.replaceAll("Bonjour", "مرحبا")
+
+.replaceAll("Messages", "الرسائل")
+
+.replaceAll("Notifications", "الإشعارات")
+
+.replaceAll("Planning", "الجدول")
+
+.replaceAll("Restauration", "المطعم")
+
+.replaceAll("Mes amis", "الأصدقاء")
+
+.replaceAll("Profil", "الملف الشخصي")
+
+.replaceAll("Guide Étudiant", "دليل الطالب")
+
+.replaceAll("Scanner QR", "ماسح QR")
+
+.replaceAll("Langue", "اللغة")
+
+.replaceAll("Rechercher", "بحث")
+
+.replaceAll("Aujourd’hui", "اليوم")
+
+.replaceAll("Déconnexion", "تسجيل الخروج");
+
+}
+
+}
 
 // =====================
 // LOGOUT
@@ -1788,5 +2017,7 @@ afficherBadgeMessages();
 gererPresenceUtilisateur();
 
 afficherBadgeNotifications();
+
+appliquerLangueAuto();
 
 };
