@@ -1974,6 +1974,112 @@ window.location.href =
 }
 
 // =====================
+// GPS PREMIUM
+// =====================
+let map;
+let marker;
+
+function initialiserCarte(){
+
+let zone =
+document.getElementById(
+"map"
+);
+
+if(!zone) return;
+
+/* POSITION PAR DEFAUT */
+
+let lat = 14.6928;
+let lon = -17.4467;
+
+/* PARAMS URL */
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+if(params.get("lat")){
+
+lat =
+parseFloat(
+params.get("lat")
+);
+
+}
+
+if(params.get("lon")){
+
+lon =
+parseFloat(
+params.get("lon")
+);
+
+}
+
+/* MAP */
+
+map = L.map("map",{
+
+zoomControl:false
+
+}).setView(
+[lat, lon],
+16
+);
+
+/* TILES PREMIUM */
+
+L.tileLayer(
+
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+{
+attribution:'Smart Campus'
+}
+
+).addTo(map);
+
+/* MARKER */
+
+marker = L.marker(
+[lat, lon]
+).addTo(map);
+
+/* POSITION USER */
+
+navigator.geolocation
+.getCurrentPosition(
+
+function(position){
+
+let userLat =
+position.coords.latitude;
+
+let userLon =
+position.coords.longitude;
+
+/* MOVE MAP */
+
+map.setView(
+[userLat, userLon],
+17
+);
+
+/* MOVE MARKER */
+
+marker.setLatLng(
+[userLat, userLon]
+);
+
+}
+
+);
+
+}
+
+// =====================
 // LOGOUT
 // =====================
 function logout(){
