@@ -1794,6 +1794,8 @@ if(total <= 0){
 badge.style.display =
 "none";
 
+badge.innerHTML = "";
+
 return;
 
 }
@@ -1831,7 +1833,7 @@ updateBadge();
 
 });
 
-/* NOTIFICATIONS SYSTEME */
+/* NOTIFICATIONS SYSTEME NON LUES */
 
 db.collection("notifications")
 
@@ -1839,6 +1841,12 @@ db.collection("notifications")
 "to",
 "==",
 user.carte
+)
+
+.where(
+"seen",
+"!=",
+true
 )
 
 .onSnapshot((snapshot)=>{
