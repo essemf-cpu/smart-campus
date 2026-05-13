@@ -15,7 +15,7 @@ const db = firebase.firestore();
 // =====================
 // INSCRIPTION
 // =====================
-function inscription() {
+function inscription(){
 
 let nom =
 document.getElementById("nom").value;
@@ -37,6 +37,7 @@ if(!nom || !carte || !password){
 alert("Remplis tous les champs");
 
 return;
+
 }
 
 db.collection("users").add({
@@ -80,17 +81,9 @@ document.getElementById("password").value;
 
 db.collection("users")
 
-.where(
-"carte",
-"==",
-carte
-)
+.where("carte","==",carte)
 
-.where(
-"password",
-"==",
-password
-)
+.where("password","==",password)
 
 .get()
 
@@ -101,6 +94,7 @@ if(snapshot.empty){
 alert("Identifiants incorrects");
 
 return;
+
 }
 
 let user =
@@ -111,6 +105,7 @@ if(user.valide === false){
 alert("Compte non validé");
 
 return;
+
 }
 
 localStorage.setItem(
@@ -120,7 +115,6 @@ JSON.stringify(user)
 
 db.collection("status")
 .doc(user.carte)
-
 .set({
 
 nom:user.nom,
@@ -247,6 +241,7 @@ if(error){
 console.error(error);
 
 return;
+
 }
 
 zone.appendChild(canvas);
@@ -319,6 +314,7 @@ if(!friendCarte){
 alert("Entre une carte");
 
 return;
+
 }
 
 let user =
@@ -369,7 +365,7 @@ JSON.parse(
 localStorage.getItem("user")
 );
 
-/* AJOUT AMI USER */
+/* AJOUT USER */
 
 db.collection("friends").add({
 
@@ -381,7 +377,7 @@ friendNom:amiNom
 
 });
 
-/* AJOUT AMI AUTRE */
+/* AJOUT AUTRE */
 
 db.collection("friends").add({
 
@@ -393,7 +389,7 @@ friendNom:user.nom
 
 });
 
-/* UPDATE DEMANDE */
+/* UPDATE */
 
 db.collection("friendRequests")
 .doc(id)
@@ -411,7 +407,7 @@ date:Date.now()
 
 });
 
-/* NOTIFICATION POUR L’AUTRE */
+/* NOTIFICATION */
 
 db.collection("notifications")
 .add({
@@ -426,13 +422,16 @@ text:
 user.nom +
 " a accepté votre demande d’ami",
 
-date:Date.now()
+date:Date.now(),
+
+seen:false
 
 });
 
 alert("Ami ajouté");
 
 }
+
 
 // =====================
 // AFFICHER AMIS
@@ -476,6 +475,7 @@ Aucun ami
 `;
 
 return;
+
 }
 
 snapshot.forEach((doc)=>{
@@ -682,34 +682,22 @@ m.to === user.carte
 if(!conversation) return;
 
 let classe =
-"message-ami";
-
-if(
 m.from === user.carte
-){
-
-classe =
-"message-moi";
-
-}
+?
+"message-moi"
+:
+"message-ami";
 
 let statusHTML = "";
 
-if(
-m.from === user.carte
-){
-
-if(m.seen){
+if(m.from === user.carte){
 
 statusHTML =
-"✔✔ Vu";
-
-}else{
-
-statusHTML =
+m.seen
+?
+"✔✔ Vu"
+:
 "✔ Livré";
-
-}
 
 }
 
@@ -765,23 +753,11 @@ params.get("friend");
 
 db.collection("messages")
 
-.where(
-"from",
-"==",
-friend
-)
+.where("from","==",friend)
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
-.where(
-"seen",
-"==",
-false
-)
+.where("seen","==",false)
 
 .get()
 
@@ -806,109 +782,7 @@ seen:true
 
 
 // =====================
-// NOM CONVERSATION
-// =====================
-function afficherNomConversation(){
-
-let params =
-new URLSearchParams(
-window.location.search
-);
-
-let friend =
-params.get("friend");
-
-let zone =
-document.getElementById(
-"friend-name"
-);
-
-if(!zone) return;
-
-db.collection("friends")
-
-.where(
-"friendCarte",
-"==",
-friend
-)
-
-.get()
-
-.then((snapshot)=>{
-
-if(snapshot.empty) return;
-
-let data =
-snapshot.docs[0].data();
-
-zone.innerHTML =
-data.friendNom;
-
-});
-
-}
-
-
-// =====================
-// STATUS AMI
-// =====================
-function afficherStatusAmi(){
-
-let params =
-new URLSearchParams(
-window.location.search
-);
-
-let friend =
-params.get("friend");
-
-let zone =
-document.getElementById(
-"friend-status"
-);
-
-if(!zone) return;
-
-db.collection("status")
-.doc(friend)
-
-.onSnapshot((doc)=>{
-
-if(!doc.exists){
-
-zone.innerHTML =
-"⚫ Hors ligne";
-
-return;
-}
-
-let data =
-doc.data();
-
-let diff =
-Date.now() -
-(data.lastActive || 0);
-
-if(diff < 45000){
-
-zone.innerHTML =
-"🟢 En ligne";
-
-}else{
-
-zone.innerHTML =
-"⚫ Hors ligne";
-
-}
-
-});
-
-}
-
-
-// =====================
-// CONVERSATIONS PREMIUM
+// CONVERSATIONS
 // =====================
 function afficherConversations(){
 
@@ -938,20 +812,15 @@ zone.innerHTML = "";
 
 let conversations = [];
 
-/* LOOP AMIS */
-
 for(const doc of snapshot.docs){
 
 let ami =
 doc.data();
 
-/* DERNIER MESSAGE */
-
 let dernierMessage =
 "Commencez la discussion";
 
-let heure =
-"";
+let heure = "";
 
 let dateMessage = 0;
 
@@ -983,11 +852,7 @@ m.from === ami.friendCarte
 m.to === user.carte
 );
 
-if(
-ok
-&&
-dateMessage === 0
-){
+if(ok && dateMessage === 0){
 
 dernierMessage =
 m.message;
@@ -1001,8 +866,6 @@ m.date || 0;
 }
 
 });
-
-/* PUSH */
 
 conversations.push({
 
@@ -1019,15 +882,11 @@ date:dateMessage
 
 }
 
-/* TRI RECENT */
-
 conversations.sort((a,b)=>{
 
 return b.date - a.date;
 
 });
-
-/* RENDER */
 
 conversations.forEach((c)=>{
 
@@ -1074,14 +933,6 @@ ${c.dernierMessage}
 
 </p>
 
-<p
-class="conversation-status"
-id="status-${ami.friendCarte}">
-
-⚫ Hors ligne
-
-</p>
-
 </div>
 
 </div>
@@ -1098,8 +949,6 @@ id="badge-${ami.friendCarte}">
 </div>
 
 `;
-
-/* BADGE */
 
 db.collection("messages")
 
@@ -1153,11 +1002,12 @@ ${snap.size}
 });
 
 });
+
 }
 
 
 // =====================
-// BADGE DASHBOARD
+// BADGE MESSAGES
 // =====================
 function afficherBadgeMessages(){
 
@@ -1175,17 +1025,9 @@ localStorage.getItem("user")
 
 db.collection("messages")
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
-.where(
-"seen",
-"==",
-false
-)
+.where("seen","==",false)
 
 .onSnapshot((snapshot)=>{
 
@@ -1195,6 +1037,7 @@ badge.style.display =
 "none";
 
 return;
+
 }
 
 badge.style.display =
@@ -1229,9 +1072,7 @@ if(!user) return;
 
 let notifications = [];
 
-/* ========================= */
-/* MARQUER NOTIFS SYSTEME LUES */
-/* ========================= */
+/* MARQUER LUES */
 
 db.collection("notifications")
 
@@ -1239,6 +1080,12 @@ db.collection("notifications")
 "to",
 "==",
 user.carte
+)
+
+.where(
+"seen",
+"==",
+false
 )
 
 .get()
@@ -1249,7 +1096,6 @@ snapshot.forEach((doc)=>{
 
 db.collection("notifications")
 .doc(doc.id)
-
 .update({
 
 seen:true
@@ -1260,54 +1106,13 @@ seen:true
 
 });
 
-/* ========================= */
-/* MARQUER DEMANDES LUES */
-/* ========================= */
-
-db.collection("friendRequests")
-
-.where(
-"from",
-"==",
-user.carte
-)
-
-.where(
-"status",
-"==",
-"accepted"
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("friendRequests")
-.doc(doc.id)
-
-.update({
-
-notificationSeen:true
-
-});
-
-});
-
-});
-
-/* ========================= */
 /* RENDER */
-/* ========================= */
 
 function renderNotifications(type="all"){
 
 zone.innerHTML = "";
 
 let liste = notifications;
-
-/* FILTRES */
 
 if(type !== "all"){
 
@@ -1320,15 +1125,11 @@ return n.type === type;
 
 }
 
-/* TRI RECENT */
-
 liste.sort((a,b)=>{
 
 return b.date - a.date;
 
 });
-
-/* VIDE */
 
 if(liste.length === 0){
 
@@ -1345,8 +1146,6 @@ Aucune notification
 return;
 
 }
-
-/* AFFICHAGE */
 
 liste.forEach((n)=>{
 
@@ -1394,9 +1193,7 @@ ${n.button || ""}
 
 }
 
-/* ========================= */
-/* DEMANDES AMIS */
-/* ========================= */
+/* FRIEND REQUESTS */
 
 db.collection("friendRequests")
 
@@ -1482,9 +1279,7 @@ renderNotifications();
 
 });
 
-/* ========================= */
-/* NOTIFICATIONS SYSTEME */
-/* ========================= */
+/* SYSTEM */
 
 db.collection("notifications")
 
@@ -1505,7 +1300,8 @@ return n.source !== "system";
 
 snapshot.forEach((doc)=>{
 
-let n = doc.data();
+let n =
+doc.data();
 
 notifications.push({
 
@@ -1533,156 +1329,7 @@ renderNotifications();
 
 });
 
-/* ========================= */
-/* ANNONCES */
-/* ========================= */
-
-db.collection("annonces")
-
-.onSnapshot((snapshot)=>{
-
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "annonces";
-
-});
-
-snapshot.forEach((doc)=>{
-
-let a = doc.data();
-
-notifications.push({
-
-id:doc.id,
-
-source:"annonces",
-
-type:"annonces",
-
-title:"Annonce campus",
-
-text:a.text,
-
-date:a.date || Date.now(),
-
-icon:"fa-solid fa-bullhorn",
-
-iconBg:"orange-bg"
-
-});
-
-});
-
-renderNotifications();
-
-});
-
-/* ========================= */
-/* MAINTENANCE */
-/* ========================= */
-
-db.collection("maintenance")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.onSnapshot((snapshot)=>{
-
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "maintenance";
-
-});
-
-snapshot.forEach((doc)=>{
-
-let m = doc.data();
-
-notifications.push({
-
-id:doc.id,
-
-source:"maintenance",
-
-type:"maintenance",
-
-title:"Maintenance",
-
-text:m.probleme || m.text,
-
-date:m.date || Date.now(),
-
-icon:"fa-solid fa-screwdriver-wrench",
-
-iconBg:"red-bg"
-
-});
-
-});
-
-renderNotifications();
-
-});
-
-/* ========================= */
-/* RESTAURANT */
-/* ========================= */
-
-db.collection("restaurantNotifications")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.onSnapshot((snapshot)=>{
-
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "restaurant";
-
-});
-
-snapshot.forEach((doc)=>{
-
-let r = doc.data();
-
-notifications.push({
-
-id:doc.id,
-
-source:"restaurant",
-
-type:"restaurant",
-
-title:r.title,
-
-text:r.text,
-
-date:r.date || Date.now(),
-
-icon:"fa-solid fa-utensils",
-
-iconBg:"green-bg"
-
-});
-
-});
-
-renderNotifications();
-
-});
-
-/* ========================= */
 /* FILTRES */
-/* ========================= */
 
 document
 .querySelectorAll(
@@ -1730,37 +1377,12 @@ renderNotifications("amis");
 
 }
 
-else if(
-texte === "maintenance"
-){
-
-renderNotifications("maintenance");
-
-}
-
-else if(
-texte === "annonces"
-||
-texte === "campus"
-){
-
-renderNotifications("annonces");
-
-}
-
-else if(
-texte === "restaurant"
-){
-
-renderNotifications("restaurant");
-
-}
-
 });
 
 });
 
 }
+
 
 // =====================
 // BADGE NOTIFICATIONS
@@ -1808,7 +1430,7 @@ total;
 
 }
 
-/* DEMANDES AMIS */
+/* DEMANDES */
 
 db.collection("friendRequests")
 
@@ -1833,7 +1455,7 @@ updateBadge();
 
 });
 
-/* NOTIFICATIONS SYSTEME NON LUES */
+/* NOTIFS NON LUES */
 
 db.collection("notifications")
 
@@ -1860,8 +1482,9 @@ updateBadge();
 
 }
 
+
 // =====================
-// STATUS UTILISATEUR
+// STATUS
 // =====================
 function gererPresenceUtilisateur(){
 
@@ -1876,7 +1499,6 @@ function updatePresence(){
 
 db.collection("status")
 .doc(user.carte)
-
 .set({
 
 nom:user.nom,
@@ -1902,7 +1524,6 @@ function(){
 
 db.collection("status")
 .doc(user.carte)
-
 .update({
 
 online:false,
@@ -1915,219 +1536,6 @@ lastActive:0
 
 }
 
-// =====================
-// SOLDE RESTAURANT
-// =====================
-function chargerSolde(){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user) return;
-
-/* SOLDE PAR DEFAUT */
-
-if(user.solde === undefined){
-
-user.solde = 5000;
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-}
-
-document.getElementById(
-"solde"
-).innerHTML =
-
-user.solde + " FCFA";
-
-}
-
-// =====================
-// CHARGER TICKETS
-// =====================
-function chargerTickets(){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user) return;
-
-/* INIT */
-
-if(user.ticketPetitDej === undefined){
-
-user.ticketPetitDej = 0;
-
-}
-
-if(user.ticketDejeuner === undefined){
-
-user.ticketDejeuner = 0;
-
-}
-
-if(user.ticketDiner === undefined){
-
-user.ticketDiner = 0;
-
-}
-
-/* SAVE */
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-/* UI */
-
-let petitdej =
-document.getElementById(
-"ticket-petitdej"
-);
-
-let dejeuner =
-document.getElementById(
-"ticket-dejeuner"
-);
-
-let diner =
-document.getElementById(
-"ticket-diner"
-);
-
-if(petitdej){
-
-petitdej.innerHTML =
-user.ticketPetitDej;
-
-}
-
-if(dejeuner){
-
-dejeuner.innerHTML =
-user.ticketDejeuner;
-
-}
-
-if(diner){
-
-diner.innerHTML =
-user.ticketDiner;
-
-}
-
-}
-
-// =====================
-// ACHETER TICKET
-// =====================
-function acheterTicket(
-prix,
-type
-){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user) return;
-
-/* INIT SOLDE */
-
-if(user.solde === undefined){
-
-user.solde = 5000;
-
-}
-
-/* VERIF */
-
-if(user.solde < prix){
-
-alert(
-"Solde insuffisant"
-);
-
-return;
-
-}
-
-/* RETRAIT */
-
-user.solde -= prix;
-
-/* TICKETS */
-
-if(type === "petitdej"){
-
-user.ticketPetitDej =
-(user.ticketPetitDej || 0) + 1;
-
-}
-
-if(type === "dejeuner"){
-
-user.ticketDejeuner =
-(user.ticketDejeuner || 0) + 1;
-
-}
-
-if(type === "diner"){
-
-user.ticketDiner =
-(user.ticketDiner || 0) + 1;
-
-}
-
-/* NOTIFICATION RESTAURANT */
-
-db.collection("restaurantNotifications")
-
-.add({
-
-to:user.carte,
-
-type:"restaurant",
-
-title:"Restaurant universitaire",
-
-text:
-"Ticket acheté avec succès",
-
-date:Date.now()
-
-});
-
-/* SAVE */
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-/* REFRESH */
-
-chargerSolde();
-
-chargerTickets();
-
-/* SUCCESS */
-
-alert(
-"Ticket acheté avec succès"
-);
-
-}
 
 // =====================
 // GPS
@@ -2139,13 +1547,13 @@ JSON.parse(
 localStorage.getItem("user")
 );
 
-navigator.geolocation.getCurrentPosition(
+navigator.geolocation
+.getCurrentPosition(
 
 function(position){
 
 db.collection("locations")
 .doc(user.carte)
-
 .set({
 
 lat:position.coords.latitude,
@@ -2163,7 +1571,6 @@ function voirPosition(friendCarte){
 
 db.collection("locations")
 .doc(friendCarte)
-
 .get()
 
 .then((doc)=>{
@@ -2173,6 +1580,7 @@ if(!doc.exists){
 alert("Position indisponible");
 
 return;
+
 }
 
 let data =
@@ -2186,111 +1594,6 @@ window.location.href =
 
 }
 
-// =====================
-// GPS PREMIUM
-// =====================
-let map;
-let marker;
-
-function initialiserCarte(){
-
-let zone =
-document.getElementById(
-"map"
-);
-
-if(!zone) return;
-
-/* POSITION PAR DEFAUT */
-
-let lat = 14.6928;
-let lon = -17.4467;
-
-/* PARAMS URL */
-
-let params =
-new URLSearchParams(
-window.location.search
-);
-
-if(params.get("lat")){
-
-lat =
-parseFloat(
-params.get("lat")
-);
-
-}
-
-if(params.get("lon")){
-
-lon =
-parseFloat(
-params.get("lon")
-);
-
-}
-
-/* MAP */
-
-map = L.map("map",{
-
-zoomControl:false
-
-}).setView(
-[lat, lon],
-16
-);
-
-/* TILES PREMIUM */
-
-L.tileLayer(
-
-'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-
-{
-attribution:'Smart Campus'
-}
-
-).addTo(map);
-
-/* MARKER */
-
-marker = L.marker(
-[lat, lon]
-).addTo(map);
-
-/* POSITION USER */
-
-navigator.geolocation
-.getCurrentPosition(
-
-function(position){
-
-let userLat =
-position.coords.latitude;
-
-let userLon =
-position.coords.longitude;
-
-/* MOVE MAP */
-
-map.setView(
-[userLat, userLon],
-17
-);
-
-/* MOVE MARKER */
-
-marker.setLatLng(
-[userLat, userLon]
-);
-
-}
-
-);
-
-}
 
 // =====================
 // LOGOUT
@@ -2306,7 +1609,6 @@ if(user){
 
 db.collection("status")
 .doc(user.carte)
-
 .update({
 
 online:false,
@@ -2328,106 +1630,9 @@ window.location.href =
 
 
 // =====================
-// RECHERCHE
-// =====================
-function initialiserRechercheIntelligente(){
-
-let searchInputs =
-document.querySelectorAll(
-".modern-search input"
-);
-
-searchInputs.forEach(function(input){
-
-input.addEventListener(
-"keyup",
-function(event){
-
-if(event.key !== "Enter"){
-
-return;
-}
-
-let valeur =
-input.value
-.toLowerCase()
-.trim();
-
-if(
-valeur.includes("guide")
-){
-
-window.location.href =
-"guide.html";
-
-}
-
-else if(
-valeur.includes("restaurant")
-){
-
-window.location.href =
-"restauration.html";
-
-}
-
-else if(
-valeur.includes("gps")
-){
-
-window.location.href =
-"gps.html";
-
-}
-
-else if(
-valeur.includes("amis")
-){
-
-window.location.href =
-"amis.html";
-
-}
-
-else if(
-valeur.includes("message")
-){
-
-window.location.href =
-"messages.html";
-
-}
-
-else if(
-valeur.includes("notification")
-){
-
-window.location.href =
-"notifications.html";
-
-}
-
-else{
-
-alert(
-"Aucun résultat"
-);
-
-}
-
-});
-
-});
-
-}
-
-
-// =====================
 // LOAD
 // =====================
 window.onload = function(){
-
-initialiserRechercheIntelligente();
 
 afficherInfosQR();
 
@@ -2439,9 +1644,9 @@ afficherNotifications();
 
 afficherBadgeMessages();
 
-gererPresenceUtilisateur();
-
 afficherBadgeNotifications();
+
+gererPresenceUtilisateur();
 
 };
 
