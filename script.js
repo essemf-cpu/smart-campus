@@ -13,6 +13,18 @@ const db = firebase.firestore();
 
 
 // =====================
+// USER
+// =====================
+function getUser(){
+
+return JSON.parse(
+localStorage.getItem("user")
+);
+
+}
+
+
+// =====================
 // INSCRIPTION
 // =====================
 function inscription(){
@@ -42,17 +54,15 @@ return;
 
 db.collection("users").add({
 
-nom:nom,
-carte:carte,
-faculte:faculte,
-niveau:niveau,
-password:password,
+nom,
+carte,
+faculte,
+niveau,
+password,
 
 role:"etudiant",
 
-valide:false,
-
-codifie:false
+valide:false
 
 })
 
@@ -108,10 +118,38 @@ return;
 
 }
 
+/* INIT DONNEES */
+
+if(user.solde === undefined){
+
+user.solde = 5000;
+
+}
+
+if(user.ticketPetitDej === undefined){
+
+user.ticketPetitDej = 0;
+
+}
+
+if(user.ticketDejeuner === undefined){
+
+user.ticketDejeuner = 0;
+
+}
+
+if(user.ticketDiner === undefined){
+
+user.ticketDiner = 0;
+
+}
+
 localStorage.setItem(
 "user",
 JSON.stringify(user)
 );
+
+/* STATUS */
 
 db.collection("status")
 .doc(user.carte)
@@ -174,14 +212,11 @@ alert("Accès refusé");
 
 
 // =====================
-// VERIFIER CONNEXION
+// CONNEXION
 // =====================
 function verifierConnexion(role){
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 if(
 !user
@@ -209,10 +244,9 @@ document.getElementById(
 
 if(!zone) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
+
+if(!user) return;
 
 zone.innerHTML = "";
 
@@ -265,10 +299,7 @@ document.getElementById(
 
 if(!zone) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 if(!user) return;
 
@@ -317,10 +348,7 @@ return;
 
 }
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 db.collection("friendRequests")
 
@@ -360,10 +388,7 @@ amiCarte,
 amiNom
 ){
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 /* AJOUT USER */
 
@@ -389,7 +414,7 @@ friendNom:user.nom
 
 });
 
-/* UPDATE */
+/* UPDATE DEMANDE */
 
 db.collection("friendRequests")
 .doc(id)
@@ -399,9 +424,7 @@ db.collection("friendRequests")
 status:"accepted",
 
 message:
-"Vous et " +
-amiNom +
-" êtes désormais amis",
+"Vous êtes désormais amis",
 
 date:Date.now()
 
@@ -414,13 +437,13 @@ db.collection("notifications")
 
 to:amiCarte,
 
-type:"amis",
-
 title:"Demande acceptée",
 
 text:
 user.nom +
 " a accepté votre demande d’ami",
+
+type:"amis",
 
 date:Date.now(),
 
@@ -434,7 +457,7 @@ alert("Ami ajouté");
 
 
 // =====================
-// AFFICHER AMIS
+// AMIS
 // =====================
 function afficherAmis(){
 
@@ -445,10 +468,7 @@ document.getElementById(
 
 if(!zone) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 db.collection("friends")
 
@@ -467,9 +487,7 @@ if(snapshot.empty){
 zone.innerHTML = `
 
 <div class="card">
-
 Aucun ami
-
 </div>
 
 `;
@@ -498,15 +516,11 @@ zone.innerHTML += `
 <div class="friend-info">
 
 <strong>
-
 ${ami.friendNom}
-
 </strong>
 
 <p>
-
 ${ami.friendCarte}
-
 </p>
 
 </div>
@@ -549,7 +563,7 @@ voirPosition(
 
 
 // =====================
-// OUVRIR MESSAGE
+// MESSAGES
 // =====================
 function ouvrirMessage(friendCarte){
 
@@ -560,9 +574,6 @@ friendCarte;
 }
 
 
-// =====================
-// ENVOYER MESSAGE
-// =====================
 function envoyerMessagePrive(){
 
 let texte =
@@ -572,10 +583,7 @@ document.getElementById(
 
 if(!texte) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 let params =
 new URLSearchParams(
@@ -586,7 +594,6 @@ let friend =
 params.get("friend");
 
 db.collection("messages")
-
 .add({
 
 from:user.carte,
@@ -608,9 +615,7 @@ minute:"2-digit"
 
 }),
 
-seen:false,
-
-delivered:true
+seen:false
 
 })
 
@@ -625,9 +630,6 @@ document.getElementById(
 }
 
 
-// =====================
-// AFFICHER MESSAGES
-// =====================
 function afficherMessages(){
 
 let zone =
@@ -637,10 +639,7 @@ document.getElementById(
 
 if(!zone) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 let params =
 new URLSearchParams(
@@ -660,10 +659,9 @@ zone.innerHTML = "";
 
 snapshot.forEach((doc)=>{
 
-let m =
-doc.data();
+let m = doc.data();
 
-let conversation =
+let ok =
 
 (
 m.from === user.carte
@@ -679,7 +677,7 @@ m.from === friend
 m.to === user.carte
 );
 
-if(!conversation) return;
+if(!ok) return;
 
 let classe =
 m.from === user.carte
@@ -733,15 +731,9 @@ zone.scrollHeight;
 }
 
 
-// =====================
-// LUS
-// =====================
 function marquerMessagesCommeLus(){
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 let params =
 new URLSearchParams(
@@ -767,7 +759,6 @@ snapshot.forEach((doc)=>{
 
 db.collection("messages")
 .doc(doc.id)
-
 .update({
 
 seen:true
@@ -793,10 +784,7 @@ document.getElementById(
 
 if(!zone) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 db.collection("friends")
 
@@ -822,16 +810,16 @@ let dernierMessage =
 
 let heure = "";
 
-let dateMessage = 0;
+let date = 0;
 
-let messagesSnap =
+let snap =
 await db.collection("messages")
 
 .orderBy("date","desc")
 
 .get();
 
-messagesSnap.forEach((mDoc)=>{
+snap.forEach((mDoc)=>{
 
 let m =
 mDoc.data();
@@ -852,7 +840,7 @@ m.from === ami.friendCarte
 m.to === user.carte
 );
 
-if(ok && dateMessage === 0){
+if(ok && date === 0){
 
 dernierMessage =
 m.message;
@@ -860,7 +848,7 @@ m.message;
 heure =
 m.heure || "";
 
-dateMessage =
+date =
 m.date || 0;
 
 }
@@ -869,14 +857,10 @@ m.date || 0;
 
 conversations.push({
 
-ami:ami,
-
-dernierMessage:
+ami,
 dernierMessage,
-
-heure:heure,
-
-date:dateMessage
+heure,
+date
 
 });
 
@@ -952,23 +936,11 @@ id="badge-${ami.friendCarte}">
 
 db.collection("messages")
 
-.where(
-"from",
-"==",
-ami.friendCarte
-)
+.where("from","==",ami.friendCarte)
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
-.where(
-"seen",
-"==",
-false
-)
+.where("seen","==",false)
 
 .onSnapshot((snap)=>{
 
@@ -1018,10 +990,7 @@ document.getElementById(
 
 if(!badge) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 db.collection("messages")
 
@@ -1063,30 +1032,19 @@ document.getElementById(
 
 if(!zone) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 if(!user) return;
 
 let notifications = [];
 
-/* MARQUER LUES */
+/* MARQUER COMME LUES */
 
 db.collection("notifications")
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
-.where(
-"seen",
-"==",
-false
-)
+.where("seen","==",false)
 
 .get()
 
@@ -1193,15 +1151,11 @@ ${n.button || ""}
 
 }
 
-/* FRIEND REQUESTS */
+/* DEMANDES */
 
 db.collection("friendRequests")
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
 .onSnapshot((snapshot)=>{
 
@@ -1253,8 +1207,6 @@ d.message ||
 
 notifications.push({
 
-id:doc.id,
-
 source:"friends",
 
 type:"amis",
@@ -1283,11 +1235,7 @@ renderNotifications();
 
 db.collection("notifications")
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
 .onSnapshot((snapshot)=>{
 
@@ -1300,12 +1248,9 @@ return n.source !== "system";
 
 snapshot.forEach((doc)=>{
 
-let n =
-doc.data();
+let n = doc.data();
 
 notifications.push({
-
-id:doc.id,
 
 source:"system",
 
@@ -1315,7 +1260,7 @@ title:n.title,
 
 text:n.text,
 
-date:n.date || Date.now(),
+date:n.date,
 
 icon:"fa-solid fa-heart",
 
@@ -1326,58 +1271,6 @@ iconBg:"green-bg"
 });
 
 renderNotifications();
-
-});
-
-/* FILTRES */
-
-document
-.querySelectorAll(
-".category-pill"
-)
-
-.forEach((pill)=>{
-
-pill.addEventListener(
-"click",
-function(){
-
-document
-.querySelectorAll(
-".category-pill"
-)
-
-.forEach((p)=>{
-
-p.classList.remove(
-"active-pill"
-);
-
-});
-
-pill.classList.add(
-"active-pill"
-);
-
-let texte =
-pill.innerText
-.toLowerCase();
-
-if(texte === "tout"){
-
-renderNotifications("all");
-
-}
-
-else if(
-texte === "amis"
-){
-
-renderNotifications("amis");
-
-}
-
-});
 
 });
 
@@ -1396,20 +1289,17 @@ document.getElementById(
 
 if(!badge) return;
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 if(!user) return;
 
 let demandes = 0;
-let accepted = 0;
+let systemes = 0;
 
 function updateBadge(){
 
 let total =
-demandes + accepted;
+demandes + systemes;
 
 if(total <= 0){
 
@@ -1434,17 +1324,9 @@ total;
 
 db.collection("friendRequests")
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
-.where(
-"status",
-"==",
-"pending"
-)
+.where("status","==","pending")
 
 .onSnapshot((snapshot)=>{
 
@@ -1455,25 +1337,17 @@ updateBadge();
 
 });
 
-/* NOTIFS NON LUES */
+/* SYSTEMES */
 
 db.collection("notifications")
 
-.where(
-"to",
-"==",
-user.carte
-)
+.where("to","==",user.carte)
 
-.where(
-"seen",
-"!=",
-true
-)
+.where("seen","==",false)
 
 .onSnapshot((snapshot)=>{
 
-accepted =
+systemes =
 snapshot.size;
 
 updateBadge();
@@ -1484,14 +1358,11 @@ updateBadge();
 
 
 // =====================
-// STATUS
+// PRESENCE
 // =====================
 function gererPresenceUtilisateur(){
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 if(!user) return;
 
@@ -1538,14 +1409,140 @@ lastActive:0
 
 
 // =====================
+// RESTAURANT
+// =====================
+function chargerSolde(){
+
+let user = getUser();
+
+if(!user) return;
+
+document.getElementById(
+"solde"
+).innerHTML =
+
+user.solde + " FCFA";
+
+}
+
+
+function chargerTickets(){
+
+let user = getUser();
+
+if(!user) return;
+
+let petit =
+document.getElementById(
+"ticket-petitdej"
+);
+
+let dej =
+document.getElementById(
+"ticket-dejeuner"
+);
+
+let diner =
+document.getElementById(
+"ticket-diner"
+);
+
+if(petit){
+
+petit.innerHTML =
+user.ticketPetitDej;
+
+}
+
+if(dej){
+
+dej.innerHTML =
+user.ticketDejeuner;
+
+}
+
+if(diner){
+
+diner.innerHTML =
+user.ticketDiner;
+
+}
+
+}
+
+
+function acheterTicket(
+prix,
+type
+){
+
+let user = getUser();
+
+if(!user) return;
+
+if(user.solde < prix){
+
+alert("Solde insuffisant");
+
+return;
+
+}
+
+user.solde -= prix;
+
+if(type === "petitdej"){
+
+user.ticketPetitDej++;
+
+}
+
+if(type === "dejeuner"){
+
+user.ticketDejeuner++;
+
+}
+
+if(type === "diner"){
+
+user.ticketDiner++;
+
+}
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+db.collection("restaurantNotifications")
+.add({
+
+to:user.carte,
+
+title:"Restaurant universitaire",
+
+text:"Ticket acheté avec succès",
+
+type:"restaurant",
+
+date:Date.now()
+
+});
+
+chargerSolde();
+
+chargerTickets();
+
+alert("Ticket acheté");
+
+}
+
+
+// =====================
 // GPS
 // =====================
 function partagerPosition(){
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 navigator.geolocation
 .getCurrentPosition(
@@ -1571,6 +1568,7 @@ function voirPosition(friendCarte){
 
 db.collection("locations")
 .doc(friendCarte)
+
 .get()
 
 .then((doc)=>{
@@ -1583,8 +1581,7 @@ return;
 
 }
 
-let data =
-doc.data();
+let data = doc.data();
 
 window.location.href =
 
@@ -1600,10 +1597,7 @@ window.location.href =
 // =====================
 function logout(){
 
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
+let user = getUser();
 
 if(user){
 
@@ -1648,6 +1642,11 @@ afficherBadgeNotifications();
 
 gererPresenceUtilisateur();
 
+chargerSolde();
+
+chargerTickets();
+
 };
 
-document.body.style.direction = "ltr";
+document.body.style.direction =
+"ltr";
