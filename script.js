@@ -1229,6 +1229,10 @@ if(!user) return;
 
 let notifications = [];
 
+/* ========================= */
+/* MARQUER NOTIFS SYSTEME LUES */
+/* ========================= */
+
 db.collection("notifications")
 
 .where(
@@ -1246,14 +1250,18 @@ snapshot.forEach((doc)=>{
 db.collection("notifications")
 .doc(doc.id)
 
-.delete();
+.update({
+
+seen:true
+
+});
 
 });
 
 });
 
 /* ========================= */
-/* MARQUER COMME LUES */
+/* MARQUER DEMANDES LUES */
 /* ========================= */
 
 db.collection("friendRequests")
@@ -1299,7 +1307,7 @@ zone.innerHTML = "";
 
 let liste = notifications;
 
-/* FILTRE */
+/* FILTRES */
 
 if(type !== "all"){
 
@@ -1338,7 +1346,7 @@ return;
 
 }
 
-/* RENDER */
+/* AFFICHAGE */
 
 liste.forEach((n)=>{
 
@@ -1387,7 +1395,7 @@ ${n.button || ""}
 }
 
 /* ========================= */
-/* DEMANDES D’AMIS */
+/* DEMANDES AMIS */
 /* ========================= */
 
 db.collection("friendRequests")
@@ -1475,7 +1483,7 @@ renderNotifications();
 });
 
 /* ========================= */
-/* NOTIFS SYSTEME */
+/* NOTIFICATIONS SYSTEME */
 /* ========================= */
 
 db.collection("notifications")
@@ -1733,7 +1741,6 @@ renderNotifications("maintenance");
 else if(
 texte === "annonces"
 ||
-
 texte === "campus"
 ){
 
