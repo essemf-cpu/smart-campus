@@ -1213,6 +1213,22 @@ snapshot.size;
 // =====================
 function afficherNotifications(){
 
+let zone =
+document.getElementById(
+"notifications-list"
+);
+
+if(!zone) return;
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+let notifications = [];
+
 db.collection("notifications")
 
 .where(
@@ -1235,22 +1251,6 @@ db.collection("notifications")
 });
 
 });
-
-let zone =
-document.getElementById(
-"notifications-list"
-);
-
-if(!zone) return;
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user) return;
-
-let notifications = [];
 
 /* ========================= */
 /* MARQUER COMME LUES */
