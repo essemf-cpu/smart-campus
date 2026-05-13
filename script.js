@@ -1213,7 +1213,25 @@ snapshot.size;
 // =====================
 function afficherNotifications(){
 
-/* MARQUER NOTIFS COMME LUES */
+let zone =
+document.getElementById(
+"notifications-list"
+);
+
+if(!zone) return;
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+let notifications = [];
+
+/* ========================= */
+/* MARQUER COMME LUES */
+/* ========================= */
 
 db.collection("friendRequests")
 
@@ -1248,20 +1266,6 @@ notificationSeen:true
 
 });
 
-let zone =
-document.getElementById(
-"notifications-list"
-);
-
-if(!zone) return;
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-let notifications = [];
-
 /* ========================= */
 /* RENDER */
 /* ========================= */
@@ -1272,7 +1276,7 @@ zone.innerHTML = "";
 
 let liste = notifications;
 
-/* FILTRES */
+/* FILTRE */
 
 if(type !== "all"){
 
@@ -1285,7 +1289,7 @@ return n.type === type;
 
 }
 
-/* TRI */
+/* TRI RECENT */
 
 liste.sort((a,b)=>{
 
@@ -1311,7 +1315,7 @@ return;
 
 }
 
-/* AFFICHAGE */
+/* RENDER */
 
 liste.forEach((n)=>{
 
@@ -1448,7 +1452,7 @@ renderNotifications();
 });
 
 /* ========================= */
-/* NOTIFS SYSTÈME */
+/* NOTIFS SYSTEME */
 /* ========================= */
 
 db.collection("notifications")
@@ -1484,7 +1488,7 @@ title:n.title,
 
 text:n.text,
 
-date:n.date,
+date:n.date || Date.now(),
 
 icon:"fa-solid fa-heart",
 
@@ -1696,14 +1700,6 @@ renderNotifications("amis");
 }
 
 else if(
-texte === "annonces"
-){
-
-renderNotifications("annonces");
-
-}
-
-else if(
 texte === "maintenance"
 ){
 
@@ -1712,10 +1708,21 @@ renderNotifications("maintenance");
 }
 
 else if(
+texte === "annonces"
+||
+
 texte === "campus"
 ){
 
 renderNotifications("annonces");
+
+}
+
+else if(
+texte === "restaurant"
+){
+
+renderNotifications("restaurant");
 
 }
 
