@@ -13,21 +13,9 @@ const db = firebase.firestore();
 
 
 // =====================
-// USER
-// =====================
-function getUser(){
-
-return JSON.parse(
-localStorage.getItem("user")
-);
-
-}
-
-
-// =====================
 // INSCRIPTION
 // =====================
-function inscription(){
+function inscription() {
 
 let nom =
 document.getElementById("nom").value;
@@ -49,20 +37,21 @@ if(!nom || !carte || !password){
 alert("Remplis tous les champs");
 
 return;
-
 }
 
 db.collection("users").add({
 
-nom,
-carte,
-faculte,
-niveau,
-password,
+nom:nom,
+carte:carte,
+faculte:faculte,
+niveau:niveau,
+password:password,
 
 role:"etudiant",
 
-valide:false
+valide:false,
+
+codifie:false
 
 })
 
@@ -91,9 +80,17 @@ document.getElementById("password").value;
 
 db.collection("users")
 
-.where("carte","==",carte)
+.where(
+"carte",
+"==",
+carte
+)
 
-.where("password","==",password)
+.where(
+"password",
+"==",
+password
+)
 
 .get()
 
@@ -104,7 +101,6 @@ if(snapshot.empty){
 alert("Identifiants incorrects");
 
 return;
-
 }
 
 let user =
@@ -115,33 +111,6 @@ if(user.valide === false){
 alert("Compte non validé");
 
 return;
-
-}
-
-/* INIT DONNEES */
-
-if(user.solde === undefined){
-
-user.solde = 5000;
-
-}
-
-if(user.ticketPetitDej === undefined){
-
-user.ticketPetitDej = 0;
-
-}
-
-if(user.ticketDejeuner === undefined){
-
-user.ticketDejeuner = 0;
-
-}
-
-if(user.ticketDiner === undefined){
-
-user.ticketDiner = 0;
-
 }
 
 localStorage.setItem(
@@ -149,10 +118,9 @@ localStorage.setItem(
 JSON.stringify(user)
 );
 
-/* STATUS */
-
 db.collection("status")
 .doc(user.carte)
+
 .set({
 
 nom:user.nom,
@@ -212,11 +180,14 @@ alert("Accès refusé");
 
 
 // =====================
-// CONNEXION
+// VERIFIER CONNEXION
 // =====================
 function verifierConnexion(role){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(
 !user
@@ -244,9 +215,10 @@ document.getElementById(
 
 if(!zone) return;
 
-let user = getUser();
-
-if(!user) return;
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 zone.innerHTML = "";
 
@@ -275,7 +247,6 @@ if(error){
 console.error(error);
 
 return;
-
 }
 
 zone.appendChild(canvas);
@@ -299,7 +270,10 @@ document.getElementById(
 
 if(!zone) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
 
@@ -345,10 +319,12 @@ if(!friendCarte){
 alert("Entre une carte");
 
 return;
-
 }
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 db.collection("friendRequests")
 
@@ -388,9 +364,12 @@ amiCarte,
 amiNom
 ){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
-/* AJOUT USER */
+/* AJOUT AMI USER */
 
 db.collection("friends").add({
 
@@ -402,7 +381,7 @@ friendNom:amiNom
 
 });
 
-/* AJOUT AUTRE */
+/* AJOUT AMI AUTRE */
 
 db.collection("friends").add({
 
@@ -424,18 +403,22 @@ db.collection("friendRequests")
 status:"accepted",
 
 message:
-"Vous êtes désormais amis",
+"Vous et " +
+amiNom +
+" êtes désormais amis",
 
 date:Date.now()
 
 });
 
-/* NOTIFICATION */
+/* NOTIFICATION POUR L’AUTRE */
 
 db.collection("notifications")
 .add({
 
 to:amiCarte,
+
+type:"amis",
 
 title:"Demande acceptée",
 
@@ -443,11 +426,7 @@ text:
 user.nom +
 " a accepté votre demande d’ami",
 
-type:"amis",
-
-date:Date.now(),
-
-seen:false
+date:Date.now()
 
 });
 
@@ -455,9 +434,8 @@ alert("Ami ajouté");
 
 }
 
-
 // =====================
-// AMIS
+// AFFICHER AMIS
 // =====================
 function afficherAmis(){
 
@@ -468,7 +446,10 @@ document.getElementById(
 
 if(!zone) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 db.collection("friends")
 
@@ -487,13 +468,14 @@ if(snapshot.empty){
 zone.innerHTML = `
 
 <div class="card">
+
 Aucun ami
+
 </div>
 
 `;
 
 return;
-
 }
 
 snapshot.forEach((doc)=>{
@@ -516,11 +498,15 @@ zone.innerHTML += `
 <div class="friend-info">
 
 <strong>
+
 ${ami.friendNom}
+
 </strong>
 
 <p>
+
 ${ami.friendCarte}
+
 </p>
 
 </div>
@@ -563,7 +549,7 @@ voirPosition(
 
 
 // =====================
-// MESSAGES
+// OUVRIR MESSAGE
 // =====================
 function ouvrirMessage(friendCarte){
 
@@ -574,6 +560,9 @@ friendCarte;
 }
 
 
+// =====================
+// ENVOYER MESSAGE
+// =====================
 function envoyerMessagePrive(){
 
 let texte =
@@ -583,7 +572,10 @@ document.getElementById(
 
 if(!texte) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 let params =
 new URLSearchParams(
@@ -594,6 +586,7 @@ let friend =
 params.get("friend");
 
 db.collection("messages")
+
 .add({
 
 from:user.carte,
@@ -615,7 +608,9 @@ minute:"2-digit"
 
 }),
 
-seen:false
+seen:false,
+
+delivered:true
 
 })
 
@@ -630,6 +625,9 @@ document.getElementById(
 }
 
 
+// =====================
+// AFFICHER MESSAGES
+// =====================
 function afficherMessages(){
 
 let zone =
@@ -639,7 +637,10 @@ document.getElementById(
 
 if(!zone) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 let params =
 new URLSearchParams(
@@ -659,9 +660,10 @@ zone.innerHTML = "";
 
 snapshot.forEach((doc)=>{
 
-let m = doc.data();
+let m =
+doc.data();
 
-let ok =
+let conversation =
 
 (
 m.from === user.carte
@@ -677,25 +679,37 @@ m.from === friend
 m.to === user.carte
 );
 
-if(!ok) return;
+if(!conversation) return;
 
 let classe =
-m.from === user.carte
-?
-"message-moi"
-:
 "message-ami";
+
+if(
+m.from === user.carte
+){
+
+classe =
+"message-moi";
+
+}
 
 let statusHTML = "";
 
-if(m.from === user.carte){
+if(
+m.from === user.carte
+){
+
+if(m.seen){
 
 statusHTML =
-m.seen
-?
-"✔✔ Vu"
-:
+"✔✔ Vu";
+
+}else{
+
+statusHTML =
 "✔ Livré";
+
+}
 
 }
 
@@ -731,9 +745,15 @@ zone.scrollHeight;
 }
 
 
+// =====================
+// LUS
+// =====================
 function marquerMessagesCommeLus(){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 let params =
 new URLSearchParams(
@@ -745,11 +765,23 @@ params.get("friend");
 
 db.collection("messages")
 
-.where("from","==",friend)
+.where(
+"from",
+"==",
+friend
+)
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
-.where("seen","==",false)
+.where(
+"seen",
+"==",
+false
+)
 
 .get()
 
@@ -759,6 +791,7 @@ snapshot.forEach((doc)=>{
 
 db.collection("messages")
 .doc(doc.id)
+
 .update({
 
 seen:true
@@ -773,7 +806,109 @@ seen:true
 
 
 // =====================
-// CONVERSATIONS
+// NOM CONVERSATION
+// =====================
+function afficherNomConversation(){
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+let friend =
+params.get("friend");
+
+let zone =
+document.getElementById(
+"friend-name"
+);
+
+if(!zone) return;
+
+db.collection("friends")
+
+.where(
+"friendCarte",
+"==",
+friend
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty) return;
+
+let data =
+snapshot.docs[0].data();
+
+zone.innerHTML =
+data.friendNom;
+
+});
+
+}
+
+
+// =====================
+// STATUS AMI
+// =====================
+function afficherStatusAmi(){
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+let friend =
+params.get("friend");
+
+let zone =
+document.getElementById(
+"friend-status"
+);
+
+if(!zone) return;
+
+db.collection("status")
+.doc(friend)
+
+.onSnapshot((doc)=>{
+
+if(!doc.exists){
+
+zone.innerHTML =
+"⚫ Hors ligne";
+
+return;
+}
+
+let data =
+doc.data();
+
+let diff =
+Date.now() -
+(data.lastActive || 0);
+
+if(diff < 45000){
+
+zone.innerHTML =
+"🟢 En ligne";
+
+}else{
+
+zone.innerHTML =
+"⚫ Hors ligne";
+
+}
+
+});
+
+}
+
+
+// =====================
+// CONVERSATIONS PREMIUM
 // =====================
 function afficherConversations(){
 
@@ -784,7 +919,10 @@ document.getElementById(
 
 if(!zone) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 db.collection("friends")
 
@@ -800,26 +938,31 @@ zone.innerHTML = "";
 
 let conversations = [];
 
+/* LOOP AMIS */
+
 for(const doc of snapshot.docs){
 
 let ami =
 doc.data();
 
+/* DERNIER MESSAGE */
+
 let dernierMessage =
 "Commencez la discussion";
 
-let heure = "";
+let heure =
+"";
 
-let date = 0;
+let dateMessage = 0;
 
-let snap =
+let messagesSnap =
 await db.collection("messages")
 
 .orderBy("date","desc")
 
 .get();
 
-snap.forEach((mDoc)=>{
+messagesSnap.forEach((mDoc)=>{
 
 let m =
 mDoc.data();
@@ -840,7 +983,11 @@ m.from === ami.friendCarte
 m.to === user.carte
 );
 
-if(ok && date === 0){
+if(
+ok
+&&
+dateMessage === 0
+){
 
 dernierMessage =
 m.message;
@@ -848,29 +995,39 @@ m.message;
 heure =
 m.heure || "";
 
-date =
+dateMessage =
 m.date || 0;
 
 }
 
 });
 
+/* PUSH */
+
 conversations.push({
 
-ami,
+ami:ami,
+
+dernierMessage:
 dernierMessage,
-heure,
-date
+
+heure:heure,
+
+date:dateMessage
 
 });
 
 }
+
+/* TRI RECENT */
 
 conversations.sort((a,b)=>{
 
 return b.date - a.date;
 
 });
+
+/* RENDER */
 
 conversations.forEach((c)=>{
 
@@ -917,6 +1074,14 @@ ${c.dernierMessage}
 
 </p>
 
+<p
+class="conversation-status"
+id="status-${ami.friendCarte}">
+
+⚫ Hors ligne
+
+</p>
+
 </div>
 
 </div>
@@ -934,13 +1099,27 @@ id="badge-${ami.friendCarte}">
 
 `;
 
+/* BADGE */
+
 db.collection("messages")
 
-.where("from","==",ami.friendCarte)
+.where(
+"from",
+"==",
+ami.friendCarte
+)
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
-.where("seen","==",false)
+.where(
+"seen",
+"==",
+false
+)
 
 .onSnapshot((snap)=>{
 
@@ -974,12 +1153,11 @@ ${snap.size}
 });
 
 });
-
 }
 
 
 // =====================
-// BADGE MESSAGES
+// BADGE DASHBOARD
 // =====================
 function afficherBadgeMessages(){
 
@@ -990,13 +1168,24 @@ document.getElementById(
 
 if(!badge) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 db.collection("messages")
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
-.where("seen","==",false)
+.where(
+"seen",
+"==",
+false
+)
 
 .onSnapshot((snapshot)=>{
 
@@ -1006,7 +1195,6 @@ badge.style.display =
 "none";
 
 return;
-
 }
 
 badge.style.display =
@@ -1032,19 +1220,26 @@ document.getElementById(
 
 if(!zone) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
 
 let notifications = [];
 
-/* MARQUER COMME LUES */
+/* ========================= */
+/* MARQUER NOTIFS SYSTEME LUES */
+/* ========================= */
 
 db.collection("notifications")
 
-.where("to","==",user.carte)
-
-.where("seen","==",false)
+.where(
+"to",
+"==",
+user.carte
+)
 
 .get()
 
@@ -1054,6 +1249,7 @@ snapshot.forEach((doc)=>{
 
 db.collection("notifications")
 .doc(doc.id)
+
 .update({
 
 seen:true
@@ -1064,13 +1260,54 @@ seen:true
 
 });
 
+/* ========================= */
+/* MARQUER DEMANDES LUES */
+/* ========================= */
+
+db.collection("friendRequests")
+
+.where(
+"from",
+"==",
+user.carte
+)
+
+.where(
+"status",
+"==",
+"accepted"
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("friendRequests")
+.doc(doc.id)
+
+.update({
+
+notificationSeen:true
+
+});
+
+});
+
+});
+
+/* ========================= */
 /* RENDER */
+/* ========================= */
 
 function renderNotifications(type="all"){
 
 zone.innerHTML = "";
 
 let liste = notifications;
+
+/* FILTRES */
 
 if(type !== "all"){
 
@@ -1083,11 +1320,15 @@ return n.type === type;
 
 }
 
+/* TRI RECENT */
+
 liste.sort((a,b)=>{
 
 return b.date - a.date;
 
 });
+
+/* VIDE */
 
 if(liste.length === 0){
 
@@ -1104,6 +1345,8 @@ Aucune notification
 return;
 
 }
+
+/* AFFICHAGE */
 
 liste.forEach((n)=>{
 
@@ -1151,11 +1394,17 @@ ${n.button || ""}
 
 }
 
-/* DEMANDES */
+/* ========================= */
+/* DEMANDES AMIS */
+/* ========================= */
 
 db.collection("friendRequests")
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
 .onSnapshot((snapshot)=>{
 
@@ -1207,6 +1456,8 @@ d.message ||
 
 notifications.push({
 
+id:doc.id,
+
 source:"friends",
 
 type:"amis",
@@ -1231,11 +1482,17 @@ renderNotifications();
 
 });
 
-/* SYSTEM */
+/* ========================= */
+/* NOTIFICATIONS SYSTEME */
+/* ========================= */
 
 db.collection("notifications")
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
 .onSnapshot((snapshot)=>{
 
@@ -1252,6 +1509,8 @@ let n = doc.data();
 
 notifications.push({
 
+id:doc.id,
+
 source:"system",
 
 type:n.type,
@@ -1260,7 +1519,7 @@ title:n.title,
 
 text:n.text,
 
-date:n.date,
+date:n.date || Date.now(),
 
 icon:"fa-solid fa-heart",
 
@@ -1274,8 +1533,234 @@ renderNotifications();
 
 });
 
+/* ========================= */
+/* ANNONCES */
+/* ========================= */
+
+db.collection("annonces")
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "annonces";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let a = doc.data();
+
+notifications.push({
+
+id:doc.id,
+
+source:"annonces",
+
+type:"annonces",
+
+title:"Annonce campus",
+
+text:a.text,
+
+date:a.date || Date.now(),
+
+icon:"fa-solid fa-bullhorn",
+
+iconBg:"orange-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
+
+/* ========================= */
+/* MAINTENANCE */
+/* ========================= */
+
+db.collection("maintenance")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "maintenance";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let m = doc.data();
+
+notifications.push({
+
+id:doc.id,
+
+source:"maintenance",
+
+type:"maintenance",
+
+title:"Maintenance",
+
+text:m.probleme || m.text,
+
+date:m.date || Date.now(),
+
+icon:"fa-solid fa-screwdriver-wrench",
+
+iconBg:"red-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
+
+/* ========================= */
+/* RESTAURANT */
+/* ========================= */
+
+db.collection("restaurantNotifications")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.onSnapshot((snapshot)=>{
+
+notifications =
+notifications.filter((n)=>{
+
+return n.source !== "restaurant";
+
+});
+
+snapshot.forEach((doc)=>{
+
+let r = doc.data();
+
+notifications.push({
+
+id:doc.id,
+
+source:"restaurant",
+
+type:"restaurant",
+
+title:r.title,
+
+text:r.text,
+
+date:r.date || Date.now(),
+
+icon:"fa-solid fa-utensils",
+
+iconBg:"green-bg"
+
+});
+
+});
+
+renderNotifications();
+
+});
+
+/* ========================= */
+/* FILTRES */
+/* ========================= */
+
+document
+.querySelectorAll(
+".category-pill"
+)
+
+.forEach((pill)=>{
+
+pill.addEventListener(
+"click",
+function(){
+
+document
+.querySelectorAll(
+".category-pill"
+)
+
+.forEach((p)=>{
+
+p.classList.remove(
+"active-pill"
+);
+
+});
+
+pill.classList.add(
+"active-pill"
+);
+
+let texte =
+pill.innerText
+.toLowerCase();
+
+if(texte === "tout"){
+
+renderNotifications("all");
+
 }
 
+else if(
+texte === "amis"
+){
+
+renderNotifications("amis");
+
+}
+
+else if(
+texte === "maintenance"
+){
+
+renderNotifications("maintenance");
+
+}
+
+else if(
+texte === "annonces"
+||
+texte === "campus"
+){
+
+renderNotifications("annonces");
+
+}
+
+else if(
+texte === "restaurant"
+){
+
+renderNotifications("restaurant");
+
+}
+
+});
+
+});
+
+}
 
 // =====================
 // BADGE NOTIFICATIONS
@@ -1289,17 +1774,20 @@ document.getElementById(
 
 if(!badge) return;
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
 
 let demandes = 0;
-let systemes = 0;
+let accepted = 0;
 
 function updateBadge(){
 
 let total =
-demandes + systemes;
+demandes + accepted;
 
 if(total <= 0){
 
@@ -1320,13 +1808,21 @@ total;
 
 }
 
-/* DEMANDES */
+/* DEMANDES AMIS */
 
 db.collection("friendRequests")
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
-.where("status","==","pending")
+.where(
+"status",
+"==",
+"pending"
+)
 
 .onSnapshot((snapshot)=>{
 
@@ -1337,17 +1833,25 @@ updateBadge();
 
 });
 
-/* SYSTEMES */
+/* NOTIFICATIONS SYSTEME NON LUES */
 
 db.collection("notifications")
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
-.where("seen","==",false)
+.where(
+"seen",
+"!=",
+true
+)
 
 .onSnapshot((snapshot)=>{
 
-systemes =
+accepted =
 snapshot.size;
 
 updateBadge();
@@ -1356,13 +1860,15 @@ updateBadge();
 
 }
 
-
 // =====================
-// PRESENCE
+// STATUS UTILISATEUR
 // =====================
 function gererPresenceUtilisateur(){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
 
@@ -1370,6 +1876,7 @@ function updatePresence(){
 
 db.collection("status")
 .doc(user.carte)
+
 .set({
 
 nom:user.nom,
@@ -1395,6 +1902,7 @@ function(){
 
 db.collection("status")
 .doc(user.carte)
+
 .update({
 
 online:false,
@@ -1407,15 +1915,30 @@ lastActive:0
 
 }
 
-
 // =====================
-// RESTAURANT
+// SOLDE RESTAURANT
 // =====================
 function chargerSolde(){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
+
+/* SOLDE PAR DEFAUT */
+
+if(user.solde === undefined){
+
+user.solde = 5000;
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+}
 
 document.getElementById(
 "solde"
@@ -1425,19 +1948,53 @@ user.solde + " FCFA";
 
 }
 
-
+// =====================
+// CHARGER TICKETS
+// =====================
 function chargerTickets(){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
 
-let petit =
+/* INIT */
+
+if(user.ticketPetitDej === undefined){
+
+user.ticketPetitDej = 0;
+
+}
+
+if(user.ticketDejeuner === undefined){
+
+user.ticketDejeuner = 0;
+
+}
+
+if(user.ticketDiner === undefined){
+
+user.ticketDiner = 0;
+
+}
+
+/* SAVE */
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+/* UI */
+
+let petitdej =
 document.getElementById(
 "ticket-petitdej"
 );
 
-let dej =
+let dejeuner =
 document.getElementById(
 "ticket-dejeuner"
 );
@@ -1447,16 +2004,16 @@ document.getElementById(
 "ticket-diner"
 );
 
-if(petit){
+if(petitdej){
 
-petit.innerHTML =
+petitdej.innerHTML =
 user.ticketPetitDej;
 
 }
 
-if(dej){
+if(dejeuner){
 
-dej.innerHTML =
+dejeuner.innerHTML =
 user.ticketDejeuner;
 
 }
@@ -1470,87 +2027,125 @@ user.ticketDiner;
 
 }
 
-
+// =====================
+// ACHETER TICKET
+// =====================
 function acheterTicket(
 prix,
 type
 ){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(!user) return;
 
+/* INIT SOLDE */
+
+if(user.solde === undefined){
+
+user.solde = 5000;
+
+}
+
+/* VERIF */
+
 if(user.solde < prix){
 
-alert("Solde insuffisant");
+alert(
+"Solde insuffisant"
+);
 
 return;
 
 }
 
+/* RETRAIT */
+
 user.solde -= prix;
+
+/* TICKETS */
 
 if(type === "petitdej"){
 
-user.ticketPetitDej++;
+user.ticketPetitDej =
+(user.ticketPetitDej || 0) + 1;
 
 }
 
 if(type === "dejeuner"){
 
-user.ticketDejeuner++;
+user.ticketDejeuner =
+(user.ticketDejeuner || 0) + 1;
 
 }
 
 if(type === "diner"){
 
-user.ticketDiner++;
+user.ticketDiner =
+(user.ticketDiner || 0) + 1;
 
 }
+
+/* NOTIFICATION RESTAURANT */
+
+db.collection("restaurantNotifications")
+
+.add({
+
+to:user.carte,
+
+type:"restaurant",
+
+title:"Restaurant universitaire",
+
+text:
+"Ticket acheté avec succès",
+
+date:Date.now()
+
+});
+
+/* SAVE */
 
 localStorage.setItem(
 "user",
 JSON.stringify(user)
 );
 
-db.collection("restaurantNotifications")
-.add({
-
-to:user.carte,
-
-title:"Restaurant universitaire",
-
-text:"Ticket acheté avec succès",
-
-type:"restaurant",
-
-date:Date.now()
-
-});
+/* REFRESH */
 
 chargerSolde();
 
 chargerTickets();
 
-alert("Ticket acheté");
+/* SUCCESS */
+
+alert(
+"Ticket acheté avec succès"
+);
 
 }
-
 
 // =====================
 // GPS
 // =====================
 function partagerPosition(){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
-navigator.geolocation
-.getCurrentPosition(
+navigator.geolocation.getCurrentPosition(
 
 function(position){
 
 db.collection("locations")
 .doc(user.carte)
+
 .set({
 
 lat:position.coords.latitude,
@@ -1578,10 +2173,10 @@ if(!doc.exists){
 alert("Position indisponible");
 
 return;
-
 }
 
-let data = doc.data();
+let data =
+doc.data();
 
 window.location.href =
 
@@ -1591,18 +2186,127 @@ window.location.href =
 
 }
 
+// =====================
+// GPS PREMIUM
+// =====================
+let map;
+let marker;
+
+function initialiserCarte(){
+
+let zone =
+document.getElementById(
+"map"
+);
+
+if(!zone) return;
+
+/* POSITION PAR DEFAUT */
+
+let lat = 14.6928;
+let lon = -17.4467;
+
+/* PARAMS URL */
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+if(params.get("lat")){
+
+lat =
+parseFloat(
+params.get("lat")
+);
+
+}
+
+if(params.get("lon")){
+
+lon =
+parseFloat(
+params.get("lon")
+);
+
+}
+
+/* MAP */
+
+map = L.map("map",{
+
+zoomControl:false
+
+}).setView(
+[lat, lon],
+16
+);
+
+/* TILES PREMIUM */
+
+L.tileLayer(
+
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+{
+attribution:'Smart Campus'
+}
+
+).addTo(map);
+
+/* MARKER */
+
+marker = L.marker(
+[lat, lon]
+).addTo(map);
+
+/* POSITION USER */
+
+navigator.geolocation
+.getCurrentPosition(
+
+function(position){
+
+let userLat =
+position.coords.latitude;
+
+let userLon =
+position.coords.longitude;
+
+/* MOVE MAP */
+
+map.setView(
+[userLat, userLon],
+17
+);
+
+/* MOVE MARKER */
+
+marker.setLatLng(
+[userLat, userLon]
+);
+
+}
+
+);
+
+}
 
 // =====================
 // LOGOUT
 // =====================
 function logout(){
 
-let user = getUser();
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
 
 if(user){
 
 db.collection("status")
 .doc(user.carte)
+
 .update({
 
 online:false,
@@ -1624,9 +2328,106 @@ window.location.href =
 
 
 // =====================
+// RECHERCHE
+// =====================
+function initialiserRechercheIntelligente(){
+
+let searchInputs =
+document.querySelectorAll(
+".modern-search input"
+);
+
+searchInputs.forEach(function(input){
+
+input.addEventListener(
+"keyup",
+function(event){
+
+if(event.key !== "Enter"){
+
+return;
+}
+
+let valeur =
+input.value
+.toLowerCase()
+.trim();
+
+if(
+valeur.includes("guide")
+){
+
+window.location.href =
+"guide.html";
+
+}
+
+else if(
+valeur.includes("restaurant")
+){
+
+window.location.href =
+"restauration.html";
+
+}
+
+else if(
+valeur.includes("gps")
+){
+
+window.location.href =
+"gps.html";
+
+}
+
+else if(
+valeur.includes("amis")
+){
+
+window.location.href =
+"amis.html";
+
+}
+
+else if(
+valeur.includes("message")
+){
+
+window.location.href =
+"messages.html";
+
+}
+
+else if(
+valeur.includes("notification")
+){
+
+window.location.href =
+"notifications.html";
+
+}
+
+else{
+
+alert(
+"Aucun résultat"
+);
+
+}
+
+});
+
+});
+
+}
+
+
+// =====================
 // LOAD
 // =====================
 window.onload = function(){
+
+initialiserRechercheIntelligente();
 
 afficherInfosQR();
 
@@ -1638,15 +2439,10 @@ afficherNotifications();
 
 afficherBadgeMessages();
 
-afficherBadgeNotifications();
-
 gererPresenceUtilisateur();
 
-chargerSolde();
-
-chargerTickets();
+afficherBadgeNotifications();
 
 };
 
-document.body.style.direction =
-"ltr";
+document.body.style.direction = "ltr";
