@@ -1213,6 +1213,29 @@ snapshot.size;
 // =====================
 function afficherNotifications(){
 
+db.collection("notifications")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("notifications")
+.doc(doc.id)
+
+.delete();
+
+});
+
+});
+
 let zone =
 document.getElementById(
 "notifications-list"
@@ -1732,6 +1755,9 @@ renderNotifications("restaurant");
 
 }
 
+// =====================
+// BADGE NOTIFICATIONS
+// =====================
 function afficherBadgeNotifications(){
 
 let badge =
@@ -1754,8 +1780,7 @@ let accepted = 0;
 function updateBadge(){
 
 let total =
-demandes + 
-accepted;
+demandes + accepted;
 
 if(total <= 0){
 
@@ -1769,11 +1794,12 @@ return;
 badge.style.display =
 "flex";
 
-badge.innerHTML = total;
+badge.innerHTML =
+total;
 
 }
 
-/* DEMANDES */
+/* DEMANDES AMIS */
 
 db.collection("friendRequests")
 
@@ -1798,26 +1824,14 @@ updateBadge();
 
 });
 
-/* DEMANDES ACCEPTEES */
+/* NOTIFICATIONS SYSTEME */
 
-db.collection("friendRequests")
+db.collection("notifications")
 
 .where(
-"from",
+"to",
 "==",
 user.carte
-)
-
-.where(
-"status",
-"==",
-"accepted"
-)
-
-.where(
-"notificationSeen",
-"!=",
-true
 )
 
 .onSnapshot((snapshot)=>{
