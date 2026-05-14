@@ -704,6 +704,82 @@ font-weight:700;
 
 }
 
+.avatar-page{
+
+padding:25px;
+
+background:#f4f5fb;
+
+min-height:100vh;
+
+}
+
+.avatar-title{
+
+font-size:32px;
+
+font-weight:800;
+
+margin-bottom:25px;
+
+color:#111827;
+
+}
+
+.avatar-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:18px;
+
+}
+
+.avatar-grid img{
+
+width:100%;
+
+background:white;
+
+border-radius:24px;
+
+padding:10px;
+
+cursor:pointer;
+
+transition:0.2s;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,0.06);
+
+}
+
+.avatar-grid img:hover{
+
+transform:scale(1.05);
+
+}
+
+.profile-avatar{
+
+width:130px;
+height:130px;
+
+border-radius:30px;
+
+background:white;
+
+padding:10px;
+
+object-fit:cover;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,0.08);
+
+}
+
 /* =========================
    RESET
 ========================= */

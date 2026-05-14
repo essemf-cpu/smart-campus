@@ -9,123 +9,55 @@
 name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Avatar Smart Campus</title>
+<title>Choisir un avatar</title>
 
 <link
 rel="stylesheet"
 href="style.css">
 
-<script src="script.js"></script>
-
 </head>
 
-<body class="avatar-page">
+<body>
 
-<div class="avatar-builder">
+<div class="avatar-page">
 
-<!-- PREVIEW -->
+<h1 class="avatar-title">
 
-<div class="avatar-preview">
+Choisir mon avatar
 
-<div id="avatar">
-
-<img id="skin-layer">
-<img id="clothes-layer">
-<img id="eyes-layer">
-<img id="mouth-layer">
-<img id="hair-layer">
-
-</div>
-
-</div>
-
-<!-- CONTROLS -->
-
-<div class="avatar-controls">
-
-<h2>Cheveux</h2>
+</h1>
 
 <div class="avatar-grid">
 
-<button onclick="changerCheveux(1)">
-1
-</button>
+<img
+src="assets/avatars/avatar1.png"
+onclick="choisirAvatar(this.src)">
 
-<button onclick="changerCheveux(2)">
-2
-</button>
+<img
+src="assets/avatars/avatar2.png"
+onclick="choisirAvatar(this.src)">
 
-<button onclick="changerCheveux(3)">
-3
-</button>
+<img
+src="assets/avatars/avatar3.png"
+onclick="choisirAvatar(this.src)">
 
-<button onclick="changerCheveux(4)">
-4
-</button>
+<img
+src="assets/avatars/avatar4.png"
+onclick="choisirAvatar(this.src)">
 
-</div>
+<img
+src="assets/avatars/avatar5.png"
+onclick="choisirAvatar(this.src)">
 
-<h2>Yeux</h2>
-
-<div class="avatar-grid">
-
-<button onclick="changerYeux(1)">
-1
-</button>
-
-<button onclick="changerYeux(2)">
-2
-</button>
-
-<button onclick="changerYeux(3)">
-3
-</button>
-
-<button onclick="changerYeux(4)">
-4
-</button>
-
-</div>
-
-<h2>Vêtements</h2>
-
-<div class="avatar-grid">
-
-<button onclick="changerVetement(1)">
-1
-</button>
-
-<button onclick="changerVetement(2)">
-2
-</button>
-
-<button onclick="changerVetement(3)">
-3
-</button>
-
-<button onclick="changerVetement(4)">
-4
-</button>
-
-</div>
-
-<button
-class="save-avatar-btn"
-onclick="sauvegarderAvatar()">
-
-Enregistrer mon avatar
-
-</button>
+<img
+src="assets/avatars/avatar6.png"
+onclick="choisirAvatar(this.src)">
 
 </div>
 
 </div>
 
-<script>
-
-initialiserAvatar();
-
-</script>
+<script src="script.js"></script>
 
 </body>
-</html>  
+</html>

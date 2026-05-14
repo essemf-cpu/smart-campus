@@ -2601,6 +2601,69 @@ alert(
 
 }
 
+function choisirAvatar(src){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+/* SAUVEGARDE FIRESTORE */
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+.doc(doc.id)
+
+.update({
+
+avatar:src
+
+});
+
+});
+
+/* LOCAL STORAGE */
+
+user.avatar = src;
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(user)
+
+);
+
+/* MESSAGE */
+
+alert(
+"Avatar enregistré"
+);
+
+/* RETOUR PROFIL */
+
+window.location.href =
+"profile.html";
+
+});
+
+}
+
 function sauvegarderAvatar(){
 
 let user =
@@ -2657,7 +2720,7 @@ alert(
 
 }
 
-function afficherAvatarDashboard(){
+function afficherAvatar(){
 
 let user =
 JSON.parse(
@@ -2668,23 +2731,16 @@ if(!user) return;
 
 let img =
 document.getElementById(
-"dashboard-avatar"
+"profile-avatar"
 );
 
 if(!img) return;
 
-if(user.avatar){
-
-img.src =
-user.avatar;
-
-}else{
-
 img.src =
 
-"https://api.dicebear.com/7.x/adventurer/svg?seed=SmartCampus";
+user.avatar ||
 
-}
+"assets/avatars/avatar1.png";
 
 }
 
@@ -2843,7 +2899,7 @@ afficherBadgeNotifications();
 
 marquerNotificationsLues();
 
-afficherAvatarDashboard();
+afficherAvatar();
 
 };
 
