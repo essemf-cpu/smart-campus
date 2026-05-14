@@ -403,6 +403,113 @@ box-shadow:
 
 }
 
+.avatar-page{
+
+padding:30px;
+
+background:#f4f5fb;
+
+min-height:100vh;
+
+}
+
+.avatar-container{
+
+background:white;
+
+padding:30px;
+
+border-radius:28px;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,0.08);
+
+max-width:500px;
+
+margin:auto;
+
+}
+
+.avatar-preview{
+
+display:flex;
+
+justify-content:center;
+
+margin:30px 0;
+
+}
+
+.avatar-preview img{
+
+width:220px;
+height:220px;
+
+border-radius:30px;
+
+background:#f3f4f6;
+
+}
+
+.avatar-controls{
+
+display:flex;
+
+flex-direction:column;
+
+gap:16px;
+
+}
+
+.avatar-controls select,
+.avatar-controls input{
+
+padding:16px;
+
+border:none;
+
+border-radius:18px;
+
+background:#f3f4f6;
+
+font-size:16px;
+
+}
+
+.avatar-controls button{
+
+padding:16px;
+
+border:none;
+
+border-radius:18px;
+
+background:
+linear-gradient(
+135deg,
+#6c4df6,
+#8b72ff
+);
+
+color:white;
+
+font-size:16px;
+
+font-weight:600;
+
+}
+
+.real-avatar{
+
+width:60px;
+height:60px;
+
+border-radius:20px;
+
+object-fit:cover;
+
+}
+
 /* =========================
    RESET
 ========================= */

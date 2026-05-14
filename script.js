@@ -2470,6 +2470,90 @@ icon:"logo.png"
 
 }
 
+function genererAvatar(){
+
+let style =
+document.getElementById(
+"style"
+).value;
+
+let seed =
+document.getElementById(
+"seed"
+).value;
+
+if(!seed){
+
+seed = "SmartCampus";
+
+}
+
+let url =
+
+`https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
+
+document.getElementById(
+"avatar-image"
+).src = url;
+
+}
+
+function sauvegarderAvatar(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+let avatar =
+document.getElementById(
+"avatar-image"
+).src;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+.doc(doc.id)
+
+.update({
+
+avatar:avatar
+
+});
+
+});
+
+localStorage.setItem(
+"user",
+JSON.stringify({
+
+...user,
+avatar:avatar
+
+}));
+
+alert(
+"Avatar enregistré"
+);
+
+});
+
+}
+
 // =====================
 // LOGOUT
 // =====================
