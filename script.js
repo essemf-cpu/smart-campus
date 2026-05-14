@@ -2312,6 +2312,91 @@ marker.setLatLng(
 }
 
 // =====================
+// PUSH NOTIFICATIONS
+// =====================
+
+async function initialiserNotificationsPush(){
+
+if(!("Notification" in window)){
+
+return;
+
+}
+
+let permission =
+await Notification.requestPermission();
+
+if(permission !== "granted"){
+
+return;
+
+}
+
+const messaging =
+firebase.messaging();
+
+const token =
+await messaging.getToken({
+
+vapidKey:
+"BPX6FMJnRXI7t_-RxGINWHEQk7ouHb04-ftgfa34w8-FifQqNHp2LIPVmJoybWjW-UL_QVqt1XPoEUAIY41CiHY"
+
+});
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+.doc(doc.id)
+
+.update({
+
+fcmToken:token
+
+});
+
+});
+
+});
+
+messaging.onMessage((payload)=>{
+
+new Notification(
+
+payload.notification.title,
+
+{
+body:
+payload.notification.body,
+
+icon:"logo.png"
+}
+
+);
+
+});
+
+}
+
+// =====================
 // LOGOUT
 // =====================
 function logout(){
@@ -2447,6 +2532,8 @@ alert(
 window.onload = function(){
 
 initialiserRechercheIntelligente();
+
+initialiserNotificationsPush();
 
 afficherInfosQR();
 
