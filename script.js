@@ -1363,13 +1363,25 @@ ${n.button || ""}
 
 }
 
-/* MARQUER COMME LUES APRES AFFICHAGE */
+/* ========================= */
+/* MARQUER COMME LUES */
+/* ========================= */
+
+setTimeout(()=>{
 
 db.collection("notifications")
 
-.where("to","==",user.carte)
+.where(
+"to",
+"==",
+user.carte
+)
 
-.where("seen","==",false)
+.where(
+"seen",
+"!=",
+true
+)
 
 .get()
 
@@ -1379,6 +1391,7 @@ snapshot.forEach((doc)=>{
 
 db.collection("notifications")
 .doc(doc.id)
+
 .update({
 
 seen:true
@@ -1388,6 +1401,8 @@ seen:true
 });
 
 });
+
+},2000);
 
 /* ========================= */
 /* DEMANDES AMIS */
