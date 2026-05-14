@@ -426,7 +426,9 @@ text:
 user.nom +
 " a accepté votre demande d’ami",
 
-date:Date.now()
+date:Date.now(),
+
+seen:false
 
 });
 
