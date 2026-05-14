@@ -1,9 +1,9 @@
 importScripts(
-"https://www.gstatic.com/firebasejs/8.10.1/firebase-app-compat.js"
+"https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"
 );
 
 importScripts(
-"https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging-compat.js"
+"https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"
 );
 
 firebase.initializeApp({
@@ -23,9 +23,11 @@ appId: "1:631084577067:web:bb690c895fc96411dc556e"
 const messaging =
 firebase.messaging();
 
-messaging.onBackgroundMessage((payload)=>{
+messaging.setBackgroundMessageHandler(
 
-self.registration.showNotification(
+function(payload){
+
+return self.registration.showNotification(
 
 payload.notification.title,
 
