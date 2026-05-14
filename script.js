@@ -1366,47 +1366,6 @@ ${n.button || ""}
 }
 
 /* ========================= */
-/* MARQUER COMME LUES */
-/* ========================= */
-
-setTimeout(()=>{
-
-db.collection("notifications")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.where(
-"seen",
-"!=",
-true
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("notifications")
-.doc(doc.id)
-
-.update({
-
-seen:true
-
-});
-
-});
-
-});
-
-},2000);
-
-/* ========================= */
 /* DEMANDES AMIS */
 /* ========================= */
 
@@ -1775,8 +1734,56 @@ renderNotifications("restaurant");
 }
 
 // =====================
+// MARQUER NOTIFICATIONS LUES
+// =====================
+
+function marquerNotificationsLues(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+db.collection("notifications")
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.where(
+"seen",
+"==",
+false
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("notifications")
+.doc(doc.id)
+.update({
+
+seen:true
+
+});
+
+});
+
+});
+
+}
+
+// =====================
 // BADGE NOTIFICATIONS
 // =====================
+
 function afficherBadgeNotifications(){
 
 let badge =
@@ -1794,12 +1801,12 @@ localStorage.getItem("user")
 if(!user) return;
 
 let demandes = 0;
-let accepted = 0;
+let notificationsNonLues = 0;
 
 function updateBadge(){
 
 let total =
-demandes + accepted;
+demandes + notificationsNonLues;
 
 if(total <= 0){
 
@@ -1845,7 +1852,7 @@ updateBadge();
 
 });
 
-/* NOTIFICATIONS SYSTEME NON LUES */
+/* NOTIFICATIONS NON LUES */
 
 db.collection("notifications")
 
@@ -1857,13 +1864,13 @@ user.carte
 
 .where(
 "seen",
-"!=",
-true
+"==",
+false
 )
 
 .onSnapshot((snapshot)=>{
 
-accepted =
+notificationsNonLues =
 snapshot.size;
 
 updateBadge();
@@ -2454,6 +2461,8 @@ afficherBadgeMessages();
 gererPresenceUtilisateur();
 
 afficherBadgeNotifications();
+
+marquerNotificationsLues();
 
 };
 
