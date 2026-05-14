@@ -1112,6 +1112,48 @@ id="badge-${ami.friendCarte}">
 
 `;
 
+db.collection("status")
+.doc(ami.friendCarte)
+
+.onSnapshot((statusDoc)=>{
+
+let zoneStatus =
+document.getElementById(
+`status-${ami.friendCarte}`
+);
+
+if(!zoneStatus) return;
+
+if(!statusDoc.exists){
+
+zoneStatus.innerHTML =
+"⚫ Hors ligne";
+
+return;
+
+}
+
+let data =
+statusDoc.data();
+
+let diff =
+Date.now() -
+(data.lastActive || 0);
+
+if(diff < 45000){
+
+zoneStatus.innerHTML =
+"🟢 En ligne";
+
+}else{
+
+zoneStatus.innerHTML =
+"⚫ Hors ligne";
+
+}
+
+});
+
 /* BADGE */
 
 db.collection("messages")
