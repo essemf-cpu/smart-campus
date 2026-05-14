@@ -11,6 +11,20 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker
+.register("/firebase-messaging-sw.js")
+
+.then((registration)=>{
+
+console.log(
+"Service Worker enregistré"
+);
+
+});
+
+}
 
 // =====================
 // INSCRIPTION
@@ -2335,11 +2349,17 @@ return;
 const messaging =
 firebase.messaging();
 
+const registration =
+await navigator.serviceWorker.ready;
+
 const token =
 await messaging.getToken({
 
 vapidKey:
-"BPX6FMJnRXI7t_-RxGINWHEQk7ouHb04-ftgfa34w8-FifQqNHp2LIPVmJoybWjW-UL_QVqt1XPoEUAIY41CiHY"
+"BPX6FMJnRXI7t_-RxGINWHEQk7ouHb04-ftgfa34w8-FifQqNHp2LIPVmJoybWjW-UL_QVqt1XPoEUAIY41CiHY",
+
+serviceWorkerRegistration:
+registration
 
 });
 
