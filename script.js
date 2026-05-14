@@ -1230,37 +1230,6 @@ if(!user) return;
 let notifications = [];
 
 /* ========================= */
-/* MARQUER NOTIFS SYSTEME LUES */
-/* ========================= */
-
-db.collection("notifications")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("notifications")
-.doc(doc.id)
-
-.update({
-
-seen:true
-
-});
-
-});
-
-});
-
-/* ========================= */
 /* MARQUER DEMANDES LUES */
 /* ========================= */
 
@@ -1393,6 +1362,32 @@ ${n.button || ""}
 });
 
 }
+
+/* MARQUER COMME LUES APRES AFFICHAGE */
+
+db.collection("notifications")
+
+.where("to","==",user.carte)
+
+.where("seen","==",false)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("notifications")
+.doc(doc.id)
+.update({
+
+seen:true
+
+});
+
+});
+
+});
 
 /* ========================= */
 /* DEMANDES AMIS */
