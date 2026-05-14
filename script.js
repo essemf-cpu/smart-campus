@@ -2375,9 +2375,6 @@ registration
 
 });
 
-console.log("TOKEN FCM :", token);
-alert(token);
-
 let user =
 JSON.parse(
 localStorage.getItem("user")
