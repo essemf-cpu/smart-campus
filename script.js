@@ -2,9 +2,21 @@
 // FIREBASE
 // =====================
 const firebaseConfig = {
+
 apiKey: "AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
-authDomain: "smart-campus-58151.firebaseapp.com",
-projectId: "smart-campus-58151"
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -2313,7 +2325,7 @@ marker.setLatLng(
 if("serviceWorker" in navigator){
 
 navigator.serviceWorker
-.register("/firebase-messaging-sw.js")
+.register("/smart-campus/firebase-messaging-sw.js")
 
 .then((registration)=>{
 
