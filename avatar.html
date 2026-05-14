@@ -21,61 +21,111 @@ href="style.css">
 
 <body class="avatar-page">
 
-<div class="avatar-container">
+<div class="avatar-builder">
 
-<h1>Créer mon avatar</h1>
+<!-- PREVIEW -->
 
 <div class="avatar-preview">
 
-<img
-id="avatar-image"
-src=""
-alt="avatar">
+<div id="avatar">
+
+<img id="skin-layer">
+<img id="clothes-layer">
+<img id="eyes-layer">
+<img id="mouth-layer">
+<img id="hair-layer">
 
 </div>
+
+</div>
+
+<!-- CONTROLS -->
 
 <div class="avatar-controls">
 
-<select id="style">
+<h2>Cheveux</h2>
 
-<option value="adventurer">
-Adventurer
-</option>
+<div class="avatar-grid">
 
-<option value="bottts">
-Bottts
-</option>
-
-<option value="micah">
-Micah
-</option>
-
-<option value="avataaars">
-Avataaars
-</option>
-
-</select>
-
-<input
-type="text"
-id="seed"
-placeholder="Ton pseudo">
-
-<button onclick="genererAvatar()">
-
-Générer avatar
-
+<button onclick="changerCheveux(1)">
+1
 </button>
 
-<button onclick="sauvegarderAvatar()">
+<button onclick="changerCheveux(2)">
+2
+</button>
 
-Enregistrer
+<button onclick="changerCheveux(3)">
+3
+</button>
+
+<button onclick="changerCheveux(4)">
+4
+</button>
+
+</div>
+
+<h2>Yeux</h2>
+
+<div class="avatar-grid">
+
+<button onclick="changerYeux(1)">
+1
+</button>
+
+<button onclick="changerYeux(2)">
+2
+</button>
+
+<button onclick="changerYeux(3)">
+3
+</button>
+
+<button onclick="changerYeux(4)">
+4
+</button>
+
+</div>
+
+<h2>Vêtements</h2>
+
+<div class="avatar-grid">
+
+<button onclick="changerVetement(1)">
+1
+</button>
+
+<button onclick="changerVetement(2)">
+2
+</button>
+
+<button onclick="changerVetement(3)">
+3
+</button>
+
+<button onclick="changerVetement(4)">
+4
+</button>
+
+</div>
+
+<button
+class="save-avatar-btn"
+onclick="sauvegarderAvatar()">
+
+Enregistrer mon avatar
 
 </button>
 
 </div>
 
 </div>
+
+<script>
+
+initialiserAvatar();
+
+</script>
 
 </body>
 </html>

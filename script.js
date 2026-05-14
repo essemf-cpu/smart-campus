@@ -2498,6 +2498,109 @@ document.getElementById(
 
 }
 
+let avatarConfig = {
+
+hair:1,
+eyes:1,
+clothes:1,
+mouth:1
+
+};
+
+function initialiserAvatar(){
+
+document.getElementById(
+"hair-layer"
+).src =
+
+`assets/avatar/hair/hair${avatarConfig.hair}.png`;
+
+document.getElementById(
+"eyes-layer"
+).src =
+
+`assets/avatar/eyes/eyes${avatarConfig.eyes}.png`;
+
+document.getElementById(
+"mouth-layer"
+).src =
+
+`assets/avatar/mouth/mouth${avatarConfig.mouth}.png`;
+
+document.getElementById(
+"clothes-layer"
+).src =
+
+`assets/avatar/clothes/cloth${avatarConfig.clothes}.png`;
+
+}
+
+function changerCheveux(id){
+
+avatarConfig.hair = id;
+
+initialiserAvatar();
+
+}
+
+function changerYeux(id){
+
+avatarConfig.eyes = id;
+
+initialiserAvatar();
+
+}
+
+function changerVetement(id){
+
+avatarConfig.clothes = id;
+
+initialiserAvatar();
+
+}
+
+function sauvegarderAvatar(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+.doc(doc.id)
+
+.update({
+
+avatarConfig:avatarConfig
+
+});
+
+});
+
+alert(
+"Avatar sauvegardé"
+);
+
+});
+
+}
+
 function sauvegarderAvatar(){
 
 let user =
