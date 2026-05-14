@@ -2554,6 +2554,37 @@ alert(
 
 }
 
+function afficherAvatarDashboard(){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+let img =
+document.getElementById(
+"dashboard-avatar"
+);
+
+if(!img) return;
+
+if(user.avatar){
+
+img.src =
+user.avatar;
+
+}else{
+
+img.src =
+
+"https://api.dicebear.com/7.x/adventurer/svg?seed=SmartCampus";
+
+}
+
+}
+
 // =====================
 // LOGOUT
 // =====================
@@ -2708,6 +2739,8 @@ gererPresenceUtilisateur();
 afficherBadgeNotifications();
 
 marquerNotificationsLues();
+
+afficherAvatarDashboard();
 
 };
 
