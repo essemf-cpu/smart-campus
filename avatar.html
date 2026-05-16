@@ -1,18 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Choisir un avatar</title>
-
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="style.css">
 
 </head>
@@ -21,43 +14,55 @@ href="style.css">
 
 <div class="avatar-page">
 
-<h1 class="avatar-title">
+<h1>
 
 Choisir mon avatar
 
 </h1>
 
-<button
-onclick="choisirAvatar('assets/models/student1.glb')">
+<select id="style">
 
-Avatar étudiant 1
+<option value="avataaars">
+Bitmoji Style
+</option>
+
+<option value="fun-emoji">
+Cartoon
+</option>
+
+<option value="personas">
+3D Cartoon
+</option>
+
+</select>
+
+<input
+id="seed"
+placeholder="Ton nom">
+
+<br><br>
+
+<img
+id="avatar-image"
+width="180">
+
+<br><br>
+
+<button
+onclick="genererAvatar()">
+
+Générer
 
 </button>
 
 <button
-onclick="choisirAvatar('assets/models/student2.glb')">
+onclick="sauvegarderAvatar()">
 
-Avatar étudiant 2
-
-</button>
-
-<button
-onclick="choisirAvatar('assets/models/student3.glb')">
-
-Avatar étudiant 3
+Enregistrer
 
 </button>
 
 </div>
-
-</div>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
 
 <script src="script.js"></script>
 

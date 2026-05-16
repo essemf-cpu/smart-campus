@@ -2624,53 +2624,10 @@ localStorage.getItem("user")
 
 if(!user) return;
 
-db.collection("users")
-
-.where(
-"carte",
-"==",
-user.carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("users")
-.doc(doc.id)
-
-.update({
-
-avatarConfig:avatarConfig
-
-});
-
-});
-
-user.avatarConfig =
-avatarConfig;
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-alert(
-"Avatar enregistré"
-);
-
-});
-
-}function sauvegarderAvatar(){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user) return;
+let avatar =
+document.getElementById(
+"avatar-image"
+).src;
 
 db.collection("users")
 
@@ -2691,14 +2648,14 @@ db.collection("users")
 
 .update({
 
-avatarConfig:avatarConfig
+avatar:avatar
 
 });
 
 });
 
-user.avatarConfig =
-avatarConfig;
+user.avatar =
+avatar;
 
 localStorage.setItem(
 "user",
@@ -2708,6 +2665,9 @@ JSON.stringify(user)
 alert(
 "Avatar enregistré"
 );
+
+window.location.href=
+"profile.html";
 
 });
 

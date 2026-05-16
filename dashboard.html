@@ -43,9 +43,9 @@
 
         <div class="header-profile">
 
-         <canvas
-          id="dashboard-avatar">
-          </canvas>
+         <img
+id="profile-avatar"
+class="profile-avatar">
 
         </div>
 
@@ -259,9 +259,11 @@
 </a>
 
     <!-- PROFILE -->
-    <canvas
-id="navbar-avatar">
-</canvas>
+    <a href="profile.html">
+
+        <i class="fa-solid fa-user"></i>
+
+    </a>
 
 </nav>
 
@@ -274,165 +276,6 @@ id="navbar-avatar">
 
 <!-- QR -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-<script type="module">
-
-import * as THREE from
-'https://cdn.jsdelivr.net/npm/three@0.160/build/three.module.js';
-
-import {GLTFLoader}
-
-from
-'https://cdn.jsdelivr.net/npm/three@0.160/examples/jsm/loaders/GLTFLoader.js';
-
-
-function chargerAvatar(canvasID){
-
-const canvas =
-document.getElementById(
-canvasID
-);
-
-if(!canvas) return;
-
-const scene =
-new THREE.Scene();
-
-const camera =
-new THREE.PerspectiveCamera(
-35,
-1,
-0.1,
-1000
-);
-
-camera.position.set(
-    0,
-    0,
-    8,
-);
-
-const light2 =
-new THREE.DirectionalLight(
-0xffffff,
-3
-);
-
-light2.position.set(
-5,
-5,
-5
-);
-
-scene.add(
-light2);
-
-const renderer =
-new THREE.WebGLRenderer({
-
-canvas:canvas,
-
-alpha:true,
-
-antialias:true
-
-});
-
-renderer.setSize(
-70,
-70
-);
-
-const light =
-new THREE.HemisphereLight(
-0xffffff,
-0x444444,
-3
-);
-
-scene.add(light);
-
-const loader =
-new GLTFLoader();
-
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-let model =
-
-user.avatarModel ||
-
-"assets/models/student1.glb";
-
-loader.load(
-
-model,
-
-(gltf)=>{
-
-const avatar =
-gltf.scene;
-
-/* réduit la taille */
-
-avatar.scale.set(
-0.15,
-0.15,
-0.15
-);
-
-/* position */
-
-avatar.position.set(
-0,
--1,
-0
-);
-
-/* rotation */
-
-avatar.rotation.y =
-Math.PI/8;
-
-scene.add(
-avatar
-);
-
-animate();
-
-}
-);
-
-function animate(){
-
-requestAnimationFrame(
-animate
-);
-
-scene.rotation.y +=
-0.01;
-
-renderer.render(
-scene,camera
-);
-
-}
-
-}
-
-chargerAvatar(
-"dashboard-avatar"
-);
-
-chargerAvatar(
-"navbar-avatar"
-);
-
-</script>
 
 <!-- SCRIPT -->
 <script src="script.js"></script>
