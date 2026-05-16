@@ -7,12 +7,10 @@
 
 <meta
 name="viewport"
-content="width=device-width,initial-scale=1">
+content="width=device-width, initial-scale=1">
 
 <title>
-
 Choisir mon avatar
-
 </title>
 
 <link
@@ -44,20 +42,17 @@ onclick="history.back()">
 <div>
 
 <h1 class="avatar-title">
-
 Choisir mon avatar
-
 </h1>
 
 <p class="avatar-subtitle">
-
 Choisis ton identité Smart Campus
-
 </p>
 
 </div>
 
 </div>
+
 
 <!-- PREVIEW -->
 
@@ -66,7 +61,8 @@ Choisis ton identité Smart Campus
 <img
 id="selected-avatar"
 class="selected-avatar"
-src="">
+src="assets/default-user.png"
+alt="Avatar sélectionné">
 
 <div class="avatar-security">
 
@@ -75,15 +71,11 @@ src="">
 <div>
 
 <strong>
-
 100% privé
-
 </strong>
 
 <p>
-
 Aucune photo réelle utilisée
-
 </p>
 
 </div>
@@ -91,6 +83,7 @@ Aucune photo réelle utilisée
 </div>
 
 </div>
+
 
 <!-- FILTRES -->
 
@@ -120,22 +113,15 @@ Filles
 
 </div>
 
-<!-- GRID -->
+
+<!-- GRID VIDE : script.js remplit -->
 
 <div
 id="avatar-grid"
 class="avatar-grid">
 
-<img
-src="assets/avatars/garcons/g1.png">
-
-<img
-src="assets/avatars/garcons/g2.png">
-
-<img
-src="assets/avatars/filles/f1.png">
-
 </div>
+
 
 <!-- ACTIONS -->
 
@@ -161,7 +147,7 @@ Valider mon avatar
 class="cancel-avatar-btn"
 onclick="supprimerAvatar()">
 
-Supprimer mon avatar
+Supprimer
 
 </button>
 
@@ -169,7 +155,25 @@ Supprimer mon avatar
 
 </div>
 
+
 <script src="script.js"></script>
+
+<script>
+
+/* initialise seulement cette page */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+chargerAvatars();
+
+afficherAvatar();
+
+}
+);
+
+</script>
 
 </body>
 </html>
