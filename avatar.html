@@ -51,7 +51,7 @@ Choisir mon avatar
 
 <p class="avatar-subtitle">
 
-Choisis l’avatar qui te représente sur Smart Campus
+Choisis ton identité Smart Campus
 
 </p>
 
@@ -66,7 +66,7 @@ Choisis l’avatar qui te représente sur Smart Campus
 <img
 id="selected-avatar"
 class="selected-avatar"
-src="assets/avatars/avatar1.png">
+src="">
 
 <div class="avatar-security">
 
@@ -97,27 +97,24 @@ Aucune photo réelle utilisée
 <div class="avatar-filters">
 
 <button
-class="active-filter">
+class="active-filter"
+onclick="filtrerAvatar('all')">
 
 Tous
 
 </button>
 
-<button>
+<button
+onclick="filtrerAvatar('garcons')">
 
 Garçons
 
 </button>
 
-<button>
+<button
+onclick="filtrerAvatar('filles')">
 
 Filles
-
-</button>
-
-<button>
-
-Diversité
 
 </button>
 
@@ -125,59 +122,13 @@ Diversité
 
 <!-- GRID -->
 
-<div class="avatar-grid">
-
-<img
-src="assets/avatars/avatar1.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar2.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar3.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar4.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar5.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar6.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar7.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar8.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar9.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar10.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar11.png"
-onclick="selectionAvatar(this)">
-
-<img
-src="assets/avatars/avatar12.png"
-onclick="selectionAvatar(this)">
+<div
+id="avatar-grid"
+class="avatar-grid">
 
 </div>
 
-<!-- BUTTONS -->
+<!-- ACTIONS -->
 
 <div class="avatar-actions">
 
@@ -197,49 +148,19 @@ Valider mon avatar
 
 </button>
 
+<button
+class="cancel-avatar-btn"
+onclick="supprimerAvatar()">
+
+Supprimer mon avatar
+
+</button>
+
 </div>
 
 </div>
 
 <script src="script.js"></script>
-
-<script>
-
-let avatarChoisi =
-"assets/avatars/avatar1.png";
-
-function selectionAvatar(img){
-
-document
-.querySelectorAll(
-".avatar-grid img"
-)
-
-.forEach((a)=>{
-
-a.classList.remove(
-"avatar-selected"
-);
-
-});
-
-img.classList.add(
-"avatar-selected"
-);
-
-avatarChoisi =
-img.src;
-
-document
-.getElementById(
-"selected-avatar"
-)
-.src =
-img.src;
-
-}
-
-</script>
 
 </body>
 </html>

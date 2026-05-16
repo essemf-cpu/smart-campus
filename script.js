@@ -2471,135 +2471,216 @@ icon:"logo.png"
 }
 
 /* =======================
-   GENERER AVATAR
+SMART CAMPUS AVATARS
 ======================= */
 
-function genererAvatar(){
+const avatars={
 
-let style =
+garcons:[
+
+"assets/avatars/garcons/g1.png",
+"assets/avatars/garcons/g2.png",
+"assets/avatars/garcons/g3.png",
+"assets/avatars/garcons/g4.png",
+"assets/avatars/garcons/g5.png",
+"assets/avatars/garcons/g6.png",
+"assets/avatars/garcons/g7.png",
+"assets/avatars/garcons/g8.png",
+"assets/avatars/garcons/g9.png",
+"assets/avatars/garcons/g10.png",
+"assets/avatars/garcons/g11.png",
+"assets/avatars/garcons/g12.png",
+"assets/avatars/garcons/g13.png",
+"assets/avatars/garcons/g14.png",
+"assets/avatars/garcons/g15.png"
+
+],
+
+filles:[
+
+"assets/avatars/filles/f1.png",
+"assets/avatars/filles/f2.png",
+"assets/avatars/filles/f3.png",
+"assets/avatars/filles/f4.png",
+"assets/avatars/filles/f5.png",
+"assets/avatars/filles/f6.png",
+"assets/avatars/filles/f7.png",
+"assets/avatars/filles/f8.png",
+"assets/avatars/filles/f9.png",
+"assets/avatars/filles/f10.png",
+"assets/avatars/filles/f11.png",
+"assets/avatars/filles/f12.png",
+"assets/avatars/filles/f13.png",
+"assets/avatars/filles/f14.png",
+"assets/avatars/filles/f15.png"
+
+]
+
+};
+
+let avatarChoisi=null;
+
+
+/* CHARGER */
+
+function chargerAvatars(type="all"){
+
+let container=
+
 document.getElementById(
-"style"
-).value;
-
-let seed =
-document.getElementById(
-"seed"
-).value.trim();
-
-if(!seed){
-
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
+"avatar-grid"
 );
 
-seed =
-user?.nom ||
-"SmartCampus";
+if(!container) return;
+
+container.innerHTML="";
+
+let liste=[];
+
+
+/* Tous */
+
+if(type==="all"){
+
+liste=[
+
+...avatars.garcons,
+...avatars.filles
+
+];
 
 }
 
-let url =
+/* catégorie */
 
-`https://api.dicebear.com/7.x/${style}/svg?seed=${encodeURIComponent(seed)}`;
+else{
 
-
-let image =
-document.getElementById(
-"avatar-image"
-);
-
-image.src = url;
-
-image.style.display =
-"block";
+liste=
+avatars[type];
 
 }
 
 
-/* =======================
-   SAUVEGARDE AVATAR
-======================= */
+/* création */
 
-function sauvegarderAvatar(){
+liste.forEach((avatar)=>{
 
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
+container.innerHTML +=`
 
-if(!user){
+<img
+src="${avatar}"
+class="avatar-item"
+onclick="selectionAvatar(this)">
 
-return;
-
-}
-
-let avatar =
-
-document.getElementById(
-"avatar-image"
-).src;
-
-if(!avatar){
-
-alert(
-"Génère un avatar d'abord"
-);
-
-return;
-
-}
-
-
-db.collection(
-"users"
-)
-
-.where(
-"carte",
-"==",
-user.carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection(
-"users"
-)
-
-.doc(
-doc.id
-)
-
-.update({
-
-avatar:avatar
-
-});
+`;
 
 });
 
 
-user.avatar =
-avatar;
+
+if(liste.length>0){
+
+document
+.getElementById(
+"selected-avatar"
+)
+.src=
+
+liste[0];
+
+avatarChoisi=
+liste[0];
+
+}
+
+}
+
+
+
+/* SELECTION */
+
+function selectionAvatar(img){
+
+document
+
+.querySelectorAll(
+".avatar-item"
+)
+
+.forEach((a)=>{
+
+a.classList.remove(
+"avatar-selected"
+);
+
+});
+
+
+img.classList.add(
+"avatar-selected"
+);
+
+
+avatarChoisi=
+
+img.src;
+
+
+document
+
+.getElementById(
+"selected-avatar"
+)
+
+.src=
+
+img.src;
+
+}
+
+
+
+/* FILTRE */
+
+function filtrerAvatar(type){
+
+chargerAvatars(
+type
+);
+
+}
+
+
+
+/* SAUVEGARDE */
+
+function sauvegarderAvatarChoisi(){
+
+let user=
+
+JSON.parse(
+
+localStorage.getItem(
+"user"
+)
+
+);
+
+if(!user) return;
+
+
+user.avatar=
+
+avatarChoisi;
+
 
 localStorage.setItem(
 
 "user",
-
-JSON.stringify(
-user
-)
+JSON.stringify(user)
 
 );
+
 
 alert(
 "Avatar enregistré"
@@ -2608,57 +2689,87 @@ alert(
 window.location.href=
 "profile.html";
 
-});
+}
+
+
+
+/* SUPPRIMER */
+
+function supprimerAvatar(){
+
+let user=
+
+JSON.parse(
+
+localStorage.getItem(
+"user"
+)
+
+);
+
+if(!user) return;
+
+
+delete user.avatar;
+
+
+localStorage.setItem(
+
+"user",
+JSON.stringify(user)
+
+);
+
+
+alert(
+"Avatar supprimé"
+);
+
+window.location.href=
+"profile.html";
 
 }
 
 
-/* =======================
-   AFFICHER AVATAR
-======================= */
+
+/* AFFICHAGE PARTOUT */
 
 function afficherAvatar(){
 
-let user =
+let user=
+
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user){
+let avatar=
 
-return;
+user?.avatar ||
 
-}
+"assets/default-user.png";
 
-let avatars =
 
-document.querySelectorAll(
+document
+
+.querySelectorAll(
 ".profile-avatar"
-);
+)
 
+.forEach((img)=>{
 
-avatars.forEach((img)=>{
-
-if(user.avatar){
-
-img.src =
-user.avatar;
-
-img.style.display =
-"block";
-
-}else{
-
-img.style.display =
-"none";
-
-}
+img.src=
+avatar;
 
 });
 
 }
+
+
+/* AUTO */
+
+chargerAvatars();
 
 // =====================
 // LOGOUT
