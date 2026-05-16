@@ -306,7 +306,26 @@ new THREE.PerspectiveCamera(
 1000
 );
 
-camera.position.z=5;
+camera.position.set(
+    0,
+    0,
+    8,
+);
+
+const light2 =
+new THREE.DirectionalLight(
+0xffffff,
+3
+);
+
+light2.position.set(
+5,
+5,
+5
+);
+
+scene.add(
+light2);
 
 const renderer =
 new THREE.WebGLRenderer({
@@ -355,14 +374,37 @@ model,
 
 (gltf)=>{
 
+const avatar =
+gltf.scene;
+
+/* réduit la taille */
+
+avatar.scale.set(
+0.15,
+0.15,
+0.15
+);
+
+/* position */
+
+avatar.position.set(
+0,
+-1,
+0
+);
+
+/* rotation */
+
+avatar.rotation.y =
+Math.PI/8;
+
 scene.add(
-gltf.scene
+avatar
 );
 
 animate();
 
 }
-
 );
 
 function animate(){
