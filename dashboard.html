@@ -40,7 +40,8 @@
         <div class="header-profile">
 
          <img
-          class="profile-avatar">
+          class="profile-avatar"
+          style="display:none;">
 
         </div>
 
@@ -305,24 +306,16 @@ document.querySelector(
 ".profile-avatar"
 );
 
-if(avatar){
-
-if(user.avatar){
+if(
+avatar &&
+user.avatar
+){
 
 avatar.src =
 user.avatar;
 
 avatar.style.display =
 "block";
-
-}else{
-
-/* PAS D'AVATAR CHOISI */
-
-avatar.style.display =
-"none";
-
-}
 
 }
 
