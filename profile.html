@@ -296,31 +296,44 @@ class="notification-badge">
 
 verifierConnexion("etudiant");
 
+/* RECUP USER */
+
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(user){
+
 document.getElementById(
 "profile-name"
-).innerHTML = user.nom;
+).innerHTML =
+user.nom;
 
 document.getElementById(
 "profile-carte"
-).innerHTML = user.carte;
+).innerHTML =
+user.carte;
 
 document.getElementById(
 "profile-faculte"
-).innerHTML = user.faculte;
+).innerHTML =
+user.faculte;
 
 document.getElementById(
 "profile-niveau"
-).innerHTML = user.niveau;
+).innerHTML =
+user.niveau;
 
-
-/* AVATAR */
-
-afficherAvatar();
+}
 
 
 /* BOUTON AVATAR */
 
-document.getElementById(
+document
+.getElementById(
 "edit-avatar-btn"
 )
 
@@ -331,6 +344,12 @@ window.location.href=
 
 };
 
+
+/* AVATAR */
+
+afficherAvatar();
+
+/* BADGE */
 
 afficherBadgeNotifications();
 
