@@ -2470,6 +2470,10 @@ icon:"logo.png"
 
 }
 
+/* =======================
+   GENERER AVATAR
+======================= */
+
 function genererAvatar(){
 
 let style =
@@ -2480,156 +2484,80 @@ document.getElementById(
 let seed =
 document.getElementById(
 "seed"
-).value;
+).value.trim();
 
 if(!seed){
 
-seed = "SmartCampus";
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+seed =
+user?.nom ||
+"SmartCampus";
 
 }
 
 let url =
 
-`https://api.dicebear.com/7.x/${style}/svg?seed=${seed}`;
+`https://api.dicebear.com/7.x/${style}/svg?seed=${encodeURIComponent(seed)}`;
 
+
+let image =
 document.getElementById(
 "avatar-image"
-).src = url;
-
-}
-
-let avatarConfig = {
-
-hair:1,
-eyes:1,
-clothes:1,
-mouth:1
-
-};
-
-function initialiserAvatar(){
-
-document.getElementById(
-"hair-layer"
-).src =
-
-`assets/avatar/hair/hair${avatarConfig.hair}.png`;
-
-document.getElementById(
-"eyes-layer"
-).src =
-
-`assets/avatar/eyes/eyes${avatarConfig.eyes}.png`;
-
-document.getElementById(
-"mouth-layer"
-).src =
-
-`assets/avatar/mouth/mouth${avatarConfig.mouth}.png`;
-
-document.getElementById(
-"clothes-layer"
-).src =
-
-`assets/avatar/clothes/cloth${avatarConfig.clothes}.png`;
-
-}
-
-function changerCheveux(id){
-
-avatarConfig.hair = id;
-
-initialiserAvatar();
-
-}
-
-function changerYeux(id){
-
-avatarConfig.eyes = id;
-
-initialiserAvatar();
-
-}
-
-function changerVetement(id){
-
-avatarConfig.clothes = id;
-
-initialiserAvatar();
-
-}
-
-
-function choisirAvatar(model){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
 );
 
-if(!user) return;
+image.src = url;
 
-db.collection("users")
-
-.where(
-"carte",
-"==",
-user.carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("users")
-.doc(doc.id)
-
-.update({
-
-avatarModel:model
-
-});
-
-});
-
-user.avatarModel=model;
-
-localStorage.setItem(
-
-"user",
-
-JSON.stringify(user)
-
-);
-
-alert(
-"Avatar enregistré"
-);
-
-window.location.href=
-"profile.html";
-
-});
+image.style.display =
+"block";
 
 }
+
+
+/* =======================
+   SAUVEGARDE AVATAR
+======================= */
 
 function sauvegarderAvatar(){
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
-if(!user) return;
+if(!user){
+
+return;
+
+}
 
 let avatar =
+
 document.getElementById(
 "avatar-image"
 ).src;
 
-db.collection("users")
+if(!avatar){
+
+alert(
+"Génère un avatar d'abord"
+);
+
+return;
+
+}
+
+
+db.collection(
+"users"
+)
 
 .where(
 "carte",
@@ -2643,8 +2571,13 @@ user.carte
 
 snapshot.forEach((doc)=>{
 
-db.collection("users")
-.doc(doc.id)
+db.collection(
+"users"
+)
+
+.doc(
+doc.id
+)
 
 .update({
 
@@ -2654,12 +2587,18 @@ avatar:avatar
 
 });
 
+
 user.avatar =
 avatar;
 
 localStorage.setItem(
+
 "user",
-JSON.stringify(user)
+
+JSON.stringify(
+user
+)
+
 );
 
 alert(
@@ -2673,34 +2612,49 @@ window.location.href=
 
 }
 
+
+/* =======================
+   AFFICHER AVATAR
+======================= */
+
 function afficherAvatar(){
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
-if(!user) return;
+if(!user){
 
-/* Avatar par défaut */
+return;
 
-let avatar =
-
-user.avatar ||
-
-`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.nom}`;
-
-
-/* Tous les avatars de la page */
+}
 
 let avatars =
+
 document.querySelectorAll(
 ".profile-avatar"
 );
 
+
 avatars.forEach((img)=>{
 
-img.src = avatar;
+if(user.avatar){
+
+img.src =
+user.avatar;
+
+img.style.display =
+"block";
+
+}else{
+
+img.style.display =
+"none";
+
+}
 
 });
 
