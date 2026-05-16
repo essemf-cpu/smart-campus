@@ -1988,6 +1988,73 @@ lastActive:0
 }
 
 // =====================
+// QR RESTAURANT
+// =====================
+
+function genererQRRestaurant(){
+
+let zone=
+document.getElementById(
+"qrcode"
+);
+
+if(!zone)return;
+
+let user=
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user)return;
+
+zone.innerHTML="";
+
+let texte=`
+
+Nom:${user.nom}
+Carte:${user.carte}
+Tickets PDJ:${user.ticketPetitDej||0}
+Tickets Déjeuner:${user.ticketDejeuner||0}
+Tickets Diner:${user.ticketDiner||0}
+
+`;
+
+QRCode.toCanvas(
+
+document.createElement(
+"canvas"
+),
+
+texte,
+
+{
+width:220,
+margin:2
+},
+
+function(error,canvas){
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+zone.appendChild(
+canvas
+);
+
+}
+
+);
+
+}
+
+// =====================
 // SOLDE RESTAURANT
 // =====================
 function chargerSolde(){
@@ -2585,10 +2652,7 @@ liste[0];
 function selectionAvatar(img){
 
 document
-.querySelectorAll(
-".avatar-item"
-)
-
+.querySelectorAll(".avatar-item")
 .forEach((a)=>{
 
 a.classList.remove(
@@ -2597,26 +2661,23 @@ a.classList.remove(
 
 });
 
-
 img.classList.add(
 "avatar-selected"
 );
 
+/* récupère le vrai chemin */
 
 avatarChoisi=
-img.src;
-
+img.getAttribute("src");
 
 document
 .getElementById(
 "selected-avatar"
 )
-
 .src=
-img.src;
+avatarChoisi;
 
 }
-
 
 
 /* filtres */
@@ -2724,29 +2785,40 @@ window.location.href=
 function afficherAvatar(){
 
 let user=
-
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
+if(!user)return;
+
 let avatar=
 
-user?.avatar ||
+user.avatar ||
 
-"assets/default-user.png";
+"assets/avatars/garcons/g1.png";
 
+/* partout */
 
 document
 .querySelectorAll(
-".profile-avatar"
+".profile-avatar,.selected-avatar"
 )
 
 .forEach((img)=>{
 
 img.src=
 avatar;
+
+/* si image cassée */
+
+img.onerror=function(){
+
+this.src=
+"assets/avatars/garcons/g1.png";
+
+};
 
 });
 
@@ -2901,6 +2973,8 @@ initialiserNotificationsPush();
 afficherInfosQR();
 
 genererQR();
+
+genererQRRestaurant();
 
 afficherAmis();
 
