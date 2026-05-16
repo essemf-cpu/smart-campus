@@ -2682,39 +2682,27 @@ localStorage.getItem("user")
 
 if(!user) return;
 
+/* Avatar par défaut */
+
 let avatar =
 
 user.avatar ||
 
-"assets/avatars/avatar1.png";
+`https://api.dicebear.com/7.x/avataaars/svg?seed=${user.nom}`;
 
-/* Profil */
 
-let profilAvatar =
-document.getElementById(
-"profile-avatar"
+/* Tous les avatars de la page */
+
+let avatars =
+document.querySelectorAll(
+".profile-avatar"
 );
 
-if(profilAvatar){
+avatars.forEach((img)=>{
 
-profilAvatar.src =
-avatar;
+img.src = avatar;
 
-}
-
-/* Navbar */
-
-let navbarAvatar =
-document.getElementById(
-"navbar-avatar"
-);
-
-if(navbarAvatar){
-
-navbarAvatar.src =
-avatar;
-
-}
+});
 
 }
 
