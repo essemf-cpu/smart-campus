@@ -3,18 +3,21 @@
 
 <head>
 
-    <title>Profil</title>
+<title>Profil</title>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="style.css">
+<link
+rel="stylesheet"
+href="style.css">
 
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -22,231 +25,262 @@
 
 <div class="mobile-container">
 
-    <!-- PROFILE CARD -->
-    <div class="premium-profile-card">
+<!-- PROFILE CARD -->
 
-       <div class="profile-avatar-large">
+<div class="premium-profile-card">
 
-        <img
-         class="profile-avatar">
+<div class="profile-avatar-large">
 
-    </div>
+<img
+id="profile-avatar"
+class="profile-avatar"
 
-        <h1 id="profile-name">
-
-            Étudiant
-
-        </h1>
-
-        <p id="profile-carte">
-
-            Carte étudiant
-
-        </p>
-
-        <div class="profile-badges">
-
-            <div class="profile-badge">
-
-                Étudiant
-
-            </div>
-
-            <div class="profile-badge purple-badge">
-
-                Smart Campus
-
-            </div>
-
-        </div>
-
-        <button
-        class="edit-avatar-btn"
-        onclick="
-        window.location.href='avatar.html'
-        ">
-
-            Modifier mon avatar
-
-        </button>
-
-    </div>
-
-    <!-- MENU -->
-    <div class="profile-menu-premium">
-
-       </div>
-
-        <!-- FACULTE -->
-        <a href="faculte.html"
-           class="profile-premium-item">
-
-            <div class="profile-item-left">
-
-                <div class="profile-icon blue-bg">
-
-                    <i class="fa-solid fa-building-columns"></i>
-
-                </div>
-
-                <div>
-
-                    <strong>Faculté</strong>
-
-                    <p id="profile-faculte">
-
-                        Information
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </a>
-
-        <!-- NIVEAU -->
-        <a href="niveau.html"
-           class="profile-premium-item">
-
-            <div class="profile-item-left">
-
-                <div class="profile-icon orange-bg">
-
-                    <i class="fa-solid fa-graduation-cap"></i>
-
-                </div>
-
-                <div>
-
-                    <strong>Niveau</strong>
-
-                    <p id="profile-niveau">
-
-                        Information
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </a>
-
-        <!-- SECURITE -->
-        <a href="securite.html"
-           class="profile-premium-item">
-
-            <div class="profile-item-left">
-
-                <div class="profile-icon green-bg">
-
-                    <i class="fa-solid fa-shield-halved"></i>
-
-                </div>
-
-                <div>
-
-                    <strong>Sécurité</strong>
-
-                    <p>
-
-                        Protection du compte
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </a>
-
-
-        <!-- NOTIFICATIONS -->
-        <a href="notifications.html"
-           class="profile-premium-item">
-
-            <div class="profile-item-left">
-
-                <div class="profile-icon purple-bg">
-
-                    <i class="fa-solid fa-bell"></i>
-
-                </div>
-
-                <div>
-
-                    <strong>Notifications</strong>
-
-                    <p>
-
-                        Messages et alertes
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
-
-        </a>
-
-    </div>
-    
-
-    <!-- LOGOUT -->
-    <button
-    class="premium-logout-button"
-    onclick="logout()">
-
-        <i class="fa-solid fa-right-from-bracket"></i>
-
-        Se déconnecter
-
-    </button>
+src="assets/default-avatar.png">
 
 </div>
 
-<!-- NAVBAR -->
-<nav class="ios-navbar">
+<h1 id="profile-name">
 
-    <!-- HOME -->
-    <a href="dashboard.html">
+Étudiant
 
-        <i class="fa-solid fa-house"></i>
+</h1>
 
-    </a>
+<p id="profile-carte">
 
-    <!-- NOTIFICATIONS -->
-    <a href="notifications.html"
-   class="nav-bell">
+Carte étudiant
 
-    <i class="fa-solid fa-bell"></i>
+</p>
 
-    <div id="notification-badge"
-         class="notification-badge">
+<div class="profile-badges">
 
-    </div>
+<div class="profile-badge">
+
+Étudiant
+
+</div>
+
+<div class="profile-badge purple-badge">
+
+Smart Campus
+
+</div>
+
+</div>
+
+<button
+id="edit-avatar-btn"
+class="edit-avatar-btn">
+
+Modifier mon avatar
+
+</button>
+
+</div>
+
+<!-- MENU -->
+
+<div class="profile-menu-premium">
+
+<!-- FACULTE -->
+
+<a
+href="faculte.html"
+class="profile-premium-item">
+
+<div class="profile-item-left">
+
+<div class="profile-icon blue-bg">
+
+<i class="fa-solid fa-building-columns"></i>
+
+</div>
+
+<div>
+
+<strong>
+
+Faculté
+
+</strong>
+
+<p id="profile-faculte">
+
+Information
+
+</p>
+
+</div>
+
+</div>
+
+<i class="fa-solid fa-chevron-right"></i>
 
 </a>
 
-    <!-- PROFILE -->
-    <a href="profile.html">
 
-        <i class="fa-solid fa-user"></i>
+<!-- NIVEAU -->
 
-    </a>
+<a
+href="niveau.html"
+class="profile-premium-item">
+
+<div class="profile-item-left">
+
+<div class="profile-icon orange-bg">
+
+<i class="fa-solid fa-graduation-cap"></i>
+
+</div>
+
+<div>
+
+<strong>
+
+Niveau
+
+</strong>
+
+<p id="profile-niveau">
+
+Information
+
+</p>
+
+</div>
+
+</div>
+
+<i class="fa-solid fa-chevron-right"></i>
+
+</a>
+
+
+<!-- SECURITE -->
+
+<a
+href="securite.html"
+class="profile-premium-item">
+
+<div class="profile-item-left">
+
+<div class="profile-icon green-bg">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+</div>
+
+<div>
+
+<strong>
+
+Sécurité
+
+</strong>
+
+<p>
+
+Protection du compte
+
+</p>
+
+</div>
+
+</div>
+
+<i class="fa-solid fa-chevron-right"></i>
+
+</a>
+
+
+<!-- NOTIFICATIONS -->
+
+<a
+href="notifications.html"
+class="profile-premium-item">
+
+<div class="profile-item-left">
+
+<div class="profile-icon purple-bg">
+
+<i class="fa-solid fa-bell"></i>
+
+</div>
+
+<div>
+
+<strong>
+
+Notifications
+
+</strong>
+
+<p>
+
+Messages et alertes
+
+</p>
+
+</div>
+
+</div>
+
+<i class="fa-solid fa-chevron-right"></i>
+
+</a>
+
+</div>
+
+
+<!-- LOGOUT -->
+
+<button
+class="premium-logout-button"
+onclick="logout()">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Se déconnecter
+
+</button>
+
+</div>
+
+
+<!-- NAVBAR -->
+
+<nav class="ios-navbar">
+
+<a href="dashboard.html">
+
+<i class="fa-solid fa-house"></i>
+
+</a>
+
+<a
+href="notifications.html"
+class="nav-bell">
+
+<i class="fa-solid fa-bell"></i>
+
+<div
+id="notification-badge"
+class="notification-badge">
+
+</div>
+
+</a>
+
+<a href="profile.html">
+
+<i class="fa-solid fa-user"></i>
+
+</a>
 
 </nav>
 
+
 <!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -255,25 +289,48 @@
 
 
 <!-- SCRIPT -->
+
 <script src="script.js"></script>
 
 <script>
 
 verifierConnexion("etudiant");
 
-document.getElementById("profile-name")
-.innerHTML = user.nom;
+document.getElementById(
+"profile-name"
+).innerHTML = user.nom;
 
-document.getElementById("profile-carte")
-.innerHTML = user.carte;
+document.getElementById(
+"profile-carte"
+).innerHTML = user.carte;
 
-document.getElementById("profile-faculte")
-.innerHTML = user.faculte;
+document.getElementById(
+"profile-faculte"
+).innerHTML = user.faculte;
 
-document.getElementById("profile-niveau")
-.innerHTML = user.niveau;
+document.getElementById(
+"profile-niveau"
+).innerHTML = user.niveau;
 
-aficherAvatar();
+
+/* AVATAR */
+
+afficherAvatar();
+
+
+/* BOUTON AVATAR */
+
+document.getElementById(
+"edit-avatar-btn"
+)
+
+.onclick=()=>{
+
+window.location.href=
+"avatar.html";
+
+};
+
 
 afficherBadgeNotifications();
 
