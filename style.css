@@ -4055,3 +4055,49 @@ color:white;
 font-weight:700;
 
 }
+
+/* FIX AVATAR */
+
+.avatar-grid{
+
+display:grid !important;
+
+grid-template-columns:
+repeat(3,1fr) !important;
+
+gap:15px !important;
+
+margin-top:25px;
+
+}
+
+.avatar-grid img{
+
+width:100% !important;
+
+height:120px !important;
+
+object-fit:cover !important;
+
+border-radius:24px;
+
+background:white;
+
+padding:8px;
+
+box-shadow:
+0 5px 20px rgba(0,0,0,.08);
+
+}
+
+.selected-avatar{
+
+width:170px !important;
+
+height:170px !important;
+
+object-fit:cover !important;
+
+border-radius:30px;
+
+}
