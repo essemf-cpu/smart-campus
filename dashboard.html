@@ -33,11 +33,7 @@
 
             </p>
 
-            <h1 id="nom-user">
-
-                Étudiant
-
-            </h1>
+            <h1 id="nom-user"></h1>
 
         </div>
 
@@ -283,13 +279,61 @@
 
 verifierConnexion("etudiant");
 
-let user =
-JSON.parse(localStorage.getItem("user"));
+/* USER */
 
-document.getElementById("nom-user")
-.innerHTML = user.nom;
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(user){
+
+/* NOM */
+
+document.getElementById(
+"nom-user"
+).textContent =
+user.nom;
+
+
+/* AVATAR */
+
+let avatar =
+document.querySelector(
+".profile-avatar"
+);
+
+if(avatar){
+
+if(user.avatar){
+
+avatar.src =
+user.avatar;
+
+avatar.style.display =
+"block";
+
+}else{
+
+/* PAS D'AVATAR CHOISI */
+
+avatar.style.display =
+"none";
+
+}
+
+}
+
+}
+
+
+/* QR */
 
 genererQR();
+
+/* BADGES */
 
 afficherBadgeMessages();
 
