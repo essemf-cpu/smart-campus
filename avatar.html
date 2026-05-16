@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
 
@@ -7,12 +7,21 @@
 
 <meta
 name="viewport"
-content="width=device-width, initial-scale=1.0">
+content="width=device-width,initial-scale=1">
 
-<title>Avatar Smart Campus</title>
+<title>
 
-<link rel="stylesheet"
+Choisir mon avatar
+
+</title>
+
+<link
+rel="stylesheet"
 href="style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 
@@ -20,7 +29,19 @@ href="style.css">
 
 <div class="mobile-container">
 
-<div class="avatar-container">
+<!-- HEADER -->
+
+<div class="avatar-header">
+
+<button
+class="back-avatar-btn"
+onclick="history.back()">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</button>
+
+<div>
 
 <h1 class="avatar-title">
 
@@ -30,75 +51,195 @@ Choisir mon avatar
 
 <p class="avatar-subtitle">
 
-Choisis ton identité Smart Campus
+Choisis l’avatar qui te représente sur Smart Campus
 
 </p>
 
-<select
-id="style"
-class="avatar-input">
+</div>
 
-<option value="avataaars">
+</div>
 
-Bitmoji Style
+<!-- PREVIEW -->
 
-</option>
-
-<option value="personas">
-
-Cartoon 3D
-
-</option>
-
-</select>
-
-<input
-
-id="seed"
-
-class="avatar-input"
-
-placeholder="Ton nom">
-
-<div class="avatar-preview-container">
+<div class="avatar-preview-card">
 
 <img
+id="selected-avatar"
+class="selected-avatar"
+src="assets/avatars/avatar1.png">
 
-id="avatar-image"
+<div class="avatar-security">
 
-class="avatar-preview"
+<i class="fa-solid fa-shield-halved"></i>
 
-style="display:none;">
+<div>
+
+<strong>
+
+100% privé
+
+</strong>
+
+<p>
+
+Aucune photo réelle utilisée
+
+</p>
 
 </div>
 
-<div class="avatar-buttons">
+</div>
+
+</div>
+
+<!-- FILTRES -->
+
+<div class="avatar-filters">
 
 <button
-class="avatar-btn"
+class="active-filter">
 
-onclick="genererAvatar()">
+Tous
 
-Générer
+</button>
+
+<button>
+
+Garçons
+
+</button>
+
+<button>
+
+Filles
+
+</button>
+
+<button>
+
+Diversité
+
+</button>
+
+</div>
+
+<!-- GRID -->
+
+<div class="avatar-grid">
+
+<img
+src="assets/avatars/avatar1.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar2.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar3.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar4.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar5.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar6.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar7.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar8.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar9.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar10.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar11.png"
+onclick="selectionAvatar(this)">
+
+<img
+src="assets/avatars/avatar12.png"
+onclick="selectionAvatar(this)">
+
+</div>
+
+<!-- BUTTONS -->
+
+<div class="avatar-actions">
+
+<button
+class="cancel-avatar-btn"
+onclick="history.back()">
+
+Annuler
 
 </button>
 
 <button
-class="avatar-btn save-btn"
+class="save-avatar-btn"
+onclick="sauvegarderAvatarChoisi()">
 
-onclick="sauvegarderAvatar()">
-
-Enregistrer
+Valider mon avatar
 
 </button>
-
-</div>
 
 </div>
 
 </div>
 
 <script src="script.js"></script>
+
+<script>
+
+let avatarChoisi =
+"assets/avatars/avatar1.png";
+
+function selectionAvatar(img){
+
+document
+.querySelectorAll(
+".avatar-grid img"
+)
+
+.forEach((a)=>{
+
+a.classList.remove(
+"avatar-selected"
+);
+
+});
+
+img.classList.add(
+"avatar-selected"
+);
+
+avatarChoisi =
+img.src;
+
+document
+.getElementById(
+"selected-avatar"
+)
+.src =
+img.src;
+
+}
+
+</script>
 
 </body>
 </html>
