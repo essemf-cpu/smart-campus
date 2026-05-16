@@ -27,35 +27,37 @@ Choisir mon avatar
 
 </h1>
 
-<div class="avatar-grid">
+<button
+onclick="choisirAvatar('assets/models/student1.glb')">
 
-<img
-src="assets/avatars/avatar1.png"
-onclick="choisirAvatar(this.src)">
+Avatar étudiant 1
 
-<img
-src="assets/avatars/avatar2.png"
-onclick="choisirAvatar(this.src)">
+</button>
 
-<img
-src="assets/avatars/avatar3.png"
-onclick="choisirAvatar(this.src)">
+<button
+onclick="choisirAvatar('assets/models/student2.glb')">
 
-<img
-src="assets/avatars/avatar4.png"
-onclick="choisirAvatar(this.src)">
+Avatar étudiant 2
 
-<img
-src="assets/avatars/avatar5.png"
-onclick="choisirAvatar(this.src)">
+</button>
 
-<img
-src="assets/avatars/avatar6.png"
-onclick="choisirAvatar(this.src)">
+<button
+onclick="choisirAvatar('assets/models/student3.glb')">
+
+Avatar étudiant 3
+
+</button>
 
 </div>
 
 </div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
 
 <script src="script.js"></script>
 

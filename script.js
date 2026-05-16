@@ -2559,6 +2559,62 @@ initialiserAvatar();
 
 }
 
+
+function choisirAvatar(model){
+
+let user =
+JSON.parse(
+localStorage.getItem("user")
+);
+
+if(!user) return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+.doc(doc.id)
+
+.update({
+
+avatarModel:model
+
+});
+
+});
+
+user.avatarModel=model;
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(user)
+
+);
+
+alert(
+"Avatar enregistré"
+);
+
+window.location.href=
+"profile.html";
+
+});
+
+}
+
 function sauvegarderAvatar(){
 
 let user =
@@ -2593,78 +2649,21 @@ avatarConfig:avatarConfig
 
 });
 
-alert(
-"Avatar sauvegardé"
-);
-
-});
-
-}
-
-function choisirAvatar(src){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(!user) return;
-
-/* SAUVEGARDE FIRESTORE */
-
-db.collection("users")
-
-.where(
-"carte",
-"==",
-user.carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("users")
-.doc(doc.id)
-
-.update({
-
-avatar:src
-
-});
-
-});
-
-/* LOCAL STORAGE */
-
-user.avatar = src;
+user.avatarConfig =
+avatarConfig;
 
 localStorage.setItem(
-
 "user",
-
 JSON.stringify(user)
-
 );
-
-/* MESSAGE */
 
 alert(
 "Avatar enregistré"
 );
 
-/* RETOUR PROFIL */
-
-window.location.href =
-"profile.html";
-
 });
 
-}
-
-function sauvegarderAvatar(){
+}function sauvegarderAvatar(){
 
 let user =
 JSON.parse(
@@ -2672,11 +2671,6 @@ localStorage.getItem("user")
 );
 
 if(!user) return;
-
-let avatar =
-document.getElementById(
-"avatar-image"
-).src;
 
 db.collection("users")
 
@@ -2697,20 +2691,19 @@ db.collection("users")
 
 .update({
 
-avatar:avatar
+avatarConfig:avatarConfig
 
 });
 
 });
+
+user.avatarConfig =
+avatarConfig;
 
 localStorage.setItem(
 "user",
-JSON.stringify({
-
-...user,
-avatar:avatar
-
-}));
+JSON.stringify(user)
+);
 
 alert(
 "Avatar enregistré"
@@ -2729,18 +2722,39 @@ localStorage.getItem("user")
 
 if(!user) return;
 
-let img =
-document.getElementById(
-"profile-avatar"
-);
-
-if(!img) return;
-
-img.src =
+let avatar =
 
 user.avatar ||
 
 "assets/avatars/avatar1.png";
+
+/* Profil */
+
+let profilAvatar =
+document.getElementById(
+"profile-avatar"
+);
+
+if(profilAvatar){
+
+profilAvatar.src =
+avatar;
+
+}
+
+/* Navbar */
+
+let navbarAvatar =
+document.getElementById(
+"navbar-avatar"
+);
+
+if(navbarAvatar){
+
+navbarAvatar.src =
+avatar;
+
+}
 
 }
 
@@ -2879,6 +2893,10 @@ alert(
 // =====================
 window.onload = function(){
 
+initialiserAvatar();
+
+afficherAvatar();
+
 initialiserRechercheIntelligente();
 
 initialiserNotificationsPush();
@@ -2899,7 +2917,6 @@ afficherBadgeNotifications();
 
 marquerNotificationsLues();
 
-afficherAvatar();
 
 };
 
