@@ -5,6 +5,12 @@
 
 <meta charset="UTF-8">
 
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Avatar Smart Campus</title>
+
 <link rel="stylesheet"
 href="style.css">
 
@@ -12,15 +18,25 @@ href="style.css">
 
 <body>
 
-<div class="avatar-page">
+<div class="mobile-container">
 
-<h1>
+<div class="avatar-container">
+
+<h1 class="avatar-title">
 
 Choisir mon avatar
 
 </h1>
 
-<select id="style">
+<p class="avatar-subtitle">
+
+Choisis ton identité Smart Campus
+
+</p>
+
+<select
+id="style"
+class="avatar-input">
 
 <option value="avataaars">
 
@@ -37,14 +53,30 @@ Cartoon 3D
 </select>
 
 <input
+
 id="seed"
+
+class="avatar-input"
+
 placeholder="Ton nom">
 
+<div class="avatar-preview-container">
+
 <img
+
 id="avatar-image"
-class="avatar-preview">
+
+class="avatar-preview"
+
+style="display:none;">
+
+</div>
+
+<div class="avatar-buttons">
 
 <button
+class="avatar-btn"
+
 onclick="genererAvatar()">
 
 Générer
@@ -52,11 +84,17 @@ Générer
 </button>
 
 <button
+class="avatar-btn save-btn"
+
 onclick="sauvegarderAvatar()">
 
 Enregistrer
 
 </button>
+
+</div>
+
+</div>
 
 </div>
 
