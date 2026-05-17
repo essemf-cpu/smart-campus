@@ -32,10 +32,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <div class="profile-avatar-large">
 
 <img
-id="profile-avatar"
 class="profile-avatar"
-
-src="assets/default-avatar.png">
+id="profileAvatar">
 
 </div>
 
@@ -272,7 +270,7 @@ class="notification-badge">
 
 <a href="profile.html">
 
-<i class="fa-solid fa-user"></i>
+<i class="profile-avatar"></i>
 
 </a>
 
@@ -291,6 +289,25 @@ class="notification-badge">
 <!-- SCRIPT -->
 
 <script src="script.js"></script>
+
+<script>
+
+document
+.getElementById(
+"profileAvatar"
+)
+
+.src=
+
+localStorage.getItem(
+"userAvatar"
+)
+
+||
+
+"assets/avatars/garcons/g1.png";
+
+</script>
 
 <script>
 
