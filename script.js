@@ -2776,16 +2776,18 @@ chargerAvatars(type);
 function sauvegarderAvatarChoisi(){
 
 let user=
-
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user)return;
+if(!user) return;
 
-user.avatar=
+
+/* sauver local */
+
+user.avatar =
 avatarChoisi;
 
 localStorage.setItem(
@@ -2793,9 +2795,38 @@ localStorage.setItem(
 JSON.stringify(user)
 );
 
-afficherAvatar();
 
-history.back();
+/* sauver FIREBASE */
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+.doc(doc.id)
+
+.update({
+
+avatar:avatarChoisi
+
+});
+
+});
+
+window.location.href=
+"profile.html";
+
+});
 
 }
 
