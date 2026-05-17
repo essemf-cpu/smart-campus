@@ -2849,6 +2849,33 @@ localStorage.getItem(
 )
 );
 
+let ancienAvatar=
+
+localStorage.getItem(
+"userAvatar"
+);
+
+if(
+user &&
+ancienAvatar &&
+!user.avatar
+){
+
+user.avatar=
+ancienAvatar;
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+console.log(
+"Avatar migré :",
+ancienAvatar
+);
+
+}
+
 if(!user)return;
 
 let avatar=
@@ -3070,16 +3097,6 @@ alert(
 window.onload = function(){
 
 afficherAvatar();
-
-if(
-document.getElementById(
-"friend-avatar"
-)
-){
-
-afficherAvatarAmi();
-
-}
 
 initialiserRechercheIntelligente();
 
