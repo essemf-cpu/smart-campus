@@ -1995,7 +1995,7 @@ function genererQRRestaurant(){
 
 let zone=
 document.getElementById(
-"qrcode"
+"restaurant-qrcode"
 );
 
 if(!zone)return;
@@ -2011,27 +2011,37 @@ if(!user)return;
 
 zone.innerHTML="";
 
-let texte=`
-
-Nom:${user.nom}
-Carte:${user.carte}
-Tickets PDJ:${user.ticketPetitDej||0}
-Tickets Déjeuner:${user.ticketDejeuner||0}
-Tickets Diner:${user.ticketDiner||0}
-
-`;
-
 QRCode.toCanvas(
 
 document.createElement(
 "canvas"
 ),
 
-texte,
+JSON.stringify({
+
+nom:user.nom,
+
+carte:user.carte,
+
+tickets:{
+
+petitdej:
+user.ticketPetitDej||0,
+
+dejeuner:
+user.ticketDejeuner||0,
+
+diner:
+user.ticketDiner||0
+
+}
+
+}),
 
 {
-width:220,
-margin:2
+
+width:220
+
 },
 
 function(error,canvas){
@@ -2539,12 +2549,11 @@ icon:"logo.png"
 
 /*=====================
 SMART CAMPUS AVATAR
-======================*/
+=====================*/
 
 const avatars={
 
 garcons:[
-
 "assets/avatars/garcons/g1.png",
 "assets/avatars/garcons/g2.png",
 "assets/avatars/garcons/g3.png",
@@ -2558,11 +2567,9 @@ garcons:[
 "assets/avatars/garcons/g11.png",
 "assets/avatars/garcons/g12.png",
 "assets/avatars/garcons/g13.png"
-
 ],
 
 filles:[
-
 "assets/avatars/filles/f1.png",
 "assets/avatars/filles/f2.png",
 "assets/avatars/filles/f3.png",
@@ -2575,7 +2582,6 @@ filles:[
 "assets/avatars/filles/f10.png",
 "assets/avatars/filles/f11.png",
 "assets/avatars/filles/f12.png"
-
 ]
 
 };
@@ -2583,6 +2589,7 @@ filles:[
 let avatarChoisi=null;
 
 
+/* CHARGER */
 
 function chargerAvatars(type="all"){
 
@@ -2591,30 +2598,24 @@ document.getElementById(
 "avatar-grid"
 );
 
-if(!container) return;
+if(!container)return;
 
 container.innerHTML="";
 
 let liste=[];
 
-
 if(type==="all"){
 
 liste=[
-
 ...avatars.garcons,
 ...avatars.filles
-
 ];
 
-}
-
-else{
+}else{
 
 liste=avatars[type];
 
 }
-
 
 liste.forEach((avatar)=>{
 
@@ -2623,36 +2624,38 @@ container.innerHTML+=`
 <img
 src="${avatar}"
 class="avatar-item"
-onclick="selectionAvatar(this)">
+data-avatar="${avatar}"
+onclick="selectionAvatar(this)"
+>
 
 `;
 
 });
 
 
-if(liste.length>0){
+if(!avatarChoisi){
 
-document
-.getElementById(
+avatarChoisi=liste[0];
+
+}
+
+document.getElementById(
 "selected-avatar"
-)
-.src=
-
-liste[0];
-
-avatarChoisi=
-liste[0];
-
-}
+).src=
+avatarChoisi;
 
 }
 
 
+/* SELECTION */
 
 function selectionAvatar(img){
 
 document
-.querySelectorAll(".avatar-item")
+.querySelectorAll(
+".avatar-item"
+)
+
 .forEach((a)=>{
 
 a.classList.remove(
@@ -2665,24 +2668,24 @@ img.classList.add(
 "avatar-selected"
 );
 
-/* récupère le vrai chemin */
-
 avatarChoisi=
-img.getAttribute("src");
+
+img.dataset.avatar;
 
 document
 .getElementById(
 "selected-avatar"
 )
 .src=
+
 avatarChoisi;
 
 }
 
 
-/* filtres */
+/* FILTRE */
 
-function filtrerAvatar(type,button){
+function filtrerAvatar(type,btn){
 
 document
 .querySelectorAll(
@@ -2697,7 +2700,7 @@ b.classList.remove(
 
 });
 
-button.classList.add(
+btn.classList.add(
 "active-filter"
 );
 
@@ -2706,8 +2709,7 @@ chargerAvatars(type);
 }
 
 
-
-/* sauvegarder */
+/* SAVE */
 
 function sauvegarderAvatarChoisi(){
 
@@ -2721,30 +2723,22 @@ localStorage.getItem(
 
 if(!user)return;
 
-
 user.avatar=
 avatarChoisi;
 
-
 localStorage.setItem(
-
 "user",
-
-JSON.stringify(
-user
-)
-
+JSON.stringify(user)
 );
 
+afficherAvatar();
 
-window.location.href=
-"profile.html";
+history.back();
 
 }
 
 
-
-/* supprimer */
+/* SUPPRIMER */
 
 function supprimerAvatar(){
 
@@ -2758,33 +2752,29 @@ localStorage.getItem(
 
 if(!user)return;
 
-
 delete user.avatar;
 
-
 localStorage.setItem(
-
 "user",
-
-JSON.stringify(
-user
-)
-
+JSON.stringify(user)
 );
 
+avatarChoisi=
+avatars.garcons[0];
 
-window.location.href=
-"profile.html";
+afficherAvatar();
+
+chargerAvatars();
 
 }
 
 
-
-/* affichage partout */
+/* AFFICHAGE GLOBAL */
 
 function afficherAvatar(){
 
 let user=
+
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -2797,9 +2787,7 @@ let avatar=
 
 user.avatar ||
 
-"assets/avatars/garcons/g1.png";
-
-/* partout */
+avatars.garcons[0];
 
 document
 .querySelectorAll(
@@ -2808,56 +2796,9 @@ document
 
 .forEach((img)=>{
 
-img.src=
-avatar;
-
-/* si image cassée */
-
-img.onerror=function(){
-
-this.src=
-"assets/avatars/garcons/g1.png";
-
-};
+img.src=avatar;
 
 });
-
-}
-
-
-chargerAvatars();
-
-// =====================
-// LOGOUT
-// =====================
-function logout(){
-
-let user =
-JSON.parse(
-localStorage.getItem("user")
-);
-
-if(user){
-
-db.collection("status")
-.doc(user.carte)
-
-.update({
-
-online:false,
-
-lastActive:0
-
-});
-
-}
-
-localStorage.removeItem(
-"user"
-);
-
-window.location.href =
-"index.html";
 
 }
 
