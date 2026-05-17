@@ -875,7 +875,9 @@ window.location.search
 );
 
 let friend =
-params.get("friend");
+params.get(
+"friend"
+);
 
 let zone =
 document.getElementById(
@@ -884,23 +886,36 @@ document.getElementById(
 
 if(!zone) return;
 
+console.log(
+"Friend:",
+friend
+);
 
 db.collection("status")
 .doc(friend)
 
 .onSnapshot((doc)=>{
 
+console.log(
+"Document existe:",
+doc.exists
+);
+
 if(!doc.exists){
 
-zone.innerHTML =
+zone.innerHTML=
 "⚫ Hors ligne";
 
 return;
-
 }
 
 let data =
 doc.data();
+
+console.log(
+"DATA STATUS:",
+data
+);
 
 let now =
 Date.now();
@@ -908,27 +923,33 @@ Date.now();
 let lastActive =
 data.lastActive || 0;
 
-
-/* actif si connecté ou activité récente */
+console.log(
+"Diff:",
+now-lastActive
+);
 
 let actif =
 
 data.online ||
 
 (
-now - lastActive
-< 30000
+now-lastActive
+<30000
 );
 
+console.log(
+"Actif:",
+actif
+);
 
 if(actif){
 
-zone.innerHTML =
+zone.innerHTML=
 "🟢 En ligne";
 
 }else{
 
-zone.innerHTML =
+zone.innerHTML=
 "⚫ Hors ligne";
 
 }

@@ -311,6 +311,23 @@ document.getElementById(
 "dashboardAvatar"
 );
 
+console.log(
+"USER :",
+user
+);
+
+console.log(
+"user.avatar :",
+user.avatar
+);
+
+console.log(
+"userAvatar localStorage :",
+localStorage.getItem(
+"userAvatar"
+)
+);
+
 if(avatar){
 
 avatar.src =
@@ -322,6 +339,11 @@ localStorage.getItem(
 ) ||
 
 "assets/default-user.png";
+
+console.log(
+"Avatar chargé :",
+avatar.src
+);
 
 }
 
