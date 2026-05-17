@@ -2776,18 +2776,16 @@ chargerAvatars(type);
 function sauvegarderAvatarChoisi(){
 
 let user=
+
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user) return;
+if(!user)return;
 
-
-/* sauver local */
-
-user.avatar =
+user.avatar=
 avatarChoisi;
 
 localStorage.setItem(
@@ -2795,38 +2793,9 @@ localStorage.setItem(
 JSON.stringify(user)
 );
 
+afficherAvatar();
 
-/* sauver FIREBASE */
-
-db.collection("users")
-
-.where(
-"carte",
-"==",
-user.carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("users")
-.doc(doc.id)
-
-.update({
-
-avatar:avatarChoisi
-
-});
-
-});
-
-window.location.href=
-"profile.html";
-
-});
+history.back();
 
 }
 
@@ -2866,28 +2835,59 @@ chargerAvatars();
 
 function afficherAvatar(){
 
-let user=
+let user =
 JSON.parse(
 localStorage.getItem("user")
 );
 
-let avatar=
+if(!user) return;
 
-user?.avatar ||
+let avatar =
 
+user.avatar ||
 "assets/default-user.png";
 
 
-document
-.querySelectorAll(
-".profile-avatar"
-)
+/* PROFIL */
 
-.forEach((img)=>{
+let profil =
+document.getElementById(
+"profileAvatar"
+);
 
-img.src=avatar;
+if(profil){
 
-});
+profil.src = avatar;
+
+}
+
+
+/* DASHBOARD */
+
+let dashboard =
+document.getElementById(
+"dashboardAvatar"
+);
+
+if(dashboard){
+
+dashboard.src = avatar;
+
+}
+
+
+/* NAVBAR */
+
+let nav =
+document.getElementById(
+"navAvatar"
+);
+
+if(nav){
+
+nav.src = avatar;
+
+}
 
 }
 
