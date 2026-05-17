@@ -2623,7 +2623,22 @@ SMART CAMPUS AVATAR
 
 function afficherAvatar(){
 
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user)return;
+
+
+/* priorité firebase */
+
 let avatar=
+
+user.avatar ||
 
 localStorage.getItem(
 "userAvatar"
@@ -2634,15 +2649,14 @@ localStorage.getItem(
 "assets/default-user.png";
 
 
-let elements=[
-
+[
 "profileAvatar",
 "dashboardAvatar",
 "navAvatar"
 
-];
+]
 
-elements.forEach((id)=>{
+.forEach((id)=>{
 
 let img=
 

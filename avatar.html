@@ -255,32 +255,65 @@ document
 
 function sauvegarder(){
 
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user)return;
+
+
+/* cache local */
+
 localStorage.setItem(
 
 "userAvatar",
-
 avatarChoisi
 
 );
 
-window.location.href=
 
-"profile.html";
+/* mise à jour user local */
 
-}
-
-
-window.onload=()=>{
-
-document
-.getElementById(
-"selected-avatar"
-)
-
-.src=
+user.avatar=
 avatarChoisi;
 
-charger();
+localStorage.setItem(
+
+"user",
+JSON.stringify(
+user
+)
+
+);
+
+
+/* FIREBASE */
+
+db.collection(
+"users"
+)
+
+.doc(
+user.carte
+)
+
+.update({
+
+avatar:
+avatarChoisi
+
+})
+
+.then(()=>{
+
+window.location.href=
+"profile.html";
+
+});
 
 }
 
