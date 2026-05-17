@@ -2522,10 +2522,6 @@ navigator.serviceWorker
 
 .then((registration)=>{
 
-console.log(
-"Service Worker enregistré"
-);
-
 });
 
 }
