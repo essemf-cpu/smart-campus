@@ -2782,28 +2782,86 @@ avatarChoisi;
 
 function sauvegarderAvatarChoisi(){
 
-let user=
+let user =
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user)return;
+if(!user) return;
 
-user.avatar=
+/* MAJ USER */
+
+user.avatar =
 avatarChoisi;
+
+/* SAUVEGARDE */
 
 localStorage.setItem(
 "user",
-JSON.stringify(
-user
+JSON.stringify(user)
+);
+
+/* MISE À JOUR IMMÉDIATE DE TOUTES LES PAGES */
+
+document
+.querySelectorAll(
+"#profileAvatar,#dashboardAvatar,#navAvatar,.profile-avatar"
+)
+
+.forEach((img)=>{
+
+img.src =
+avatarChoisi;
+
+});
+
+/* recharge proprement */
+
+window.location.href =
+"profile.html";
+
+} function sauvegarderAvatarChoisi(){
+
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
 )
 );
 
-afficherAvatar();
+if(!user) return;
 
-window.location.href=
+/* MAJ USER */
+
+user.avatar =
+avatarChoisi;
+
+/* SAUVEGARDE */
+
+localStorage.setItem(
+"user",
+JSON.stringify(user)
+);
+
+/* MISE À JOUR IMMÉDIATE DE TOUTES LES PAGES */
+
+document
+.querySelectorAll(
+"#profileAvatar,#dashboardAvatar,#navAvatar,.profile-avatar"
+)
+
+.forEach((img)=>{
+
+img.src =
+avatarChoisi;
+
+});
+
+/* recharge proprement */
+
+window.location.href =
 "profile.html";
 
 }
@@ -2842,67 +2900,29 @@ window.location.reload();
 
 function afficherAvatar(){
 
-let user=
+let user =
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-let ancienAvatar=
+if(!user) return;
 
-localStorage.getItem(
-"userAvatar"
-);
-
-if(
-user &&
-ancienAvatar &&
-!user.avatar
-){
-
-user.avatar=
-ancienAvatar;
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-console.log(
-"Avatar migré :",
-ancienAvatar
-);
-
-}
-
-if(!user)return;
-
-let avatar=
+let avatar =
 
 user.avatar ||
 "assets/default-user.png";
 
+document
+.querySelectorAll(
+"#profileAvatar,#dashboardAvatar,#navAvatar,.profile-avatar"
+)
 
-[
-"profileAvatar",
-"dashboardAvatar",
-"navAvatar"
-]
+.forEach((img)=>{
 
-.forEach((id)=>{
-
-let img=
-document.getElementById(
-id
-);
-
-if(img){
-
-img.src=
+img.src =
 avatar;
-
-}
 
 });
 
