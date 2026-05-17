@@ -270,7 +270,10 @@ class="notification-badge">
 
 <a href="profile.html">
 
-<i class="profile-avatar"></i>
+<img
+id="navAvatar"
+class="profile-avatar"
+src="">
 
 </a>
 
@@ -313,9 +316,9 @@ localStorage.getItem(
 
 verifierConnexion("etudiant");
 
-/* RECUP USER */
+/* USER */
 
-let user =
+let user=
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -326,28 +329,53 @@ if(user){
 
 document.getElementById(
 "profile-name"
-).innerHTML =
-user.nom;
+).innerHTML=
+user.nom || "Étudiant";
 
 document.getElementById(
 "profile-carte"
-).innerHTML =
-user.carte;
+).innerHTML=
+user.carte || "";
 
 document.getElementById(
 "profile-faculte"
-).innerHTML =
-user.faculte;
+).innerHTML=
+user.faculte || "";
 
 document.getElementById(
 "profile-niveau"
-).innerHTML =
-user.niveau;
+).innerHTML=
+user.niveau || "";
 
 }
 
 
-/* BOUTON AVATAR */
+/* AVATAR */
+
+let avatar=
+
+localStorage.getItem(
+"userAvatar"
+)
+
+||
+
+"assets/avatars/garcons/g1.png";
+
+
+document.getElementById(
+"profileAvatar"
+).src=
+avatar;
+
+
+document.getElementById(
+"navAvatar"
+).src=
+avatar;
+
+
+/* BOUTON */
 
 document
 .getElementById(
@@ -361,10 +389,6 @@ window.location.href=
 
 };
 
-
-/* AVATAR */
-
-afficherAvatar();
 
 /* BADGE */
 
