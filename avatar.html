@@ -4,21 +4,15 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1">
+<title>Choisir mon avatar</title>
 
-<title>
-Choisir mon avatar
-</title>
-
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="style.css">
 
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
@@ -26,8 +20,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <body>
 
 <div class="mobile-container">
-
-<!-- HEADER -->
 
 <div class="avatar-header">
 
@@ -54,15 +46,12 @@ Choisis ton identité Smart Campus
 </div>
 
 
-<!-- PREVIEW -->
-
 <div class="avatar-preview-card">
 
 <img
 id="selected-avatar"
 class="selected-avatar"
-src="assets/default-user.png"
-alt="Avatar sélectionné">
+src="assets/avatars/garcons/g1.png">
 
 <div class="avatar-security">
 
@@ -70,13 +59,9 @@ alt="Avatar sélectionné">
 
 <div>
 
-<strong>
-100% privé
-</strong>
+<strong>100% privé</strong>
 
-<p>
-Aucune photo réelle utilisée
-</p>
+<p>Aucune photo réelle utilisée</p>
 
 </div>
 
@@ -84,28 +69,26 @@ Aucune photo réelle utilisée
 
 </div>
 
-
-<!-- FILTRES -->
 
 <div class="avatar-filters">
 
 <button
 class="active-filter"
-onclick="filtrerAvatar('all',this)">
+onclick="charger('all',this)">
 
 Tous
 
 </button>
 
 <button
-onclick="filtrerAvatar('garcons',this)">
+onclick="charger('garcons',this)">
 
 Garçons
 
 </button>
 
 <button
-onclick="filtrerAvatar('filles',this)">
+onclick="charger('filles',this)">
 
 Filles
 
@@ -114,16 +97,12 @@ Filles
 </div>
 
 
-<!-- GRID VIDE : script.js remplit -->
-
 <div
 id="avatar-grid"
 class="avatar-grid">
 
 </div>
 
-
-<!-- ACTIONS -->
 
 <div class="avatar-actions">
 
@@ -137,7 +116,7 @@ Annuler
 
 <button
 class="save-avatar-btn"
-onclick="sauvegarderAvatarChoisi()">
+onclick="sauvegarder()">
 
 Valider mon avatar
 
@@ -156,22 +135,179 @@ Supprimer
 </div>
 
 
-<script src="script.js"></script>
-
 <script>
 
-/* initialise seulement cette page */
+const avatars={
 
-document.addEventListener(
-"DOMContentLoaded",
-function(){
+garcons:[
 
-chargerAvatars();
+"assets/avatars/garcons/g1.png",
+"assets/avatars/garcons/g2.png",
+"assets/avatars/garcons/g3.png",
+"assets/avatars/garcons/g4.png",
+"assets/avatars/garcons/g5.png",
+"assets/avatars/garcons/g6.png",
+"assets/avatars/garcons/g7.png",
+"assets/avatars/garcons/g8.png",
+"assets/avatars/garcons/g9.png",
+"assets/avatars/garcons/g10.png",
+"assets/avatars/garcons/g11.png",
+"assets/avatars/garcons/g12.png",
+"assets/avatars/garcons/g13.png"
 
-afficherAvatar();
+],
+
+filles:[
+
+"assets/avatars/filles/f1.png",
+"assets/avatars/filles/f2.png",
+"assets/avatars/filles/f3.png",
+"assets/avatars/filles/f4.png",
+"assets/avatars/filles/f5.png",
+"assets/avatars/filles/f6.png",
+"assets/avatars/filles/f7.png",
+"assets/avatars/filles/f8.png",
+"assets/avatars/filles/f9.png",
+"assets/avatars/filles/f10.png",
+"assets/avatars/filles/f11.png",
+"assets/avatars/filles/f12.png"
+
+]
+
+};
+
+let avatarChoisi=localStorage.getItem(
+"userAvatar"
+) || avatars.garcons[0];
+
+
+function charger(type="all",btn=null){
+
+let grid=
+document.getElementById(
+"avatar-grid"
+);
+
+grid.innerHTML="";
+
+let liste=[];
+
+if(type==="all"){
+
+liste=[
+...avatars.garcons,
+...avatars.filles
+];
+
+}else{
+
+liste=
+avatars[type];
 
 }
+
+
+liste.forEach((avatar)=>{
+
+grid.innerHTML+=`
+
+<img
+src="${avatar}"
+class="avatar-item"
+onclick="selection('${avatar}')">
+
+`;
+
+});
+
+if(btn){
+
+document
+.querySelectorAll(
+".avatar-filters button"
+)
+
+.forEach((b)=>{
+
+b.classList.remove(
+"active-filter"
 );
+
+});
+
+btn.classList.add(
+"active-filter");
+
+}
+
+}
+
+
+function selection(src){
+
+avatarChoisi=src;
+
+document
+.getElementById(
+"selected-avatar"
+)
+
+.src=src;
+
+}
+
+
+function sauvegarder(){
+
+localStorage.setItem(
+
+"userAvatar",
+avatarChoisi
+
+);
+
+alert(
+"Avatar enregistré"
+);
+
+history.back();
+
+}
+
+
+function supprimerAvatar(){
+
+localStorage.removeItem(
+"userAvatar"
+);
+
+avatarChoisi=
+avatars.garcons[0];
+
+document
+.getElementById(
+"selected-avatar"
+)
+
+.src=
+avatarChoisi;
+
+}
+
+
+window.onload=function(){
+
+document
+.getElementById(
+"selected-avatar"
+)
+
+.src=
+avatarChoisi;
+
+charger();
+
+};
 
 </script>
 
