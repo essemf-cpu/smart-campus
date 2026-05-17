@@ -2663,9 +2663,7 @@ filles:[
 let avatarChoisi=null;
 
 
-/*=====================
-CHARGER
-=====================*/
+/* CHARGER */
 
 function chargerAvatars(type="all"){
 
@@ -2674,10 +2672,9 @@ document.getElementById(
 "avatar-grid"
 );
 
-if(!container) return;
+if(!container)return;
 
 container.innerHTML="";
-
 
 let user=
 JSON.parse(
@@ -2686,17 +2683,10 @@ localStorage.getItem(
 )
 );
 
-
-/* IMPORTANT :
-ne réinitialise plus à g1 */
-
 avatarChoisi=
 
-avatarChoisi ||
-
 user?.avatar ||
-
-avatars.garcons[0];
+"assets/default-user.png";
 
 
 let liste=[];
@@ -2704,10 +2694,8 @@ let liste=[];
 if(type==="all"){
 
 liste=[
-
 ...avatars.garcons,
 ...avatars.filles
-
 ];
 
 }else{
@@ -2717,29 +2705,24 @@ avatars[type];
 
 }
 
-
-/* AFFICHAGE */
-
 liste.forEach((avatar)=>{
 
-let active="";
+let selected=
 
-if(
 avatar===avatarChoisi
-){
+?
+"avatar-selected"
+:
+"";
 
-active=
-"avatar-selected";
-
-}
-
-container.innerHTML += `
+container.innerHTML+=`
 
 <img
 src="${avatar}"
-class="avatar-item ${active}"
+class="avatar-item ${selected}"
 data-avatar="${avatar}"
-onclick="selectionAvatar(this)">
+onclick="selectionAvatar(this)"
+>
 
 `;
 
@@ -2761,9 +2744,7 @@ avatarChoisi;
 }
 
 
-/*=====================
-SELECTION
-=====================*/
+/* SELECTION */
 
 function selectionAvatar(img){
 
@@ -2787,53 +2768,17 @@ img.classList.add(
 avatarChoisi=
 img.dataset.avatar;
 
-
-let preview=
-document.getElementById(
+document
+.getElementById(
 "selected-avatar"
-);
-
-if(preview){
-
-preview.src=
+)
+.src=
 avatarChoisi;
 
 }
 
-}
 
-
-/*=====================
-FILTRE
-=====================*/
-
-function filtrerAvatar(type,btn){
-
-document
-.querySelectorAll(
-".avatar-filters button"
-)
-
-.forEach((b)=>{
-
-b.classList.remove(
-"active-filter"
-);
-
-});
-
-btn.classList.add(
-"active-filter"
-);
-
-chargerAvatars(type);
-
-}
-
-
-/*=====================
-SAVE
-=====================*/
+/* SAVE */
 
 function sauvegarderAvatarChoisi(){
 
@@ -2844,26 +2789,17 @@ localStorage.getItem(
 )
 );
 
-if(!user) return;
+if(!user)return;
 
 user.avatar=
 avatarChoisi;
 
-
-/* sauvegarde */
-
 localStorage.setItem(
-
 "user",
-
 JSON.stringify(
 user
 )
-
 );
-
-
-/* mise à jour directe */
 
 afficherAvatar();
 
@@ -2873,9 +2809,7 @@ window.location.href=
 }
 
 
-/*=====================
-SUPPRIMER
-=====================*/
+/* SUPPRIMER */
 
 function supprimerAvatar(){
 
@@ -2886,33 +2820,25 @@ localStorage.getItem(
 )
 );
 
-if(!user) return;
+if(!user)return;
 
 delete user.avatar;
 
 localStorage.setItem(
-
 "user",
-
 JSON.stringify(
 user
 )
-
 );
 
-avatarChoisi=
-avatars.garcons[0];
-
-chargerAvatars();
-
 afficherAvatar();
+
+window.location.reload();
 
 }
 
 
-/*=====================
-AFFICHAGE GLOBAL
-=====================*/
+/* AFFICHAGE GLOBAL */
 
 function afficherAvatar(){
 
@@ -2923,115 +2849,40 @@ localStorage.getItem(
 )
 );
 
-if(!user) return;
+if(!user)return;
 
 let avatar=
 
 user.avatar ||
-
-avatars.garcons[0];
-
-
-/* PROFILE */
-
-let profile=
-document.getElementById(
-"profileAvatar"
-);
-
-if(profile){
-
-profile.src=
-avatar;
-
-}
+"assets/default-user.png";
 
 
-/* DASHBOARD */
-
-let dashboard=
-document.getElementById(
-"dashboardAvatar"
-);
-
-if(dashboard){
-
-dashboard.src=
-avatar;
-
-}
-
-
-/* NAVBAR */
-
-let nav=
-document.getElementById(
+[
+"profileAvatar",
+"dashboardAvatar",
 "navAvatar"
+]
+
+.forEach((id)=>{
+
+let img=
+document.getElementById(
+id
 );
 
-if(nav){
+if(img){
 
-nav.src=
+img.src=
 avatar;
 
 }
-
-}
-
-
-/*=====================
-AVATAR AMI
-=====================*/
-
-function afficherAvatarAmi(){
-
-let params =
-new URLSearchParams(
-window.location.search
-);
-
-let friend =
-params.get("friend");
-
-let img =
-document.getElementById(
-"friend-avatar"
-);
-
-if(!img) return;
-
-db.collection("users")
-.where(
-"carte",
-"==",
-friend
-)
-
-.onSnapshot((snapshot)=>{
-
-if(snapshot.empty){
-
-img.src=
-"assets/default-user.png";
-
-return;
-}
-
-let ami=
-snapshot.docs[0].data();
-
-console.log(
-"AMI:",
-ami
-);
-
-img.src=
-
-ami.avatar ||
-
-"assets/default-user.png";
 
 });
+
+console.log(
+"Avatar chargé :",
+avatar
+);
 
 }
 
