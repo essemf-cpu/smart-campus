@@ -4399,7 +4399,11 @@ border-radius:50%;
 
 object-fit:cover;
 
+display: block;
+
 background:white;
+
+overflow: hidden;
 
 box-shadow:
 0 5px 15px rgba(

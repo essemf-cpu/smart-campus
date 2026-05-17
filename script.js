@@ -866,6 +866,7 @@ data.friendNom;
 // =====================
 // STATUS AMI
 // =====================
+
 function afficherStatusAmi(){
 
 let params =
@@ -883,6 +884,7 @@ document.getElementById(
 
 if(!zone) return;
 
+
 db.collection("status")
 .doc(friend)
 
@@ -894,12 +896,32 @@ zone.innerHTML =
 "⚫ Hors ligne";
 
 return;
+
 }
 
 let data =
 doc.data();
 
-if(data.online){
+let now =
+Date.now();
+
+let lastActive =
+data.lastActive || 0;
+
+
+/* actif si connecté ou activité récente */
+
+let actif =
+
+data.online ||
+
+(
+now - lastActive
+< 30000
+);
+
+
+if(actif){
 
 zone.innerHTML =
 "🟢 En ligne";
@@ -1931,14 +1953,20 @@ updateBadge();
 // =====================
 // STATUS UTILISATEUR
 // =====================
+
 function gererPresenceUtilisateur(){
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
 if(!user) return;
+
+
+/* UPDATE */
 
 function updatePresence(){
 
@@ -1957,29 +1985,44 @@ lastActive:Date.now()
 
 }
 
+
+/* lancement */
+
 updatePresence();
+
+
+/* refresh toutes les 15 sec */
 
 setInterval(
 updatePresence,
 15000
 );
 
-window.addEventListener(
-"beforeunload",
+
+/* quand app passe en arrière-plan */
+
+document.addEventListener(
+"visibilitychange",
 function(){
+
+if(document.hidden){
 
 db.collection("status")
 .doc(user.carte)
 
-.set({
-
-nom:user.nom,
+.update({
 
 online:false,
 
 lastActive:Date.now()
 
 });
+
+}else{
+
+updatePresence();
+
+}
 
 });
 

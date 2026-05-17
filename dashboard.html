@@ -304,23 +304,24 @@ document.getElementById(
 user.nom;
 
 
-/* AVATAR */
+/* AVATAR DASHBOARD */
 
 let avatar =
-document.querySelector(
-".profile-avatar"
+document.getElementById(
+"dashboardAvatar"
 );
 
-if(
-avatar &&
-user.avatar
-){
+if(avatar){
 
 avatar.src =
-user.avatar;
 
-avatar.style.display =
-"block";
+user.avatar ||
+
+localStorage.getItem(
+"userAvatar"
+) ||
+
+"assets/default-user.png";
 
 }
 
