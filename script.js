@@ -23,6 +23,18 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
+db.enablePersistence({
+synchronizeTabs:true
+})
+.catch((err)=>{
+
+console.log(
+"Firestore cache:",
+err
+);
+
+});
+
 // =====================
 // INSCRIPTION
 // =====================
@@ -2973,17 +2985,15 @@ AVATAR AMI
 
 function afficherAvatarAmi(){
 
-let params=
+let params =
 new URLSearchParams(
 window.location.search
 );
 
-let friend=
-params.get(
-"friend"
-);
+let friend =
+params.get("friend");
 
-let img=
+let img =
 document.getElementById(
 "friend-avatar"
 );
@@ -2991,34 +3001,35 @@ document.getElementById(
 if(!img) return;
 
 db.collection("users")
-
 .where(
 "carte",
 "==",
 friend
 )
 
-.get()
-
-.then((snapshot)=>{
+.onSnapshot((snapshot)=>{
 
 if(snapshot.empty){
 
 img.src=
-avatars.garcons[0];
+"assets/default-user.png";
 
 return;
-
 }
 
 let ami=
 snapshot.docs[0].data();
 
+console.log(
+"AMI:",
+ami
+);
+
 img.src=
 
 ami.avatar ||
 
-avatars.garcons[0];
+"assets/default-user.png";
 
 });
 
