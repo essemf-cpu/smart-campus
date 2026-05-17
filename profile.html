@@ -309,29 +309,76 @@ localStorage.getItem(
 
 if(user){
 
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)return;
+
+let newUser=
+
+snapshot.docs[0].data();
+
+/* synchro locale */
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(
+newUser
+)
+
+);
+
+/* INFOS */
+
 document.getElementById(
 "profile-name"
 ).innerHTML=
-user.nom;
+
+newUser.nom || "Étudiant";
+
 
 document.getElementById(
 "profile-carte"
 ).innerHTML=
-user.carte;
+
+newUser.carte || "";
+
 
 document.getElementById(
 "profile-faculte"
 ).innerHTML=
-user.faculte;
+
+newUser.faculte || "";
+
 
 document.getElementById(
 "profile-niveau"
 ).innerHTML=
-user.niveau;
+
+newUser.niveau || "";
+
+
+/* AVATARS */
+
+afficherAvatar();
+
+});
 
 }
 
-afficherAvatar();
+
+/* BOUTON */
 
 document
 .getElementById(
@@ -344,6 +391,9 @@ window.location.href=
 "avatar.html";
 
 };
+
+
+/* BADGE */
 
 afficherBadgeNotifications();
 

@@ -151,41 +151,109 @@ src="">
 
 verifierConnexion("etudiant");
 
-/* LOAD AMIS */
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(user){
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)return;
+
+let newUser=
+
+snapshot.docs[0].data();
+
+/* synchro locale */
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(
+newUser
+)
+
+/* recharge avatar navbar */
+
+);
+
+afficherAvatar();
+
+/* charge amis */
 
 afficherAmis();
 
+});
+
+}
+
+
+/* BADGE */
+
+afficherBadgeNotifications();
+
+
 /* SEARCH */
 
-let searchInput =
+let searchInput=
+
 document.getElementById(
 "friend-search"
 );
 
 searchInput.addEventListener(
+
 "keyup",
+
 function(){
 
-let filter =
-searchInput.value.toLowerCase();
+let filter=
 
-let cards =
+searchInput.value
+.toLowerCase();
+
+let cards=
+
 document.querySelectorAll(
 ".friend-card"
 );
 
-cards.forEach(function(card){
+cards.forEach(
 
-let text =
-card.innerText.toLowerCase();
+function(card){
 
-if(text.includes(filter)){
+let text=
 
-card.style.display = "flex";
+card.innerText
+.toLowerCase();
+
+if(
+text.includes(filter)
+){
+
+card.style.display=
+"flex";
 
 }else{
 
-card.style.display = "none";
+card.style.display=
+"none";
 
 }
 

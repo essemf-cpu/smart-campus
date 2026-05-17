@@ -295,14 +295,52 @@ localStorage.getItem(
 
 if(user){
 
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)return;
+
+let newUser=
+
+snapshot.docs[0].data();
+
+/* met à jour localStorage */
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(
+newUser
+)
+
+);
+
+/* NOM */
+
 document.getElementById(
 "nom-user"
 ).textContent=
-user.nom;
 
-}
+newUser.nom;
+
+
+/* AVATARS */
 
 afficherAvatar();
+
+});
+
+}
 
 genererQR();
 

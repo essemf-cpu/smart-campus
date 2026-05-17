@@ -4411,3 +4411,112 @@ box-shadow:
 );
 
 }
+
+/* =========================
+   AVATAR FINAL FIX
+========================= */
+
+.avatar-grid{
+
+display:grid !important;
+
+grid-template-columns:
+repeat(3,1fr) !important;
+
+gap:15px !important;
+
+margin-top:20px !important;
+
+}
+
+.avatar-item{
+
+width:100% !important;
+
+height:120px !important;
+
+object-fit:cover !important;
+
+background:white !important;
+
+padding:8px !important;
+
+border-radius:24px !important;
+
+box-shadow:
+0 5px 15px rgba(0,0,0,.08) !important;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.avatar-item:hover{
+
+transform:scale(1.04);
+
+}
+
+.avatar-selected{
+
+border:4px solid #6C4DF6 !important;
+
+}
+
+.avatar-preview-card{
+
+position:relative;
+
+z-index:1;
+
+}
+
+.avatar-actions{
+
+display:flex !important;
+
+gap:15px;
+
+position:sticky;
+
+bottom:20px;
+
+background:#F5F7FB;
+
+padding:15px 0;
+
+z-index:1000;
+
+}
+
+.save-avatar-btn{
+
+pointer-events:auto !important;
+
+z-index:9999;
+
+}
+
+.avatar-filters{
+
+display:flex;
+
+overflow-x:auto;
+
+gap:12px;
+
+}
+
+.active-filter{
+
+background:
+linear-gradient(
+135deg,
+#6C4DF6,
+#8B72FF
+)!important;
+
+color:white !important;
+
+}

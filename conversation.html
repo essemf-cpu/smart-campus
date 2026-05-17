@@ -112,6 +112,48 @@ src="assets/default-user.png">
 
 verifierConnexion("etudiant");
 
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(user){
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)return;
+
+let newUser=
+
+snapshot.docs[0].data();
+
+/* synchro locale */
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(
+newUser
+)
+
+);
+
+/* conversation */
+
 afficherMessages();
 
 marquerMessagesCommeLus();
@@ -121,6 +163,10 @@ afficherNomConversation();
 afficherStatusAmi();
 
 afficherAvatarAmi();
+
+});
+
+}
 
 </script>
 
