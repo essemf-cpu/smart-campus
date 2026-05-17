@@ -2809,6 +2809,11 @@ afficherAvatar();
 window.location.href =
 "profile.html";
 
+console.log(
+"Avatar sauvegardé :",
+user.avatar
+);
+
 }
 
 
