@@ -899,11 +899,7 @@ return;
 let data =
 doc.data();
 
-let diff =
-Date.now() -
-(data.lastActive || 0);
-
-if(diff < 45000){
+if(data.online){
 
 zone.innerHTML =
 "🟢 En ligne";
@@ -1975,11 +1971,13 @@ function(){
 db.collection("status")
 .doc(user.carte)
 
-.update({
+.set({
+
+nom:user.nom,
 
 online:false,
 
-lastActive:0
+lastActive:Date.now()
 
 });
 
@@ -2802,6 +2800,31 @@ img.src=avatar;
 
 }
 
+function afficherAvatarDashboard(){
+
+let avatar =
+
+localStorage.getItem(
+"userAvatar"
+)
+
+||
+
+"assets/default-user.png";
+
+let img =
+document.getElementById(
+"dashboardAvatar"
+);
+
+if(img){
+
+img.src = avatar;
+
+}
+
+}
+
 document.addEventListener(
 "contextmenu",
 function(e){
@@ -2927,6 +2950,8 @@ window.onload = function(){
 initialiserAvatar();
 
 afficherAvatar();
+
+afficherAvatarDashboard();
 
 initialiserRechercheIntelligente();
 

@@ -4387,3 +4387,23 @@ user-select:none;
 -webkit-user-drag:none;
 
 }
+
+/* DASHBOARD AVATAR */
+
+.dashboard-avatar-mini{
+
+width:58px;
+height:58px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+background:white;
+
+box-shadow:
+0 5px 15px rgba(
+0,0,0,.08
+);
+
+}
