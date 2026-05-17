@@ -2886,6 +2886,67 @@ avatar
 
 }
 
+function afficherAvatarAmi(){
+
+let params=
+new URLSearchParams(
+window.location.search
+);
+
+let friendCarte=
+params.get(
+"friend"
+);
+
+let avatar=
+document.getElementById(
+"friend-avatar"
+);
+
+if(
+!friendCarte ||
+!avatar
+) return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+friendCarte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty){
+
+avatar.src=
+"assets/default-user.png";
+
+return;
+
+}
+
+let ami=
+snapshot.docs[0].data();
+
+console.log(
+"AMI:",
+ami
+);
+
+avatar.src=
+
+ami.avatar ||
+
+"assets/default-user.png";
+
+});
+
+}
+
 document.addEventListener(
 "contextmenu",
 function(e){
@@ -3010,7 +3071,15 @@ window.onload = function(){
 
 afficherAvatar();
 
+if(
+document.getElementById(
+"friend-avatar"
+)
+){
+
 afficherAvatarAmi();
+
+}
 
 initialiserRechercheIntelligente();
 
