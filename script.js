@@ -2655,55 +2655,85 @@ let avatarChoisi=null;
 
 function chargerAvatars(type="all"){
 
-let container=
+let container =
 document.getElementById(
 "avatar-grid"
 );
 
-if(!container)return;
+if(!container) return;
 
-container.innerHTML="";
+container.innerHTML = "";
+
+
+/* récupérer avatar déjà enregistré */
+
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+avatarChoisi =
+
+user?.avatar ||
+
+avatars.garcons[0];
+
 
 let liste=[];
 
 if(type==="all"){
 
 liste=[
+
 ...avatars.garcons,
 ...avatars.filles
+
 ];
 
 }else{
 
-liste=avatars[type];
+liste=
+avatars[type];
 
 }
 
+
+/* affichage */
+
 liste.forEach((avatar)=>{
 
-container.innerHTML+=`
+let selected = "";
+
+if(
+avatar===avatarChoisi
+){
+
+selected=
+"avatar-selected";
+
+}
+
+container.innerHTML += `
 
 <img
 src="${avatar}"
-class="avatar-item"
+class="avatar-item ${selected}"
 data-avatar="${avatar}"
-onclick="selectionAvatar(this)"
->
+onclick="selectionAvatar(this)">
 
 `;
 
 });
 
 
-if(!avatarChoisi){
-
-avatarChoisi=liste[0];
-
-}
+/* aperçu */
 
 document.getElementById(
 "selected-avatar"
-).src=
+).src =
+
 avatarChoisi;
 
 }
@@ -2800,19 +2830,8 @@ localStorage.setItem(
 JSON.stringify(user)
 );
 
-
-/* MAJ VISUELLE */
-
-afficherAvatar();
-
-
 window.location.href =
 "profile.html";
-
-console.log(
-"Avatar sauvegardé :",
-user.avatar
-);
 
 }
 
