@@ -136,10 +136,17 @@ alert("Compte non validé");
 return;
 }
 
-localStorage.setItem(
-"user",
-JSON.stringify(user)
+if(!user.avatar){
+
+user.avatar=
+AVATAR_DEFAULT;
+
+}
+
+saveUser(
+user
 );
+
 
 db.collection("status")
 .doc(user.carte)
@@ -2621,23 +2628,58 @@ icon:"logo.png"
 SMART CAMPUS AVATAR
 =====================*/
 
-function afficherAvatar(){
+/* avatar par défaut */
 
-let user=
+const AVATAR_DEFAULT =
+"assets/default-user.png";
 
-JSON.parse(
+
+/* récupérer utilisateur */
+
+function getUser(){
+
+return JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
+
+}
+
+
+/* sauvegarder utilisateur */
+
+function saveUser(user){
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(
+user
+)
+
+);
+
+}
+
+
+/* AFFICHER AVATAR PARTOUT */
+
+function afficherAvatar(){
+
+let user=
+getUser();
 
 if(!user)return;
 
 let avatar=
 
 user.avatar ||
+AVATAR_DEFAULT;
 
-"assets/default-user.png";
+
+/* profile + dashboard + nav */
 
 [
 "profileAvatar",
@@ -2663,10 +2705,99 @@ avatar;
 
 });
 
+console.log(
+"Avatar affiché :",
+avatar
+);
+
 }
 
 
-/* AVATAR AMI CONVERSATION */
+/* SAUVEGARDE AVATAR */
+
+function sauvegarderAvatarChoisi(
+
+avatarChoisi
+
+){
+
+let user=
+getUser();
+
+if(!user)return;
+
+
+/* maj locale */
+
+user.avatar=
+avatarChoisi;
+
+saveUser(
+user
+);
+
+
+/* maj firebase */
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+db.collection("users")
+
+.doc(doc.id)
+
+.update({
+
+avatar:
+avatarChoisi
+
+});
+
+});
+
+afficherAvatar();
+
+window.location.href=
+"profile.html";
+
+});
+
+}
+
+
+/* supprimer avatar */
+
+function supprimerAvatar(){
+
+let user=
+getUser();
+
+if(!user)return;
+
+user.avatar=
+AVATAR_DEFAULT;
+
+saveUser(
+user
+);
+
+afficherAvatar();
+
+}
+
+
+/* avatar ami conversation */
 
 function afficherAvatarAmi(){
 
@@ -2676,7 +2807,7 @@ new URLSearchParams(
 window.location.search
 );
 
-let friendCarte=
+let friend=
 
 params.get(
 "friend"
@@ -2689,7 +2820,7 @@ document.getElementById(
 );
 
 if(
-!friendCarte
+!friend
 ||
 !avatarZone
 ){
@@ -2698,12 +2829,13 @@ return;
 
 }
 
+
 db.collection("users")
 
 .where(
 "carte",
 "==",
-friendCarte
+friend
 )
 
 .get()
@@ -2713,22 +2845,19 @@ friendCarte
 if(snapshot.empty){
 
 avatarZone.src=
-
-"assets/default-user.png";
+AVATAR_DEFAULT;
 
 return;
 
 }
 
 let ami=
-
 snapshot.docs[0].data();
 
 avatarZone.src=
 
 ami.avatar ||
-
-"assets/default-user.png";
+AVATAR_DEFAULT;
 
 });
 
@@ -2858,95 +2987,31 @@ alert(
 // =====================
 window.onload=function(){
 
-try{
-
 afficherAvatar();
 
-}catch(e){
-
-console.log(
-"Erreur avatar:",
-e
-);
-
-}
-
-
-try{
+afficherAvatarAmi();
 
 initialiserRechercheIntelligente();
 
-}catch(e){}
-
-
-try{
-
 initialiserNotificationsPush();
-
-}catch(e){}
-
-
-try{
 
 afficherInfosQR();
 
-}catch(e){}
-
-
-try{
-
 genererQR();
-
-}catch(e){}
-
-
-try{
 
 genererQRRestaurant();
 
-}catch(e){}
-
-
-try{
-
 afficherAmis();
-
-}catch(e){}
-
-
-try{
 
 afficherNotifications();
 
-}catch(e){}
-
-
-try{
-
 afficherBadgeMessages();
-
-}catch(e){}
-
-
-try{
 
 gererPresenceUtilisateur();
 
-}catch(e){}
-
-
-try{
-
 afficherBadgeNotifications();
 
-}catch(e){}
-
-
-try{
-
 marquerNotificationsLues();
-
-}catch(e){}
 
 };
 
