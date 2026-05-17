@@ -126,9 +126,40 @@ Valider
 
 <script>
 
+const firebaseConfig={
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(!firebase.apps.length){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db=
+firebase.firestore();
+
+
 const avatars={
 
 garcons:[
+
 "assets/avatars/garcons/g1.png",
 "assets/avatars/garcons/g2.png",
 "assets/avatars/garcons/g3.png",
@@ -142,9 +173,11 @@ garcons:[
 "assets/avatars/garcons/g11.png",
 "assets/avatars/garcons/g12.png",
 "assets/avatars/garcons/g13.png"
+
 ],
 
 filles:[
+
 "assets/avatars/filles/f1.png",
 "assets/avatars/filles/f2.png",
 "assets/avatars/filles/f3.png",
@@ -157,22 +190,34 @@ filles:[
 "assets/avatars/filles/f10.png",
 "assets/avatars/filles/f11.png",
 "assets/avatars/filles/f12.png"
+
 ]
 
 };
 
+
 let user=
+
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
+
 
 let avatarChoisi=
 
 user?.avatar ||
 
-avatars.garcons[0];
+"assets/default-user.png";
 
-function charger(type="all",btn=null){
+
+function charger(
+
+type="all",
+btn=null
+
+){
 
 let grid=
 
@@ -193,25 +238,30 @@ liste=[
 
 ];
 
-}else{
+}
+
+else{
 
 liste=
 avatars[type];
 
 }
 
+
 liste.forEach((avatar)=>{
 
-let active="";
+let active=
 
-if(
 avatar===avatarChoisi
-){
 
-active=
-"avatar-selected";
+?
 
-}
+"avatar-selected"
+
+:
+
+"";
+
 
 grid.innerHTML+=`
 
@@ -223,6 +273,7 @@ onclick="selection('${avatar}')">
 `;
 
 });
+
 
 if(btn){
 
@@ -247,6 +298,7 @@ btn.classList.add(
 
 }
 
+
 function selection(src){
 
 avatarChoisi=src;
@@ -256,40 +308,33 @@ document
 "selected-avatar"
 )
 
-.src=src;
+.src=
+src;
 
 charger();
 
 }
 
-function sauvegarder(){
 
-let user=
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
+function sauvegarder(){
 
 if(!user)return;
 
-
-/* MAJ local */
-
 user.avatar=
+
 avatarChoisi;
+
 
 localStorage.setItem(
 
 "user",
+
 JSON.stringify(
 user
 )
 
 );
 
-
-/* MAJ FIREBASE */
 
 db.collection("users")
 
@@ -313,35 +358,46 @@ return;
 
 }
 
-let docId=
-
-snapshot.docs[0].id;
+snapshot.forEach((doc)=>{
 
 db.collection("users")
 
-.doc(docId)
+.doc(doc.id)
 
 .update({
 
 avatar:
 avatarChoisi
 
-})
+});
 
-.then(()=>{
+});
 
-console.log(
-"Avatar sauvegardé Firebase"
-);
 
 window.location.href=
 "profile.html";
 
 });
 
-});
-
 }
+
+
+/* lancement */
+
+window.onload=function(){
+
+document
+.getElementById(
+"selected-avatar"
+)
+
+.src=
+
+avatarChoisi;
+
+charger();
+
+};
 
 </script>
 
