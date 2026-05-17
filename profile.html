@@ -297,30 +297,11 @@ src="">
 
 <script>
 
-document
-.getElementById(
-"profileAvatar"
-)
-
-.src=
-
-localStorage.getItem(
-"userAvatar"
-)
-
-||
-
-"assets/avatars/garcons/g1.png";
-
-</script>
-
-<script>
-
 verifierConnexion("etudiant");
 
 /* USER */
 
-let user=
+const user =
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -329,70 +310,73 @@ localStorage.getItem(
 
 if(user){
 
+/* INFOS */
+
 document.getElementById(
 "profile-name"
-).innerHTML=
+).innerHTML =
+
 user.nom || "Étudiant";
+
 
 document.getElementById(
 "profile-carte"
-).innerHTML=
+).innerHTML =
+
 user.carte || "";
+
 
 document.getElementById(
 "profile-faculte"
-).innerHTML=
+).innerHTML =
+
 user.faculte || "";
+
 
 document.getElementById(
 "profile-niveau"
-).innerHTML=
-user.niveau || "";
+).innerHTML =
 
-}
+user.niveau || "";
 
 
 /* AVATAR */
 
-let avatar=
+let avatar =
 
-localStorage.getItem(
-"userAvatar"
-)
-
-||
+user.avatar ||
 
 "assets/default-user.png";
 
 
 document.getElementById(
 "profileAvatar"
-).src=
-avatar;
+).src = avatar;
 
 
 document.getElementById(
 "navAvatar"
-).src=
-avatar;
+).src = avatar;
+
+}
 
 
-/* BOUTON */
+/* BOUTON AVATAR */
 
 document
 .getElementById(
 "edit-avatar-btn"
 )
 
-.onclick=()=>{
+.onclick = ()=>{
 
-window.location.href=
+window.location.href =
 "avatar.html";
 
 };
 
 
-/* BADGE */
+/* BADGES */
 
 afficherBadgeNotifications();
 
