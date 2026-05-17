@@ -2651,30 +2651,36 @@ filles:[
 let avatarChoisi=null;
 
 
-/* CHARGER */
+/*=====================
+CHARGER
+=====================*/
 
 function chargerAvatars(type="all"){
 
-let container =
+let container=
 document.getElementById(
 "avatar-grid"
 );
 
 if(!container) return;
 
-container.innerHTML = "";
+container.innerHTML="";
 
 
-/* récupérer avatar déjà enregistré */
-
-let user =
+let user=
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-avatarChoisi =
+
+/* IMPORTANT :
+ne réinitialise plus à g1 */
+
+avatarChoisi=
+
+avatarChoisi ||
 
 user?.avatar ||
 
@@ -2700,17 +2706,17 @@ avatars[type];
 }
 
 
-/* affichage */
+/* AFFICHAGE */
 
 liste.forEach((avatar)=>{
 
-let selected = "";
+let active="";
 
 if(
 avatar===avatarChoisi
 ){
 
-selected=
+active=
 "avatar-selected";
 
 }
@@ -2719,7 +2725,7 @@ container.innerHTML += `
 
 <img
 src="${avatar}"
-class="avatar-item ${selected}"
+class="avatar-item ${active}"
 data-avatar="${avatar}"
 onclick="selectionAvatar(this)">
 
@@ -2728,18 +2734,24 @@ onclick="selectionAvatar(this)">
 });
 
 
-/* aperçu */
-
+let preview=
 document.getElementById(
 "selected-avatar"
-).src =
+);
 
+if(preview){
+
+preview.src=
 avatarChoisi;
 
 }
 
+}
 
-/* SELECTION */
+
+/*=====================
+SELECTION
+=====================*/
 
 function selectionAvatar(img){
 
@@ -2761,21 +2773,27 @@ img.classList.add(
 );
 
 avatarChoisi=
-
 img.dataset.avatar;
 
-document
-.getElementById(
-"selected-avatar"
-)
-.src=
 
+let preview=
+document.getElementById(
+"selected-avatar"
+);
+
+if(preview){
+
+preview.src=
 avatarChoisi;
 
 }
 
+}
 
-/* FILTRE */
+
+/*=====================
+FILTRE
+=====================*/
 
 function filtrerAvatar(type,btn){
 
@@ -2801,13 +2819,13 @@ chargerAvatars(type);
 }
 
 
-/* SAVE */
-
-/* SAVE */
+/*=====================
+SAVE
+=====================*/
 
 function sauvegarderAvatarChoisi(){
 
-let user =
+let user=
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -2816,58 +2834,73 @@ localStorage.getItem(
 
 if(!user) return;
 
-
-/* SAUVEGARDE AVATAR */
-
-user.avatar =
+user.avatar=
 avatarChoisi;
 
 
-/* REECRIT USER COMPLET */
+/* sauvegarde */
 
 localStorage.setItem(
+
 "user",
-JSON.stringify(user)
+
+JSON.stringify(
+user
+)
+
 );
 
-window.location.href =
+
+/* mise à jour directe */
+
+afficherAvatar();
+
+window.location.href=
 "profile.html";
 
 }
 
 
-/* SUPPRIMER */
+/*=====================
+SUPPRIMER
+=====================*/
 
 function supprimerAvatar(){
 
 let user=
-
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user)return;
+if(!user) return;
 
 delete user.avatar;
 
 localStorage.setItem(
+
 "user",
-JSON.stringify(user)
+
+JSON.stringify(
+user
+)
+
 );
 
 avatarChoisi=
 avatars.garcons[0];
 
-afficherAvatar();
-
 chargerAvatars();
+
+afficherAvatar();
 
 }
 
 
-/* AFFICHAGE GLOBAL */
+/*=====================
+AFFICHAGE GLOBAL
+=====================*/
 
 function afficherAvatar(){
 
@@ -2878,7 +2911,7 @@ localStorage.getItem(
 )
 );
 
-if(!user)return;
+if(!user) return;
 
 let avatar=
 
@@ -2890,7 +2923,6 @@ avatars.garcons[0];
 /* PROFILE */
 
 let profile=
-
 document.getElementById(
 "profileAvatar"
 );
@@ -2906,7 +2938,6 @@ avatar;
 /* DASHBOARD */
 
 let dashboard=
-
 document.getElementById(
 "dashboardAvatar"
 );
@@ -2919,10 +2950,9 @@ avatar;
 }
 
 
-/* NAV */
+/* NAVBAR */
 
 let nav=
-
 document.getElementById(
 "navAvatar"
 );
@@ -2936,6 +2966,63 @@ avatar;
 
 }
 
+
+/*=====================
+AVATAR AMI
+=====================*/
+
+function afficherAvatarAmi(){
+
+let params=
+new URLSearchParams(
+window.location.search
+);
+
+let friend=
+params.get(
+"friend"
+);
+
+let img=
+document.getElementById(
+"friend-avatar"
+);
+
+if(!img) return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+friend
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty){
+
+img.src=
+avatars.garcons[0];
+
+return;
+
+}
+
+let ami=
+snapshot.docs[0].data();
+
+img.src=
+
+ami.avatar ||
+
+avatars.garcons[0];
+
+});
+
+}
 
 document.addEventListener(
 "contextmenu",
@@ -3060,6 +3147,8 @@ alert(
 window.onload = function(){
 
 afficherAvatar();
+
+afficherAvatarAmi();
 
 initialiserRechercheIntelligente();
 
