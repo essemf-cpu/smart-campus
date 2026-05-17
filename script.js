@@ -2856,32 +2856,97 @@ alert(
 // =====================
 // LOAD
 // =====================
-window.onload = function(){
+window.onload=function(){
+
+try{
 
 afficherAvatar();
 
+}catch(e){
+
+console.log(
+"Erreur avatar:",
+e
+);
+
+}
+
+
+try{
+
 initialiserRechercheIntelligente();
+
+}catch(e){}
+
+
+try{
 
 initialiserNotificationsPush();
 
+}catch(e){}
+
+
+try{
+
 afficherInfosQR();
+
+}catch(e){}
+
+
+try{
 
 genererQR();
 
+}catch(e){}
+
+
+try{
+
 genererQRRestaurant();
+
+}catch(e){}
+
+
+try{
 
 afficherAmis();
 
+}catch(e){}
+
+
+try{
+
 afficherNotifications();
+
+}catch(e){}
+
+
+try{
 
 afficherBadgeMessages();
 
+}catch(e){}
+
+
+try{
+
 gererPresenceUtilisateur();
+
+}catch(e){}
+
+
+try{
 
 afficherBadgeNotifications();
 
+}catch(e){}
+
+
+try{
+
 marquerNotificationsLues();
 
+}catch(e){}
 
 };
 
