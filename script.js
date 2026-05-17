@@ -2668,50 +2668,50 @@ user
 
 function afficherAvatar(){
 
-let user=
-getUser();
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
 
-if(!user)return;
+if(!user) return;
 
-let avatar=
+let avatar =
 
 user.avatar ||
-AVATAR_DEFAULT;
 
-
-/* profile + dashboard + nav */
+"assets/default-user.png";
 
 [
 "profileAvatar",
 "dashboardAvatar",
-"navAvatar"
+"navAvatar",
+"friend-avatar"
 
 ]
 
 .forEach((id)=>{
 
-let img=
-
-document.getElementById(
-id
-);
+let img =
+document.getElementById(id);
 
 if(img){
 
+img.src=avatar;
+
+img.onerror=()=>{
+
 img.src=
-avatar;
+"assets/default-user.png";
+
+};
 
 }
 
 });
 
-console.log(
-"Avatar affiché :",
-avatar
-);
-
 }
-
 
 /* SAUVEGARDE AVATAR */
 
@@ -2989,7 +2989,11 @@ window.onload=function(){
 
 afficherAvatar();
 
+try{
+
 afficherAvatarAmi();
+
+}catch(e){}
 
 initialiserRechercheIntelligente();
 

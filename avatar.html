@@ -318,23 +318,15 @@ charger();
 
 function sauvegarder(){
 
-if(!user)return;
-
-user.avatar=
-
-avatarChoisi;
-
-
-localStorage.setItem(
-
-"user",
-
-JSON.stringify(
-user
-)
-
+let user =
+JSON.parse(
+localStorage.getItem("user")
 );
 
+if(!user) return;
+
+
+/* Sauvegarder uniquement avatar */
 
 db.collection("users")
 
@@ -358,7 +350,36 @@ return;
 
 }
 
-snapshot.forEach((doc)=>{
+let doc=snapshot.docs[0];
+
+let data=doc.data();
+
+
+/* Fusion complète */
+
+let nouveauUser={
+
+...data,
+
+avatar:avatarChoisi
+
+};
+
+
+/* localStorage */
+
+localStorage.setItem(
+
+"user",
+
+JSON.stringify(
+nouveauUser
+)
+
+);
+
+
+/* Firebase */
 
 db.collection("users")
 
@@ -369,13 +390,14 @@ db.collection("users")
 avatar:
 avatarChoisi
 
-});
+})
 
-});
-
+.then(()=>{
 
 window.location.href=
 "profile.html";
+
+});
 
 });
 
