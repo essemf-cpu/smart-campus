@@ -2835,35 +2835,26 @@ chargerAvatars();
 
 function afficherAvatar(){
 
-let user =
+let user=
 JSON.parse(
-localStorage.getItem(
-"user"
-)
+localStorage.getItem("user")
 );
 
-if(!user) return;
+let avatar=
 
-let avatar =
-
-user.avatar ||
-
-localStorage.getItem(
-"userAvatar"
-) ||
+user?.avatar ||
 
 "assets/default-user.png";
 
 
 document
 .querySelectorAll(
-"#profileAvatar,.nav-avatar,#dashboardAvatar,.real-avatar"
+".profile-avatar"
 )
 
 .forEach((img)=>{
 
-img.src =
-avatar;
+img.src=avatar;
 
 });
 
@@ -2906,22 +2897,19 @@ window.location.search
 );
 
 let friendCarte =
-params.get(
-"friend"
-);
+params.get("friend");
 
-let img =
+let avatarZone =
 document.getElementById(
 "friend-avatar"
 );
 
-if(!img) return;
+if(!avatarZone) return;
 
-
-db.collection("friends")
+db.collection("users")
 
 .where(
-"friendCarte",
+"carte",
 "==",
 friendCarte
 )
@@ -2932,7 +2920,7 @@ friendCarte
 
 if(snapshot.empty){
 
-img.src =
+avatarZone.src =
 "assets/default-user.png";
 
 return;
@@ -2941,10 +2929,9 @@ return;
 let ami =
 snapshot.docs[0].data();
 
-img.src =
+avatarZone.src =
 
 ami.avatar ||
-
 "assets/default-user.png";
 
 });
