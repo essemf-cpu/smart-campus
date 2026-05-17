@@ -4316,3 +4316,45 @@ linear-gradient(
 color:white;
 
 }
+
+/* =========================
+   NAV AVATAR
+========================= */
+
+.nav-avatar-link{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+text-decoration:none;
+
+}
+
+.nav-avatar{
+
+width:34px;
+height:34px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:2px solid white;
+
+box-shadow:
+0 3px 10px rgba(
+0,0,0,.1
+);
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.nav-avatar:active{
+
+transform:scale(.9);
+
+}
