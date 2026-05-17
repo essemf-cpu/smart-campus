@@ -2633,21 +2633,11 @@ localStorage.getItem(
 
 if(!user)return;
 
-
-/* priorité firebase */
-
 let avatar=
 
 user.avatar ||
 
-localStorage.getItem(
-"userAvatar"
-)
-
-||
-
 "assets/default-user.png";
-
 
 [
 "profileAvatar",

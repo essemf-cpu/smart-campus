@@ -118,12 +118,17 @@ Valider
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+
 <script>
 
 const avatars={
 
 garcons:[
-
 "assets/avatars/garcons/g1.png",
 "assets/avatars/garcons/g2.png",
 "assets/avatars/garcons/g3.png",
@@ -137,11 +142,9 @@ garcons:[
 "assets/avatars/garcons/g11.png",
 "assets/avatars/garcons/g12.png",
 "assets/avatars/garcons/g13.png"
-
 ],
 
 filles:[
-
 "assets/avatars/filles/f1.png",
 "assets/avatars/filles/f2.png",
 "assets/avatars/filles/f3.png",
@@ -154,25 +157,22 @@ filles:[
 "assets/avatars/filles/f10.png",
 "assets/avatars/filles/f11.png",
 "assets/avatars/filles/f12.png"
-
 ]
 
 };
 
+let user=
+JSON.parse(
+localStorage.getItem("user")
+);
+
 let avatarChoisi=
 
-localStorage.getItem(
-"userAvatar"
-)
-
-||
+user?.avatar ||
 
 avatars.garcons[0];
 
-
-function charger(type="all",btn){
-
-let liste=[];
+function charger(type="all",btn=null){
 
 let grid=
 
@@ -182,6 +182,7 @@ document.getElementById(
 
 grid.innerHTML="";
 
+let liste=[];
 
 if(type==="all"){
 
@@ -195,25 +196,33 @@ liste=[
 }else{
 
 liste=
-
 avatars[type];
 
 }
 
-
 liste.forEach((avatar)=>{
+
+let active="";
+
+if(
+avatar===avatarChoisi
+){
+
+active=
+"avatar-selected";
+
+}
 
 grid.innerHTML+=`
 
 <img
 src="${avatar}"
-class="avatar-item"
+class="avatar-item ${active}"
 onclick="selection('${avatar}')">
 
 `;
 
 });
-
 
 if(btn){
 
@@ -238,7 +247,6 @@ btn.classList.add(
 
 }
 
-
 function selection(src){
 
 avatarChoisi=src;
@@ -250,8 +258,9 @@ document
 
 .src=src;
 
-}
+charger();
 
+}
 
 function sauvegarder(){
 
@@ -265,19 +274,6 @@ localStorage.getItem(
 
 if(!user)return;
 
-
-/* cache local */
-
-localStorage.setItem(
-
-"userAvatar",
-avatarChoisi
-
-);
-
-
-/* mise à jour user local */
-
 user.avatar=
 avatarChoisi;
 
@@ -290,30 +286,22 @@ user
 
 );
 
-
-/* FIREBASE */
-
-db.collection(
-"users"
-)
-
-.doc(
-user.carte
-)
-
-.update({
-
-avatar:
-avatarChoisi
-
-})
-
-.then(()=>{
-
 window.location.href=
 "profile.html";
 
-});
+}
+
+window.onload=function(){
+
+document
+.getElementById(
+"selected-avatar"
+)
+
+.src=
+avatarChoisi;
+
+charger();
 
 }
 
