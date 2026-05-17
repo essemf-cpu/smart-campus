@@ -2894,6 +2894,63 @@ img.src = avatar;
 
 }
 
+// =====================
+// AVATAR AMI CONVERSATION
+// =====================
+
+function afficherAvatarAmi(){
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+let friendCarte =
+params.get(
+"friend"
+);
+
+let img =
+document.getElementById(
+"friend-avatar"
+);
+
+if(!img) return;
+
+
+db.collection("friends")
+
+.where(
+"friendCarte",
+"==",
+friendCarte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty){
+
+img.src =
+"assets/default-user.png";
+
+return;
+}
+
+let ami =
+snapshot.docs[0].data();
+
+img.src =
+
+ami.avatar ||
+
+"assets/default-user.png";
+
+});
+
+}
+
 document.addEventListener(
 "contextmenu",
 function(e){
