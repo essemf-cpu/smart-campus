@@ -285,9 +285,8 @@
 
 verifierConnexion("etudiant");
 
-/* USER */
+let user=
 
-let user =
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -296,67 +295,16 @@ localStorage.getItem(
 
 if(user){
 
-/* NOM */
-
 document.getElementById(
 "nom-user"
-).textContent =
+).textContent=
 user.nom;
-
-
-/* AVATAR DASHBOARD */
-
-let avatar =
-document.getElementById(
-"dashboardAvatar"
-);
-
-console.log(
-"USER :",
-user
-);
-
-console.log(
-"user.avatar :",
-user.avatar
-);
-
-console.log(
-"userAvatar localStorage :",
-localStorage.getItem(
-"userAvatar"
-)
-);
-
-if(avatar){
-
-avatar.src =
-
-user.avatar ||
-
-localStorage.getItem(
-"userAvatar"
-) ||
-
-"assets/default-user.png";
-
-console.log(
-"Avatar chargé :",
-avatar.src
-);
-
-}
 
 }
 
 afficherAvatar();
 
-
-/* QR */
-
 genererQR();
-
-/* BADGES */
 
 afficherBadgeMessages();
 

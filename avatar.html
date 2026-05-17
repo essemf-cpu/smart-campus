@@ -4,10 +4,13 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width,initial-scale=1">
 
-<title>Choisir mon avatar</title>
+<title>
+Choisir mon avatar
+</title>
 
 <link rel="stylesheet"
 href="style.css">
@@ -34,11 +37,15 @@ onclick="history.back()">
 <div>
 
 <h1 class="avatar-title">
+
 Choisir mon avatar
+
 </h1>
 
 <p class="avatar-subtitle">
+
 Choisis ton identité Smart Campus
+
 </p>
 
 </div>
@@ -50,22 +57,7 @@ Choisis ton identité Smart Campus
 
 <img
 id="selected-avatar"
-class="selected-avatar"
-src="assets/default-user.png">
-
-<div class="avatar-security">
-
-<i class="fa-solid fa-shield-halved"></i>
-
-<div>
-
-<strong>100% privé</strong>
-
-<p>Aucune photo réelle utilisée</p>
-
-</div>
-
-</div>
+class="selected-avatar">
 
 </div>
 
@@ -118,29 +110,13 @@ Annuler
 class="save-avatar-btn"
 onclick="sauvegarder()">
 
-Valider mon avatar
-
-</button>
-
-<button
-class="cancel-avatar-btn"
-onclick="supprimerAvatar()">
-
-Supprimer
+Valider
 
 </button>
 
 </div>
 
 </div>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
-
 
 <script>
 
@@ -183,32 +159,43 @@ filles:[
 
 };
 
-let avatarChoisi=localStorage.getItem(
+let avatarChoisi=
+
+localStorage.getItem(
 "userAvatar"
-) || avatars.garcons[0];
+)
+
+||
+
+avatars.garcons[0];
 
 
-function charger(type="all",btn=null){
+function charger(type="all",btn){
+
+let liste=[];
 
 let grid=
+
 document.getElementById(
 "avatar-grid"
 );
 
 grid.innerHTML="";
 
-let liste=[];
 
 if(type==="all"){
 
 liste=[
+
 ...avatars.garcons,
 ...avatars.filles
+
 ];
 
 }else{
 
 liste=
+
 avatars[type];
 
 }
@@ -227,6 +214,7 @@ onclick="selection('${avatar}')">
 
 });
 
+
 if(btn){
 
 document
@@ -243,7 +231,8 @@ b.classList.remove(
 });
 
 btn.classList.add(
-"active-filter");
+"active-filter"
+);
 
 }
 
@@ -269,40 +258,19 @@ function sauvegarder(){
 localStorage.setItem(
 
 "userAvatar",
+
 avatarChoisi
 
 );
 
-alert(
-"Avatar enregistré"
-);
+window.location.href=
 
-history.back();
+"profile.html";
 
 }
 
 
-function supprimerAvatar(){
-
-localStorage.removeItem(
-"userAvatar"
-);
-
-avatarChoisi=
-avatars.garcons[0];
-
-document
-.getElementById(
-"selected-avatar"
-)
-
-.src=
-avatarChoisi;
-
-}
-
-
-window.onload=function(){
+window.onload=()=>{
 
 document
 .getElementById(
@@ -314,7 +282,7 @@ avatarChoisi;
 
 charger();
 
-};
+}
 
 </script>
 

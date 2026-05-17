@@ -299,9 +299,8 @@ src="">
 
 verifierConnexion("etudiant");
 
-/* USER */
+let user=
 
-const user =
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -310,74 +309,41 @@ localStorage.getItem(
 
 if(user){
 
-/* INFOS */
-
 document.getElementById(
 "profile-name"
-).innerHTML =
-
-user.nom || "Étudiant";
-
+).innerHTML=
+user.nom;
 
 document.getElementById(
 "profile-carte"
-).innerHTML =
-
-user.carte || "";
-
+).innerHTML=
+user.carte;
 
 document.getElementById(
 "profile-faculte"
-).innerHTML =
-
-user.faculte || "";
-
+).innerHTML=
+user.faculte;
 
 document.getElementById(
 "profile-niveau"
-).innerHTML =
-
-user.niveau || "";
-
-
-/* AVATAR */
-
-let avatar =
-
-user.avatar ||
-
-"assets/default-user.png";
-
-
-document.getElementById(
-"profileAvatar"
-).src = avatar;
-
-
-document.getElementById(
-"navAvatar"
-).src = avatar;
+).innerHTML=
+user.niveau;
 
 }
 
-
-/* BOUTON AVATAR */
+afficherAvatar();
 
 document
 .getElementById(
 "edit-avatar-btn"
 )
 
-.onclick = ()=>{
+.onclick=()=>{
 
-window.location.href =
+window.location.href=
 "avatar.html";
 
 };
-
-afficherAvatar();
-
-/* BADGES */
 
 afficherBadgeNotifications();
 

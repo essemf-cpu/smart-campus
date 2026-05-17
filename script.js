@@ -2625,335 +2625,78 @@ icon:"logo.png"
 SMART CAMPUS AVATAR
 =====================*/
 
-const avatars={
-
-garcons:[
-"assets/avatars/garcons/g1.png",
-"assets/avatars/garcons/g2.png",
-"assets/avatars/garcons/g3.png",
-"assets/avatars/garcons/g4.png",
-"assets/avatars/garcons/g5.png",
-"assets/avatars/garcons/g6.png",
-"assets/avatars/garcons/g7.png",
-"assets/avatars/garcons/g8.png",
-"assets/avatars/garcons/g9.png",
-"assets/avatars/garcons/g10.png",
-"assets/avatars/garcons/g11.png",
-"assets/avatars/garcons/g12.png",
-"assets/avatars/garcons/g13.png"
-],
-
-filles:[
-"assets/avatars/filles/f1.png",
-"assets/avatars/filles/f2.png",
-"assets/avatars/filles/f3.png",
-"assets/avatars/filles/f4.png",
-"assets/avatars/filles/f5.png",
-"assets/avatars/filles/f6.png",
-"assets/avatars/filles/f7.png",
-"assets/avatars/filles/f8.png",
-"assets/avatars/filles/f9.png",
-"assets/avatars/filles/f10.png",
-"assets/avatars/filles/f11.png",
-"assets/avatars/filles/f12.png"
-]
-
-};
-
-let avatarChoisi=null;
-
-
-/* CHARGER */
-
-function chargerAvatars(type="all"){
-
-let container=
-document.getElementById(
-"avatar-grid"
-);
-
-if(!container)return;
-
-container.innerHTML="";
-
-let user=
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-avatarChoisi=
-
-user?.avatar ||
-"assets/default-user.png";
-
-
-let liste=[];
-
-if(type==="all"){
-
-liste=[
-...avatars.garcons,
-...avatars.filles
-];
-
-}else{
-
-liste=
-avatars[type];
-
-}
-
-liste.forEach((avatar)=>{
-
-let selected=
-
-avatar===avatarChoisi
-?
-"avatar-selected"
-:
-"";
-
-container.innerHTML+=`
-
-<img
-src="${avatar}"
-class="avatar-item ${selected}"
-data-avatar="${avatar}"
-onclick="selectionAvatar(this)"
->
-
-`;
-
-});
-
-
-let preview=
-document.getElementById(
-"selected-avatar"
-);
-
-if(preview){
-
-preview.src=
-avatarChoisi;
-
-}
-
-}
-
-
-/* SELECTION */
-
-function selectionAvatar(img){
-
-document
-.querySelectorAll(
-".avatar-item"
-)
-
-.forEach((a)=>{
-
-a.classList.remove(
-"avatar-selected"
-);
-
-});
-
-img.classList.add(
-"avatar-selected"
-);
-
-avatarChoisi=
-img.dataset.avatar;
-
-document
-.getElementById(
-"selected-avatar"
-)
-.src=
-avatarChoisi;
-
-}
-
-
-/* SAVE */
-
-function sauvegarderAvatarChoisi(){
-
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-if(!user) return;
-
-/* MAJ USER */
-
-user.avatar =
-avatarChoisi;
-
-/* SAUVEGARDE */
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-/* MISE À JOUR IMMÉDIATE DE TOUTES LES PAGES */
-
-document
-.querySelectorAll(
-"#profileAvatar,#dashboardAvatar,#navAvatar,.profile-avatar"
-)
-
-.forEach((img)=>{
-
-img.src =
-avatarChoisi;
-
-});
-
-/* recharge proprement */
-
-window.location.href =
-"profile.html";
-
-} function sauvegarderAvatarChoisi(){
-
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-if(!user) return;
-
-/* MAJ USER */
-
-user.avatar =
-avatarChoisi;
-
-/* SAUVEGARDE */
-
-localStorage.setItem(
-"user",
-JSON.stringify(user)
-);
-
-/* MISE À JOUR IMMÉDIATE DE TOUTES LES PAGES */
-
-document
-.querySelectorAll(
-"#profileAvatar,#dashboardAvatar,#navAvatar,.profile-avatar"
-)
-
-.forEach((img)=>{
-
-img.src =
-avatarChoisi;
-
-});
-
-/* recharge proprement */
-
-window.location.href =
-"profile.html";
-
-}
-
-
-/* SUPPRIMER */
-
-function supprimerAvatar(){
-
-let user=
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-if(!user)return;
-
-delete user.avatar;
-
-localStorage.setItem(
-"user",
-JSON.stringify(
-user
-)
-);
-
-afficherAvatar();
-
-window.location.reload();
-
-}
-
-
-/* AFFICHAGE GLOBAL */
-
 function afficherAvatar(){
 
-let user =
-JSON.parse(
+let avatar=
+
 localStorage.getItem(
-"user"
+"userAvatar"
 )
-);
 
-if(!user) return;
+||
 
-let avatar =
-
-user.avatar ||
 "assets/default-user.png";
 
-document
-.querySelectorAll(
-"#profileAvatar,#dashboardAvatar,#navAvatar,.profile-avatar"
-)
 
-.forEach((img)=>{
+let elements=[
 
-img.src =
+"profileAvatar",
+"dashboardAvatar",
+"navAvatar"
+
+];
+
+elements.forEach((id)=>{
+
+let img=
+
+document.getElementById(
+id
+);
+
+if(img){
+
+img.src=
 avatar;
+
+}
 
 });
 
-console.log(
-"Avatar chargé :",
-avatar
-);
-
 }
+
+
+/* AVATAR AMI CONVERSATION */
 
 function afficherAvatarAmi(){
 
 let params=
+
 new URLSearchParams(
 window.location.search
 );
 
 let friendCarte=
+
 params.get(
 "friend"
 );
 
-let avatar=
+let avatarZone=
+
 document.getElementById(
 "friend-avatar"
 );
 
 if(
-!friendCarte ||
-!avatar
-) return;
+!friendCarte
+||
+!avatarZone
+){
+
+return;
+
+}
 
 db.collection("users")
 
@@ -2969,7 +2712,8 @@ friendCarte
 
 if(snapshot.empty){
 
-avatar.src=
+avatarZone.src=
+
 "assets/default-user.png";
 
 return;
@@ -2977,14 +2721,10 @@ return;
 }
 
 let ami=
+
 snapshot.docs[0].data();
 
-console.log(
-"AMI:",
-ami
-);
-
-avatar.src=
+avatarZone.src=
 
 ami.avatar ||
 
@@ -2994,18 +2734,19 @@ ami.avatar ||
 
 }
 
+
+/* bloque appui long */
+
 document.addEventListener(
+
 "contextmenu",
+
 function(e){
 
 if(
-e.target.classList.contains("profile-avatar")
-||
-e.target.classList.contains("selected-avatar")
-||
-e.target.classList.contains("nav-avatar")
-||
-e.target.classList.contains("avatar-item")
+
+e.target.tagName==="IMG"
+
 ){
 
 e.preventDefault();
@@ -3013,6 +2754,7 @@ e.preventDefault();
 }
 
 }
+
 );
 
 
