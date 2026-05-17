@@ -2835,30 +2835,35 @@ chargerAvatars();
 
 function afficherAvatar(){
 
-let user=
-
+let user =
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user)return;
+if(!user) return;
 
-let avatar=
+let avatar =
 
 user.avatar ||
 
-avatars.garcons[0];
+localStorage.getItem(
+"userAvatar"
+) ||
+
+"assets/default-user.png";
+
 
 document
 .querySelectorAll(
-".profile-avatar,.selected-avatar"
+"#profileAvatar,.nav-avatar,#dashboardAvatar,.real-avatar"
 )
 
 .forEach((img)=>{
 
-img.src=avatar;
+img.src =
+avatar;
 
 });
 
@@ -3010,8 +3015,6 @@ alert(
 // LOAD
 // =====================
 window.onload = function(){
-
-initialiserAvatar();
 
 afficherAvatar();
 
