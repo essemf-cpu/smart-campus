@@ -4358,3 +4358,36 @@ transition:.2s;
 transform:scale(.9);
 
 }
+
+/* Désactiver zoom / sélection / appui long sur images */
+
+img{
+
+-webkit-touch-callout:none;
+-webkit-user-select:none;
+
+user-select:none;
+
+-webkit-user-drag:none;
+
+pointer-events:none;
+
+}
+
+/* Pour avatars uniquement (plus propre) */
+
+.profile-avatar,
+.selected-avatar,
+.nav-avatar,
+.avatar-grid img{
+
+-webkit-touch-callout:none;
+
+-webkit-user-select:none;
+user-select:none;
+
+-webkit-user-drag:none;
+
+pointer-events:none;
+
+}

@@ -2802,6 +2802,27 @@ img.src=avatar;
 
 }
 
+document.addEventListener(
+"contextmenu",
+function(e){
+
+if(
+e.target.classList.contains("profile-avatar")
+||
+e.target.classList.contains("selected-avatar")
+||
+e.target.classList.contains("nav-avatar")
+||
+e.target.classList.contains("avatar-item")
+){
+
+e.preventDefault();
+
+}
+
+}
+);
+
 
 // =====================
 // RECHERCHE
