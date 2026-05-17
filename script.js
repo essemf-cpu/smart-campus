@@ -2837,7 +2837,9 @@ function afficherAvatar(){
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
 if(!user) return;
@@ -2846,42 +2848,24 @@ let avatar =
 
 user.avatar ||
 
+localStorage.getItem(
+"userAvatar"
+) ||
+
 "assets/default-user.png";
 
 
-let profil =
-document.getElementById(
-"profileAvatar"
-);
+document
+.querySelectorAll(
+"#profileAvatar,.nav-avatar,#dashboardAvatar,.real-avatar"
+)
 
-let nav =
-document.getElementById(
-"navAvatar"
-);
+.forEach((img)=>{
 
-let dashboard =
-document.getElementById(
-"dashboardAvatar"
-);
+img.src =
+avatar;
 
-
-if(profil){
-
-profil.src = avatar;
-
-}
-
-if(nav){
-
-nav.src = avatar;
-
-}
-
-if(dashboard){
-
-dashboard.src = avatar;
-
-}
+});
 
 }
 
@@ -2922,7 +2906,9 @@ window.location.search
 );
 
 let friendCarte =
-params.get("friend");
+params.get(
+"friend"
+);
 
 let img =
 document.getElementById(
@@ -2932,12 +2918,10 @@ document.getElementById(
 if(!img) return;
 
 
-/* récupérer l'utilisateur réel */
-
-db.collection("users")
+db.collection("friends")
 
 .where(
-"carte",
+"friendCarte",
 "==",
 friendCarte
 )
