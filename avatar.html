@@ -265,7 +265,6 @@ charger();
 function sauvegarder(){
 
 let user=
-
 JSON.parse(
 localStorage.getItem(
 "user"
@@ -273,6 +272,9 @@ localStorage.getItem(
 );
 
 if(!user)return;
+
+
+/* MAJ local */
 
 user.avatar=
 avatarChoisi;
@@ -286,22 +288,58 @@ user
 
 );
 
-window.location.href=
-"profile.html";
+
+/* MAJ FIREBASE */
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty){
+
+alert(
+"Utilisateur introuvable"
+);
+
+return;
 
 }
 
-window.onload=function(){
+let docId=
 
-document
-.getElementById(
-"selected-avatar"
-)
+snapshot.docs[0].id;
 
-.src=
-avatarChoisi;
+db.collection("users")
 
-charger();
+.doc(docId)
+
+.update({
+
+avatar:
+avatarChoisi
+
+})
+
+.then(()=>{
+
+console.log(
+"Avatar sauvegardé Firebase"
+);
+
+window.location.href=
+"profile.html";
+
+});
+
+});
 
 }
 
