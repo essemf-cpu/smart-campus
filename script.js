@@ -2773,29 +2773,41 @@ chargerAvatars(type);
 
 /* SAVE */
 
+/* SAVE */
+
 function sauvegarderAvatarChoisi(){
 
-let user=
-
+let user =
 JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user)return;
+if(!user) return;
 
-user.avatar=
+
+/* SAUVEGARDE AVATAR */
+
+user.avatar =
 avatarChoisi;
+
+
+/* REECRIT USER COMPLET */
 
 localStorage.setItem(
 "user",
 JSON.stringify(user)
 );
 
+
+/* MAJ VISUELLE */
+
 afficherAvatar();
 
-history.back();
+
+window.location.href =
+"profile.html";
 
 }
 
