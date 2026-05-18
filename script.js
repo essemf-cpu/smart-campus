@@ -112,8 +112,16 @@ alert("Identifiants incorrects");
 return;
 }
 
-let user =
-snapshot.docs[0].data();
+let doc =
+snapshot.docs[0];
+
+let user = {
+
+id:doc.id,
+
+...doc.data()
+
+};
 
 if(user.valide === false){
 
@@ -208,6 +216,103 @@ window.location.href =
 "index.html";
 
 }
+
+}
+
+// =====================
+// CHARGER INSCRIPTIONS ADMIN
+// =====================
+
+function chargerInscriptions(){
+
+let container =
+document.getElementById(
+"inscriptions"
+);
+
+if(!container) return;
+
+container.innerHTML="";
+
+db.collection("users")
+
+.where(
+"valide",
+"==",
+false
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty){
+
+container.innerHTML=
+"<p>Aucune inscription en attente</p>";
+
+return;
+}
+
+snapshot.forEach((doc)=>{
+
+let user = doc.data();
+
+container.innerHTML += `
+
+<div class="admin-user-card">
+
+<h4>${user.nom}</h4>
+
+<p>Carte : ${user.carte}</p>
+
+<p>Faculté : ${user.faculte}</p>
+
+<p>Niveau : ${user.niveau}</p>
+
+<button
+onclick="validerCompte('${doc.id}')"
+>
+
+Valider
+
+</button>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+
+
+// =====================
+// VALIDER COMPTE
+// =====================
+
+function validerCompte(id){
+
+db.collection("users")
+
+.doc(id)
+
+.update({
+
+valide:true
+
+})
+
+.then(()=>{
+
+alert("Compte validé");
+
+chargerInscriptions();
+
+});
 
 }
 
