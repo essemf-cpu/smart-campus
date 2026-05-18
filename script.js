@@ -51,19 +51,17 @@ return;
 }
 
 db.collection("users").add({
-
 nom:nom,
 carte:carte,
 faculte:faculte,
 niveau:niveau,
 password:password,
 
+avatar:"assets/default-user.png",
+
 role:"etudiant",
-
 valide:false,
-
 codifie:false
-
 })
 
 .then(()=>{
