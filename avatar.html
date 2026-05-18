@@ -141,6 +141,38 @@ Supprimer
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
 
+<script>
+
+const firebaseConfig = {
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(!firebase.apps.length){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db =
+firebase.firestore();
+
+</script>
 
 <script>
 
@@ -183,9 +215,16 @@ filles:[
 
 };
 
-let avatarChoisi=localStorage.getItem(
-"userAvatar"
-) || avatars.garcons[0];
+let user=
+JSON.parse(
+localStorage.getItem("user")
+);
+
+let avatarChoisi=
+
+user?.avatar ||
+
+avatars.garcons[0];
 
 
 function charger(type="all",btn=null){
@@ -266,10 +305,40 @@ document
 
 function sauvegarder(){
 
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user)return;
+
+console.log(
+"avatarChoisi =",
+avatarChoisi
+);
+
+db.collection("users")
+.doc(user.id)
+
+.update({
+
+avatar:avatarChoisi
+
+})
+
+.then(()=>{
+
+user.avatar =
+avatarChoisi;
+
 localStorage.setItem(
 
-"userAvatar",
-avatarChoisi
+"user",
+JSON.stringify(
+user
+)
 
 );
 
@@ -277,16 +346,15 @@ alert(
 "Avatar enregistré"
 );
 
-history.back();
+window.location.href=
+"profile.html";
+
+});
 
 }
 
 
 function supprimerAvatar(){
-
-localStorage.removeItem(
-"userAvatar"
-);
 
 avatarChoisi=
 avatars.garcons[0];

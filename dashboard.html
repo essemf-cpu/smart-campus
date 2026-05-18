@@ -321,22 +321,13 @@ console.log(
 user.avatar
 );
 
-console.log(
-"userAvatar localStorage :",
-localStorage.getItem(
-"userAvatar"
-)
-);
-
 if(avatar){
 
 avatar.src =
 
 user.avatar ||
 
-localStorage.getItem(
-"userAvatar"
-) ||
+user.avatar
 
 "assets/default-user.png";
 

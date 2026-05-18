@@ -448,6 +448,11 @@ from:user.carte,
 
 fromNom:user.nom,
 
+fromAvatar:
+user.avatar ||
+
+"assets/default-user.png",
+
 to:friendCarte,
 
 status:"pending",
@@ -483,6 +488,30 @@ JSON.parse(
 localStorage.getItem("user")
 );
 
+db.collection("users")
+
+.where(
+"carte",
+"==",
+amiCarte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty){
+
+alert(
+"Utilisateur introuvable"
+);
+
+return;
+}
+
+let amiData =
+snapshot.docs[0].data();
+
 /* AJOUT AMI USER */
 
 db.collection("friends").add({
@@ -491,9 +520,15 @@ userCarte:user.carte,
 userNom:user.nom,
 
 friendCarte:amiCarte,
-friendNom:amiNom
+friendNom:amiNom,
+
+friendAvatar:
+amiData.avatar ||
+
+"assets/default-user.png"
 
 });
+
 
 /* AJOUT AMI AUTRE */
 
@@ -503,9 +538,15 @@ userCarte:amiCarte,
 userNom:amiNom,
 
 friendCarte:user.carte,
-friendNom:user.nom
+friendNom:user.nom,
+
+friendAvatar:
+user.avatar ||
+
+"assets/default-user.png"
 
 });
+
 
 /* UPDATE DEMANDE */
 
@@ -524,6 +565,7 @@ amiNom +
 date:Date.now()
 
 });
+
 
 /* NOTIFICATION POUR L’AUTRE */
 
@@ -546,7 +588,11 @@ seen:false
 
 });
 
-alert("Ami ajouté");
+alert(
+"Ami ajouté"
+);
+
+});
 
 }
 
@@ -607,7 +653,12 @@ zone.innerHTML += `
 
 <div class="friend-avatar">
 
-<i class="fa-solid fa-user"></i>
+<img
+class="real-avatar"
+src="${
+ami.friendAvatar ||
+'assets/default-user.png'
+}">
 
 </div>
 
@@ -1201,7 +1252,12 @@ ouvrirMessage(
 
 <div class="conversation-avatar">
 
-<i class="fa-solid fa-user"></i>
+<img
+class="real-avatar"
+src="${
+ami.friendAvatar ||
+'assets/default-user.png'
+}">
 
 </div>
 
@@ -1526,7 +1582,19 @@ zone.innerHTML += `
 
 <div class="history-icon ${n.iconBg}">
 
-<i class="${n.icon}"></i>
+${
+n.avatar
+
+?
+
+`<img
+src="${n.avatar}"
+class="real-avatar">`
+
+:
+
+`<i class="${n.icon}"></i>`
+}
 
 </div>
 
@@ -1634,9 +1702,9 @@ text:texte,
 
 date:d.date || Date.now(),
 
-icon:"fa-solid fa-user-plus",
-
-iconBg:"purple-bg",
+avatar:
+d.fromAvatar ||
+"assets/default-user.png",
 
 button:button
 
@@ -2878,15 +2946,23 @@ chargerAvatars(type);
 
 function sauvegarderAvatarChoisi(){
 
-let user=
-
-JSON.parse(
+let user = JSON.parse(
 localStorage.getItem(
 "user"
 )
 );
 
-if(!user)return;
+if(!user) return;
+
+db.collection("users")
+.doc(user.id)
+.update({
+
+avatar:avatarChoisi
+
+})
+
+.then(()=>{
 
 user.avatar=
 avatarChoisi;
@@ -2899,6 +2975,8 @@ JSON.stringify(user)
 afficherAvatar();
 
 history.back();
+
+});
 
 }
 
@@ -2945,22 +3023,17 @@ localStorage.getItem(
 )
 );
 
-if(!user) return;
+if(!user)return;
 
 let avatar =
 
 user.avatar ||
 
-localStorage.getItem(
-"userAvatar"
-) ||
-
 "assets/default-user.png";
-
 
 document
 .querySelectorAll(
-"#profileAvatar,.nav-avatar,#dashboardAvatar,.real-avatar"
+"#profileAvatar,.nav-avatar,#dashboardAvatar"
 )
 
 .forEach((img)=>{
@@ -2974,13 +3047,18 @@ avatar;
 
 function afficherAvatarDashboard(){
 
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user)return;
+
 let avatar =
 
-localStorage.getItem(
-"userAvatar"
-)
-
-||
+user.avatar ||
 
 "assets/default-user.png";
 
@@ -2994,6 +3072,56 @@ if(img){
 img.src = avatar;
 
 }
+
+}
+
+function afficherAvatarAmi(){
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+let friendCarte =
+params.get(
+"friend"
+);
+
+if(!friendCarte)return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+friendCarte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)return;
+
+let ami =
+snapshot.docs[0].data();
+
+let img =
+document.getElementById(
+"friend-avatar"
+);
+
+if(img){
+
+img.src =
+
+ami.avatar ||
+
+"assets/default-user.png";
+
+}
+
+});
 
 }
 
@@ -3121,6 +3249,8 @@ window.onload = function(){
 afficherAvatar();
 
 afficherAvatarDashboard();
+
+afficherAvatarAmi();
 
 initialiserRechercheIntelligente();
 

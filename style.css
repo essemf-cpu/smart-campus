@@ -2089,11 +2089,7 @@ a{
 
     border-radius:22px;
 
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--primary-light)
-    );
+    background:white;
 
     display:flex;
 
@@ -4410,4 +4406,17 @@ box-shadow:
 0,0,0,.08
 );
 
+}
+
+.history-icon img{
+
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:50%;
+}
+
+.history-icon{
+
+background:white !important;
 }
