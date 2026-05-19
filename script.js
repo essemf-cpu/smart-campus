@@ -904,13 +904,28 @@ zone.innerHTML += `
 <div
 class="${classe}"
 
-oncontextmenu="
-ouvrirMenuMessage(
+ontouchstart="
+demarrerAppuiLong(
 event,
 '${doc.id}',
 '${m.message}'
-);
-return false;
+)
+"
+
+ontouchend="
+annulerAppuiLong()
+"
+
+onmousedown="
+demarrerAppuiLong(
+event,
+'${doc.id}',
+'${m.message}'
+)
+"
+
+onmouseup="
+annulerAppuiLong()
 ">
 
 <div class="message-text">
@@ -939,6 +954,38 @@ zone.scrollTop =
 zone.scrollHeight;
 
 });
+
+}
+
+let timerAppui;
+
+function demarrerAppuiLong(
+e,
+id,
+texte
+){
+
+e.preventDefault();
+
+timerAppui =
+
+setTimeout(()=>{
+
+ouvrirMenuMessage(
+e,
+id,
+texte
+);
+
+},600);
+
+}
+
+function annulerAppuiLong(){
+
+clearTimeout(
+timerAppui
+);
 
 }
 

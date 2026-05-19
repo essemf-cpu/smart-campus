@@ -4488,3 +4488,12 @@ justify-content:center;
 cursor:pointer;
 
 }
+
+.message-moi,
+.message-ami{
+
+-webkit-user-select:none;
+
+user-select:none;
+
+}
