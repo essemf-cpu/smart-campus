@@ -903,30 +903,10 @@ zone.innerHTML += `
 
 <div
 class="${classe}"
+data-id="${doc.id}"
+data-message="${m.message}"
 
-ontouchstart="
-demarrerAppuiLong(
-event,
-'${doc.id}',
-'${m.message}'
-)
-"
-
-ontouchend="
-annulerAppuiLong()
-"
-
-onmousedown="
-demarrerAppuiLong(
-event,
-'${doc.id}',
-'${m.message}'
-)
-"
-
-onmouseup="
-annulerAppuiLong()
-">
+>
 
 <div class="message-text">
 
@@ -956,6 +936,59 @@ zone.scrollHeight;
 });
 
 }
+
+let timerAppui;
+
+document.addEventListener(
+
+"touchstart",
+
+function(e){
+
+let message =
+
+e.target.closest(
+".message-moi,.message-ami"
+);
+
+if(!message)return;
+
+timerAppui =
+
+setTimeout(()=>{
+
+ouvrirMenuMessage(
+
+e,
+
+message.dataset.id,
+
+message.dataset.message
+
+);
+
+},700);
+
+},
+
+{passive:true}
+
+);
+
+
+document.addEventListener(
+
+"touchend",
+
+function(){
+
+clearTimeout(
+timerAppui
+);
+
+}
+
+);
 
 let timerAppui;
 
