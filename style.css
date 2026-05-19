@@ -4420,3 +4420,24 @@ border-radius:50%;
 
 background:white !important;
 }
+
+.message-reaction{
+
+margin-top:6px;
+
+background:white;
+
+display:inline-block;
+
+padding:5px 10px;
+
+border-radius:20px;
+
+font-size:18px;
+
+box-shadow:
+0 2px 8px rgba(
+0,0,0,.08
+);
+
+}

@@ -39,9 +39,10 @@
             <!-- AVATAR -->
             <div class="chat-avatar">
 
-                <img
-                src="${ami.avatar || 'default-avatar.png'}"
-                class="real-avatar">
+             <img
+             id="friend-avatar"
+             class="real-avatar"
+             src="assets/default-user.png">
 
             </div>
 
@@ -118,6 +119,8 @@ afficherMessages();
 marquerMessagesCommeLus();
 
 afficherNomConversation();
+
+afficherInfosConversation()
 
 afficherStatusAmi();
 

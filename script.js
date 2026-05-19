@@ -777,7 +777,9 @@ minute:"2-digit"
 
 seen:false,
 
-delivered:true
+delivered:true,
+
+reaction:""
 
 })
 
@@ -829,6 +831,23 @@ snapshot.forEach((doc)=>{
 
 let m =
 doc.data();
+
+let reactionHTML="";
+
+if(m.reaction){
+
+reactionHTML=`
+
+<div
+class="message-reaction">
+
+${m.reaction}
+
+</div>
+
+`;
+
+}
 
 let conversation =
 
@@ -882,7 +901,15 @@ statusHTML =
 
 zone.innerHTML += `
 
-<div class="${classe}">
+<div
+class="${classe}"
+
+onclick="
+menuMessage(
+'${doc.id}',
+'${m.message}'
+)
+">
 
 <div class="message-text">
 
@@ -897,6 +924,8 @@ ${m.heure}
 ${statusHTML}
 
 </div>
+
+${reactionHTML}
 
 </div>
 
@@ -971,6 +1000,112 @@ seen:true
 
 }
 
+// =====================
+// MENU MESSAGE
+// =====================
+
+function menuMessage(
+messageId,
+texte
+){
+
+let choix = prompt(
+
+`1 ❤️ Réagir
+2 ✏️ Modifier
+3 🗑️ Supprimer pour moi
+4 🗑️ Supprimer pour tous
+5 📋 Copier
+6 📤 Transférer`
+
+);
+
+if(!choix)return;
+
+
+/* REACTION */
+
+if(choix==="1"){
+
+let emoji=
+prompt(
+"❤️ 👍 😂"
+);
+
+if(!emoji)return;
+
+reagirMessage(
+messageId,
+emoji
+);
+
+}
+
+
+/* MODIFIER */
+
+else if(
+choix==="2"
+){
+
+let nouveau=
+prompt(
+"Modifier :",
+texte
+);
+
+if(!nouveau)return;
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageId
+)
+
+.update({
+
+message:nouveau,
+
+edited:true
+
+});
+
+}
+
+
+/* COPIER */
+
+else if(
+choix==="5"
+){
+
+navigator.clipboard
+.writeText(
+texte
+);
+
+alert(
+"Message copié"
+);
+
+}
+
+
+/* TRANSFERER */
+
+else if(
+choix==="6"
+){
+
+alert(
+"Transfert bientôt relié aux amis"
+);
+
+}
+
+}
 
 // =====================
 // NOM CONVERSATION
@@ -1016,6 +1151,63 @@ data.friendNom;
 
 }
 
+// =====================
+// REACTION MESSAGE
+// =====================
+
+function reagirMessage(
+messageId,
+emoji
+){
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageId
+)
+
+.update({
+
+reaction:emoji
+
+});
+
+}
+
+
+function mettreAJourStatus(){
+
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user)return;
+
+db.collection("status")
+.doc(user.carte)
+
+.set({
+
+nom:user.nom,
+
+online:true,
+
+lastActive:Date.now()
+
+});
+
+}
+
+setInterval(()=>{
+
+mettreAJourStatus();
+
+},20000);
 
 // =====================
 // STATUS AMI
@@ -1088,7 +1280,7 @@ data.online ||
 
 (
 now-lastActive
-<30000
+<25000
 );
 
 console.log(
@@ -1338,7 +1530,11 @@ let diff =
 Date.now() -
 (data.lastActive || 0);
 
-if(diff < 45000){
+if(
+    data.online &&
+    diff < 25000
+)
+{
 
 zoneStatus.innerHTML =
 "🟢 En ligne";
@@ -1408,6 +1604,107 @@ ${snap.size}
 });
 }
 
+function afficherInfosConversation(){
+
+let params =
+new URLSearchParams(
+window.location.search
+);
+
+let friendCarte =
+params.get(
+"friend"
+);
+
+if(!friendCarte)return;
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+friendCarte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)return;
+
+let ami =
+snapshot.docs[0].data();
+
+/* NOM */
+
+document
+.getElementById(
+"friend-name"
+)
+.innerText =
+ami.nom;
+
+/* AVATAR */
+
+document
+.getElementById(
+"friend-avatar"
+)
+.src =
+
+ami.avatar ||
+
+"assets/default-user.png";
+
+db.collection("status")
+.doc(friendCarte)
+
+.onSnapshot((doc)=>{
+
+let zoneStatus =
+document.getElementById(
+"friend-status"
+);
+
+if(!zoneStatus)return;
+
+if(!doc.exists){
+
+zoneStatus.innerHTML =
+"⚫ Hors ligne";
+
+return;
+
+}
+
+let data =
+doc.data();
+
+let diff =
+
+Date.now() -
+(data.lastActive || 0);
+
+if(
+data.online &&
+diff < 25000
+){
+
+zoneStatus.innerHTML =
+"🟢 En ligne";
+
+}else{
+
+zoneStatus.innerHTML =
+"⚫ Hors ligne";
+
+}
+
+});
+
+});
+
+}
 
 // =====================
 // BADGE DASHBOARD
@@ -3240,6 +3537,60 @@ alert(
 });
 
 }
+
+// =====================
+// LOGOUT
+// =====================
+
+function logout(){
+
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(user){
+
+db.collection("status")
+.doc(user.carte)
+
+.update({
+
+online:false,
+
+lastActive:Date.now()
+
+})
+
+.then(()=>{
+
+localStorage.removeItem(
+"user"
+);
+
+window.location.href =
+"index.html";
+
+})
+
+.catch(()=>{
+
+localStorage.removeItem(
+"user"
+);
+
+window.location.href =
+"index.html";
+
+});
+
+}
+
+}
+
+
 
 // =====================
 // LOAD
