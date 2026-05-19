@@ -832,6 +832,25 @@ snapshot.forEach((doc)=>{
 let m =
 doc.data();
 
+let user=
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(
+m.deletedFor
+&&
+m.deletedFor.includes(
+user.carte
+)
+){
+
+return;
+
+}
+
 let reactionHTML="";
 
 if(m.reaction){
@@ -985,35 +1004,12 @@ message.dataset.id,
 message.dataset.message
 
 );
-
 },700);
-
 },
 
 {passive:true}
 
 );
-
-let user=
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-if(
-
-m.deletedFor
-&&
-m.deletedFor.includes(
-user.carte
-)
-
-){
-
-return;
-
-}
 
 document.addEventListener(
 
