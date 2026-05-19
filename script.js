@@ -937,8 +937,6 @@ zone.scrollHeight;
 
 }
 
-let timerAppui;
-
 document.addEventListener(
 
 "touchstart",
