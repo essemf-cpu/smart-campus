@@ -4446,7 +4446,7 @@ box-shadow:
 
 position:fixed;
 
-bottom:80px;
+bottom:90px;
 
 left:50%;
 
@@ -4454,46 +4454,140 @@ transform:translateX(-50%);
 
 background:white;
 
-border-radius:25px;
+width:280px;
+
+border-radius:30px;
 
 padding:15px;
+
+box-shadow:
+0 10px 35px rgba(
+0,0,0,.15
+);
 
 display:none;
 
 z-index:9999;
 
-box-shadow:
-0 5px 25px rgba(
-0,0,0,.2
-);
+animation:
+menuAnim .25s ease;
 
 }
+
+
+/* REACTIONS */
 
 .reaction-bar{
 
 display:flex;
 
-gap:12px;
+justify-content:space-around;
 
-font-size:28px;
+padding-bottom:15px;
 
-margin-bottom:15px;
+border-bottom:
+1px solid #eee;
 
-justify-content:center;
+margin-bottom:10px;
 
 }
 
 .reaction-bar span{
 
+font-size:30px;
+
+padding:8px;
+
+border-radius:50%;
+
+transition:.3s;
+
 cursor:pointer;
 
 }
 
-.message-moi,
-.message-ami{
+.reaction-bar span:hover{
 
--webkit-user-select:none;
+background:#f3f3f3;
 
-user-select:none;
+transform:scale(1.2);
+
+}
+
+
+/* OPTIONS */
+
+.message-option{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+padding:14px;
+
+border-radius:15px;
+
+font-size:18px;
+
+font-weight:600;
+
+margin-top:5px;
+
+transition:.3s;
+
+cursor:pointer;
+
+}
+
+.message-option:hover{
+
+background:#f5f0ff;
+
+}
+
+.message-option i{
+
+width:25px;
+
+color:#7b4dff;
+
+}
+
+.delete-option i{
+
+color:red;
+
+}
+
+.delete-option{
+
+color:red;
+
+}
+
+
+@keyframes menuAnim{
+
+from{
+
+opacity:0;
+
+transform:
+translateX(-50%)
+translateY(30px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+translateX(-50%)
+translateY(0);
+
+}
 
 }

@@ -912,6 +912,24 @@ data-message="${m.message}"
 
 ${m.message}
 
+${m.edited ?
+
+`<small
+style="
+display:block;
+color:gray;
+margin-top:5px;
+">
+
+(modifié)
+
+</small>`
+
+:
+
+""
+}
+
 </div>
 
 <div class="message-date">
@@ -976,6 +994,26 @@ message.dataset.message
 
 );
 
+let user=
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(
+
+m.deletedFor
+&&
+m.deletedFor.includes(
+user.carte
+)
+
+){
+
+return;
+
+}
 
 document.addEventListener(
 
@@ -991,6 +1029,267 @@ timerAppui
 
 );
 
+function modifierActuel(){
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.get()
+
+.then((doc)=>{
+
+let m=
+doc.data();
+
+let diff=
+
+Date.now()
+-
+m.date;
+
+if(
+diff >
+120000
+){
+
+alert(
+"Modification expirée"
+);
+
+return;
+}
+
+let nouveau=
+
+prompt(
+"Modifier :",
+m.message
+);
+
+if(
+!nouveau
+)return;
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.update({
+
+message:nouveau,
+
+edited:true
+
+});
+
+fermerMenu();
+
+});
+
+}
+
+function supprimerActuel(){
+
+let choix=
+
+prompt(
+
+"1 Moi\n2 Tous"
+
+);
+
+if(
+!choix
+)return;
+
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+
+/* POUR MOI */
+
+if(
+choix==="1"
+){
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.update({
+
+deletedFor:
+
+firebase.firestore
+.FieldValue
+.arrayUnion(
+
+user.carte
+
+)
+
+});
+
+}
+
+
+/* POUR TOUS */
+
+if(
+choix==="2"
+){
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.get()
+
+.then((doc)=>{
+
+let m=
+doc.data();
+
+let diff=
+
+Date.now()
+-
+m.date;
+
+if(
+diff >
+120000
+){
+
+alert(
+"Suppression expirée"
+);
+
+return;
+}
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.update({
+
+message:
+"Ce message a été supprimé",
+
+deleted:true
+
+});
+
+});
+
+}
+
+fermerMenu();
+
+}
+
+function transfererActuel(){
+
+let carte=
+
+prompt(
+"Carte ami :"
+);
+
+if(
+!carte
+)return;
+
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.get()
+
+.then((doc)=>{
+
+let m=
+doc.data();
+
+db.collection(
+"messages"
+)
+
+.add({
+
+from:user.carte,
+
+fromNom:user.nom,
+
+to:carte,
+
+message:
+"📤 " +
+m.message,
+
+forwarded:true,
+
+date:Date.now(),
+
+heure:new Date()
+
+.toLocaleTimeString([],
+{
+
+hour:"2-digit",
+
+minute:"2-digit"
+
+}),
+
+seen:false
+
+});
+
+});
+
+fermerMenu();
+
+}
 
 
 // =====================
