@@ -904,11 +904,13 @@ zone.innerHTML += `
 <div
 class="${classe}"
 
-onclick="
-menuMessage(
+oncontextmenu="
+ouvrirMenuMessage(
+event,
 '${doc.id}',
 '${m.message}'
-)
+);
+return false;
 ">
 
 <div class="message-text">
@@ -997,6 +999,68 @@ seen:true
 });
 
 });
+
+}
+
+let messageActuel=null;
+let texteActuel=null;
+
+function ouvrirMenuMessage(
+e,
+id,
+texte
+){
+
+e.preventDefault();
+
+messageActuel=id;
+texteActuel=texte;
+
+document
+.getElementById(
+"messageMenu"
+)
+.style.display=
+"block";
+
+}
+
+function reagirActuel(
+emoji
+){
+
+reagirMessage(
+messageActuel,
+emoji
+);
+
+fermerMenu();
+
+}
+
+function copierActuel(){
+
+navigator.clipboard
+.writeText(
+texteActuel
+);
+
+alert(
+"Copié"
+);
+
+fermerMenu();
+
+}
+
+function fermerMenu(){
+
+document
+.getElementById(
+"messageMenu"
+)
+.style.display=
+"none";
 
 }
 
