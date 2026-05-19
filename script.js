@@ -937,6 +937,9 @@ zone.scrollHeight;
 
 }
 
+
+let timerAppui;
+
 document.addEventListener(
 
 "touchstart",
@@ -988,37 +991,6 @@ timerAppui
 
 );
 
-let timerAppui;
-
-function demarrerAppuiLong(
-e,
-id,
-texte
-){
-
-e.preventDefault();
-
-timerAppui =
-
-setTimeout(()=>{
-
-ouvrirMenuMessage(
-e,
-id,
-texte
-);
-
-},600);
-
-}
-
-function annulerAppuiLong(){
-
-clearTimeout(
-timerAppui
-);
-
-}
 
 
 // =====================
