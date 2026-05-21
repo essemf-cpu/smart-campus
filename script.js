@@ -829,6 +829,18 @@ zone.innerHTML = "";
 
 snapshot.forEach((doc)=>{
 
+    setTimeout(()=>{
+
+zone.scrollTo({
+
+top:zone.scrollHeight,
+
+behavior:"auto"
+
+});
+
+},300);
+
 let m =
 doc.data();
 
@@ -998,20 +1010,6 @@ ${reactionHTML}
 
 });
 
-requestAnimationFrame(()=>{
-
-setTimeout(()=>{
-
-zone.scrollTop=
-
-zone.scrollHeight+
-
-5000;
-
-},100);
-
-});
-
 });
 
 }
@@ -1135,13 +1133,19 @@ fermerMenu();
 
 function supprimerActuel(){
 
-document
-.getElementById(
+document.getElementById(
+"messageMenu"
+)
+
+.style.display=
+"none";
+
+
+document.getElementById(
 "deleteModal"
 )
 
 .style.display=
-
 "flex";
 
 }
@@ -1162,7 +1166,34 @@ document
 
 function supprimerMoi(){
 
-supprimerPourMoi();
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.update({
+
+deletedFor:
+
+firebase.firestore
+.FieldValue.arrayUnion(
+
+user.carte
+
+)
+
+});
 
 fermerDeleteModal();
 
@@ -1171,9 +1202,60 @@ fermerDeleteModal();
 
 function supprimerTous(){
 
-supprimerPourTous();
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.get()
+
+.then((doc)=>{
+
+let m=
+doc.data();
+
+let deuxHeures=
+
+2*60*60*1000;
+
+let diff=
+
+Date.now()-
+m.date;
+
+
+if(
+diff>
+deuxHeures
+){
+
+alert(
+
+"Suppression impossible après 2h"
+
+);
+
+return;
+
+}
+
+
+db.collection(
+"messages"
+)
+
+.doc(
+messageActuel
+)
+
+.delete();
 
 fermerDeleteModal();
+
+});
 
 }
 

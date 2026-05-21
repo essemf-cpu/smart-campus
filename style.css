@@ -4638,111 +4638,58 @@ font-size:16px;
 
 position:fixed;
 
-bottom:30px;
+bottom:25px;
 
-right:20px;
-
-border:none;
-
-padding:18px 25px;
-
-border-radius:50px;
-
-background:#7b4dff;
-
-color:white;
-
-font-weight:bold;
-
-font-size:18px;
-
-box-shadow:
-0 8px 25px rgba(
-0,0,0,.2
-);
-
-}
-
-.transfer-card{
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-padding:15px;
-
-margin-top:10px;
-
-background:white;
-
-border-radius:20px;
-
-transition:.3s;
-
-}
-
-.selected-transfer{
-
-background:#efe6ff;
-
-border:2px solid #7b4dff;
-
-}
-
-.transfer-check{
-
-font-size:22px;
-
-color:#7b4dff;
-
-opacity:.2;
-
-}
-
-.selected-transfer
-.transfer-check{
-
-opacity:1;
-
-}
-
-.transfer-page{
-
-padding:15px;
-
-height:100vh;
-
-}
-
-.transfer-card{
-
-display:flex;
-
-align-items:center;
-
-gap:20px;
-
-padding:20px;
-
-margin-bottom:15px;
-
-background:white;
-
-border-radius:25px;
-
-min-height:95px;
-
-}
-
-.transfer-card img{
+right:25px;
 
 width:65px;
 
 height:65px;
 
 border-radius:50%;
+
+border:none;
+
+background:#7b4dff;
+
+color:white;
+
+font-size:16px;
+
+font-weight:bold;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+0 8px 25px rgba(
+0,0,0,.2
+);
+
+z-index:999;
+
+}
+
+.transfer-card{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+padding:20px;
+
+margin:15px;
+
+background:white;
+
+border-radius:25px;
+
+min-height:90px;
 
 }
 
@@ -4752,25 +4699,13 @@ font-size:20px;
 
 }
 
-.transfer-search{
+.transfer-card img{
 
-height:55px;
+width:60px;
 
-font-size:17px;
-
-padding-left:20px;
-
-}
-
-.transfer-btn{
-
-width:75px;
-
-height:75px;
+height:60px;
 
 border-radius:50%;
-
-font-size:18px;
 
 }
 
@@ -4865,5 +4800,17 @@ transform:scale(1);
 opacity:1;
 
 }
+
+}
+
+.delete-modal{
+
+z-index:99999;
+
+}
+
+.message-menu{
+
+z-index:9999;
 
 }
