@@ -1214,15 +1214,106 @@ fermerMenu();
 
 function transfererActuel(){
 
-let carte=
+localStorage.setItem(
 
-prompt(
-"Carte ami :"
+"messageATransferer",
+
+messageActuel
+
 );
 
-if(
-!carte
-)return;
+window.location.href=
+
+"transfer.html";
+
+}
+
+// =====================
+// AFFICHER AMIS TRANSFERT
+// =====================
+
+function afficherTransfert(){
+
+let zone=
+
+document.getElementById(
+"transfer-list"
+);
+
+if(!zone)return;
+
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+db.collection(
+"friends"
+)
+
+.where(
+"userCarte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+zone.innerHTML="";
+
+snapshot.forEach((doc)=>{
+
+let ami=
+doc.data();
+
+zone.innerHTML += `
+
+<div class="friend-card">
+
+<input
+type="checkbox"
+
+value="${ami.friendCarte}"
+
+class="friend-check">
+
+<img
+src="${
+ami.friendAvatar ||
+
+'assets/default-user.png'
+}"
+
+class="real-avatar">
+
+<strong>
+
+${ami.friendNom}
+
+</strong>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+function envoyerTransfert(){
+
+let messageId=
+
+localStorage.getItem(
+"messageATransferer"
+);
 
 let user=
 
@@ -1237,7 +1328,7 @@ db.collection(
 )
 
 .doc(
-messageActuel
+messageId
 )
 
 .get()
@@ -1246,6 +1337,14 @@ messageActuel
 
 let m=
 doc.data();
+
+document
+
+.querySelectorAll(
+".friend-check:checked"
+)
+
+.forEach((ami)=>{
 
 db.collection(
 "messages"
@@ -1257,7 +1356,7 @@ from:user.carte,
 
 fromNom:user.nom,
 
-to:carte,
+to:ami.value,
 
 message:
 "📤 " +
@@ -1284,7 +1383,14 @@ seen:false
 
 });
 
-fermerMenu();
+alert(
+"Message transféré"
+);
+
+window.location.href=
+"messages.html";
+
+});
 
 }
 
@@ -4296,6 +4402,8 @@ gererPresenceUtilisateur();
 afficherBadgeNotifications();
 
 marquerNotificationsLues();
+
+afficherTransfert();
 
 
 };
