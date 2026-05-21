@@ -829,18 +829,6 @@ zone.innerHTML = "";
 
 snapshot.forEach((doc)=>{
 
-    setTimeout(()=>{
-
-zone.scrollTo({
-
-top:zone.scrollHeight,
-
-behavior:"auto"
-
-});
-
-},300);
-
 let m =
 doc.data();
 
@@ -1009,6 +997,20 @@ ${reactionHTML}
 `;
 
 });
+
+setTimeout(()=>{
+
+zone.scrollTo({
+
+top:
+zone.scrollHeight,
+
+behavior:
+"smooth"
+
+});
+
+},100);
 
 });
 
@@ -2584,10 +2586,16 @@ carte
 
 timerConversation=
 
-setTimeout(()=>{
+setTimeout((e)=>{
 
 conversationActuelle=
 carte;
+
+if(event){
+
+event.stopPropagation();
+
+}
 
 
 /* CHANGE TEXTE */
@@ -2734,6 +2742,32 @@ document
 "none";
 
 }
+
+document.addEventListener(
+
+"click",
+
+function(e){
+
+let menu=
+
+document.getElementById(
+"conversationMenu"
+);
+
+if(
+
+menu &&
+menu.style.display==="block"
+
+){
+
+menu.style.display=
+"none";
+
+}
+
+});
 
 
 // =====================
