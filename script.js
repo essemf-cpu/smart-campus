@@ -1000,17 +1000,17 @@ ${reactionHTML}
 
 setTimeout(()=>{
 
-zone.scrollTo({
+window.scrollTo({
 
 top:
-zone.scrollHeight,
+document.body.scrollHeight,
 
 behavior:
 "smooth"
 
 });
 
-},100);
+},300);
 
 });
 
