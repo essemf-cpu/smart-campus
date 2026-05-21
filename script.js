@@ -998,12 +998,19 @@ ${reactionHTML}
 
 });
 
+requestAnimationFrame(()=>{
+
 setTimeout(()=>{
 
 zone.scrollTop=
-zone.scrollHeight;
 
-},200);
+zone.scrollHeight+
+
+5000;
+
+},100);
+
+});
 
 });
 
@@ -1128,119 +1135,45 @@ fermerMenu();
 
 function supprimerActuel(){
 
-let choix=
-
-prompt(
-
-"1 Moi\n2 Tous"
-
-);
-
-if(
-!choix
-)return;
-
-let user=
-
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
-
-
-/* POUR MOI */
-
-if(
-choix==="1"
-){
-
-db.collection(
-"messages"
+document
+.getElementById(
+"deleteModal"
 )
 
-.doc(
-messageActuel
-)
+.style.display=
 
-.update({
-
-deletedFor:
-
-firebase.firestore
-.FieldValue
-.arrayUnion(
-
-user.carte
-
-)
-
-});
+"flex";
 
 }
 
 
-/* POUR TOUS */
+function fermerDeleteModal(){
 
-if(
-choix==="2"
-){
-
-db.collection(
-"messages"
+document
+.getElementById(
+"deleteModal"
 )
 
-.doc(
-messageActuel
-)
+.style.display=
 
-.get()
-
-.then((doc)=>{
-
-let m=
-doc.data();
-
-let diff=
-
-Date.now()
--
-m.date;
-
-if(
-diff >
-120000
-){
-
-alert(
-"Suppression expirée"
-);
-
-return;
-}
-
-db.collection(
-"messages"
-)
-
-.doc(
-messageActuel
-)
-
-.update({
-
-message:
-"Ce message a été supprimé",
-
-deleted:true
-
-});
-
-});
+"none";
 
 }
 
-fermerMenu();
+function supprimerMoi(){
+
+supprimerPourMoi();
+
+fermerDeleteModal();
+
+}
+
+
+function supprimerTous(){
+
+supprimerPourTous();
+
+fermerDeleteModal();
 
 }
 

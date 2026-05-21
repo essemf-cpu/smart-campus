@@ -4708,31 +4708,39 @@ opacity:1;
 
 }
 
+.transfer-page{
+
+padding:15px;
+
+height:100vh;
+
+}
+
 .transfer-card{
 
 display:flex;
 
 align-items:center;
 
-gap:15px;
+gap:20px;
 
-padding:18px;
+padding:20px;
 
-margin:12px;
+margin-bottom:15px;
 
 background:white;
 
 border-radius:25px;
 
-min-height:80px;
+min-height:95px;
 
 }
 
 .transfer-card img{
 
-width:55px;
+width:65px;
 
-height:55px;
+height:65px;
 
 border-radius:50%;
 
@@ -4740,6 +4748,122 @@ border-radius:50%;
 
 .transfer-card strong{
 
+font-size:20px;
+
+}
+
+.transfer-search{
+
+height:55px;
+
+font-size:17px;
+
+padding-left:20px;
+
+}
+
+.transfer-btn{
+
+width:75px;
+
+height:75px;
+
+border-radius:50%;
+
 font-size:18px;
+
+}
+
+.delete-modal{
+
+display:none;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(
+0,0,0,.4
+);
+
+z-index:999;
+
+justify-content:center;
+
+align-items:center;
+
+}
+
+.delete-box{
+
+width:85%;
+
+background:white;
+
+padding:25px;
+
+border-radius:25px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+animation:zoom .3s;
+
+}
+
+.delete-box button{
+
+border:none;
+
+padding:18px;
+
+border-radius:15px;
+
+font-size:16px;
+
+font-weight:bold;
+
+}
+
+.delete-box button:nth-child(2){
+
+background:#f2f2f2;
+
+}
+
+.delete-box button:nth-child(3){
+
+background:#ffe9e9;
+
+color:red;
+
+}
+
+@keyframes zoom{
+
+from{
+
+transform:scale(.8);
+
+opacity:0;
+
+}
+
+to{
+
+transform:scale(1);
+
+opacity:1;
+
+}
 
 }
