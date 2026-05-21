@@ -954,6 +954,35 @@ margin-top:5px;
 
 </div>
 
+<div class="message-text">
+
+${
+m.forwarded ?
+
+`
+
+<div
+style="
+font-size:12px;
+opacity:.7;
+margin-bottom:5px;
+">
+
+📤 Transféré
+
+</div>
+
+`
+
+:
+
+""
+}
+
+${m.message}
+
+</div>
+
 <div class="message-date">
 
 ${m.heure}
@@ -1359,7 +1388,6 @@ fromNom:user.nom,
 to:ami.value,
 
 message:
-"📤 " +
 m.message,
 
 forwarded:true,

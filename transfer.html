@@ -16,7 +16,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <body>
 
-<div class="container">
+<div class="transfer-page">
+
+<div class="transfer-header">
+
+<a href="conversation.html">
+
+<i class="fa-solid fa-arrow-left">
+
+</i>
+
+</a>
 
 <h2>
 
@@ -24,16 +34,36 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </h2>
 
-<div id="transfer-list">
+</div>
+
+<input
+
+type="text"
+
+id="searchTransfer"
+
+placeholder="Rechercher..."
+
+onkeyup="rechercherTransfert()"
+
+class="transfer-search"
+
+>
+
+<div
+id="transfer-list">
 
 </div>
 
 <button
+class="transfer-btn"
 onclick="envoyerTransfert()">
 
 Envoyer
 
 </button>
+
+</div>
 
 </div>
 
