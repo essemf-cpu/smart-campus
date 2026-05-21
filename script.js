@@ -998,8 +998,12 @@ ${reactionHTML}
 
 });
 
-zone.scrollTop =
+setTimeout(()=>{
+
+zone.scrollTop=
 zone.scrollHeight;
+
+},200);
 
 });
 
@@ -1327,7 +1331,8 @@ ami.friendAvatar ||
 
 class="real-avatar">
 
-<div>
+<div
+style="flex:1;">
 
 <strong>
 
@@ -1497,11 +1502,28 @@ window.location.href=
 
 function emojiPlus(){
 
-let emoji =
+function ouvrirTousEmojis(){
 
-prompt(
-"Entrez un emoji :"
+let input=
+
+document.createElement(
+"input"
 );
+
+input.type="text";
+
+input.style.position=
+"absolute";
+
+input.style.opacity=0;
+
+document.body.appendChild(
+input
+);
+
+input.focus();
+
+}
 
 if(
 !emoji
@@ -1628,7 +1650,34 @@ document
 .style.display=
 "block";
 
+
+document.addEventListener(
+"click",
+
+function(e){
+
+let menu=
+
+document.getElementById(
+"messageMenu"
+);
+
+if(
+menu &&
+!menu.contains(
+e.target
+)
+){
+
+menu.style.display=
+"none";
+
 }
+
+});
+
+}
+
 
 function reagirActuel(
 emoji
@@ -1842,6 +1891,41 @@ messageId
 reaction:emoji
 
 });
+
+}
+
+function ouvrirTousEmojis(){
+
+let input=
+
+document.createElement(
+"input"
+);
+
+input.type="text";
+
+input.style.position=
+"absolute";
+
+input.style.opacity=0;
+
+document.body.appendChild(
+input
+);
+
+input.focus();
+
+input.addEventListener(
+
+"blur",
+
+()=>{
+
+input.remove();
+
+}
+
+);
 
 }
 
