@@ -932,30 +932,6 @@ m.from===user.carte
 
 <div class="message-text">
 
-${m.message}
-
-${m.edited ?
-
-`<small
-style="
-display:block;
-color:gray;
-margin-top:5px;
-">
-
-(modifié)
-
-</small>`
-
-:
-
-""
-}
-
-</div>
-
-<div class="message-text">
-
 ${
 m.forwarded ?
 
@@ -968,7 +944,7 @@ opacity:.7;
 margin-bottom:5px;
 ">
 
-📤 Transféré
+Transféré
 
 </div>
 
@@ -980,6 +956,29 @@ margin-bottom:5px;
 }
 
 ${m.message}
+
+${
+m.edited ?
+
+`
+
+<small
+style="
+display:block;
+color:gray;
+margin-top:5px;
+">
+
+(modifié)
+
+</small>
+
+`
+
+:
+
+""
+}
 
 </div>
 
@@ -1302,23 +1301,33 @@ doc.data();
 
 zone.innerHTML += `
 
-<div class="friend-card">
+<div
+class="transfer-card"
+
+onclick="
+selectionnerTransfert(
+this
+)
+">
 
 <input
 type="checkbox"
 
 value="${ami.friendCarte}"
 
-class="friend-check">
+class="friend-check"
+
+hidden>
 
 <img
 src="${
 ami.friendAvatar ||
-
 'assets/default-user.png'
 }"
 
 class="real-avatar">
+
+<div>
 
 <strong>
 
@@ -1328,11 +1337,75 @@ ${ami.friendNom}
 
 </div>
 
+<i
+class="fa-solid fa-circle-check transfer-check">
+
+</i>
+
+</div>
+
 `;
 
 });
 
 });
+
+}
+
+function selectionnerTransfert(
+card
+){
+
+let check=
+
+card.querySelector(
+".friend-check"
+);
+
+check.checked=
+!check.checked;
+
+
+card.classList.toggle(
+"selected-transfer"
+);
+
+mettreCompteur();
+
+}
+
+
+function mettreCompteur(){
+
+let total=
+
+document.querySelectorAll(
+".friend-check:checked"
+)
+
+.length;
+
+
+let bouton=
+
+document.querySelector(
+".transfer-btn"
+);
+
+
+if(!bouton)
+return;
+
+
+bouton.innerHTML=
+
+total>0 ?
+
+`Envoyer (${total})`
+
+:
+
+"Envoyer";
 
 }
 
