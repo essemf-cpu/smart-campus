@@ -1288,6 +1288,24 @@ fermerMenu();
 
 }
 
+function emojiPlus(){
+
+let emoji =
+
+prompt(
+"Entrez un emoji :"
+);
+
+if(
+!emoji
+)return;
+
+reagirActuel(
+emoji
+);
+
+}
+
 
 // =====================
 // LUS
@@ -1865,7 +1883,29 @@ date:dateMessage
 
 conversations.sort((a,b)=>{
 
-return b.date - a.date;
+let pinA=
+
+localStorage.getItem(
+"pinned_"+a.ami.friendCarte
+);
+
+let pinB=
+
+localStorage.getItem(
+"pinned_"+b.ami.friendCarte
+);
+
+if(
+pinA &&
+!pinB
+)return -1;
+
+if(
+!pinA &&
+pinB
+)return 1;
+
+return b.date-a.date;
 
 });
 
@@ -1877,12 +1917,25 @@ let ami = c.ami;
 
 zone.innerHTML += `
 
-<div class="conversation-card"
+<div
+class="conversation-card"
 
 onclick="
 ouvrirMessage(
 '${ami.friendCarte}'
-)">
+)"
+
+ontouchstart="
+demarrerConversationLong(
+'${ami.friendCarte}'
+)
+"
+
+ontouchend="
+annulerConversationLong()
+"
+
+>
 
 <div class="conversation-left">
 
@@ -2198,6 +2251,105 @@ badge.innerHTML =
 snapshot.size;
 
 });
+
+}
+
+let conversationActuelle=null;
+
+let timerConversation;
+
+function demarrerConversationLong(
+carte
+){
+
+timerConversation=
+
+setTimeout(()=>{
+
+conversationActuelle=
+carte;
+
+document
+.getElementById(
+"conversationMenu"
+)
+
+.style.display=
+"block";
+
+},700);
+
+}
+
+
+function annulerConversationLong(){
+
+clearTimeout(
+timerConversation);
+
+}
+
+
+function epinglerConversation(){
+
+localStorage.setItem(
+
+"pinned_"+
+
+conversationActuelle,
+
+true
+
+);
+
+fermerConversationMenu();
+
+}
+
+
+function archiverConversation(){
+
+localStorage.setItem(
+
+"archived_"+
+
+conversationActuelle,
+
+true
+
+);
+
+fermerConversationMenu();
+
+}
+
+
+function supprimerConversation(){
+
+localStorage.setItem(
+
+"deleted_"+
+
+conversationActuelle,
+
+true
+
+);
+
+fermerConversationMenu();
+
+}
+
+
+function fermerConversationMenu(){
+
+document
+.getElementById(
+"conversationMenu"
+)
+
+.style.display=
+"none";
 
 }
 
