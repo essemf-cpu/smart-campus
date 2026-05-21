@@ -924,6 +924,9 @@ zone.innerHTML += `
 class="${classe}"
 data-id="${doc.id}"
 data-message="${m.message}"
+data-moi="${
+m.from===user.carte
+}"
 
 >
 
@@ -996,14 +999,12 @@ timerAppui =
 setTimeout(()=>{
 
 ouvrirMenuMessage(
-
 e,
-
 message.dataset.id,
-
-message.dataset.message
-
+message.dataset.message,
+message.dataset.moi
 );
+
 },700);
 },
 
@@ -1353,13 +1354,47 @@ let texteActuel=null;
 function ouvrirMenuMessage(
 e,
 id,
-texte
+texte,
+moi
 ){
 
 e.preventDefault();
 
 messageActuel=id;
+
 texteActuel=texte;
+
+let modifier =
+
+document.getElementById(
+"optionModifier"
+);
+
+let supprimer =
+
+document.getElementById(
+"optionSupprimer"
+);
+
+if(
+moi==="true"
+){
+
+modifier.style.display=
+"flex";
+
+supprimer.style.display=
+"flex";
+
+}else{
+
+modifier.style.display=
+"none";
+
+supprimer.style.display=
+"none";
+
+}
 
 document
 .getElementById(
