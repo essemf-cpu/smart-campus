@@ -1958,6 +1958,20 @@ ami.friendAvatar ||
 
 ${ami.friendNom}
 
+${
+localStorage.getItem(
+"pinned_"+ami.friendCarte
+)
+
+?
+
+"📌"
+
+:
+
+""
+}
+
 </strong>
 
 <span class="conversation-time">
@@ -2269,6 +2283,49 @@ setTimeout(()=>{
 conversationActuelle=
 carte;
 
+
+/* CHANGE TEXTE */
+
+let boutonPin =
+
+document.querySelector(
+"#conversationMenu .message-option"
+);
+
+
+if(
+
+localStorage.getItem(
+"pinned_"+carte
+)
+
+){
+
+boutonPin.innerHTML=
+
+`
+
+<i class="fa-solid fa-thumbtack"></i>
+
+Désépingler
+
+`;
+
+}else{
+
+boutonPin.innerHTML=
+
+`
+
+<i class="fa-solid fa-thumbtack"></i>
+
+Épingler
+
+`;
+
+}
+
+
 document
 .getElementById(
 "conversationMenu"
@@ -2292,17 +2349,36 @@ timerConversation);
 
 function epinglerConversation(){
 
-localStorage.setItem(
+let cle=
 
 "pinned_"+
 
-conversationActuelle,
+conversationActuelle;
 
-true
+if(
 
+localStorage.getItem(
+cle
+)
+
+){
+
+localStorage.removeItem(
+cle
 );
 
+}else{
+
+localStorage.setItem(
+cle,
+true
+);
+
+}
+
 fermerConversationMenu();
+
+afficherConversations();
 
 }
 
