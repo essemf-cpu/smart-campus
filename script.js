@@ -2312,6 +2312,8 @@ m.date || 0;
 
 });
 
+/* MASQUER SI ARCHIVÉ */
+
 if(
 
 localStorage.getItem(
@@ -2327,8 +2329,6 @@ ami.friendCarte
 return;
 
 }
-
-/* PUSH */
 
 conversations.push({
 
@@ -2857,17 +2857,23 @@ afficherConversations();
 
 function archiverConversation(){
 
+if(
+!conversationActuelle
+)return;
+
 localStorage.setItem(
 
 "archived_"+
 
 conversationActuelle,
 
-true
+"true"
 
 );
 
 fermerConversationMenu();
+
+afficherConversations();
 
 }
 
