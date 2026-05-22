@@ -3003,7 +3003,7 @@ demarrerArchiveLong(
 "
 
 ontouchend="
-annulerArchiveLong()
+annulerArchiveLong() 
 "
 
 onclick="
