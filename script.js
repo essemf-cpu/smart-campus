@@ -2991,6 +2991,16 @@ zone.innerHTML += `
 <div
 class="conversation-card"
 
+ontouchstart="
+demarrerArchiveLong(
+'${ami.friendCarte}'
+)
+"
+
+ontouchend="
+annulerArchiveLong()
+"
+
 onclick="
 ouvrirMessage(
 '${ami.friendCarte}'
@@ -3040,6 +3050,65 @@ ${ami.friendNom}
 });
 
 });
+
+}
+
+let archiveActuelle=null;
+
+let timerArchive;
+
+
+function demarrerArchiveLong(
+carte
+){
+
+timerArchive=
+
+setTimeout(()=>{
+
+archiveActuelle=
+carte;
+
+document
+.getElementById(
+"archiveMenu"
+)
+
+.style.display=
+"block";
+
+},700);
+
+}
+
+
+function annulerArchiveLong(){
+
+clearTimeout(
+timerArchive);
+
+}
+
+
+function desarchiverConversation(){
+
+localStorage.removeItem(
+
+"archived_"+
+
+archiveActuelle
+
+);
+
+document
+.getElementById(
+"archiveMenu"
+)
+
+.style.display=
+"none";
+
+afficherArchives();
 
 }
 
