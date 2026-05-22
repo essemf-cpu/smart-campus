@@ -2393,7 +2393,8 @@ ouvrirMessage(
 
 ontouchstart="
 demarrerConversationLong(
-'${ami.friendCarte}'
+'${ami.friendCarte}',
+event
 )
 "
 
@@ -2739,31 +2740,29 @@ let conversationActuelle=null;
 let timerConversation;
 
 function demarrerConversationLong(
-carte
+carte,
+e
 ){
+
+clearTimeout(
+timerConversation
+);
 
 timerConversation=
 
-setTimeout((e)=>{
+setTimeout(()=>{
 
 conversationActuelle=
 carte;
 
-if(event){
-
-event.stopPropagation();
-
-}
-
 
 /* CHANGE TEXTE */
 
-let boutonPin =
+let boutonPin=
 
 document.querySelector(
 "#conversationMenu .message-option"
 );
-
 
 if(
 
@@ -2773,9 +2772,7 @@ localStorage.getItem(
 
 ){
 
-boutonPin.innerHTML=
-
-`
+boutonPin.innerHTML=`
 
 <i class="fa-solid fa-thumbtack"></i>
 
@@ -2785,9 +2782,7 @@ Désépingler
 
 }else{
 
-boutonPin.innerHTML=
-
-`
+boutonPin.innerHTML=`
 
 <i class="fa-solid fa-thumbtack"></i>
 
@@ -2797,12 +2792,10 @@ boutonPin.innerHTML=
 
 }
 
-
 document
 .getElementById(
 "conversationMenu"
 )
-
 .style.display=
 "block";
 
