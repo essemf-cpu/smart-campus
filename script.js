@@ -827,10 +827,148 @@ db.collection("messages")
 
 zone.innerHTML = "";
 
+let derniereDate = "";
+
 snapshot.forEach((doc)=>{
 
-let m =
-doc.data();
+let m = doc.data();
+
+let dateMessage =
+new Date(m.date);
+
+let aujourdHui =
+new Date();
+
+let hier =
+new Date();
+
+hier.setDate(
+hier.getDate()-1
+);
+
+let dateTexte="";
+
+if(
+dateMessage.toDateString()
+===
+aujourdHui.toDateString()
+){
+
+dateTexte=
+"Aujourd'hui";
+
+}
+
+else if(
+
+dateMessage.toDateString()
+
+===
+
+hier.toDateString()
+
+){
+
+dateTexte=
+"Hier";
+
+}
+
+else{
+
+let diffJours=
+
+Math.floor(
+
+(
+aujourdHui -
+dateMessage
+)
+
+/
+
+(
+1000*60*60*24
+)
+
+);
+
+if(
+diffJours<7
+){
+
+dateTexte=
+
+dateMessage
+.toLocaleDateString(
+"fr-FR",
+{
+weekday:"long"
+}
+);
+
+}else{
+
+if(
+dateMessage
+.getFullYear()
+
+===
+
+aujourdHui
+.getFullYear()
+){
+
+dateTexte=
+
+dateMessage
+.toLocaleDateString(
+"fr-FR",
+{
+
+day:"2-digit",
+month:"2-digit"
+
+}
+);
+
+}else{
+
+dateTexte=
+
+dateMessage
+.toLocaleDateString(
+"fr-FR"
+);
+
+}
+
+}
+
+}
+
+if(
+dateTexte
+!==
+
+derniereDate
+){
+
+zone.innerHTML += `
+
+<div
+class="date-separateur">
+
+${dateTexte}
+
+</div>
+
+`;
+
+derniereDate=
+dateTexte;
+
+}
 
 let user=
 JSON.parse(
@@ -2174,6 +2312,22 @@ m.date || 0;
 
 });
 
+if(
+
+localStorage.getItem(
+
+"archived_"+
+
+ami.friendCarte
+
+)
+
+){
+
+return;
+
+}
+
 /* PUSH */
 
 conversations.push({
@@ -2772,6 +2926,116 @@ menu.style.display=
 }
 
 });
+
+function afficherArchives(){
+
+let zone=
+
+document.getElementById(
+"archives-list"
+);
+
+if(!zone)
+return;
+
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+db.collection(
+"friends"
+)
+
+.where(
+"userCarte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+zone.innerHTML="";
+
+snapshot.forEach((doc)=>{
+
+let ami=
+doc.data();
+
+if(
+
+!localStorage.getItem(
+
+"archived_"+
+ami.friendCarte
+
+)
+
+)
+
+return;
+
+zone.innerHTML += `
+
+<div
+class="conversation-card"
+
+onclick="
+ouvrirMessage(
+'${ami.friendCarte}'
+)
+">
+
+<div
+class="conversation-left">
+
+<div
+class="conversation-avatar">
+
+<img
+class="real-avatar"
+
+src="${
+ami.friendAvatar
+||
+'assets/default-user.png'
+}">
+
+</div>
+
+<div
+class="conversation-info">
+
+<strong>
+
+${ami.friendNom}
+
+</strong>
+
+<p>
+
+📦 Archivée
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
 
 
 // =====================
@@ -4642,6 +4906,8 @@ afficherBadgeNotifications();
 marquerNotificationsLues();
 
 afficherTransfert();
+
+afficherArchives();
 
 
 };

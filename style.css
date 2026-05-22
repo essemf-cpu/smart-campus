@@ -4929,3 +4929,25 @@ z-index:99999;
 z-index:9999;
 
 }
+
+.date-separateur{
+
+display:block;
+
+width:fit-content;
+
+margin:20px auto;
+
+padding:8px 18px;
+
+background:#111827;
+
+color:white;
+
+font-size:13px;
+
+font-weight:bold;
+
+border-radius:20px;
+
+}
