@@ -2859,17 +2859,26 @@ function archiverConversation(){
 
 if(
 !conversationActuelle
-)return;
+){
+
+return;
+
+}
+
+let carte =
+conversationActuelle;
+
+/* archive UNE SEULE discussion */
 
 localStorage.setItem(
 
-"archived_"+
-
-conversationActuelle,
+"archived_"+carte,
 
 "true"
 
 );
+
+conversationActuelle=null;
 
 fermerConversationMenu();
 
@@ -2896,6 +2905,9 @@ fermerConversationMenu();
 
 
 function fermerConversationMenu(){
+
+conversationActuelle=
+null;
 
 document
 .getElementById(

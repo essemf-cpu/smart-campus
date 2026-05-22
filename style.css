@@ -4951,3 +4951,42 @@ font-weight:bold;
 border-radius:20px;
 
 }
+
+#archiveMenu{
+
+position:fixed;
+left:50%;
+bottom:120px;
+
+transform:
+translateX(-50%);
+
+width:90%;
+max-width:450px;
+
+z-index:99999;
+
+}
+
+#archiveMenu .message-option{
+
+height:75px;
+
+font-size:26px;
+
+font-weight:700;
+
+border-radius:25px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:white;
+
+box-shadow:
+0 10px 35px rgba(0,0,0,.15);
+
+}
