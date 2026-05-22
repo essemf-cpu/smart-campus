@@ -1326,9 +1326,7 @@ zone.innerHTML += `
 class="transfer-card"
 
 onclick="
-selectionnerTransfert(
-this
-)
+selectionnerTransfert(this)
 ">
 
 <input
@@ -1340,29 +1338,35 @@ class="friend-check"
 
 hidden>
 
+<div class="transfer-left">
+
 <img
 src="${
 ami.friendAvatar ||
 'assets/default-user.png'
 }"
 
-class="real-avatar">
+class="transfer-avatar">
+
+<div>
 
 <div
-style="flex:1;">
-
-<strong>
+class="transfer-name">
 
 ${ami.friendNom}
 
-</strong>
+</div>
 
 </div>
 
-<i
-class="fa-solid fa-circle-check transfer-check">
+</div>
 
-</i>
+<div
+class="check-icon">
+
+✔
+
+</div>
 
 </div>
 
@@ -1389,7 +1393,7 @@ check.checked=
 
 
 card.classList.toggle(
-"selected-transfer"
+"selected"
 );
 
 mettreCompteur();

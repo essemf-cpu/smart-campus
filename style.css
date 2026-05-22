@@ -4810,6 +4810,21 @@ font-size:18px;
 
 }
 
+.check-icon{
+
+opacity:0;
+
+transition:.3s;
+
+}
+
+.transfer-card.selected
+.check-icon{
+
+opacity:1;
+
+}
+
 .delete-modal{
 
 display:none;
