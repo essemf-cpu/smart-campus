@@ -4907,8 +4907,6 @@ marquerNotificationsLues();
 
 afficherTransfert();
 
-afficherArchives();
-
 
 };
 
