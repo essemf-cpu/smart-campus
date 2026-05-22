@@ -4598,22 +4598,26 @@ translateY(0);
 
 display:flex;
 align-items:center;
+gap:18px;
 
-padding:25px 20px;
+padding:30px 20px;
 
-font-size:18px;
-font-weight:bold;
+}
+
+.transfer-header h2{
+
+font-size:42px;
+font-weight:900;
 
 color:#111827;
-
-gap:10px;
 
 }
 
 .transfer-header i{
 
+font-size:30px;
+
 color:#7c4dff;
-font-size:20px;
 
 }
 
@@ -4622,31 +4626,26 @@ font-size:20px;
 
 .transfer-search{
 
-padding:0 15px;
-
-}
-
-.transfer-search input{
-
 width:100%;
 
-height:60px;
+height:75px;
 
 border:none;
-outline:none;
 
-border-radius:18px;
+border-radius:25px;
 
-padding-left:20px;
+padding:0 25px;
 
-font-size:20px;
+font-size:26px;
+
+margin-top:20px;
+margin-bottom:20px;
 
 background:white;
 
-box-sizing:border-box;
+outline:none;
 
 }
-
 
 /* LISTE */
 
@@ -4738,17 +4737,17 @@ color:#7c4dff;
 }
 
 
-/* BOUTON */
+/* BOUTON ENVOYER */
 
 .transfer-btn{
 
 position:fixed;
 
-right:20px;
-bottom:100px;
+right:25px;
+bottom:110px;
 
-width:90px;
-height:90px;
+width:130px;
+height:130px;
 
 border:none;
 
@@ -4763,18 +4762,18 @@ linear-gradient(
 
 color:white;
 
-font-size:22px;
+font-size:24px;
 
 font-weight:bold;
 
 box-shadow:
 
-0 10px 30px
+0 12px 35px
 rgba(
 124,
 77,
 255,
-0.5
+0.45
 );
 
 z-index:9999;
