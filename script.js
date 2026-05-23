@@ -2025,68 +2025,26 @@ reaction:emoji
 
 function ouvrirTousEmojis(){
 
-let input=
+let choix=
 
-document.createElement(
-"input"
+prompt(
+
+"😀 Choisir un emoji\n\n👍 ❤️ 😂 😮 😢 🙏 😭 😎 🔥 🥶 🤔 😍 😡"
+
 );
-
-input.type=
-"text";
-
-input.style.position=
-"fixed";
-
-input.style.bottom=
-"-100px";
-
-input.style.opacity=
-"0";
-
-document.body.appendChild(
-input
-);
-
-input.focus();
-
-
-input.addEventListener(
-
-"input",
-
-()=>{
-
-let emoji=
-input.value.trim();
 
 if(
-emoji
-){
+!choix
+)
+return;
 
-choisirEmoji(
-emoji
+
+reagirMessage(
+messageActuel,
+choix
 );
 
-input.remove();
-
-}
-
-}
-
-);
-
-
-input.addEventListener(
-
-"blur",
-
-()=>{
-
-input.remove();
-
-}
-
-);
+fermerMessageMenu();
 
 }
 
