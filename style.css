@@ -5303,9 +5303,7 @@ BARRE BASSE
 position:fixed;
 
 left:0;
-
 right:0;
-
 bottom:0;
 
 height:90px;
@@ -5317,34 +5315,37 @@ background:#eef0f4;
 display:flex;
 
 align-items:center;
-
-gap:15px;
+justify-content:space-between;
 
 z-index:9999;
 
-overflow: hidden;
+overflow:hidden;
 
 }
 
-/* INPUT */
+/* INPUT AU CENTRE */
 
 .chat-bottom input{
 
 flex:1;
 
-height:55px;
+height:58px;
 
 border:none;
-
-outline:none;
 
 border-radius:30px;
 
 padding:0 20px;
 
+margin:0 15px;
+
 font-size:18px;
 
+outline:none;
+
 background:white;
+
+min-width:0;
 
 }
 
