@@ -901,6 +901,14 @@ auteur:nomAuteur
 
 
 document
+.querySelector(
+".chat-input-bar"
+)
+
+.style.marginBottom=
+"90px";
+
+document
 .getElementById(
 "zone-reponse"
 )
@@ -944,6 +952,14 @@ annulerReponse()
 function annulerReponse(){
 
 messageReponse=null;
+
+document
+.querySelector(
+".chat-input-bar"
+)
+
+.style.marginBottom=
+"0px";
 
 document
 .getElementById(

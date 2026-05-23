@@ -5122,9 +5122,15 @@ position:fixed;
 left:12px;
 right:12px;
 
-bottom:180px;
+bottom:90px;
 
 z-index:9999;
+
+}
+
+.chat-input-bar{
+
+margin-bottom:90px;
 
 }
 
