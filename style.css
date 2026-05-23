@@ -5211,33 +5211,23 @@ bottom:85px;
 
 z-index:1000;
 
-background:transparent;
+display: flex;
+
+align-items:center;
+gap: 10px;
 
 }
 
 #zone-reponse{
 
-position:absolute;
+position:fixed;
 
-left:0;
-right:0;
+left:15px;
+right:15px;
 
-bottom:85px;
+bottom:165px;
 
-margin:0;
-
-}
-
-.reply-preview{
-
-background:white;
-
-padding:15px;
-
-border-radius:25px;
-
-box-shadow:
-0 6px 20px rgba(0,0,0,.08);
+z-index:1001;
 
 }
 
@@ -5262,5 +5252,7 @@ font-size:18px;
 
 box-shadow:
 0 6px 20px rgba(0,0,0,.08);
+
+flex: 1;
 
 }
