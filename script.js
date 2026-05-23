@@ -4902,27 +4902,9 @@ marquerNotificationsLues();
 
 afficherTransfert();
 
+afficherConversations();
+
+
 };
 
 document.body.style.direction = "ltr";
-
-window.addEventListener(
-
-"pageshow",
-
-function(){
-
-let zone=
-
-document.getElementById(
-"conversations-list"
-);
-
-if(zone){
-
-afficherConversations();
-
-}
-
-}
-);
