@@ -1844,6 +1844,12 @@ messageActuel=id;
 
 texteActuel=texte;
 
+/* REPONSE */
+
+messageActuelId=id;
+
+messageActuelTexte=texte;
+
 let modifier =
 
 document.getElementById(
