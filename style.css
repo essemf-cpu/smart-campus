@@ -5313,23 +5313,51 @@ padding:10px 15px;
 background:#eef0f4;
 
 display:flex;
-
 align-items:center;
-justify-content:space-between;
+justify-content:center;
+
+gap:12px;
 
 z-index:9999;
 
-overflow:hidden;
+}
+
+/* + */
+
+.plus-btn{
+
+width:42px;
+height:42px;
+
+min-width:42px;
+
+border:none;
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+#6f43ff,
+#8a68ff
+);
+
+color:white;
+
+font-size:24px;
+
+display:flex;
+align-items:center;
+justify-content:center;
 
 }
 
-/* INPUT AU CENTRE */
+/* INPUT */
 
 .chat-bottom input{
 
 flex:1;
 
-height:58px;
+height:55px;
 
 border:none;
 
@@ -5337,61 +5365,26 @@ border-radius:30px;
 
 padding:0 20px;
 
-margin:0 15px;
-
 font-size:18px;
 
-outline:none;
-
 background:white;
+
+outline:none;
 
 min-width:0;
 
 }
 
-/* BOUTON + */
-
-.plus-btn{
-
-width:45px;
-
-height:45px;
-
-border:none;
-
-border-radius:50%;
-
-background:
-linear-gradient(
-135deg,
-#6f43ff,
-#8a68ff
-);
-
-color:white;
-
-font-size:28px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-flex-shrink:0;
-
-}
-
-/* BOUTON ENVOI */
+/* AVION */
 
 .send-btn{
 
-width:45px;
+width:42px;
+height:42px;
 
-height:45px;
+min-width:42px;
 
 border:none;
-
 border-radius:50%;
 
 background:
@@ -5403,19 +5396,18 @@ linear-gradient(
 
 color:white;
 
-font-size:18px;
+font-size:16px;
 
 display:flex;
-
+align-items:center;
 justify-content:center;
 
-align-items:center;
+/* IMPORTANT */
 
-flex-shrink:0;
-
-padding:0;
-
-margin:0;
+position:static !important;
+right:auto !important;
+top:auto !important;
+transform:none !important;
 
 }
 
