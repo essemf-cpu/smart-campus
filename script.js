@@ -1659,55 +1659,6 @@ window.location.href=
 
 }
 
-function emojiPlus(){
-
-function choisirEmoji(
-emoji
-){
-
-let messageId=
-
-document
-.getElementById(
-"emojiBar"
-)
-
-.dataset.message;
-
-reagirMessage(
-messageId,
-emoji
-);
-
-document
-.getElementById(
-"emojiBar"
-)
-
-.style.display=
-"none";
-
-}
-
-
-function ouvrirTousEmojis(){
-
-let emoji=
-
-prompt(
-"Entrer emoji"
-);
-
-if(!emoji)
-return;
-
-choisirEmoji(
-emoji
-);
-
-}
-
-
 // =====================
 // LUS
 // =====================
@@ -2072,6 +2023,24 @@ reaction:emoji
 
 }
 
+function ouvrirTousEmojis(){
+
+let emoji=
+
+prompt(
+"Choisir un emoji"
+);
+
+if(
+!emoji
+)
+return;
+
+choisirEmoji(
+emoji
+);
+
+}
 
 function mettreAJourStatus(){
 
