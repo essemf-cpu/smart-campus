@@ -5083,56 +5083,6 @@ margin-top:3px;
 
 } 
 
-.chat-input-wrapper{
-
-position:fixed !important;
-
-left:15px;
-right:15px;
-
-bottom:calc(85px + env(safe-area-inset-bottom));
-
-z-index:999999;
-
-}
-
-.chat-input-bar{
-
-display:flex;
-
-align-items:center;
-
-height:70px;
-
-background:white;
-
-border-radius:40px;
-
-padding:0 10px;
-
-box-shadow:
-0 6px 20px rgba(0,0,0,.08);
-
-}
-
-.chat-input-bar input{
-
-flex:1;
-
-height:100%;
-
-border:none;
-
-outline:none;
-
-background:transparent;
-
-padding:0 20px;
-
-font-size:18px;
-
-}
-
 .chat-messages{
 
 padding-bottom:260px !important;
