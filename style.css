@@ -5274,6 +5274,8 @@ z-index:10000 !important;
 
 }
 
+
+
 /* =========================
 MESSAGES
 ========================= */
@@ -5527,5 +5529,23 @@ color:#555;
 
 transition:
 transform .2s;
+
+}
+
+.chat-header{
+
+position:fixed;
+
+top:0;
+left:0;
+right:0;
+
+z-index:9999;
+
+}
+
+.chat-messages{
+
+padding-top:110px;
 
 }
