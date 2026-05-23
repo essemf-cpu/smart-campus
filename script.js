@@ -2832,30 +2832,130 @@ afficherConversations();
 
 function archiverConversation(){
 
-if(
-!conversationActuelle
-){
-
+if(!conversationActuelle)
 return;
+
+localStorage.setItem(
+"archived_" + conversationActuelle,
+"true"
+);
+
+fermerConversationMenu();
+
+afficherConversations();
 
 }
 
-let carte =
-conversationActuelle;
+function afficherArchives(){
 
-/* archive UNE SEULE discussion */
-
-localStorage.setItem(
-
-"archived_"+carte,
-
-"true"
-
+let zone=
+document.getElementById(
+"archives-list"
 );
 
-conversationActuelle=null;
+if(!zone)return;
 
-fermerConversationMenu();
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+db.collection(
+"friends"
+)
+
+.where(
+"userCarte",
+"==",
+user.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+zone.innerHTML="";
+
+snapshot.forEach((doc)=>{
+
+let ami=
+doc.data();
+
+if(
+
+!localStorage.getItem(
+"archived_"+ami.friendCarte
+)
+
+)
+
+return;
+
+
+zone.innerHTML += `
+
+<div
+class="conversation-card"
+
+onclick="
+desarchiverConversation(
+'${ami.friendCarte}'
+)
+">
+
+<div class="conversation-left">
+
+<img
+class="real-avatar"
+
+src="${
+ami.friendAvatar
+||
+'assets/default-user.png'
+}">
+
+<div
+class="conversation-info">
+
+<strong>
+
+${ami.friendNom}
+
+</strong>
+
+<p>
+
+📦 Appuyer pour désarchiver
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+
+function desarchiverConversation(
+carte
+){
+
+localStorage.removeItem(
+"archived_"+carte
+);
+
+afficherArchives();
 
 afficherConversations();
 
