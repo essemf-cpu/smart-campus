@@ -821,12 +821,13 @@ messageReponse
 {
 
 id:
-
 messageReponse.id,
 
 texte:
+messageReponse.texte,
 
-messageReponse.texte
+auteur:
+messageReponse.auteur
 
 }
 
@@ -1266,7 +1267,7 @@ m.replyText
 
 <strong>
 
-${m.replyAuteur}
+${m.reply?.auteur || m.replyAuteur}
 
 </strong>
 

@@ -5119,14 +5119,12 @@ color:red;
 
 position:fixed;
 
-left:0;
-right:0;
+left:12px;
+right:12px;
 
-bottom:75px;
+bottom:105px;
 
-padding:0 12px;
-
-z-index:999;
+z-index:9999;
 
 }
 
