@@ -771,7 +771,16 @@ to:friend,
 message:texte,
 
 replyText:
-messageActuelTexte || "",
+
+messageReponse
+
+?
+
+messageReponse.texte
+
+:
+
+"",
 
 replyAuteur:
 
