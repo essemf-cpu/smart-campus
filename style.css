@@ -5447,3 +5447,77 @@ box-shadow:
 0 6px 20px rgba(0,0,0,.08);
 
 }
+
+.reply-inside{
+
+background:rgba(255,255,255,.15);
+
+border-left:4px solid rgba(255,255,255,.8);
+
+padding:10px 12px;
+
+margin-bottom:10px;
+
+border-radius:12px;
+
+backdrop-filter:blur(5px);
+
+overflow:hidden;
+
+}
+
+/* NOM */
+
+.reply-inside strong{
+
+display:block;
+
+font-size:14px;
+
+font-weight:700;
+
+margin-bottom:4px;
+
+color:#ffffff;
+
+opacity:.95;
+
+}
+
+/* MESSAGE */
+
+.reply-inside p{
+
+margin:0;
+
+font-size:13px;
+
+opacity:.85;
+
+white-space:nowrap;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+}
+
+.message-ami .reply-inside{
+
+background:rgba(0,0,0,.05);
+
+border-left:4px solid #7c4dff;
+
+}
+
+.message-ami .reply-inside strong{
+
+color:#7c4dff;
+
+}
+
+.message-ami .reply-inside p{
+
+color:#555;
+
+}
