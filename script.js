@@ -774,7 +774,16 @@ replyText:
 messageActuelTexte || "",
 
 replyAuteur:
-nomAuteur || "",
+
+messageReponse
+
+?
+
+messageReponse.auteur
+
+:
+
+"",
 
 date:Date.now(),
 
@@ -843,27 +852,40 @@ document
 
 let messageReponse=null;
 
-
 function repondreMessage(
-id,
+messageId,
 texte
 ){
 
-    document.getElementById(
-        "messageMenu"
-    ).style.display="none";
-    }
+document.getElementById(
+"messageMenu"
+).style.display="none";
 
-messageId,
-texte
-{
+let nomAuteur=
+
+messageActuelMoi==="true"
+
+?
+
+"Vous"
+
+:
+
+document.getElementById(
+"friend-name"
+).innerText;
+
 
 messageReponse={
 
 id:messageId,
-texte:texte
+
+texte:texte,
+
+auteur:nomAuteur
 
 };
+
 
 document
 .getElementById(
@@ -878,31 +900,16 @@ document
 
 <div class="reply-content">
 
-let user =
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-);
+<strong>
 
-let nomAuteur =
+${nomAuteur}
 
-messageActuelMoi==="true"
-
-?
-
-"Vous"
-
-:
-
-document.getElementById(
-"friend-name"
-).innerText;
-
-<strong>${nomAuteur}</strong>
+</strong>
 
 <p>
+
 ${texte}
+
 </p>
 
 </div>
@@ -919,10 +926,7 @@ annulerReponse()
 
 `;
 
-fermerMessageMenu();
-
 }
-
 
 function annulerReponse(){
 
