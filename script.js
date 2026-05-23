@@ -2042,6 +2042,30 @@ emoji
 
 }
 
+function choisirEmoji(
+emoji
+){
+
+let messageId=
+
+document
+.getElementById(
+"emojiBar"
+)
+
+?.dataset?.message;
+
+if(
+!messageId
+)return;
+
+reagirMessage(
+messageId,
+emoji
+);
+
+}
+
 function mettreAJourStatus(){
 
 let user =
