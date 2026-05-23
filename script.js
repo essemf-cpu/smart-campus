@@ -4902,9 +4902,6 @@ marquerNotificationsLues();
 
 afficherTransfert();
 
-afficherConversations();
-
-
 };
 
 document.body.style.direction = "ltr";
