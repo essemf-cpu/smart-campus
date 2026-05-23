@@ -5287,3 +5287,48 @@ color:#ff4444;
 margin-left:15px;
 
 }
+
+/* =========================
+   CORRECTION FINALE MESSAGES
+========================= */
+
+.chat-messages{
+
+display:flex !important;
+
+flex-direction:column !important;
+
+padding:20px !important;
+
+padding-bottom:340px !important;
+
+overflow-y:auto !important;
+
+}
+
+/* messages individuels */
+
+.message-moi,
+.message-ami{
+
+position:relative;
+
+margin-bottom:15px;
+
+}
+
+/* garde la barre toujours au-dessus */
+
+.chat-input-bar{
+
+z-index:9999 !important;
+
+}
+
+/* garde le bloc réponse au-dessus de la barre */
+
+#zone-reponse{
+
+z-index:10000 !important;
+
+}
