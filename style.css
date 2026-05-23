@@ -5114,3 +5114,47 @@ font-size:20px;
 color:red;
 
 }
+
+#zone-reponse{
+
+position:fixed;
+
+left:0;
+right:0;
+
+bottom:75px;
+
+padding:0 12px;
+
+z-index:999;
+
+}
+
+.reply-inside{
+
+border-left:
+4px solid #7c4dff;
+
+padding-left:10px;
+
+margin-bottom:8px;
+
+opacity:.8;
+
+}
+
+.reply-inside strong{
+
+font-size:13px;
+
+color:#7c4dff;
+
+}
+
+.reply-inside p{
+
+font-size:12px;
+
+margin-top:3px;
+
+}

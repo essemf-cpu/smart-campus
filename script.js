@@ -868,7 +868,10 @@ texte
 
 document.getElementById(
 "messageMenu"
-).style.display="none";
+).
+
+style.display=
+"none";
 
 let nomAuteur=
 
@@ -1240,6 +1243,38 @@ margin-bottom:5px;
 ">
 
 Transféré
+
+</div>
+
+`
+
+:
+
+""
+}
+
+<div class="message-text">
+
+${
+m.replyText
+
+?
+
+`
+
+<div class="reply-inside">
+
+<strong>
+
+${m.replyAuteur}
+
+</strong>
+
+<p>
+
+${m.replyText}
+
+</p>
 
 </div>
 
