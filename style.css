@@ -5381,6 +5381,8 @@ gap:15px;
 
 z-index:9999;
 
+overflow: hidden;
+
 }
 
 /* INPUT */
@@ -5409,37 +5411,69 @@ background:white;
 
 .plus-btn{
 
-width:50px;
+width:45px;
 
-height:50px;
+height:45px;
 
 border:none;
 
 border-radius:50%;
 
-background:#7c4dff;
+background:
+linear-gradient(
+135deg,
+#6f43ff,
+#8a68ff
+);
 
 color:white;
 
-font-size:35px;
+font-size:28px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-shrink:0;
 
 }
 
-/* ENVOI */
+/* BOUTON ENVOI */
 
 .send-btn{
 
-width:50px;
+width:45px;
 
-height:50px;
+height:45px;
 
 border:none;
 
 border-radius:50%;
 
-background:#7c4dff;
+background:
+linear-gradient(
+135deg,
+#6f43ff,
+#8a68ff
+);
 
 color:white;
+
+font-size:18px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+flex-shrink:0;
+
+padding:0;
+
+margin:0;
 
 }
 
