@@ -5332,3 +5332,150 @@ z-index:9999 !important;
 z-index:10000 !important;
 
 }
+
+/* =========================
+MESSAGES
+========================= */
+
+.chat-messages{
+
+display:flex;
+
+flex-direction:column;
+
+padding:20px;
+
+padding-bottom:150px;
+
+overflow-y:auto;
+
+min-height:100vh;
+
+}
+
+/* =========================
+BARRE BASSE
+========================= */
+
+.chat-bottom{
+
+position:fixed;
+
+left:0;
+
+right:0;
+
+bottom:0;
+
+height:90px;
+
+padding:10px 15px;
+
+background:#eef0f4;
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+z-index:9999;
+
+}
+
+/* INPUT */
+
+.chat-bottom input{
+
+flex:1;
+
+height:55px;
+
+border:none;
+
+outline:none;
+
+border-radius:30px;
+
+padding:0 20px;
+
+font-size:18px;
+
+background:white;
+
+}
+
+/* BOUTON + */
+
+.plus-btn{
+
+width:50px;
+
+height:50px;
+
+border:none;
+
+border-radius:50%;
+
+background:#7c4dff;
+
+color:white;
+
+font-size:35px;
+
+}
+
+/* ENVOI */
+
+.send-btn{
+
+width:50px;
+
+height:50px;
+
+border:none;
+
+border-radius:50%;
+
+background:#7c4dff;
+
+color:white;
+
+}
+
+/* =========================
+REPONSE
+========================= */
+
+#zone-reponse{
+
+position:fixed;
+
+left:15px;
+
+right:15px;
+
+bottom:95px;
+
+z-index:10000;
+
+}
+
+.reply-preview{
+
+background:white;
+
+padding:15px;
+
+border-radius:25px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+box-shadow:
+0 6px 20px rgba(0,0,0,.08);
+
+}
