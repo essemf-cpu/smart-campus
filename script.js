@@ -1958,6 +1958,12 @@ messageId,
 texte
 ){
 
+    messageActuelId=
+messageId;
+
+messageActuelTexte=
+texte;
+
 let choix = prompt(
 
 `1 ❤️ Réagir
@@ -2061,6 +2067,10 @@ alert(
 }
 
 }
+
+let messageActuelId=null;
+
+let messageActuelTexte=null;
 
 // =====================
 // NOM CONVERSATION
