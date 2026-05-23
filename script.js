@@ -1958,7 +1958,7 @@ messageId,
 texte
 ){
 
-    messageActuelId=
+messageActuelId=
 messageId;
 
 messageActuelTexte=
