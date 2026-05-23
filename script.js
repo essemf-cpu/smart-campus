@@ -763,11 +763,10 @@ db.collection(
 .add({
 
 from:user.carte,
-
 fromNom:user.nom,
+senderName:user.nom,
 
 to:friend,
-
 message:texte,
 
 replyText:
@@ -1332,7 +1331,7 @@ data-moi="${m.from===user.carte}"
 data-auteur="${
 m.from===user.carte
 ? 'Vous'
-: document.getElementById('friend-name').innerText
+: m.senderName
 }"
 >
 
