@@ -2312,17 +2312,6 @@ a{
    CHAT MESSAGES
 ========================= */
 
-.chat-messages{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:15px;
-
-    padding-bottom: 140px;
-}
-
 /* =========================
    MY MESSAGE
 ========================= */
@@ -4955,36 +4944,6 @@ cursor:pointer;
 
 }
 
-.chat-messages{
-
-padding-bottom:220px;
-
-}
-
-#zone-reponse{
-
-margin-bottom:10px;
-
-}
-
-.reply-preview{
-
-background:white;
-
-padding:15px;
-
-border-radius:25px;
-
-box-shadow:
-0 6px 20px rgba(0,0,0,.08);
-
-display:flex;
-align-items:center;
-justify-content:space-between;
-
-margin-bottom:12px;
-
-}
 
 .reply-content{
 
@@ -5037,65 +4996,77 @@ margin-top:3px;
 
 } 
 
-.chat-input-bar{
+.chat-messages{
+
+padding-bottom:140px;
+
+}
+
+.chat-input-wrapper{
 
 position:fixed;
 
-left:20px;
-right:20px;
+left:15px;
+right:15px;
 
 bottom:85px;
 
-height:80px;
+z-index:999;
+
+}
+
+.chat-input-bar{
+
+height:70px;
 
 background:white;
 
-border-radius:35px;
+border-radius:40px;
 
-padding:10px;
+display:flex;
+
+align-items:center;
+
+padding:0 10px;
 
 box-shadow:
 0 6px 20px rgba(0,0,0,.08);
-
-z-index:1000;
 
 }
 
 .chat-input-bar input{
 
-width:100%;
-
-height:100%;
+flex:1;
 
 border:none;
 
 outline:none;
 
-background:transparent;
-
-padding-right:90px;
-
-padding-left:20px;
-
 font-size:18px;
 
-box-sizing:border-box;
+padding:0 15px;
+
+background:transparent;
 
 }
 
-.chat-input-bar button{
+.plus-btn{
 
-position:absolute;
+width:50px;
+height:50px;
 
-right:10px;
+border:none;
 
-top:50%;
+background:none;
 
-transform:
-translateY(-50%);
+font-size:40px;
 
-width:60px;
-height:60px;
+}
+
+.send-btn{
+
+width:55px;
+height:55px;
 
 border:none;
 
@@ -5111,5 +5082,32 @@ display:flex;
 
 align-items:center;
 justify-content:center;
+
+}
+
+#zone-reponse{
+
+margin-bottom:10px;
+
+}
+
+.reply-preview{
+
+background:white;
+
+padding:12px;
+
+border-radius:20px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+margin-bottom:8px;
+
+box-shadow:
+0 4px 15px rgba(0,0,0,.08);
 
 }

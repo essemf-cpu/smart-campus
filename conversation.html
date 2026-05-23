@@ -83,21 +83,35 @@
 
 </div>
 
-<!-- INPUT -->
+<!-- INPUT FIXE -->
 
-<div class="chat-input-bar">
+<div class="chat-input-wrapper">
 
 <div id="zone-reponse"></div>
 
-    <input type="text"
-           id="message"
-           placeholder="Votre message...">
+<div class="chat-input-bar">
 
-    <button onclick="envoyerMessagePrive()">
+<button class="plus-btn">
 
-        <i class="fa-solid fa-paper-plane"></i>
++
 
-    </button>
+</button>
+
+<input
+type="text"
+id="message"
+placeholder="Votre message..."
+>
+
+<button
+class="send-btn"
+onclick="envoyerMessagePrive()">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+</button>
+
+</div>
 
 </div>
 
