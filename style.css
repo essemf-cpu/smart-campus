@@ -5116,71 +5116,12 @@ color:#111827;
    BOUTON +
 ========================= */
 
-.plus-btn{
 
-width:55px;
-
-height:55px;
-
-border:none;
-
-border-radius:50%;
-
-background:
-linear-gradient(
-135deg,
-#6f43ff,
-#8a68ff
-);
-
-color:white;
-
-font-size:35px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-flex-shrink:0;
-
-}
 
 /* =========================
    BOUTON ENVOI
 ========================= */
 
-.send-btn{
-
-width:55px;
-
-height:55px;
-
-border:none;
-
-border-radius:50%;
-
-background:
-linear-gradient(
-135deg,
-#6f43ff,
-#8a68ff
-);
-
-color:white;
-
-font-size:22px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-flex-shrink:0;
-
-}
 
 /* =========================
    REPONSE AU MESSAGE
