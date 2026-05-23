@@ -941,6 +941,116 @@ annulerReponse()
 
 }
 
+/* =========================
+   SWIPE REPONDRE
+========================= */
+
+let startX = 0;
+let currentMessage = null;
+
+document.addEventListener(
+"touchstart",
+function(e){
+
+let message = e.target.closest(
+".message-moi,.message-ami"
+);
+
+if(!message) return;
+
+currentMessage = message;
+
+startX =
+e.touches[0].clientX;
+
+},
+{passive:true}
+);
+
+document.addEventListener(
+"touchmove",
+function(e){
+
+if(!currentMessage)
+return;
+
+let moveX =
+e.touches[0].clientX;
+
+let diff =
+moveX - startX;
+
+/* petit déplacement visuel */
+
+if(diff > 0 && diff < 100){
+
+currentMessage.style.transform=
+`translateX(${diff}px)`;
+
+}
+
+},
+{passive:true}
+);
+
+document.addEventListener(
+"touchend",
+function(){
+
+if(!currentMessage)
+return;
+
+let position =
+
+currentMessage.style.transform
+.match(/\d+/);
+
+let distance =
+
+position
+?
+parseInt(position[0])
+:
+0;
+
+/* si glissé assez loin */
+
+if(distance > 60){
+
+repondreMessage(
+
+currentMessage.dataset.id,
+
+currentMessage.dataset.message
+
+);
+
+}
+
+/* retour normal */
+
+currentMessage.style.transition=
+".2s";
+
+currentMessage.style.transform=
+"translateX(0)";
+
+setTimeout(()=>{
+
+if(currentMessage){
+
+currentMessage.style.transition=
+"";
+
+}
+
+},200);
+
+currentMessage = null;
+
+}
+);
+
 function annulerReponse(){
 
 messageReponse=null;

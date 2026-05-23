@@ -5521,3 +5521,11 @@ color:#7c4dff;
 color:#555;
 
 }
+
+.message-moi,
+.message-ami{
+
+transition:
+transform .2s;
+
+}
