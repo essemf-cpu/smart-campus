@@ -1254,8 +1254,6 @@ Transféré
 ""
 }
 
-<div class="message-text">
-
 ${
 m.replyText
 
