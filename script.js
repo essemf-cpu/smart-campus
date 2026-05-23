@@ -770,6 +770,12 @@ to:friend,
 
 message:texte,
 
+replyText:
+messageActuelTexte || "",
+
+replyAuteur:
+nomAuteur || "",
+
 date:Date.now(),
 
 heure:new Date()
@@ -839,9 +845,18 @@ let messageReponse=null;
 
 
 function repondreMessage(
-messageId,
+id,
 texte
 ){
+
+    document.getElementById(
+        "messageMenu"
+    ).style.display="none";
+    }
+
+messageId,
+texte
+{
 
 messageReponse={
 
@@ -863,9 +878,28 @@ document
 
 <div class="reply-content">
 
-<strong>
-Vous
-</strong>
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+let nomAuteur =
+
+messageActuelMoi==="true"
+
+?
+
+"Vous"
+
+:
+
+document.getElementById(
+"friend-name"
+).innerText;
+
+<strong>${nomAuteur}</strong>
 
 <p>
 ${texte}
@@ -1847,8 +1881,9 @@ texteActuel=texte;
 /* REPONSE */
 
 messageActuelId=id;
-
 messageActuelTexte=texte;
+
+messageActuelMoi=moi;
 
 let modifier =
 
