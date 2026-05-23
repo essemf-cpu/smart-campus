@@ -942,25 +942,25 @@ annulerReponse()
 }
 
 /* =========================
-SWIPE REPONDRE
+   SWIPE REPONDRE
 ========================= */
 
-let startX=0;
-let currentMessage=null;
+let swipeStartX=0;
+let swipeMessage=null;
 
 document.addEventListener(
 "touchstart",
 function(e){
 
-let message=e.target.closest(
+let msg=e.target.closest(
 ".message-moi,.message-ami"
 );
 
-if(!message)return;
+if(!msg)return;
 
-currentMessage=message;
+swipeMessage=msg;
 
-startX=
+swipeStartX=
 e.touches[0].clientX;
 
 },
@@ -971,17 +971,17 @@ document.addEventListener(
 "touchmove",
 function(e){
 
-if(!currentMessage)return;
+if(!swipeMessage)return;
 
 let moveX=
 e.touches[0].clientX;
 
 let diff=
-moveX-startX;
+moveX-swipeStartX;
 
-if(diff>0 && diff<90){
+if(diff>0 && diff<80){
 
-currentMessage.style.transform=
+swipeMessage.style.transform=
 `translateX(${diff}px)`;
 
 }
@@ -994,50 +994,47 @@ document.addEventListener(
 "touchend",
 function(){
 
-if(!currentMessage)return;
+if(!swipeMessage)return;
 
-let matrix=
-currentMessage.style.transform;
+let transform=
+
+swipeMessage.style.transform;
 
 let distance=
 
 parseInt(
-matrix.replace(/[^\d]/g,"")
+transform.replace(/[^\d]/g,"")
 )||0;
 
-if(distance>60){
-
-let id=
-currentMessage.dataset.id;
-
-let texte=
-
-currentMessage.dataset.message;
+if(distance>55){
 
 repondreMessage(
-id,
-texte
+
+swipeMessage.dataset.id,
+
+swipeMessage.dataset.message
+
 );
 
 }
 
-currentMessage.style.transition=
+swipeMessage.style.transition=
 ".2s";
 
-currentMessage.style.transform=
-"translateX(0)";
+swipeMessage.style.transform=
+"translateX(0px)";
 
 setTimeout(()=>{
 
-if(currentMessage){
+if(swipeMessage){
 
-currentMessage.style.transition="";
+swipeMessage.style.transition="";
 
 }
 
 },200);
 
-currentMessage=null;
+swipeMessage=null;
 
 }
 );

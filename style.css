@@ -5544,8 +5544,39 @@ z-index:9999;
 
 }
 
+/* =========================
+   TOPBAR FIXE
+========================= */
+
+.chat-topbar{
+
+position:fixed;
+
+top:0;
+left:0;
+right:0;
+
+height:85px;
+
+z-index:9999;
+
+background:#eef0f4;
+
+display:flex;
+
+align-items:center;
+justify-content:space-between;
+
+padding:0 20px;
+
+box-sizing:border-box;
+
+}
+
+/* espace sous le header */
+
 .chat-messages{
 
-padding-top:110px;
+padding-top:100px !important;
 
 }
