@@ -2255,6 +2255,18 @@ for(const doc of snapshot.docs){
 let ami =
 doc.data();
 
+if(
+
+localStorage.getItem(
+"archived_"+ami.friendCarte
+)
+
+){
+
+continue;
+
+}
+
 /* DERNIER MESSAGE */
 
 let dernierMessage =
