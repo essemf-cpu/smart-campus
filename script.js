@@ -975,6 +975,8 @@ document.addEventListener(
 "touchmove",
 function(e){
 
+clearTimeout(timerAppui);
+
 if(!swipeMessage)return;
 
 let currentX=
