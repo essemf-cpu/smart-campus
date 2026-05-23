@@ -730,19 +730,21 @@ friendCarte;
 // =====================
 // ENVOYER MESSAGE
 // =====================
+
 function envoyerMessagePrive(){
 
 let texte =
 document.getElementById(
 "message"
-).value;
+).value.trim();
 
 if(!texte) return;
 
 let user =
 JSON.parse(
-localStorage.getItem("user")
-);
+localStorage.getItem(
+"user"
+));
 
 let params =
 new URLSearchParams(
@@ -750,9 +752,13 @@ window.location.search
 );
 
 let friend =
-params.get("friend");
+params.get(
+"friend"
+);
 
-db.collection("messages")
+db.collection(
+"messages"
+)
 
 .add({
 
@@ -767,19 +773,42 @@ message:texte,
 date:Date.now(),
 
 heure:new Date()
-.toLocaleTimeString([],{
-
+.toLocaleTimeString([],
+{
 hour:"2-digit",
-
 minute:"2-digit"
-
 }),
 
 seen:false,
 
 delivered:true,
 
-reaction:""
+reaction:"",
+
+
+/* REPONSE */
+
+reply:
+
+messageReponse
+
+?
+
+{
+
+id:
+
+messageReponse.id,
+
+texte:
+
+messageReponse.texte
+
+}
+
+:
+
+null
 
 })
 
@@ -787,9 +816,88 @@ reaction:""
 
 document.getElementById(
 "message"
-).value = "";
+).value="";
+
+
+/* RESET */
+
+messageReponse=
+null;
+
+document
+.getElementById(
+"zone-reponse"
+)
+
+.innerHTML="";
 
 });
+
+}
+
+let messageReponse=null;
+
+
+function repondreMessage(
+messageId,
+texte
+){
+
+messageReponse={
+
+id:messageId,
+texte:texte
+
+};
+
+document
+.getElementById(
+"zone-reponse"
+)
+
+.innerHTML=`
+
+<div class="reply-preview">
+
+<div class="reply-line"></div>
+
+<div class="reply-content">
+
+<strong>
+Vous
+</strong>
+
+<p>
+${texte}
+</p>
+
+</div>
+
+<i
+class="fa-solid fa-xmark"
+onclick="
+annulerReponse()
+">
+
+</i>
+
+</div>
+
+`;
+
+}
+
+
+function annulerReponse(){
+
+messageReponse=null;
+
+document
+.getElementById(
+"zone-reponse"
+)
+
+.innerHTML="";
 
 }
 
