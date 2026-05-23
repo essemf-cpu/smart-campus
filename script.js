@@ -1661,34 +1661,47 @@ window.location.href=
 
 function emojiPlus(){
 
-function ouvrirTousEmojis(){
+function choisirEmoji(
+emoji
+){
 
-let input=
+let messageId=
 
-document.createElement(
-"input"
+document
+.getElementById(
+"emojiBar"
+)
+
+.dataset.message;
+
+reagirMessage(
+messageId,
+emoji
 );
 
-input.type="text";
+document
+.getElementById(
+"emojiBar"
+)
 
-input.style.position=
-"absolute";
-
-input.style.opacity=0;
-
-document.body.appendChild(
-input
-);
-
-input.focus();
+.style.display=
+"none";
 
 }
 
-if(
-!emoji
-)return;
 
-reagirActuel(
+function ouvrirTousEmojis(){
+
+let emoji=
+
+prompt(
+"Entrer emoji"
+);
+
+if(!emoji)
+return;
+
+choisirEmoji(
 emoji
 );
 
@@ -1904,17 +1917,23 @@ if(!choix)return;
 
 if(choix==="1"){
 
-let emoji=
-prompt(
-"❤️ 👍 😂"
-);
+document
+.getElementById(
+"emojiBar"
+)
 
-if(!emoji)return;
+.style.display=
+"flex";
 
-reagirMessage(
-messageId,
-emoji
-);
+
+document
+.getElementById(
+"emojiBar"
+)
+
+.dataset.message=
+
+messageId;
 
 }
 
@@ -2050,41 +2069,6 @@ messageId
 reaction:emoji
 
 });
-
-}
-
-function ouvrirTousEmojis(){
-
-let input=
-
-document.createElement(
-"input"
-);
-
-input.type="text";
-
-input.style.position=
-"absolute";
-
-input.style.opacity=0;
-
-document.body.appendChild(
-input
-);
-
-input.focus();
-
-input.addEventListener(
-
-"blur",
-
-()=>{
-
-input.remove();
-
-}
-
-);
 
 }
 
