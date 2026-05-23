@@ -5107,11 +5107,24 @@ color:#666;
 
 }
 
-.reply-preview i{
+.reply-preview{
 
-font-size:20px;
+background:white;
 
-color:red;
+border-radius:25px;
+
+padding:18px;
+
+box-shadow:
+0 6px 20px rgba(0,0,0,.08);
+
+margin-bottom:10px;
+
+}
+
+.chat-messages{
+
+padding-bottom:240px;
 
 }
 
@@ -5119,18 +5132,12 @@ color:red;
 
 position:fixed;
 
-left:12px;
-right:12px;
+left:10px;
+right:10px;
 
-bottom:90px;
+bottom:105px;
 
 z-index:9999;
-
-}
-
-.chat-input-bar{
-
-margin-bottom:90px;
 
 }
 
