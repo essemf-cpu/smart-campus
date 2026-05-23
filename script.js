@@ -1265,7 +1265,7 @@ m.replyText
 
 <strong>
 
-${m.reply?.auteur || m.replyAuteur}
+${m.replyAuteur || "Vous"}
 
 </strong>
 
