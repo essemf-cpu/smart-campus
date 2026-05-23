@@ -2025,19 +2025,67 @@ reaction:emoji
 
 function ouvrirTousEmojis(){
 
-let emoji=
+let input=
 
-prompt(
-"Choisir un emoji"
+document.createElement(
+"input"
 );
 
+input.type=
+"text";
+
+input.style.position=
+"fixed";
+
+input.style.bottom=
+"-100px";
+
+input.style.opacity=
+"0";
+
+document.body.appendChild(
+input
+);
+
+input.focus();
+
+
+input.addEventListener(
+
+"input",
+
+()=>{
+
+let emoji=
+input.value.trim();
+
 if(
-!emoji
-)
-return;
+emoji
+){
 
 choisirEmoji(
 emoji
+);
+
+input.remove();
+
+}
+
+}
+
+);
+
+
+input.addEventListener(
+
+"blur",
+
+()=>{
+
+input.remove();
+
+}
+
 );
 
 }
