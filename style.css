@@ -2397,118 +2397,23 @@ a{
    INPUT BAR
 ========================= */
 
-.chat-input-bar{
-
-    position:fixed;
-
-    bottom:20px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:92%;
-
-    background:white;
-
-    border-radius:30px;
-
-    padding:12px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    box-shadow:
-    0 6px 25px rgba(0,0,0,0.08);
-}
 
 /* =========================
    INPUT
 ========================= */
 
-.chat-input-bar input{
-
-    flex:1;
-
-    border:none;
-
-    outline:none;
-
-    background:none;
-
-    font-size:16px;
-
-    padding:12px;
-
-    min-width:0;
-}
 
 /* =========================
    SEND BUTTON
 ========================= */
 
-.chat-input-bar{
 
-    position:fixed;
-
-    bottom:90px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:92%;
-
-    background:white;
-
-    border-radius:30px;
-
-    padding:12px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
-
-    box-shadow:
-    0 6px 25px rgba(0,0,0,0.08);
-
-    z-index:999;
-}
 
 .section-header h2{
 
     font-size:22px;
 }
 
-.chat-input-bar button{
-
-    min-width:55px;
-
-    width:55px;
-
-    height:55px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:linear-gradient(
-        135deg,
-        var(--primary),
-        var(--primary-light)
-    );
-
-    color:white;
-
-    font-size:18px;
-
-    flex-shrink:0;
-}
 
 /* =========================
    ADD FRIEND BUTTON
