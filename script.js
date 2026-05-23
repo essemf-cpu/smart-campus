@@ -2272,9 +2272,7 @@ continue;
 let dernierMessage =
 "Commencez la discussion";
 
-let heure =
-"";
-
+let dateAffichage = "";
 let dateMessage = 0;
 
 let messagesSnap =
@@ -2314,8 +2312,116 @@ dateMessage === 0
 dernierMessage =
 m.message;
 
-heure =
-m.heure || "";
+let date = new Date(
+m.date
+);
+
+let maintenant =
+new Date();
+
+let hier =
+new Date();
+
+hier.setDate(
+hier.getDate()-1
+);
+
+let avantHier =
+new Date();
+
+avantHier.setDate(
+avantHier.getDate()-2
+);
+
+let differenceJours =
+
+Math.floor(
+
+(
+maintenant-date
+)
+
+/
+
+(
+1000*60*60*24
+)
+
+);
+
+if(
+date.toDateString()===
+
+maintenant.toDateString()
+){
+
+/* AUJOURD'HUI → HEURE */
+
+dateAffichage=
+
+m.heure ||
+
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+else if(
+date.toDateString()===
+
+hier.toDateString()
+){
+
+dateAffichage=
+"Hier";
+
+}
+
+else if(
+date.toDateString()===
+
+avantHier.toDateString()
+){
+
+dateAffichage=
+"Avant-hier";
+
+}
+
+else if(
+differenceJours<7
+){
+
+dateAffichage=
+
+date.toLocaleDateString(
+"fr-FR",
+{
+weekday:"long"
+}
+);
+
+}
+
+else{
+
+dateAffichage=
+
+date.toLocaleDateString(
+"fr-FR",
+{
+day:"2-digit",
+month:"2-digit",
+year:"numeric"
+}
+);
+
+}
 
 dateMessage =
 m.date || 0;
@@ -2331,7 +2437,7 @@ ami:ami,
 dernierMessage:
 dernierMessage,
 
-heure:heure,
+heure:dateAffichage,
 
 date:dateMessage
 
