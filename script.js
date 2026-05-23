@@ -940,110 +940,6 @@ annulerReponse()
 
 }
 
-/* =========================
-   SWIPE REPONDRE
-========================= */
-
-let swipeStartX=0;
-let swipeDistance=0;
-let swipeMessage=null;
-
-document.addEventListener(
-"touchstart",
-function(e){
-
-let msg=e.target.closest(
-".message-moi,.message-ami"
-);
-
-if(!msg)return;
-
-swipeMessage=msg;
-
-swipeStartX=
-e.touches[0].clientX;
-
-swipeDistance=0;
-
-},
-{passive:true}
-);
-
-
-document.addEventListener(
-"touchmove",
-function(e){
-
-clearTimeout(timerAppui);
-
-if(!swipeMessage)return;
-
-let currentX=
-e.touches[0].clientX;
-
-swipeDistance=
-currentX-swipeStartX;
-
-if(
-swipeDistance>0
-&&
-swipeDistance<100
-){
-
-swipeMessage.style.transition=
-"none";
-
-swipeMessage.style.transform=
-`translateX(${swipeDistance}px)`;
-
-}
-
-},
-{passive:true}
-);
-
-
-document.addEventListener(
-"touchend",
-function(){
-
-if(!swipeMessage)return;
-
-if(swipeDistance>60){
-
-repondreMessage(
-
-swipeMessage.dataset.id,
-
-swipeMessage.dataset.message,
-
-swipeMessage.dataset.auteur
-
-);
-
-}
-
-swipeMessage.style.transition=
-".25s";
-
-swipeMessage.style.transform=
-"translateX(0px)";
-
-setTimeout(()=>{
-
-if(swipeMessage){
-
-swipeMessage.style.transition="";
-}
-
-},250);
-
-swipeMessage=null;
-swipeDistance=0;
-
-}
-
-);
 
 function annulerReponse(){
 
@@ -1328,11 +1224,6 @@ class="${classe}"
 data-id="${doc.id}"
 data-message="${m.message}"
 data-moi="${m.from===user.carte}"
-data-auteur="${
-m.from===user.carte
-? 'Vous'
-: m.senderName
-}"
 >
 
 <div class="message-text">
