@@ -885,6 +885,8 @@ annulerReponse()
 
 `;
 
+fermerMessageMenu();
+
 }
 
 

@@ -5055,18 +5055,18 @@ cursor:pointer;
 display:flex;
 align-items:center;
 
-gap:15px;
+gap:12px;
+
+padding:12px;
+
+margin:10px 15px;
 
 background:white;
 
-padding:15px;
-
-border-radius:20px;
-
-margin-bottom:10px;
+border-radius:18px;
 
 box-shadow:
-0 4px 15px rgba(0,0,0,.08);
+0 5px 20px rgba(0,0,0,.08);
 
 }
 
@@ -5089,7 +5089,9 @@ flex:1;
 
 .reply-content strong{
 
-font-size:18px;
+font-size:16px;
+
+font-weight:bold;
 
 color:#7c4dff;
 
@@ -5097,17 +5099,17 @@ color:#7c4dff;
 
 .reply-content p{
 
-font-size:16px;
+margin-top:4px;
+
+font-size:14px;
 
 color:#666;
-
-margin-top:5px;
 
 }
 
 .reply-preview i{
 
-font-size:22px;
+font-size:20px;
 
 color:red;
 
