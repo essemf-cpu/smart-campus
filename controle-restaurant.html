@@ -811,6 +811,11 @@ qrbox:250
 
 function(qr){
 
+try{
+
+let data=
+JSON.parse(qr);
+
 scanner.stop();
 
 document
@@ -820,15 +825,21 @@ document
 .style.display=
 "none";
 
-let data=
-JSON.parse(qr);
-
-let carte=
-data.carte;
-
 chercherEtudiant(
-carte
+data.carte
 );
+
+}
+
+catch(e){
+
+alert(
+"QR invalide"
+);
+
+console.log(e);
+
+}
 
 },
 
