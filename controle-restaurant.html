@@ -19,6 +19,9 @@ rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 >
 
+<!-- QR SCANNER -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
 <style>
 
 body{
@@ -212,6 +215,50 @@ margin-top:20px;
 
 }
 
+.historique-item{
+
+background:#f7f7fb;
+
+padding:15px;
+
+border-radius:18px;
+
+margin-bottom:12px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.historique-left strong{
+
+display:block;
+
+font-size:15px;
+
+}
+
+.historique-left p{
+
+margin-top:5px;
+
+font-size:13px;
+
+opacity:.7;
+
+}
+
+.historique-time{
+
+font-size:12px;
+
+opacity:.6;
+
+}
+
 </style>
 
 </head>
@@ -273,12 +320,40 @@ onclick="choisir('Dîner',this)"
 
 <div class="section">
 
+<h3>
+
+Historique récent
+
+</h3>
+
+<div
+id="historique-list"
+>
+
+Chargement...
+
+</div>
+
+</div>
+
+<div class="section">
+
 <div
 class="scan-zone"
-onclick="simulerScan()"
+onclick="ouvrirScanner()"
 >
 
 📷 Scanner QR
+
+</div>
+
+<div
+id="reader"
+style="
+display:none;
+margin-top:20px;
+"
+>
 
 </div>
 
@@ -384,6 +459,46 @@ btn.classList.add(
 
 function simulerScan(){
 
+let carte=
+
+prompt(
+"Carte étudiant"
+);
+
+if(!carte)
+return;
+
+db.collection(
+"users"
+)
+
+.where(
+"carte",
+"==",
+carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(
+snapshot.empty
+){
+
+alert(
+"Étudiant introuvable"
+);
+
+return;
+
+}
+
+let etudiant=
+
+snapshot.docs[0]
+.data();
+
 document
 .getElementById(
 "etudiantCard"
@@ -391,6 +506,56 @@ document
 
 .style.display=
 "block";
+
+document
+.getElementById(
+"nom"
+)
+.dataset.carte=
+etudiant.carte
+
+.innerText=
+
+etudiant.nom;
+
+let tickets=0;
+
+if(
+type==="Petit déjeuner"
+){
+
+tickets=
+etudiant.ticketPetitDej||0;
+
+}
+
+if(
+type==="Déjeuner"
+){
+
+tickets=
+etudiant.ticketDejeuner||0;
+
+}
+
+if(
+type==="Dîner"
+){
+
+tickets=
+etudiant.ticketDiner||0;
+
+}
+
+document
+.getElementById(
+"ticketNombre"
+)
+
+.innerText=
+tickets;
+
+});
 
 }
 
@@ -430,17 +595,466 @@ nombre;
 
 function valider(){
 
+let carte=
+
+document.getElementById(
+"nom"
+).dataset.carte;
+
+if(!carte){
+
 alert(
+"Aucun étudiant"
+);
 
-type+
+return;
 
-"\nNombre : "+
+}
 
+db.collection(
+"users"
+)
+
+.where(
+"carte",
+"==",
+carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(snapshot.empty)
+return;
+
+let doc=
+snapshot.docs[0];
+
+let etudiant=
+doc.data();
+
+let tickets=0;
+
+let champ="";
+
+let prix=1000;
+
+
+/* type repas */
+
+if(
+type==="Petit déjeuner"
+){
+
+champ=
+"ticketPetitDej";
+
+prix=500;
+
+}
+
+if(
+type==="Déjeuner"
+){
+
+champ=
+"ticketDejeuner";
+
+prix=1000;
+
+}
+
+if(
+type==="Dîner"
+){
+
+champ=
+"ticketDiner";
+
+prix=1000;
+
+}
+
+tickets=
+etudiant[champ]||0;
+
+
+/* calcul */
+
+let utiliser=
+
+Math.min(
+tickets,
 nombre
+);
+
+let reste=
+
+nombre-
+utiliser;
+
+let nouveauTicket=
+
+tickets-
+utiliser;
+
+let nouveauSolde=
+
+(
+etudiant.solde||0
+)
+-
+(
+reste*prix
+);
+
+if(
+nouveauSolde<0
+){
+
+alert(
+"Solde insuffisant"
+);
+
+return;
+
+}
+
+/* sauvegarde */
+
+db.collection(
+"users"
+)
+
+.doc(
+doc.id
+)
+
+.update({
+
+[champ]:
+nouveauTicket,
+
+solde:
+nouveauSolde
+
+})
+
+.then(()=>{
+
+    db.collection(
+"restaurantHistorique"
+)
+
+.add({
+
+nom:
+etudiant.nom,
+
+carte:
+etudiant.carte,
+
+repas:
+type,
+
+quantite:
+nombre,
+
+controleur:
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+).nom,
+
+date:
+Date.now()
+
+});
+
+alert(
+"Ticket(s) validé ✅"
+);
+
+});
+
+});
+
+}
+
+function ouvrirScanner(){
+
+document
+.getElementById(
+"reader"
+)
+.style.display=
+"block";
+
+const scanner =
+
+new Html5Qrcode(
+"reader"
+);
+
+scanner.start(
+
+{
+facingMode:"environment"
+},
+
+{
+fps:10,
+qrbox:250
+},
+
+function(qr){
+
+scanner.stop();
+
+document
+.getElementById(
+"reader"
+)
+.style.display=
+"none";
+
+let data=
+JSON.parse(qr);
+
+let carte=
+data.carte;
+
+chercherEtudiant(
+carte
+);
+
+},
+
+function(error){
+
+}
 
 );
 
 }
+
+function chercherEtudiant(
+carte
+){
+
+db.collection(
+"users"
+)
+
+.where(
+"carte",
+"==",
+carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(
+snapshot.empty
+){
+
+alert(
+"Étudiant introuvable"
+);
+
+return;
+
+}
+
+let etudiant=
+
+snapshot.docs[0]
+.data();
+
+document
+.getElementById(
+"etudiantCard"
+)
+
+.style.display=
+"block";
+
+document
+.getElementById(
+"nom"
+)
+
+.innerText=
+etudiant.nom;
+
+document
+.getElementById(
+"nom"
+)
+
+.dataset.carte=
+etudiant.carte;
+
+let tickets=0;
+
+if(
+type==="Petit déjeuner"
+){
+
+tickets=
+etudiant.ticketPetitDej||0;
+
+}
+
+if(
+type==="Déjeuner"
+){
+
+tickets=
+etudiant.ticketDejeuner||0;
+
+}
+
+if(
+type==="Dîner"
+){
+
+tickets=
+etudiant.ticketDiner||0;
+
+}
+
+document
+.getElementById(
+"ticketNombre"
+)
+
+.innerText=
+tickets;
+
+});
+
+}
+
+function chargerHistorique(){
+
+let zone=
+
+document.getElementById(
+"historique-list"
+);
+
+if(!zone)
+return;
+
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+));
+
+db.collection(
+"restaurantHistorique"
+)
+
+.where(
+"controleur",
+"==",
+user.nom
+)
+
+.orderBy(
+"date",
+"desc"
+)
+
+.limit(10)
+
+.onSnapshot(
+(snapshot)=>{
+
+zone.innerHTML="";
+
+if(
+snapshot.empty
+){
+
+zone.innerHTML=
+"Aucun historique";
+
+return;
+
+}
+
+snapshot.forEach(
+(doc)=>{
+
+let h=
+doc.data();
+
+let heure=
+
+new Date(
+h.date
+)
+
+.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+zone.innerHTML+=`
+
+<div
+class="historique-item"
+>
+
+<div
+class="historique-left"
+>
+
+<strong>
+
+${h.nom}
+
+</strong>
+
+<p>
+
+${h.repas}
+×${h.quantite}
+
+</p>
+
+</div>
+
+<div
+class="historique-time"
+>
+
+${heure}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+chargerHistorique();
 
 </script>
 

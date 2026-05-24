@@ -4129,22 +4129,7 @@ document.createElement(
 
 JSON.stringify({
 
-nom:user.nom,
-
 carte:user.carte,
-
-tickets:{
-
-petitdej:
-user.ticketPetitDej||0,
-
-dejeuner:
-user.ticketDejeuner||0,
-
-diner:
-user.ticketDiner||0
-
-}
 
 }),
 
