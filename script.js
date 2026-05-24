@@ -148,8 +148,19 @@ lastActive:Date.now()
 
 });
 
-window.location.href =
+if(
+user.role==="controleurRestaurant"
+){
+
+window.location.href=
+"controle-restaurant.html";
+
+}else{
+
+window.location.href=
 "dashboard.html";
+
+}
 
 });
 
