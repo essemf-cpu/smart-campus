@@ -752,41 +752,27 @@ etudiant.nom;
 
 
 
-let tickets=0;
+let ticketsMap={
 
+"Petit déjeuner":
+etudiant.ticketPetitDej || 0,
 
-if(
-type==="Petit déjeuner"
-){
+"Déjeuner":
+etudiant.ticketDejeuner || 0,
 
-tickets=
-etudiant.ticketPetitDej||0;
+"Dîner":
+etudiant.ticketDiner || 0
 
-}
-
-else if(
-type==="Déjeuner"
-){
-
-tickets=
-etudiant.ticketDejeuner||0;
-
-}
-
-else{
-
-tickets=
-etudiant.ticketDiner||0;
-
-}
-
+};
 
 document
 .getElementById(
 "ticketNombre"
 )
+
 .innerText=
-tickets;
+
+ticketsMap[type];
 
 document
 .getElementById(
