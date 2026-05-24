@@ -700,6 +700,15 @@ alert(
 function ouvrirScanner(){
 
 document
+.querySelector(
+".scan-zone"
+)
+
+.style.display=
+
+"none";
+
+document
 .getElementById(
 "reader"
 )
@@ -721,6 +730,12 @@ const html5QrCode=
 new Html5Qrcode(
 "reader"
 );
+
+if(
+window.scannerActif
+)return;
+
+window.scannerActif=true;
 
 html5QrCode.start(
 
@@ -777,6 +792,8 @@ return;
 html5QrCode
 .stop()
 .then(()=>{
+
+    window.scannerActif=false;
 
 let etudiant=
 
