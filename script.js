@@ -4373,6 +4373,55 @@ alert(
 
 }
 
+function chercherEtudiant(carte){
+
+db.collection("users")
+
+.where(
+"carte",
+"==",
+carte
+)
+
+.get()
+
+.then(snapshot=>{
+
+if(snapshot.empty){
+
+alert(
+"Aucun étudiant trouvé"
+);
+
+return;
+
+}
+
+let etudiant=
+snapshot.docs[0].data();
+
+alert(
+
+"Étudiant trouvé : "
++
+etudiant.nom
+
+);
+
+})
+
+.catch(err=>{
+
+console.log(err);
+
+alert(
+"Erreur Firestore"
+);
+
+});
+
+}
+
 // =====================
 // GPS
 // =====================

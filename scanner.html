@@ -177,11 +177,44 @@ afficherBadgeNotifications();
 
 <script>
 
+let scanBloque=false;
+
 function onScanSuccess(decodedText){
 
-    document.getElementById(
-        "scan-result"
-    ).innerHTML = decodedText;
+if(scanBloque)return;
+
+scanBloque=true;
+
+try{
+
+let data=
+JSON.parse(decodedText);
+
+document.getElementById(
+"scan-result"
+).innerHTML=
+
+"Étudiant : "
++
+data.carte;
+
+/* ICI */
+
+chercherEtudiant(
+data.carte
+);
+
+}
+catch{
+
+alert(
+"QR invalide"
+);
+
+scanBloque=false;
+
+}
+
 }
 
 let html5QrCode =
