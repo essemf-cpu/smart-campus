@@ -850,9 +850,7 @@ function(error){
 
 }
 
-function chercherEtudiant(
-carte
-){
+function chercherEtudiant(carte){
 
 alert(
 "Recherche : " + carte
@@ -889,13 +887,20 @@ return;
 
 }
 
-let etudiant=
+let doc=
 
-snapshot.docs[0]
-.data();
+snapshot.docs[0];
+
+let etudiant=
+doc.data();
 
 alert(
+"Nom : " +
 etudiant.nom
+);
+
+console.log(
+etudiant
 );
 
 })
