@@ -4197,77 +4197,75 @@ user.solde + " FCFA";
 // =====================
 function chargerTickets(){
 
-let user =
+let user=
 JSON.parse(
-localStorage.getItem("user")
-);
+localStorage.getItem(
+"user"
+));
 
-if(!user) return;
+if(!user)return;
 
-/* INIT */
+db.collection(
+"users"
+)
+.doc(
+user.id
+)
+.get()
 
-if(user.ticketPetitDej === undefined){
+.then((doc)=>{
 
-user.ticketPetitDej = 0;
+if(!doc.exists)
+return;
 
-}
+let data=
+doc.data();
 
-if(user.ticketDejeuner === undefined){
+/* mise à jour locale */
 
-user.ticketDejeuner = 0;
+user.ticketPetitDej=
+data.ticketPetitDej||0;
 
-}
+user.ticketDejeuner=
+data.ticketDejeuner||0;
 
-if(user.ticketDiner === undefined){
+user.ticketDiner=
+data.ticketDiner||0;
 
-user.ticketDiner = 0;
-
-}
-
-/* SAVE */
+user.solde=
+data.solde||0;
 
 localStorage.setItem(
+
 "user",
-JSON.stringify(user)
+
+JSON.stringify(
+user
+)
+
 );
 
-/* UI */
+/* affichage */
 
-let petitdej =
 document.getElementById(
 "ticket-petitdej"
-);
+).innerHTML=
 
-let dejeuner =
-document.getElementById(
-"ticket-dejeuner"
-);
-
-let diner =
-document.getElementById(
-"ticket-diner"
-);
-
-if(petitdej){
-
-petitdej.innerHTML =
 user.ticketPetitDej;
 
-}
+document.getElementById(
+"ticket-dejeuner"
+).innerHTML=
 
-if(dejeuner){
-
-dejeuner.innerHTML =
 user.ticketDejeuner;
 
-}
+document.getElementById(
+"ticket-diner"
+).innerHTML=
 
-if(diner){
-
-diner.innerHTML =
 user.ticketDiner;
 
-}
+});
 
 }
 
