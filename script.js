@@ -4373,7 +4373,10 @@ alert(
 
 }
 
-function chercherEtudiant(carte){
+function chercherEtudiant(
+carte,
+callback=null
+){
 
 db.collection("users")
 
@@ -4397,16 +4400,21 @@ return;
 
 }
 
-let etudiant=
-snapshot.docs[0].data();
+let etudiant={
 
-alert(
+id:snapshot.docs[0].id,
 
-"Étudiant trouvé : "
-+
-etudiant.nom
+...snapshot.docs[0].data()
 
+};
+
+if(callback){
+
+callback(
+etudiant
 );
+
+}
 
 })
 

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>
+
+Scanner Restaurant
+
+</title>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<link
+rel="stylesheet"
+href="style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+</head>
+
+<body>
+
+<div class="mobile-container">
+
+<!-- HEADER -->
+
+<div class="guide-header">
+
+<a href="controle-restauranthtml">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+</a>
+
+<h1>
+
+Scanner Restaurant
+
+</h1>
+
+</div>
+
+<!-- BANNER -->
+
+<div class="premium-banner">
+
+<div>
+
+<h2>
+
+Contrôle tickets restaurant
+
+</h2>
+
+<p>
+
+Scanner étudiant • Défalquer ticket
+
+</p>
+
+</div>
+
+<img
+src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png">
+
+</div>
+
+<!-- CARD -->
+
+<div class="wallet-card">
+
+<h2>
+
+Caméra contrôle
+
+</h2>
+
+<p class="wallet-subtitle">
+
+Placez le QR étudiant
+devant la caméra
+
+</p>
+
+<div
+id="reader"
+style="
+width:100%;
+margin-top:25px;
+border-radius:24px;
+overflow:hidden;
+">
+
+</div>
+
+<div
+class="history-section">
+
+<div
+class="history-card">
+
+<div
+class="history-icon purple-bg">
+
+<i class="fa-solid fa-utensils"></i>
+
+</div>
+
+<div
+class="history-info">
+
+<strong
+id="scan-result">
+
+Aucun étudiant détecté
+
+</strong>
+
+<small>
+
+Restaurant universitaire
+
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script src="script.js"></script>
+
+<script>
+
+let scanBloque=false;
+
+let html5QrCode=
+new Html5Qrcode(
+"reader"
+);
+
+function onScanSuccess(
+decodedText
+){
+
+if(scanBloque)return;
+
+scanBloque=true;
+
+try{
+
+let data=
+JSON.parse(
+decodedText
+);
+
+chercherEtudiant(
+
+data.carte,
+
+function(etudiant){
+
+document.getElementById(
+"scan-result"
+).innerHTML=
+
+etudiant.nom;
+
+let choix=
+
+prompt(
+
+"1 = Petit déjeuner\n2 = Déjeuner\n3 = Dîner"
+
+);
+
+alert(
+
+"Étudiant : "
++
+etudiant.nom
++
+"\nChoix : "
++
+choix
+
+);
+
+scanBloque=false;
+
+}
+
+);
+
+}
+
+catch{
+
+alert(
+"QR invalide"
+);
+
+scanBloque=false;
+
+}
+
+}
+
+Html5Qrcode
+.getCameras()
+
+.then(devices=>{
+
+if(
+devices &&
+devices.length
+){
+
+html5QrCode.start(
+
+{
+facingMode:
+"environment"
+},
+
+{
+fps:10,
+qrbox:250
+},
+
+onScanSuccess
+
+);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
