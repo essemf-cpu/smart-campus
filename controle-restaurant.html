@@ -473,108 +473,6 @@ btn.classList.add(
 
 }
 
-function simulerScan(){
-
-let carte=
-
-prompt(
-"Carte étudiant"
-);
-
-if(!carte)
-return;
-
-db.collection(
-"users"
-)
-
-.where(
-"carte",
-"==",
-carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-if(
-snapshot.empty
-){
-
-alert(
-"Étudiant introuvable"
-);
-
-return;
-
-}
-
-let etudiant=
-
-snapshot.docs[0]
-.data();
-
-document
-.getElementById(
-"etudiantCard"
-)
-
-.style.display=
-"block";
-
-document
-.getElementById(
-"nom"
-)
-.dataset.carte=
-etudiant.carte
-
-.innerText=
-
-etudiant.nom;
-
-let tickets=0;
-
-if(
-type==="Petit déjeuner"
-){
-
-tickets=
-etudiant.ticketPetitDej||0;
-
-}
-
-if(
-type==="Déjeuner"
-){
-
-tickets=
-etudiant.ticketDejeuner||0;
-
-}
-
-if(
-type==="Dîner"
-){
-
-tickets=
-etudiant.ticketDiner||0;
-
-}
-
-document
-.getElementById(
-"ticketNombre"
-)
-
-.innerText=
-tickets;
-
-});
-
-}
-
 function plus(){
 
 nombre++;
@@ -816,7 +714,9 @@ demarrerScanner();
 
 function demarrerScanner(){
 
-let html5QrCode=
+let scanBloque=false;
+
+const html5QrCode=
 
 new Html5Qrcode(
 "reader"
@@ -825,8 +725,7 @@ new Html5Qrcode(
 html5QrCode.start(
 
 {
-facingMode:
-"environment"
+facingMode:"environment"
 },
 
 {
@@ -836,16 +735,16 @@ qrbox:250
 
 function(decodedText){
 
+if(scanBloque)return;
+
+scanBloque=true;
+
 try{
 
 let data=
 JSON.parse(
 decodedText
 );
-
-/* arrêter uniquement si QR valide */
-
-html5QrCode.stop();
 
 db.collection(
 "users"
@@ -869,18 +768,32 @@ alert(
 "Étudiant introuvable"
 );
 
+scanBloque=false;
+
 return;
 
 }
 
+html5QrCode
+.stop()
+.then(()=>{
+
 let etudiant=
-snapshot.docs[0].data();
+
+snapshot.docs[0]
+.data();
+
+document
+.getElementById(
+"reader"
+)
+.style.display=
+"none";
 
 document
 .getElementById(
 "etudiantCard"
 )
-
 .style.display=
 "block";
 
@@ -888,7 +801,6 @@ document
 .getElementById(
 "nom"
 )
-
 .dataset.carte=
 
 etudiant.carte;
@@ -897,10 +809,11 @@ document
 .getElementById(
 "nom"
 )
-
 .innerText=
 
 etudiant.nom;
+
+/* tickets selon choix */
 
 let tickets=0;
 
@@ -913,7 +826,7 @@ etudiant.ticketPetitDej||0;
 
 }
 
-if(
+else if(
 type==="Déjeuner"
 ){
 
@@ -922,9 +835,7 @@ etudiant.ticketDejeuner||0;
 
 }
 
-if(
-type==="Dîner"
-){
+else{
 
 tickets=
 etudiant.ticketDiner||0;
@@ -941,11 +852,24 @@ tickets;
 
 document
 .getElementById(
-"reader"
+"etudiantCard"
 )
 
-.style.display=
-"none";
+.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+});
+
+})
+
+.catch((e)=>{
+
+console.log(e);
+
+scanBloque=false;
 
 });
 
@@ -954,6 +878,8 @@ document
 catch(e){
 
 console.log(e);
+
+scanBloque=false;
 
 }
 
