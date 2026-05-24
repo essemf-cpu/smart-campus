@@ -292,7 +292,7 @@ class="ticket active"
 onclick="choisir('Petit déjeuner',this)"
 >
 
-🍞
+Petit déjeuner
 
 </button>
 
@@ -301,7 +301,7 @@ class="ticket"
 onclick="choisir('Déjeuner',this)"
 >
 
-🍛
+Déjeuner
 
 </button>
 
@@ -310,7 +310,7 @@ class="ticket"
 onclick="choisir('Dîner',this)"
 >
 
-🌙
+Diner
 
 </button>
 
@@ -813,17 +813,16 @@ function(qr){
 
 try{
 
+console.log(qr);
+
+let texte=
+
+qr.trim();
+
 let data=
-JSON.parse(qr);
-
-scanner.stop();
-
-document
-.getElementById(
-"reader"
-)
-.style.display=
-"none";
+JSON.parse(
+texte
+);
 
 chercherEtudiant(
 data.carte
@@ -834,7 +833,7 @@ data.carte
 catch(e){
 
 alert(
-"QR invalide"
+qr
 );
 
 console.log(e);
