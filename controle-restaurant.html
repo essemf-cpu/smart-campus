@@ -756,10 +756,26 @@ scanBloque=true;
 
 try{
 
+decodedText=
+decodedText.trim();
+
+console.log(
+decodedText
+);
+
 let data=
 JSON.parse(
 decodedText
 );
+
+if(
+!data.carte
+){
+
+scanBloque=false;
+return;
+
+}
 
 db.collection(
 "users"
@@ -775,9 +791,7 @@ data.carte
 
 .then((snapshot)=>{
 
-if(
-snapshot.empty
-){
+if(snapshot.empty){
 
 alert(
 "Étudiant introuvable"
@@ -786,24 +800,18 @@ alert(
 scanBloque=false;
 
 return;
-
 }
 
-html5QrCode
-.stop()
-.then(()=>{
-
-    window.scannerActif=false;
-
 let etudiant=
+snapshot.docs[0].data();
 
-snapshot.docs[0]
-.data();
+html5QrCode.stop();
 
 document
 .getElementById(
 "reader"
 )
+
 .style.display=
 "none";
 
@@ -811,6 +819,7 @@ document
 .getElementById(
 "etudiantCard"
 )
+
 .style.display=
 "block";
 
@@ -818,6 +827,7 @@ document
 .getElementById(
 "nom"
 )
+
 .dataset.carte=
 
 etudiant.carte;
@@ -826,11 +836,10 @@ document
 .getElementById(
 "nom"
 )
+
 .innerText=
 
 etudiant.nom;
-
-/* tickets selon choix */
 
 let tickets=0;
 
@@ -867,34 +876,16 @@ document
 .innerText=
 tickets;
 
-document
-.getElementById(
-"etudiantCard"
-)
-
-.scrollIntoView({
-
-behavior:"smooth"
-
-});
-
-});
-
-})
-
-.catch((e)=>{
-
-console.log(e);
-
-scanBloque=false;
-
 });
 
 }
 
 catch(e){
 
-console.log(e);
+console.log(
+"Erreur QR:",
+e
+);
 
 scanBloque=false;
 
