@@ -370,17 +370,51 @@ Amy Sy
 
 </h3>
 
+<div
+style="
+background:#f8f8ff;
+padding:15px;
+border-radius:20px;
+margin:20px 0;
+">
+
 <p>
 
-Tickets :
+🍽️ Repas :
 
-<span id="ticketNombre">
+<strong id="typeAffichage">
 
-3
+Petit déjeuner
 
-</span>
+</strong>
 
 </p>
+
+<p>
+
+🎫 Tickets disponibles :
+
+<strong id="ticketNombre">
+
+0
+
+</strong>
+
+</p>
+
+<p>
+
+💰 Prix unitaire :
+
+<strong id="prixRepas">
+
+500 FCFA
+
+</strong>
+
+</p>
+
+</div>
 
 <div class="compteur">
 
@@ -504,8 +538,34 @@ btn.classList.add(
 "active"
 );
 
+
+document
+.getElementById(
+"typeAffichage"
+).innerText=
+repas;
+
+
+let prix=1000;
+
+if(
+repas==="Petit déjeuner"
+){
+
+prix=500;
+
 }
 
+document
+.getElementById(
+"prixRepas"
+)
+
+.innerText=
+
+prix+" FCFA";
+
+}
 
 
 function plus(){
@@ -727,6 +787,32 @@ document
 )
 .innerText=
 tickets;
+
+document
+.getElementById(
+"typeAffichage"
+)
+.innerText=
+type;
+
+let prix=1000;
+
+if(
+type==="Petit déjeuner"
+){
+
+prix=500;
+
+}
+
+document
+.getElementById(
+"prixRepas"
+)
+
+.innerText=
+
+prix+" FCFA";
 
 
 scanBloque=false;
