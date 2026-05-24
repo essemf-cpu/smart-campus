@@ -426,6 +426,41 @@ Valider
 
 <script>
 
+const firebaseConfig={
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(
+!firebase.apps.length
+){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db=
+firebase.firestore();
+
+</script>
+
+<script>
+
 let user=
 
 JSON.parse(
@@ -749,11 +784,6 @@ qrbox:250
 },
 
 function(decodedText){
-
-alert(
-"QR détecté : " + decodedText
-);
-
 
 if(scanBloque)return;
 
