@@ -854,6 +854,10 @@ function chercherEtudiant(
 carte
 ){
 
+alert(
+"Recherche : " + carte
+);
+
 db.collection(
 "users"
 )
@@ -867,6 +871,11 @@ carte
 .get()
 
 .then((snapshot)=>{
+
+alert(
+"Trouvés : " +
+snapshot.size
+);
 
 if(
 snapshot.empty
@@ -885,66 +894,20 @@ let etudiant=
 snapshot.docs[0]
 .data();
 
-document
-.getElementById(
-"etudiantCard"
-)
+alert(
+etudiant.nom
+);
 
-.style.display=
-"block";
+})
 
-document
-.getElementById(
-"nom"
-)
+.catch((e)=>{
 
-.innerText=
-etudiant.nom;
+alert(
+"Erreur : " +
+e.message
+);
 
-document
-.getElementById(
-"nom"
-)
-
-.dataset.carte=
-etudiant.carte;
-
-let tickets=0;
-
-if(
-type==="Petit déjeuner"
-){
-
-tickets=
-etudiant.ticketPetitDej||0;
-
-}
-
-if(
-type==="Déjeuner"
-){
-
-tickets=
-etudiant.ticketDejeuner||0;
-
-}
-
-if(
-type==="Dîner"
-){
-
-tickets=
-etudiant.ticketDiner||0;
-
-}
-
-document
-.getElementById(
-"ticketNombre"
-)
-
-.innerText=
-tickets;
+console.log(e);
 
 });
 
