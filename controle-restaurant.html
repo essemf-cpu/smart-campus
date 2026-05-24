@@ -424,6 +424,11 @@ Valider
 
 </div>
 
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <script>
 
 const firebaseConfig={
@@ -444,9 +449,7 @@ appId:
 
 };
 
-if(
-!firebase.apps.length
-){
+if(!firebase.apps.length){
 
 firebase.initializeApp(
 firebaseConfig
@@ -457,30 +460,26 @@ firebaseConfig
 const db=
 firebase.firestore();
 
-</script>
-
-<script>
 
 let user=
-
 JSON.parse(
 localStorage.getItem(
 "user"
 ));
 
-document
-.getElementById(
+document.getElementById(
 "controleurNom"
-)
-
-.innerHTML=
-
+).innerHTML=
 user.nom;
 
-let nombre=1;
 
-let type=
-"Petit déjeuner";
+let nombre=1;
+let type="Petit déjeuner";
+
+let html5QrCode=null;
+let scanBloque=false;
+
+
 
 function choisir(
 repas,
@@ -493,7 +492,6 @@ document
 .querySelectorAll(
 ".ticket"
 )
-
 .forEach(e=>{
 
 e.classList.remove(
@@ -508,6 +506,8 @@ btn.classList.add(
 
 }
 
+
+
 function plus(){
 
 nombre++;
@@ -516,17 +516,17 @@ document
 .getElementById(
 "nombre"
 )
-
 .innerText=
 nombre;
 
 }
 
+
+
 function moins(){
 
-if(
-nombre>1
-){
+if(nombre<=1)
+return;
 
 nombre--;
 
@@ -534,203 +534,12 @@ document
 .getElementById(
 "nombre"
 )
-
 .innerText=
 nombre;
 
 }
 
-}
 
-function valider(){
-
-let carte=
-
-document.getElementById(
-"nom"
-).dataset.carte;
-
-if(!carte){
-
-alert(
-"Aucun étudiant"
-);
-
-return;
-
-}
-
-db.collection(
-"users"
-)
-
-.where(
-"carte",
-"==",
-carte
-)
-
-.get()
-
-.then((snapshot)=>{
-
-if(snapshot.empty)
-return;
-
-let doc=
-snapshot.docs[0];
-
-let etudiant=
-doc.data();
-
-let tickets=0;
-
-let champ="";
-
-let prix=1000;
-
-
-/* type repas */
-
-if(
-type==="Petit déjeuner"
-){
-
-champ=
-"ticketPetitDej";
-
-prix=500;
-
-}
-
-if(
-type==="Déjeuner"
-){
-
-champ=
-"ticketDejeuner";
-
-prix=1000;
-
-}
-
-if(
-type==="Dîner"
-){
-
-champ=
-"ticketDiner";
-
-prix=1000;
-
-}
-
-tickets=
-etudiant[champ]||0;
-
-
-/* calcul */
-
-let utiliser=
-
-Math.min(
-tickets,
-nombre
-);
-
-let reste=
-
-nombre-
-utiliser;
-
-let nouveauTicket=
-
-tickets-
-utiliser;
-
-let nouveauSolde=
-
-(
-etudiant.solde||0
-)
--
-(
-reste*prix
-);
-
-if(
-nouveauSolde<0
-){
-
-alert(
-"Solde insuffisant"
-);
-
-return;
-
-}
-
-/* sauvegarde */
-
-db.collection(
-"users"
-)
-
-.doc(
-doc.id
-)
-
-.update({
-
-[champ]:
-nouveauTicket,
-
-solde:
-nouveauSolde
-
-})
-
-.then(()=>{
-
-    db.collection(
-"restaurantHistorique"
-)
-
-.add({
-
-nom:
-etudiant.nom,
-
-carte:
-etudiant.carte,
-
-repas:
-type,
-
-quantite:
-nombre,
-
-controleur:
-JSON.parse(
-localStorage.getItem(
-"user"
-)
-).nom,
-
-date:
-Date.now()
-
-});
-
-alert(
-"Ticket(s) validé ✅"
-);
-
-});
-
-});
-
-}
 
 function ouvrirScanner(){
 
@@ -738,44 +547,40 @@ document
 .querySelector(
 ".scan-zone"
 )
-
 .style.display=
-
 "none";
 
 document
 .getElementById(
 "reader"
 )
-
 .style.display=
-
 "block";
+
 
 demarrerScanner();
 
 }
 
+
+
 function demarrerScanner(){
 
-let scanBloque=false;
+if(html5QrCode)
+return;
 
-const html5QrCode=
 
+html5QrCode=
 new Html5Qrcode(
 "reader"
 );
 
-if(
-window.scannerActif
-)return;
-
-window.scannerActif=true;
 
 html5QrCode.start(
 
 {
-facingMode:"environment"
+facingMode:
+"environment"
 },
 
 {
@@ -785,32 +590,29 @@ qrbox:250
 
 function(decodedText){
 
-if(scanBloque)return;
+if(scanBloque)
+return;
 
 scanBloque=true;
 
+
 try{
-
-decodedText=
-decodedText.trim();
-
-console.log(
-decodedText
-);
 
 let data=
 JSON.parse(
-decodedText
+decodedText.trim()
 );
+
 
 if(
 !data.carte
 ){
 
 scanBloque=false;
-return;
 
+return;
 }
+
 
 db.collection(
 "users"
@@ -824,9 +626,11 @@ data.carte
 
 .get()
 
-.then((snapshot)=>{
+.then(snapshot=>{
 
-if(snapshot.empty){
+if(
+snapshot.empty
+){
 
 alert(
 "Étudiant introuvable"
@@ -835,48 +639,61 @@ alert(
 scanBloque=false;
 
 return;
+
 }
 
-let etudiant=
-snapshot.docs[0].data();
 
-html5QrCode.stop();
+let doc=
+snapshot.docs[0];
+
+let etudiant=
+doc.data();
+
+
+html5QrCode
+.stop()
+.then(()=>{
+
+html5QrCode=null;
+
+});
+
 
 document
 .getElementById(
 "reader"
 )
-
 .style.display=
 "none";
+
 
 document
 .getElementById(
 "etudiantCard"
 )
-
 .style.display=
 "block";
 
+
 document
 .getElementById(
 "nom"
 )
-
 .dataset.carte=
-
 etudiant.carte;
 
+
 document
 .getElementById(
 "nom"
 )
-
 .innerText=
-
 etudiant.nom;
 
+
+
 let tickets=0;
+
 
 if(
 type==="Petit déjeuner"
@@ -903,13 +720,16 @@ etudiant.ticketDiner||0;
 
 }
 
+
 document
 .getElementById(
 "ticketNombre"
 )
-
 .innerText=
 tickets;
+
+
+scanBloque=false;
 
 });
 
@@ -917,10 +737,7 @@ tickets;
 
 catch(e){
 
-console.log(
-"Erreur QR:",
-e
-);
+console.log(e);
 
 scanBloque=false;
 
@@ -932,23 +749,227 @@ scanBloque=false;
 
 }
 
+
+
+function valider(){
+
+let carte=
+
+document
+.getElementById(
+"nom"
+)
+.dataset.carte;
+
+
+if(!carte){
+
+alert(
+"Aucun étudiant"
+);
+
+return;
+
+}
+
+
+db.collection(
+"users"
+)
+
+.where(
+"carte",
+"==",
+carte
+)
+
+.get()
+
+.then(snapshot=>{
+
+
+let doc=
+snapshot.docs[0];
+
+let etudiant=
+doc.data();
+
+let champ="";
+let prix=1000;
+
+
+if(
+type==="Petit déjeuner"
+){
+
+champ=
+"ticketPetitDej";
+
+prix=500;
+
+}
+
+else if(
+type==="Déjeuner"
+){
+
+champ=
+"ticketDejeuner";
+
+}
+
+else{
+
+champ=
+"ticketDiner";
+
+}
+
+
+let tickets=
+etudiant[
+champ
+]||0;
+
+
+let utiliser=
+Math.min(
+tickets,
+nombre
+);
+
+
+let reste=
+nombre-utiliser;
+
+
+let nouveauTicket=
+tickets-utiliser;
+
+
+let nouveauSolde=
+
+(
+etudiant.solde||0
+)
+
+-
+
+(
+reste*prix
+);
+
+
+if(
+nouveauSolde<0
+){
+
+alert(
+"Solde insuffisant"
+);
+
+return;
+
+}
+
+
+db.collection(
+"users"
+)
+
+.doc(
+doc.id
+)
+
+.update({
+
+[champ]:
+nouveauTicket,
+
+solde:
+nouveauSolde
+
+})
+
+.then(()=>{
+
+
+db.collection(
+"restaurantHistorique"
+)
+
+.add({
+
+nom:
+etudiant.nom,
+
+carte:
+etudiant.carte,
+
+repas:
+type,
+
+quantite:
+nombre,
+
+controleur:
+user.nom,
+
+date:
+Date.now()
+
+});
+
+
+alert(
+"Ticket validé ✅"
+);
+
+
+/* reset */
+
+nombre=1;
+
+document
+.getElementById(
+"nombre"
+)
+.innerText=
+1;
+
+
+document
+.getElementById(
+"etudiantCard"
+)
+.style.display=
+"none";
+
+
+document
+.querySelector(
+".scan-zone"
+)
+.style.display=
+"flex";
+
+});
+
+});
+
+}
+
+
+
 function chargerHistorique(){
 
 let zone=
 
-document.getElementById(
+document
+.getElementById(
 "historique-list"
 );
 
-if(!zone)
-return;
-
-let user=
-
-JSON.parse(
-localStorage.getItem(
-"user"
-));
 
 db.collection(
 "restaurantHistorique"
@@ -967,10 +988,11 @@ user.nom
 
 .limit(10)
 
-.onSnapshot(
-(snapshot)=>{
+.onSnapshot(snapshot=>{
+
 
 zone.innerHTML="";
+
 
 if(
 snapshot.empty
@@ -983,11 +1005,13 @@ return;
 
 }
 
-snapshot.forEach(
-(doc)=>{
+
+snapshot.forEach(doc=>{
+
 
 let h=
 doc.data();
+
 
 let heure=
 
@@ -1000,18 +1024,14 @@ h.date
 {
 hour:"2-digit",
 minute:"2-digit"
-}
-);
+});
+
 
 zone.innerHTML+=`
 
-<div
-class="historique-item"
->
+<div class="historique-item">
 
-<div
-class="historique-left"
->
+<div class="historique-left">
 
 <strong>
 
@@ -1022,15 +1042,14 @@ ${h.nom}
 <p>
 
 ${h.repas}
-×${h.quantite}
+×
+${h.quantite}
 
 </p>
 
 </div>
 
-<div
-class="historique-time"
->
+<div class="historique-time">
 
 ${heure}
 
