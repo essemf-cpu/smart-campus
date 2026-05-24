@@ -860,48 +860,53 @@ db.collection(
 "users"
 )
 
-.where(
-"carte",
-"==",
-carte
-)
-
 .get()
 
 .then((snapshot)=>{
 
 alert(
-"Trouvés : " +
+"Total users : " +
 snapshot.size
 );
 
-if(
-snapshot.empty
-){
+let trouve=false;
 
-alert(
-"Étudiant introuvable"
-);
-
-return;
-
-}
-
-let doc=
-
-snapshot.docs[0];
+snapshot.forEach((doc)=>{
 
 let etudiant=
 doc.data();
+
+if(
+etudiant.carte===carte
+){
+
+trouve=true;
 
 alert(
 "Nom : " +
 etudiant.nom
 );
 
-console.log(
-etudiant
+document
+.getElementById(
+"nom"
+)
+.innerText=
+etudiant.nom;
+
+}
+
+});
+
+if(
+!trouve
+){
+
+alert(
+"Étudiant introuvable"
 );
+
+}
 
 })
 
