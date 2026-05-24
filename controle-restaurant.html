@@ -269,9 +269,9 @@ opacity:.6;
 
 <div class="top-card">
 
-<h2>
+<h2 id="controleurNom">
 
-Moussa Contrôleur
+Chargement...
 
 </h2>
 
@@ -425,6 +425,22 @@ Valider
 </div>
 
 <script>
+
+let user=
+
+JSON.parse(
+localStorage.getItem(
+"user"
+));
+
+document
+.getElementById(
+"controleurNom"
+)
+
+.innerHTML=
+
+user.nom;
 
 let nombre=1;
 
@@ -785,8 +801,177 @@ alert(
 
 function ouvrirScanner(){
 
-window.location.href=
-"restaurant-scanner.html";
+document
+.getElementById(
+"reader"
+)
+
+.style.display=
+
+"block";
+
+demarrerScanner();
+
+}
+
+function demarrerScanner(){
+
+let html5QrCode=
+
+new Html5Qrcode(
+"reader"
+);
+
+html5QrCode.start(
+
+{
+facingMode:
+"environment"
+},
+
+{
+fps:10,
+qrbox:250
+},
+
+function(decodedText){
+
+html5QrCode.stop();
+
+let data=
+JSON.parse(
+decodedText
+);
+
+db.collection(
+"users"
+)
+
+.where(
+"carte",
+"==",
+data.carte
+)
+
+.get()
+
+.then((snapshot)=>{
+
+if(
+snapshot.empty
+){
+
+alert(
+"Étudiant introuvable"
+);
+
+return;
+
+}
+
+let etudiant=
+
+snapshot.docs[0]
+.data();
+
+document
+.getElementById(
+"etudiantCard"
+)
+
+.style.display=
+
+"block";
+
+
+document
+.getElementById(
+"nom"
+)
+
+.dataset.carte=
+
+etudiant.carte;
+
+
+document
+.getElementById(
+"nom"
+)
+
+.innerText=
+
+etudiant.nom;
+
+
+let tickets=0;
+
+if(
+type==="Petit déjeuner"
+){
+
+tickets=
+etudiant.ticketPetitDej||0;
+
+}
+
+if(
+type==="Déjeuner"
+){
+
+tickets=
+etudiant.ticketDejeuner||0;
+
+}
+
+if(
+type==="Dîner"
+){
+
+tickets=
+etudiant.ticketDiner||0;
+
+}
+
+
+document
+.getElementById(
+"ticketNombre"
+)
+
+.innerText=
+
+tickets;
+
+
+/* cacher scanner */
+
+document
+.getElementById(
+"reader"
+)
+
+.style.display=
+
+"none";
+
+
+document
+.getElementById(
+"etudiantCard"
+)
+
+.scrollIntoView({
+
+behavior:"smooth"
+
+});
+
+});
+
+}
+
+);
 
 }
 

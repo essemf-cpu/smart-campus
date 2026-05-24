@@ -191,7 +191,8 @@ margin-top:20px;
 <strong
 style="
 font-size:25px;
-">
+"
+id="type-ticket">
 
 Déjeuner
 
@@ -319,7 +320,7 @@ document.getElementById(
 "nombre-ticket"
 )
 
-innerHTML=
+.innerHTML=
 
 nombreTicket;
 
@@ -367,7 +368,39 @@ scanBloque=false;
 
 }
 
+let typeRepas="Déjeuner";
 
+let heure=
+new Date().getHours();
+
+if(
+heure>=6
+&&
+heure<11
+){
+
+typeRepas=
+"Petit déjeuner";
+
+}
+
+else if(
+heure>=11
+&&
+heure<17
+){
+
+typeRepas=
+"Déjeuner";
+
+}
+
+else{
+
+typeRepas=
+"Dîner";
+
+}
 
 function onScanSuccess(
 decodedText
@@ -423,6 +456,8 @@ document.getElementById(
 .innerHTML=
 
 etudiant.nom;
+
+
 
 
 document.getElementById(
