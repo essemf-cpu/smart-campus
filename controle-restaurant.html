@@ -836,12 +836,16 @@ qrbox:250
 
 function(decodedText){
 
-html5QrCode.stop();
+try{
 
 let data=
 JSON.parse(
 decodedText
 );
+
+/* arrêter uniquement si QR valide */
+
+html5QrCode.stop();
 
 db.collection(
 "users"
@@ -870,9 +874,7 @@ return;
 }
 
 let etudiant=
-
-snapshot.docs[0]
-.data();
+snapshot.docs[0].data();
 
 document
 .getElementById(
@@ -880,9 +882,7 @@ document
 )
 
 .style.display=
-
 "block";
-
 
 document
 .getElementById(
@@ -893,7 +893,6 @@ document
 
 etudiant.carte;
 
-
 document
 .getElementById(
 "nom"
@@ -902,7 +901,6 @@ document
 .innerText=
 
 etudiant.nom;
-
 
 let tickets=0;
 
@@ -933,18 +931,13 @@ etudiant.ticketDiner||0;
 
 }
 
-
 document
 .getElementById(
 "ticketNombre"
 )
 
 .innerText=
-
 tickets;
-
-
-/* cacher scanner */
 
 document
 .getElementById(
@@ -952,22 +945,17 @@ document
 )
 
 .style.display=
-
 "none";
 
-
-document
-.getElementById(
-"etudiantCard"
-)
-
-.scrollIntoView({
-
-behavior:"smooth"
-
 });
 
-});
+}
+
+catch(e){
+
+console.log(e);
+
+}
 
 }
 
