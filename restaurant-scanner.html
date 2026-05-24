@@ -116,6 +116,102 @@ class="history-icon purple-bg">
 </div>
 
 <div
+id="ticket-panel"
+
+style="
+display:none;
+margin-top:20px;
+">
+
+<div class="wallet-card">
+
+<h2 id="nom-etudiant">
+
+Étudiant
+
+</h2>
+
+<p
+class="wallet-subtitle">
+
+Choisissez le nombre
+de tickets à prendre
+
+</p>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:20px;
+padding:15px;
+border-radius:15px;
+background:#f5f5f5;
+">
+
+<strong>
+
+Déjeuner
+
+</strong>
+
+<div>
+
+<button
+onclick="moinsTicket()">
+
+-
+
+</button>
+
+<span
+id="nombre-ticket"
+style="
+margin:0 20px;
+font-size:20px;
+font-weight:bold;
+">
+
+1
+
+</span>
+
+<button
+onclick="plusTicket()">
+
++
+
+</button>
+
+</div>
+
+</div>
+
+<button
+
+onclick="validerTicket()"
+
+style="
+width:100%;
+margin-top:20px;
+padding:15px;
+border:none;
+border-radius:18px;
+background:#7b4dff;
+color:white;
+font-weight:bold;
+">
+
+Valider
+
+</button>
+
+</div>
+
+</div>
+
+<div
 class="history-info">
 
 <strong
@@ -156,6 +252,63 @@ new Html5Qrcode(
 "reader"
 );
 
+
+let nombreTicket=1;
+
+let etudiantActuel=null;
+
+function plusTicket(){
+
+nombreTicket++;
+
+document.getElementById(
+"nombre-ticket"
+)
+
+.innerHTML=
+
+nombreTicket;
+
+}
+
+function moinsTicket(){
+
+if(
+nombreTicket<=1
+)return;
+
+nombreTicket--;
+
+document.getElementById(
+"nombre-ticket"
+)
+
+.innerHTML=
+
+nombreTicket;
+
+}
+
+function validerTicket(){
+
+alert(
+
+etudiantActuel.nom
+
++
+
+"\nTickets : "
+
++
+
+nombreTicket
+
+);
+
+scanBloque=false;
+
+}
+
 function onScanSuccess(
 decodedText
 ){
@@ -177,33 +330,26 @@ data.carte,
 
 function(etudiant){
 
+etudiantActuel=
+etudiant;
+
 document.getElementById(
 "scan-result"
 ).innerHTML=
 
 etudiant.nom;
 
-let choix=
+document.getElementById(
+"nom-etudiant"
+).innerHTML=
 
-prompt(
+etudiant.nom;
 
-"1 = Petit déjeuner\n2 = Déjeuner\n3 = Dîner"
+document.getElementById(
+"ticket-panel"
+).style.display=
 
-);
-
-alert(
-
-"Étudiant : "
-+
-etudiant.nom
-+
-"\nChoix : "
-+
-choix
-
-);
-
-scanBloque=false;
+"block";
 
 }
 
