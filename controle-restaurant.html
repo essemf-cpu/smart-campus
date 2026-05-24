@@ -867,6 +867,10 @@ db.collection(
 .then((snapshot)=>{
 
 alert(
+"Connexion Firestore OK"
+);
+
+alert(
 "Total users : " +
 snapshot.size
 );
@@ -889,33 +893,16 @@ alert(
 etudiant.nom
 );
 
-document
-.getElementById(
-"nom"
-)
-.innerText=
-etudiant.nom;
-
 }
 
 });
-
-if(
-!trouve
-){
-
-alert(
-"Étudiant introuvable"
-);
-
-}
 
 })
 
 .catch((e)=>{
 
 alert(
-"Erreur : " +
+"ERREUR FIRESTORE : " +
 e.message
 );
 
