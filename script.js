@@ -4279,24 +4279,30 @@ prix,
 type
 ){
 
-let user =
+let user=
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
-if(!user) return;
+if(!user)return;
 
-/* INIT SOLDE */
 
-if(user.solde === undefined){
+/* INIT */
 
-user.solde = 5000;
+if(
+user.solde===undefined
+){
+
+user.solde=5000;
 
 }
 
-/* VERIF */
 
-if(user.solde < prix){
+if(
+user.solde<prix
+){
 
 alert(
 "Solde insuffisant"
@@ -4306,70 +4312,125 @@ return;
 
 }
 
+
 /* RETRAIT */
 
-user.solde -= prix;
+user.solde-=prix;
 
-/* TICKETS */
 
-if(type === "petitdej"){
+/* AJOUT TICKET */
 
-user.ticketPetitDej =
-(user.ticketPetitDej || 0) + 1;
+if(
+type==="petitdej"
+){
 
-}
-
-if(type === "dejeuner"){
-
-user.ticketDejeuner =
-(user.ticketDejeuner || 0) + 1;
+user.ticketPetitDej=
+(
+user.ticketPetitDej||0
+)+1;
 
 }
 
-if(type === "diner"){
+if(
+type==="dejeuner"
+){
 
-user.ticketDiner =
-(user.ticketDiner || 0) + 1;
+user.ticketDejeuner=
+(
+user.ticketDejeuner||0
+)+1;
 
 }
 
-/* NOTIFICATION RESTAURANT */
+if(
+type==="diner"
+){
 
-db.collection("restaurantNotifications")
+user.ticketDiner=
+(
+user.ticketDiner||0
+)+1;
 
-.add({
+}
 
-to:user.carte,
 
-type:"restaurant",
-
-title:"Restaurant universitaire",
-
-text:
-"Ticket acheté avec succès",
-
-date:Date.now()
-
-});
-
-/* SAVE */
+/* SAUVEGARDE LOCAL */
 
 localStorage.setItem(
 "user",
 JSON.stringify(user)
 );
 
-/* REFRESH */
+/* SAUVEGARDE FIRESTORE */
+
+db.collection(
+"users"
+)
+.doc(
+user.id
+)
+.update({
+
+solde:user.solde,
+
+ticketPetitDej:
+user.ticketPetitDej||0,
+
+ticketDejeuner:
+user.ticketDejeuner||0,
+
+ticketDiner:
+user.ticketDiner||0
+
+})
+
+.then(()=>{
+
+
+db.collection(
+"restaurantNotifications"
+)
+
+.add({
+
+to:
+user.carte,
+
+type:
+"restaurant",
+
+title:
+"Restaurant universitaire",
+
+text:
+"Ticket acheté avec succès",
+
+date:
+Date.now()
+
+});
+
 
 chargerSolde();
 
 chargerTickets();
 
-/* SUCCESS */
 
 alert(
-"Ticket acheté avec succès"
+"Ticket acheté avec succès ✅"
 );
+
+})
+
+.catch(err=>{
+
+console.log(err);
+
+alert(
+"Erreur sauvegarde"
+);
+
+});
 
 }
 

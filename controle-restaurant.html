@@ -950,11 +950,20 @@ if(
 nouveauSolde<0
 ){
 
-alert(
-"Solde insuffisant"
+let choix=
+
+confirm(
+
+"Tickets insuffisants.\n\nDéfalquer le reste du solde ?"
+
 );
 
+if(
+!choix
+){
+
 return;
+}
 
 }
 
@@ -1050,21 +1059,12 @@ document
 function chargerHistorique(){
 
 let zone=
-
-document
-.getElementById(
+document.getElementById(
 "historique-list"
 );
 
-
 db.collection(
 "restaurantHistorique"
-)
-
-.where(
-"controleur",
-"==",
-user.nom
 )
 
 .orderBy(
@@ -1076,31 +1076,22 @@ user.nom
 
 .onSnapshot(snapshot=>{
 
-
 zone.innerHTML="";
 
-
-if(
-snapshot.empty
-){
+if(snapshot.empty){
 
 zone.innerHTML=
 "Aucun historique";
 
 return;
-
 }
 
-
 snapshot.forEach(doc=>{
-
 
 let h=
 doc.data();
 
-
 let heure=
-
 new Date(
 h.date
 )
@@ -1110,8 +1101,8 @@ h.date
 {
 hour:"2-digit",
 minute:"2-digit"
-});
-
+}
+);
 
 zone.innerHTML+=`
 
@@ -1120,9 +1111,7 @@ zone.innerHTML+=`
 <div class="historique-left">
 
 <strong>
-
 ${h.nom}
-
 </strong>
 
 <p>
