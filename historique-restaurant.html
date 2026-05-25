@@ -21,6 +21,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 
 body{
@@ -109,6 +113,54 @@ justify-content:space-between;
 
 }
 
+.stat-card{
+
+flex:1;
+
+text-align:center;
+
+padding:18px;
+
+border-radius:22px;
+
+}
+
+.mini-bar{
+
+height:18px;
+
+background:#eee;
+
+border-radius:6px;
+
+margin-top:15px;
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+.mini-fill{
+
+height:100%;
+
+width:0;
+
+background:
+linear-gradient(
+90deg,
+#6f43ff,
+#8a68ff
+);
+
+border-radius:6px;
+
+transition:
+width .7s ease;
+
+}
+
 </style>
 
 </head>
@@ -124,6 +176,141 @@ id="search"
 placeholder="Rechercher étudiant...">
 
 </div>
+
+<div
+id="stats"
+style="
+display:flex;
+gap:10px;
+margin-bottom:20px;
+">
+
+<!-- Petit déjeuner -->
+<div
+class="card stat-card">
+
+Petit déjeuner
+
+<br>
+
+<strong
+id="stat-petit">
+
+0
+
+</strong>
+
+<div
+class="mini-bar">
+
+<div
+id="bar-petit"
+class="mini-fill">
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Déjeuner -->
+<div
+class="card stat-card">
+
+Déjeuner
+
+<br>
+
+<strong
+id="stat-dej">
+
+0
+
+</strong>
+
+<div
+class="mini-bar">
+
+<div
+id="bar-dej"
+class="mini-fill">
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Dîner -->
+<div
+class="card stat-card">
+
+Dîner
+
+<br>
+
+<strong
+id="stat-diner">
+
+0
+
+</strong>
+
+<div
+class="mini-bar">
+
+<div
+id="bar-diner"
+class="mini-fill">
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Total -->
+<div
+class="card stat-card">
+
+<strong>
+
+Total aujourd'hui
+
+</strong>
+
+<br><br>
+
+<span
+id="stat-total"
+style="
+font-size:28px;
+font-weight:bold;
+">
+
+0
+
+</span>
+
+<br>
+
+Tickets contrôlés
+
+</div>
+
+</div>
+
+    <button
+onclick="exportPDF()"
+class="filtre">
+
+Exporter PDF
+
+</button>
+
 
 <div class="filtres">
 
@@ -207,6 +394,172 @@ localStorage.getItem(
 let filtreActuel=
 "all";
 
+let rechercheActuelle="";
+
+document
+.getElementById(
+"search"
+)
+
+.addEventListener(
+"input",
+(e)=>{
+
+rechercheActuelle=
+
+e.target.value
+.toLowerCase()
+.trim();
+
+chargerHistorique();
+
+});
+
+function exportPDF(){
+
+const{
+jsPDF
+}=window.jspdf;
+
+let pdf=
+new jsPDF();
+
+pdf.text(
+
+"Rapport contrôleur restaurant",
+
+20,
+20
+
+);
+
+pdf.text(
+
+"Petit déjeuner : "+
+document
+.getElementById(
+"stat-petit"
+)
+.innerText,
+
+20,
+40
+
+);
+
+pdf.text(
+
+"Déjeuner : "+
+document
+.getElementById(
+"stat-dej"
+)
+.innerText,
+
+20,
+50
+
+);
+
+pdf.text(
+
+"Dîner : "+
+document
+.getElementById(
+"stat-diner"
+)
+.innerText,
+
+20,
+60
+
+);
+
+pdf.text(
+
+"Total tickets contrôlés : "+
+document
+.getElementById(
+"stat-total"
+)
+.innerText,
+
+20,
+80
+
+);
+
+pdf.save(
+"rapport-restaurant.pdf"
+);
+
+}
+
+function mettreAJourGraphique(
+petit,
+dej,
+diner
+){
+
+const ctx=
+document
+.getElementById(
+"graphique"
+);
+
+if(
+window.monGraphique
+){
+
+window.monGraphique.destroy();
+
+}
+
+window.monGraphique=
+new Chart(
+ctx,
+{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+"Petit déjeuner",
+"Déjeuner",
+"Dîner"
+
+],
+
+datasets:[{
+
+label:
+"Tickets contrôlés",
+
+data:[
+
+petit,
+dej,
+diner
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+}
+
+);
+
+}
 
 function changerFiltre(
 filtre,
@@ -264,27 +617,104 @@ user.carte
 
 zone.innerHTML="";
 
+let totalPetit=0;
+let totalDej=0;
+let totalDiner=0;
+
 if(
 snapshot.empty
 ){
 
-zone.innerHTML=
+zone.innerHTML=`
 
-`<div class="card">
+<div class="card">
 
 Aucun historique
 
-</div>`;
+</div>
+
+`;
 
 return;
 
 }
+
+let dernierGroupe="";
 
 snapshot.forEach((doc)=>{
 
 let h=
 doc.data();
 
+
+/* statistiques aujourd'hui */
+
+let dateScan=
+new Date(
+h.date
+);
+
+let aujourdHui=
+new Date();
+
+if(
+
+dateScan.toDateString()
+
+===
+
+aujourdHui.toDateString()
+
+){
+
+if(
+h.repas==="Petit déjeuner"
+){
+
+totalPetit+=
+h.quantite;
+
+}
+
+else if(
+h.repas==="Déjeuner"
+){
+
+totalDej+=
+h.quantite;
+
+}
+
+else{
+
+totalDiner+=
+h.quantite;
+
+}
+
+}
+
+
+/* recherche */
+
+if(
+
+rechercheActuelle!=="" &&
+
+!h.nom
+.toLowerCase()
+.includes(
+rechercheActuelle
+)
+
+){
+
+return;
+
+}
+
+
+/* filtre repas */
 
 if(
 
@@ -300,23 +730,112 @@ return;
 
 }
 
-let heure=
 
-new Date(
-h.date
-)
+/* regroupement */
 
-.toLocaleTimeString(
-[],
+let groupe="";
+
+if(
+
+dateScan.toDateString()
+
+===
+
+aujourdHui.toDateString()
+
+){
+
+groupe=
+"Aujourd'hui";
+
+}
+
+else{
+
+let hier=
+new Date();
+
+hier.setDate(
+hier.getDate()-1
+);
+
+if(
+
+dateScan.toDateString()
+
+===
+
+hier.toDateString()
+
+){
+
+groupe=
+"Hier";
+
+}
+
+else{
+
+groupe=
+
+dateScan.toLocaleDateString(
+"fr-FR",
 {
 
-hour:"2-digit",
-
-minute:"2-digit"
+day:"numeric",
+month:"long"
 
 }
 
 );
+
+}
+
+}
+
+
+/* titre groupe */
+
+if(
+groupe!==dernierGroupe
+){
+
+zone.innerHTML+=`
+
+<div
+style="
+margin:25px 0 10px;
+font-weight:bold;
+opacity:.6;
+">
+
+${groupe}
+
+</div>
+
+`;
+
+dernierGroupe=
+groupe;
+
+}
+
+
+/* heure */
+
+let heure=
+
+dateScan
+.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+
+/* carte */
 
 zone.innerHTML+=`
 
@@ -333,9 +852,7 @@ ${h.nom}
 <br>
 
 ${h.repas}
-
 ×
-
 ${h.quantite}
 
 </div>
@@ -351,6 +868,93 @@ ${heure}
 `;
 
 });
+
+
+/* stats */
+
+document
+.getElementById(
+"stat-petit"
+)
+.innerText=
+totalPetit;
+
+document
+.getElementById(
+"stat-dej"
+)
+.innerText=
+totalDej;
+
+document
+.getElementById(
+"stat-diner"
+)
+.innerText=
+totalDiner;
+
+mettreAJourGraphique(
+
+totalPetit,
+totalDej,
+totalDiner
+
+);
+
+let totalJour=
+
+totalPetit+
+totalDej+
+totalDiner;
+
+let max=
+
+Math.max(
+totalPetit,
+totalDej,
+totalDiner,
+1
+);
+
+document
+.getElementById(
+"bar-petit"
+)
+
+.style.width=
+
+(totalPetit/max*100)
++"%";
+
+
+document
+.getElementById(
+"bar-dej"
+)
+
+.style.width=
+
+(totalDej/max*100)
++"%";
+
+
+document
+.getElementById(
+"bar-diner"
+)
+
+.style.width=
+
+(totalDiner/max*100)
++"%";
+
+document
+.getElementById(
+"stat-total"
+)
+
+.innerText=
+totalJour;
 
 });
 
