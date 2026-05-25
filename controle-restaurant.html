@@ -905,31 +905,73 @@ champ
 
 
 let utiliser=
+
 Math.min(
 tickets,
 nombre
 );
 
-
 let reste=
-nombre-utiliser;
 
+nombre-
+utiliser;
+
+/* si pas assez de tickets */
+
+if(
+reste>0
+){
+
+let montant=
+reste*prix;
+
+let ok=
+confirm(
+
+`${tickets} ticket(s) disponible(s)
+
+Il manque ${reste}
+
+Défalquer ${montant} FCFA du solde ?`
+
+);
+
+if(!ok){
+
+return;
+
+}
+
+}
+
+/* calcul */
 
 let nouveauTicket=
-tickets-utiliser;
 
+tickets-
+utiliser;
 
 let nouveauSolde=
 
 (
 etudiant.solde||0
 )
-
 -
-
 (
 reste*prix
 );
+
+if(
+nouveauSolde<0
+){
+
+alert(
+"Solde insuffisant"
+);
+
+return;
+
+}
 
 
 if(
