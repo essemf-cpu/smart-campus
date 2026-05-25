@@ -4236,7 +4236,7 @@ title:
 "Restaurant universitaire",
 
 text:
-"Ticket ${type} acheté avec succès",
+"Ticket Petit déjeuner acheté avec succès",
 
 seen:false,
 
