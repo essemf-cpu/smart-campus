@@ -1043,6 +1043,25 @@ Date.now()
 
 });
 
+db.collection(
+"restaurantNotifications"
+)
+
+.add({
+
+to:etudiant.carte,
+
+title:"Restaurant universitaire",
+
+text:
+`Ticket ${type} validé (${nombre})`,
+
+seen:false,
+
+date:Date.now()
+
+});
+
 
 alert(
 "Ticket validé ✅"

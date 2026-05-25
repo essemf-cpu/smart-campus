@@ -3341,60 +3341,24 @@ menu.style.display=
 // =====================
 // NOTIFICATIONS
 // =====================
+
 function afficherNotifications(){
 
-let zone =
+let zone=
 document.getElementById(
 "notifications-list"
 );
 
-if(!zone) return;
+if(!zone)return;
 
-let user =
+let user=
 JSON.parse(
 localStorage.getItem("user")
 );
 
-if(!user) return;
+if(!user)return;
 
-let notifications = [];
-
-/* ========================= */
-/* MARQUER DEMANDES LUES */
-/* ========================= */
-
-db.collection("friendRequests")
-
-.where(
-"from",
-"==",
-user.carte
-)
-
-.where(
-"status",
-"==",
-"accepted"
-)
-
-.get()
-
-.then((snapshot)=>{
-
-snapshot.forEach((doc)=>{
-
-db.collection("friendRequests")
-.doc(doc.id)
-
-.update({
-
-notificationSeen:true
-
-});
-
-});
-
-});
+let notifications=[];
 
 /* ========================= */
 /* RENDER */
@@ -3402,36 +3366,30 @@ notificationSeen:true
 
 function renderNotifications(type="all"){
 
-zone.innerHTML = "";
+zone.innerHTML="";
 
-let liste = notifications;
+let liste=notifications;
 
-/* FILTRES */
+if(type!=="all"){
 
-if(type !== "all"){
-
-liste =
+liste=
 notifications.filter((n)=>{
 
-return n.type === type;
+return n.type===type;
 
 });
 
 }
 
-/* TRI RECENT */
-
 liste.sort((a,b)=>{
 
-return b.date - a.date;
+return b.date-a.date;
 
 });
 
-/* VIDE */
+if(liste.length===0){
 
-if(liste.length === 0){
-
-zone.innerHTML = `
+zone.innerHTML=`
 
 <div class="card">
 
@@ -3445,32 +3403,26 @@ return;
 
 }
 
-/* AFFICHAGE */
-
 liste.forEach((n)=>{
 
-let dateFormatee =
+let dateFormatee=
 new Date(n.date)
 .toLocaleString();
 
-zone.innerHTML += `
+zone.innerHTML+=`
 
 <div class="history-card notification-card">
 
 <div class="history-icon ${n.iconBg}">
 
-${
-n.avatar
+${n.avatar ?
 
-?
-
-`<img
-src="${n.avatar}"
-class="real-avatar">`
+`<img src="${n.avatar}" class="real-avatar">`
 
 :
 
 `<i class="${n.icon}"></i>`
+
 }
 
 </div>
@@ -3495,7 +3447,7 @@ ${dateFormatee}
 
 </div>
 
-${n.button || ""}
+${n.button||""}
 
 </div>
 
@@ -3506,7 +3458,7 @@ ${n.button || ""}
 }
 
 /* ========================= */
-/* DEMANDES AMIS */
+/* AMIS */
 /* ========================= */
 
 db.collection("friendRequests")
@@ -3519,51 +3471,14 @@ user.carte
 
 .onSnapshot((snapshot)=>{
 
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "friends";
-
-});
+notifications=
+notifications.filter(
+n=>n.source!=="friends"
+);
 
 snapshot.forEach((doc)=>{
 
-let d = doc.data();
-
-let texte = "";
-let button = "";
-
-if(d.status === "pending"){
-
-texte =
-`${d.fromNom}
-souhaite vous ajouter`;
-
-button = `
-
-<button
-class="accept-friend-btn"
-
-onclick="
-accepterDemande(
-'${doc.id}',
-'${d.from}',
-'${d.fromNom}'
-)">
-
-<i class="fa-solid fa-check"></i>
-
-</button>
-
-`;
-
-}else{
-
-texte =
-d.message ||
-"Vous êtes désormais amis";
-
-}
+let d=doc.data();
 
 notifications.push({
 
@@ -3575,15 +3490,24 @@ type:"amis",
 
 title:"Amis",
 
-text:texte,
+text:
+d.status==="pending"
 
-date:d.date || Date.now(),
+?
+
+`${d.fromNom} souhaite vous ajouter`
+
+:
+
+d.message||
+
+"Vous êtes désormais amis",
+
+date:d.date||Date.now(),
 
 avatar:
-d.fromAvatar ||
-"assets/default-user.png",
-
-button:button
+d.fromAvatar||
+"assets/default-user.png"
 
 });
 
@@ -3594,7 +3518,7 @@ renderNotifications();
 });
 
 /* ========================= */
-/* NOTIFICATIONS SYSTEME */
+/* SYSTEME */
 /* ========================= */
 
 db.collection("notifications")
@@ -3607,16 +3531,14 @@ user.carte
 
 .onSnapshot((snapshot)=>{
 
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "system";
-
-});
+notifications=
+notifications.filter(
+n=>n.source!=="system"
+);
 
 snapshot.forEach((doc)=>{
 
-let n = doc.data();
+let n=doc.data();
 
 notifications.push({
 
@@ -3630,107 +3552,13 @@ title:n.title,
 
 text:n.text,
 
-date:n.date || Date.now(),
+date:n.date||Date.now(),
 
-icon:"fa-solid fa-heart",
+icon:
+"fa-solid fa-heart",
 
-iconBg:"green-bg"
-
-});
-
-});
-
-renderNotifications();
-
-});
-
-/* ========================= */
-/* ANNONCES */
-/* ========================= */
-
-db.collection("annonces")
-
-.onSnapshot((snapshot)=>{
-
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "annonces";
-
-});
-
-snapshot.forEach((doc)=>{
-
-let a = doc.data();
-
-notifications.push({
-
-id:doc.id,
-
-source:"annonces",
-
-type:"annonces",
-
-title:"Annonce campus",
-
-text:a.text,
-
-date:a.date || Date.now(),
-
-icon:"fa-solid fa-bullhorn",
-
-iconBg:"orange-bg"
-
-});
-
-});
-
-renderNotifications();
-
-});
-
-/* ========================= */
-/* MAINTENANCE */
-/* ========================= */
-
-db.collection("maintenance")
-
-.where(
-"to",
-"==",
-user.carte
-)
-
-.onSnapshot((snapshot)=>{
-
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "maintenance";
-
-});
-
-snapshot.forEach((doc)=>{
-
-let m = doc.data();
-
-notifications.push({
-
-id:doc.id,
-
-source:"maintenance",
-
-type:"maintenance",
-
-title:"Maintenance",
-
-text:m.probleme || m.text,
-
-date:m.date || Date.now(),
-
-icon:"fa-solid fa-screwdriver-wrench",
-
-iconBg:"red-bg"
+iconBg:
+"green-bg"
 
 });
 
@@ -3744,7 +3572,9 @@ renderNotifications();
 /* RESTAURANT */
 /* ========================= */
 
-db.collection("restaurantNotifications")
+db.collection(
+"restaurantNotifications"
+)
 
 .where(
 "to",
@@ -3754,16 +3584,14 @@ user.carte
 
 .onSnapshot((snapshot)=>{
 
-notifications =
-notifications.filter((n)=>{
-
-return n.source !== "restaurant";
-
-});
+notifications=
+notifications.filter(
+n=>n.source!=="restaurant"
+);
 
 snapshot.forEach((doc)=>{
 
-let r = doc.data();
+let r=doc.data();
 
 notifications.push({
 
@@ -3773,15 +3601,23 @@ source:"restaurant",
 
 type:"restaurant",
 
-title:r.title,
+title:
+r.title||
+
+"Restaurant universitaire",
 
 text:r.text,
 
-date:r.date || Date.now(),
+date:
+r.date||
 
-icon:"fa-solid fa-utensils",
+Date.now(),
 
-iconBg:"green-bg"
+icon:
+"fa-solid fa-utensils",
+
+iconBg:
+"purple-bg"
 
 });
 
@@ -3791,102 +3627,29 @@ renderNotifications();
 
 });
 
-/* ========================= */
-/* FILTRES */
-/* ========================= */
-
-document
-.querySelectorAll(
-".category-pill"
-)
-
-.forEach((pill)=>{
-
-pill.addEventListener(
-"click",
-function(){
-
-document
-.querySelectorAll(
-".category-pill"
-)
-
-.forEach((p)=>{
-
-p.classList.remove(
-"active-pill"
-);
-
-});
-
-pill.classList.add(
-"active-pill"
-);
-
-let texte =
-pill.innerText
-.toLowerCase();
-
-if(texte === "tout"){
-
-renderNotifications("all");
-
-}
-
-else if(
-texte === "amis"
-){
-
-renderNotifications("amis");
-
-}
-
-else if(
-texte === "maintenance"
-){
-
-renderNotifications("maintenance");
-
-}
-
-else if(
-texte === "annonces"
-||
-texte === "campus"
-){
-
-renderNotifications("annonces");
-
-}
-
-else if(
-texte === "restaurant"
-){
-
-renderNotifications("restaurant");
-
-}
-
-});
-
-});
-
 }
 
 // =====================
-// MARQUER NOTIFICATIONS LUES
+// MARQUER LUES
 // =====================
 
 function marquerNotificationsLues(){
 
-let user =
+let user=
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
-if(!user) return;
+if(!user)return;
 
-db.collection("notifications")
+
+/* SYSTEME */
+
+db.collection(
+"notifications"
+)
 
 .where(
 "to",
@@ -3906,9 +3669,42 @@ false
 
 snapshot.forEach((doc)=>{
 
-db.collection("notifications")
-.doc(doc.id)
-.update({
+doc.ref.update({
+
+seen:true
+
+});
+
+});
+
+});
+
+
+/* RESTAURANT */
+
+db.collection(
+"restaurantNotifications"
+)
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.where(
+"seen",
+"==",
+false
+)
+
+.get()
+
+.then((snapshot)=>{
+
+snapshot.forEach((doc)=>{
+
+doc.ref.update({
 
 seen:true
 
@@ -3926,51 +3722,60 @@ seen:true
 
 function afficherBadgeNotifications(){
 
-let badge =
+let badge=
 document.getElementById(
 "notification-badge"
 );
 
-if(!badge) return;
+if(!badge)return;
 
-let user =
+let user=
 JSON.parse(
-localStorage.getItem("user")
+localStorage.getItem(
+"user"
+)
 );
 
-if(!user) return;
+if(!user)return;
 
-let demandes = 0;
-let notificationsNonLues = 0;
-let notificationsRestaurant = 0;
+let demandes=0;
+let notificationsNonLues=0;
+let restaurantNonLues=0;
+
 
 function updateBadge(){
 
-let total =
-demandes + notificationsNonLues + notificationsRestaurant;
+let total=
 
-if(total <= 0){
+demandes+
+notificationsNonLues+
+restaurantNonLues;
 
-badge.style.display =
+if(total<=0){
+
+badge.style.display=
 "none";
 
-badge.innerHTML = "";
+badge.innerHTML="";
 
 return;
 
 }
 
-badge.style.display =
+badge.style.display=
 "flex";
 
-badge.innerHTML =
+badge.innerHTML=
 total;
 
 }
 
-/* DEMANDES AMIS */
 
-db.collection("friendRequests")
+/* AMIS */
+
+db.collection(
+"friendRequests"
+)
 
 .where(
 "to",
@@ -3986,16 +3791,19 @@ user.carte
 
 .onSnapshot((snapshot)=>{
 
-demandes =
+demandes=
 snapshot.size;
 
 updateBadge();
 
 });
 
-/* NOTIFICATIONS NON LUES */
 
-db.collection("notifications")
+/* SYSTEME */
+
+db.collection(
+"notifications"
+)
 
 .where(
 "to",
@@ -4011,12 +3819,13 @@ false
 
 .onSnapshot((snapshot)=>{
 
-notificationsNonLues =
+notificationsNonLues=
 snapshot.size;
 
 updateBadge();
 
 });
+
 
 /* RESTAURANT */
 
@@ -4030,9 +3839,15 @@ db.collection(
 user.carte
 )
 
+.where(
+"seen",
+"==",
+false
+)
+
 .onSnapshot((snapshot)=>{
 
-notificationsRestaurant =
+restaurantNonLues=
 snapshot.size;
 
 updateBadge();
