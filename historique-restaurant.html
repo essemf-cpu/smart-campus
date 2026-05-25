@@ -27,11 +27,20 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <style>
 
-body{
+*{
 
 margin:0;
-font-family:Arial;
+padding:0;
+box-sizing:border-box;
+
+}
+
+body{
+
+font-family:Arial,sans-serif;
 background:#f2f3f8;
+
+overflow-x:hidden;
 
 }
 
@@ -39,52 +48,228 @@ background:#f2f3f8;
 
 padding:20px;
 
+max-width:100vw;
+
 }
+
+
+/* CARTES */
 
 .card{
 
 background:white;
+
 padding:18px;
+
 border-radius:22px;
+
 margin-bottom:15px;
 
 }
 
-input{
+
+/* RECHERCHE */
+
+.search-container{
+
+margin-bottom:20px;
+
+}
+
+.search{
 
 width:100%;
-height:50px;
+
+height:55px;
 
 border:none;
+
 outline:none;
 
-padding:0 15px;
+padding:0 18px;
 
 border-radius:18px;
 
 background:#f7f7fb;
 
+font-size:16px;
+
 }
+
+
+/* STATS */
+
+#stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:10px;
+
+margin-bottom:15px;
+
+}
+
+.stat-card{
+
+background:white;
+
+padding:18px;
+
+border-radius:22px;
+
+text-align:center;
+
+font-size:16px;
+
+font-weight:bold;
+
+overflow:hidden;
+
+}
+
+.stat-card strong{
+
+display:block;
+
+margin-top:5px;
+
+font-size:20px;
+
+}
+
+
+/* MINI BARRES */
+
+.mini-bar{
+
+width:100%;
+
+height:14px;
+
+margin-top:15px;
+
+background:#ececec;
+
+overflow:hidden;
+
+border-radius:4px;
+
+}
+
+.mini-fill{
+
+height:100%;
+
+width:0%;
+
+background:
+linear-gradient(
+90deg,
+#6f43ff,
+#8a68ff
+);
+
+transition:.6s;
+
+}
+
+
+/* TOTAL */
+
+.total-card{
+
+background:white;
+
+padding:15px;
+
+border-radius:22px;
+
+text-align:center;
+
+margin-bottom:20px;
+
+}
+
+.total-card strong{
+
+font-size:22px;
+
+}
+
+.total-card span{
+
+display:block;
+
+font-size:40px;
+
+font-weight:bold;
+
+margin:10px 0;
+
+}
+
+
+/* PDF */
+
+.pdf-btn{
+
+display:inline-block;
+
+padding:12px 22px;
+
+border:none;
+
+border-radius:18px;
+
+background:white;
+
+font-size:16px;
+
+font-weight:bold;
+
+color:#007aff;
+
+margin-bottom:20px;
+
+}
+
+
+/* FILTRES */
 
 .filtres{
 
 display:flex;
+
 gap:10px;
-overflow:auto;
+
+overflow-x:auto;
+
+padding-bottom:5px;
 
 margin:20px 0;
 
 }
 
+.filtres::-webkit-scrollbar{
+
+display:none;
+
+}
+
 .filtre{
 
-padding:10px 15px;
-
-border-radius:20px;
+padding:12px 22px;
 
 background:#eee;
 
+border-radius:18px;
+
 white-space:nowrap;
+
+flex-shrink:0;
 
 cursor:pointer;
 
@@ -93,9 +278,13 @@ cursor:pointer;
 .active{
 
 background:#7c4dff;
+
 color:white;
 
 }
+
+
+/* HISTORIQUE */
 
 .item{
 
@@ -111,126 +300,31 @@ display:flex;
 
 justify-content:space-between;
 
-}
-
-.stat-card{
-
-flex:1;
-
-text-align:center;
-
-padding:18px;
-
-border-radius:22px;
+align-items:center;
 
 }
 
-.mini-bar{
 
-height:18px;
+/* MOBILE */
 
-background:#eee;
+@media(max-width:600px){
 
-border-radius:6px;
+#stats{
 
-margin-top:15px;
+grid-template-columns:
+repeat(3,minmax(110px,1fr));
 
-overflow:hidden;
+overflow-x:auto;
 
-position:relative;
-
-}
-
-.mini-fill{
-
-height:100%;
-
-width:0;
-
-background:
-linear-gradient(
-90deg,
-#6f43ff,
-#8a68ff
-);
-
-border-radius:6px;
-
-transition:
-width .7s ease;
+padding-bottom:5px;
 
 }
 
-.stat-card{
+#stats::-webkit-scrollbar{
 
-flex:1;
-
-padding:20px;
-
-text-align:center;
-
-border-radius:25px;
-
-min-width:100px;
+display:none;
 
 }
-
-.total-card{
-
-padding:20px;
-
-margin-bottom:20px;
-
-text-align:center;
-
-border-radius:25px;
-
-}
-
-.progress-container{
-
-width:100%;
-height:14px;
-
-background:#ececec;
-
-margin-top:15px;
-
-border-radius:0;
-
-overflow:hidden;
-
-}
-
-.progress-bar{
-
-height:100%;
-
-width:0%;
-
-background:#7c4dff;
-
-border-radius:0;
-
-transition:.5s;
-
-}
-
-/* recherche */
-
-.search{
-
-width:100%;
-
-box-sizing:border-box;
-
-padding:16px;
-
-border:none;
-
-border-radius:20px;
-
-margin-bottom:20px;
 
 }
 
@@ -242,11 +336,11 @@ margin-bottom:20px;
 
 <div class="page">
 
-<div class="card">
+<div class="card search-container">
 
 <input
-id="search"
-placeholder="Rechercher étudiant...">
+class="search"
+placeholder="Rechercher...">
 
 </div>
 
