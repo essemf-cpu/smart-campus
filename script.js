@@ -3368,12 +3368,13 @@ function renderNotifications(type="all"){
 
 zone.innerHTML="";
 
-let liste=notifications;
+let liste=[...notifications];
+
+/* FILTRE */
 
 if(type!=="all"){
 
-liste=
-notifications.filter((n)=>{
+liste=liste.filter((n)=>{
 
 return n.type===type;
 
@@ -3381,11 +3382,15 @@ return n.type===type;
 
 }
 
+/* TRI */
+
 liste.sort((a,b)=>{
 
 return b.date-a.date;
 
 });
+
+/* VIDE */
 
 if(liste.length===0){
 
@@ -3403,27 +3408,48 @@ return;
 
 }
 
+/* AFFICHAGE */
+
 liste.forEach((n)=>{
 
 let dateFormatee=
 new Date(n.date)
 .toLocaleString();
 
+let contenuIcone="";
+
+/* avatar ou icône */
+
+if(n.avatar){
+
+contenuIcone=`
+
+<img
+src="${n.avatar}"
+class="real-avatar">
+
+`;
+
+}else{
+
+contenuIcone=`
+
+<i class="${
+n.icon ||
+'fa-solid fa-bell'
+}"></i>
+
+`;
+
+}
+
 zone.innerHTML+=`
 
 <div class="history-card notification-card">
 
-<div class="history-icon ${n.iconBg}">
+<div class="history-icon ${n.iconBg || 'purple-bg'}">
 
-${n.avatar ?
-
-`<img src="${n.avatar}" class="real-avatar">`
-
-:
-
-`<i class="${n.icon}"></i>`
-
-}
+${contenuIcone}
 
 </div>
 

@@ -5593,6 +5593,33 @@ gap:15px;
 
 }
 
+.history-icon{
+
+width:50px;
+height:50px;
+
+min-width:50px;
+flex-shrink:0;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:50%;
+
+font-size:20px;
+color:white;
+
+overflow:hidden;
+
+}
+
+.history-icon i{
+
+font-size:20px;
+
+}
+
 .real-avatar{
 
 width:100%;
@@ -5604,39 +5631,7 @@ border-radius:50%;
 
 }
 
-.history-icon{
-
-width:55px;
-height:55px;
-
-min-width:55px;
-
-flex-shrink:0;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-border-radius:50%;
-
-font-size:22px;
-
-color:white;
-
-}
-
-.history-icon i{
-
-display:flex !important;
-
-justify-content:center;
-align-items:center;
-
-font-size:22px !important;
-
-color:white !important;
-
-}
+/* couleurs */
 
 .purple-bg{
 
@@ -5646,7 +5641,52 @@ background:#7c4dff;
 
 .green-bg{
 
+background:#35c759;
+
+}
+
+.orange-bg{
+
+background:#ff9500;
+
+}
+
+.red-bg{
+
+background:#ff3b30;
+
+}
+
+.history-icon{
+
+width:55px;
+height:55px;
+
+min-width:55px;
+
+border-radius:50%;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+font-size:22px;
+
+color:white;
+
+}
+
+.green-bg{
+
 background:#33c25b;
+
+}
+
+.red-bg{
+
+background:#ff4b4b;
 
 }
 
@@ -5656,8 +5696,26 @@ background:#ff9f43;
 
 }
 
-.red-bg{
+.purple-bg{
 
-background:#ff4b4b;
+background:#7c4dff;
+
+}
+
+.history-icon i{
+
+display:block !important;
+
+font-size:22px;
+
+color:white !important;
+
+}
+
+.history-card{
+
+display:flex;
+align-items:center;
+gap:15px;
 
 }
