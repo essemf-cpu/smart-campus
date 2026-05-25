@@ -28,32 +28,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <style>
 
 *{
-
 margin:0;
 padding:0;
 box-sizing:border-box;
-
 }
 
 body{
-
 font-family:Arial,sans-serif;
 background:#f2f3f8;
-
-overflow-x:hidden;
-
 }
 
 .page{
 
-padding:20px;
+width:100%;
+max-width:1000px;
 
-max-width:100vw;
+margin:auto;
+
+padding:20px;
 
 }
 
-
-/* CARTES */
+/* cartes */
 
 .card{
 
@@ -63,70 +59,53 @@ padding:18px;
 
 border-radius:22px;
 
-margin-bottom:15px;
-
-}
-
-
-/* RECHERCHE */
-
-.search-container{
-
 margin-bottom:20px;
 
 }
 
+/* recherche */
+
 .search{
 
 width:100%;
-
 height:55px;
 
 border:none;
-
 outline:none;
 
-padding:0 18px;
-
-border-radius:18px;
+padding:0 20px;
 
 background:#f7f7fb;
+
+border-radius:18px;
 
 font-size:16px;
 
 }
 
-
-/* STATS */
+/* statistiques */
 
 #stats{
 
-display:grid;
+display:flex;
 
-grid-template-columns:
-repeat(3,1fr);
+gap:12px;
 
-gap:10px;
-
-margin-bottom:15px;
+margin:20px 0;
 
 }
 
 .stat-card{
 
+flex:1;
+
 background:white;
 
 padding:18px;
 
-border-radius:22px;
+border-radius:20px;
 
 text-align:center;
-
-font-size:16px;
-
-font-weight:bold;
-
-overflow:hidden;
 
 }
 
@@ -134,28 +113,25 @@ overflow:hidden;
 
 display:block;
 
-margin-top:5px;
+font-size:25px;
 
-font-size:20px;
+margin-top:5px;
 
 }
 
-
-/* MINI BARRES */
+/* barres */
 
 .mini-bar{
 
-width:100%;
-
 height:14px;
-
-margin-top:15px;
 
 background:#ececec;
 
-overflow:hidden;
+border-radius:5px;
 
-border-radius:4px;
+margin-top:15px;
+
+overflow:hidden;
 
 }
 
@@ -163,7 +139,7 @@ border-radius:4px;
 
 height:100%;
 
-width:0%;
+width:0;
 
 background:
 linear-gradient(
@@ -176,14 +152,13 @@ transition:.6s;
 
 }
 
-
-/* TOTAL */
+/* total */
 
 .total-card{
 
 background:white;
 
-padding:15px;
+padding:20px;
 
 border-radius:22px;
 
@@ -193,17 +168,11 @@ margin-bottom:20px;
 
 }
 
-.total-card strong{
-
-font-size:22px;
-
-}
-
 .total-card span{
 
 display:block;
 
-font-size:40px;
+font-size:35px;
 
 font-weight:bold;
 
@@ -211,22 +180,21 @@ margin:10px 0;
 
 }
 
-
 /* PDF */
 
 .pdf-btn{
 
-display:inline-block;
+display:block;
 
-padding:12px 22px;
+margin:auto;
+
+padding:14px 25px;
 
 border:none;
 
 border-radius:18px;
 
 background:white;
-
-font-size:16px;
 
 font-weight:bold;
 
@@ -236,40 +204,29 @@ margin-bottom:20px;
 
 }
 
-
-/* FILTRES */
+/* filtres */
 
 .filtres{
 
 display:flex;
 
+justify-content:center;
+
 gap:10px;
 
-overflow-x:auto;
+flex-wrap:wrap;
 
-padding-bottom:5px;
-
-margin:20px 0;
-
-}
-
-.filtres::-webkit-scrollbar{
-
-display:none;
+margin-bottom:20px;
 
 }
 
 .filtre{
 
-padding:12px 22px;
+padding:12px 20px;
+
+border-radius:20px;
 
 background:#eee;
-
-border-radius:18px;
-
-white-space:nowrap;
-
-flex-shrink:0;
 
 cursor:pointer;
 
@@ -283,14 +240,19 @@ color:white;
 
 }
 
+/* historique */
 
-/* HISTORIQUE */
+#historique{
+
+width:100%;
+
+}
 
 .item{
 
 background:white;
 
-padding:15px;
+padding:18px;
 
 border-radius:18px;
 
@@ -304,25 +266,13 @@ align-items:center;
 
 }
 
+/* mobile */
 
-/* MOBILE */
-
-@media(max-width:600px){
+@media(max-width:700px){
 
 #stats{
 
-grid-template-columns:
-repeat(3,minmax(110px,1fr));
-
-overflow-x:auto;
-
-padding-bottom:5px;
-
-}
-
-#stats::-webkit-scrollbar{
-
-display:none;
+flex-direction:column;
 
 }
 
@@ -336,64 +286,98 @@ display:none;
 
 <div class="page">
 
-<div class="card search-container">
+<!-- RECHERCHE -->
+
+<div class="card">
 
 <input
+id="search"
 class="search"
-placeholder="Rechercher...">
+placeholder="Rechercher étudiant...">
 
 </div>
 
-<!-- STATS REPAS -->
+
+<!-- STATS -->
+
 <div id="stats">
 
 <div class="stat-card">
 
 Petit déjeuner
 
-<strong id="stat-petit">0</strong>
+<strong id="stat-petit">
+0
+</strong>
 
 <div class="mini-bar">
-<div id="bar-petit"
-class="mini-fill"></div>
+
+<div
+id="bar-petit"
+class="mini-fill">
+
 </div>
 
 </div>
+
+</div>
+
 
 
 <div class="stat-card">
 
 Déjeuner
 
-<strong id="stat-dej">0</strong>
+<strong id="stat-dej">
+0
+</strong>
 
 <div class="mini-bar">
-<div id="bar-dej"
-class="mini-fill"></div>
+
+<div
+id="bar-dej"
+class="mini-fill">
+
 </div>
 
 </div>
+
+</div>
+
 
 
 <div class="stat-card">
 
 Dîner
 
-<strong id="stat-diner">0</strong>
+<strong id="stat-diner">
+0
+</strong>
 
 <div class="mini-bar">
-<div id="bar-diner"
-class="mini-fill"></div>
-</div>
+
+<div
+id="bar-diner"
+class="mini-fill">
 
 </div>
 
 </div>
 
+</div>
+
+</div>
+
+
+<!-- TOTAL -->
 
 <div class="total-card">
 
-<strong>Total aujourd'hui</strong>
+<strong>
+
+Total aujourd'hui
+
+</strong>
 
 <span id="stat-total">
 
@@ -405,41 +389,48 @@ Tickets contrôlés
 
 </div>
 
-</div>
 
-    <button
+<!-- PDF -->
+
+<button
 onclick="exportPDF()"
-class="filtre">
+class="pdf-btn">
 
 Exporter PDF
 
 </button>
 
 
+<!-- FILTRES -->
+
 <div class="filtres">
 
-<div class="filtre active"
+<div
+class="filtre active"
 onclick="changerFiltre('all',this)">
 
 Tout
 
 </div>
 
-<div class="filtre"
+<div
+class="filtre"
 onclick="changerFiltre('Petit déjeuner',this)">
 
 Petit déjeuner
 
 </div>
 
-<div class="filtre"
+<div
+class="filtre"
 onclick="changerFiltre('Déjeuner',this)">
 
 Déjeuner
 
 </div>
 
-<div class="filtre"
+<div
+class="filtre"
 onclick="changerFiltre('Dîner',this)">
 
 Dîner
@@ -447,6 +438,9 @@ Dîner
 </div>
 
 </div>
+
+
+<!-- HISTORIQUE -->
 
 <div id="historique">
 
@@ -599,71 +593,6 @@ pdf.save(
 
 }
 
-function mettreAJourGraphique(
-petit,
-dej,
-diner
-){
-
-const ctx=
-document
-.getElementById(
-"graphique"
-);
-
-if(
-window.monGraphique
-){
-
-window.monGraphique.destroy();
-
-}
-
-window.monGraphique=
-new Chart(
-ctx,
-{
-
-type:"bar",
-
-data:{
-
-labels:[
-
-"Petit déjeuner",
-"Déjeuner",
-"Dîner"
-
-],
-
-datasets:[{
-
-label:
-"Tickets contrôlés",
-
-data:[
-
-petit,
-dej,
-diner
-
-]
-
-}]
-
-},
-
-options:{
-
-responsive:true
-
-}
-
-}
-
-);
-
-}
 
 function changerFiltre(
 filtre,
@@ -709,7 +638,7 @@ db.collection(
 .where(
 "controleurId",
 "==",
-user.carte
+"CTRL001"
 )
 
 .orderBy(
@@ -996,14 +925,6 @@ document
 )
 .innerText=
 totalDiner;
-
-mettreAJourGraphique(
-
-totalPetit,
-totalDej,
-totalDiner
-
-);
 
 let totalJour=
 
