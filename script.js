@@ -4228,20 +4228,19 @@ db.collection(
 
 .add({
 
-to:
-user.carte,
+to:user.carte,
 
-type:
-"restaurant",
+type:"restaurant",
 
 title:
 "Restaurant universitaire",
 
 text:
-"Ticket acheté avec succès",
+"Ticket ${type} acheté avec succès",
 
-date:
-Date.now()
+seen:false,
+
+date:Date.now()
 
 });
 
