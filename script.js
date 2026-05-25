@@ -4221,6 +4221,30 @@ user.ticketDiner||0
 
 .then(()=>{
 
+/* nom propre */
+
+let nomTicket="";
+
+if(type==="petitdej"){
+
+nomTicket=
+"Petit déjeuner";
+
+}
+
+if(type==="dejeuner"){
+
+nomTicket=
+"Déjeuner";
+
+}
+
+if(type==="diner"){
+
+nomTicket=
+"Dîner";
+
+}
 
 db.collection(
 "restaurantNotifications"
@@ -4236,7 +4260,7 @@ title:
 "Restaurant universitaire",
 
 text:
-"Ticket Petit déjeuner acheté avec succès",
+"Ticket ${nomTicket} acheté avec succès",
 
 seen:false,
 

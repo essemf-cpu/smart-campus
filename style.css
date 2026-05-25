@@ -5581,12 +5581,25 @@ padding-top:100px !important;
 
 }
 
+/* ===================== */
+/* ICONE NOTIFICATION */
+/* ===================== */
+
+.history-card{
+
+display:flex;
+align-items:center;
+gap:15px;
+
+}
+
 .history-icon{
 
 width:50px;
 height:50px;
 
 min-width:50px;
+flex-shrink:0;
 
 display:flex;
 justify-content:center;
@@ -5595,13 +5608,51 @@ align-items:center;
 border-radius:50%;
 
 font-size:20px;
-
 color:white;
 
+overflow:hidden;
+
 }
+
+.history-icon i{
+
+font-size:20px;
+
+}
+
+.real-avatar{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+border-radius:50%;
+
+}
+
+/* couleurs */
 
 .purple-bg{
 
 background:#7c4dff;
+
+}
+
+.green-bg{
+
+background:#35c759;
+
+}
+
+.orange-bg{
+
+background:#ff9500;
+
+}
+
+.red-bg{
+
+background:#ff3b30;
 
 }

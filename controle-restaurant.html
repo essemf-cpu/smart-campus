@@ -454,6 +454,20 @@ Valider
 
 </button>
 
+<button
+class="valider"
+style="
+margin-top:10px;
+background:#eee;
+color:black;
+"
+onclick="annulerScan()"
+>
+
+Annuler
+
+</button>
+
 </div>
 
 </div>
@@ -1104,6 +1118,63 @@ document
 
 }
 
+function annulerScan(){
+
+document
+.getElementById(
+"etudiantCard"
+)
+
+.style.display=
+"none";
+
+
+document
+.getElementById(
+"nom"
+)
+
+.innerText=
+"";
+
+document
+.getElementById(
+"nom"
+)
+
+.dataset.carte=
+"";
+
+
+document
+.getElementById(
+"ticketNombre"
+)
+
+.innerText=
+"0";
+
+
+nombre=1;
+
+document
+.getElementById(
+"nombre"
+)
+
+.innerText=
+"1";
+
+
+document
+.querySelector(
+".scan-zone"
+)
+
+.style.display=
+"flex";
+
+}
 
 
 function chargerHistorique(){
