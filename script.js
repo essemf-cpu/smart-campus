@@ -3942,11 +3942,12 @@ if(!user) return;
 
 let demandes = 0;
 let notificationsNonLues = 0;
+let notificationsRestaurant = 0;
 
 function updateBadge(){
 
 let total =
-demandes + notificationsNonLues;
+demandes + notificationsNonLues + notificationsRestaurant;
 
 if(total <= 0){
 
@@ -4011,6 +4012,27 @@ false
 .onSnapshot((snapshot)=>{
 
 notificationsNonLues =
+snapshot.size;
+
+updateBadge();
+
+});
+
+/* RESTAURANT */
+
+db.collection(
+"restaurantNotifications"
+)
+
+.where(
+"to",
+"==",
+user.carte
+)
+
+.onSnapshot((snapshot)=>{
+
+notificationsRestaurant =
 snapshot.size;
 
 updateBadge();
