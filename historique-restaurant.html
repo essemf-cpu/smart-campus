@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>
+
+Historique Restaurant
+
+</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<style>
+
+body{
+
+margin:0;
+font-family:Arial;
+background:#f2f3f8;
+
+}
+
+.page{
+
+padding:20px;
+
+}
+
+.card{
+
+background:white;
+padding:18px;
+border-radius:22px;
+margin-bottom:15px;
+
+}
+
+input{
+
+width:100%;
+height:50px;
+
+border:none;
+outline:none;
+
+padding:0 15px;
+
+border-radius:18px;
+
+background:#f7f7fb;
+
+}
+
+.filtres{
+
+display:flex;
+gap:10px;
+overflow:auto;
+
+margin:20px 0;
+
+}
+
+.filtre{
+
+padding:10px 15px;
+
+border-radius:20px;
+
+background:#eee;
+
+white-space:nowrap;
+
+cursor:pointer;
+
+}
+
+.active{
+
+background:#7c4dff;
+color:white;
+
+}
+
+.item{
+
+background:white;
+
+padding:15px;
+
+border-radius:18px;
+
+margin-bottom:10px;
+
+display:flex;
+
+justify-content:space-between;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="card">
+
+<input
+id="search"
+placeholder="Rechercher étudiant...">
+
+</div>
+
+<div class="filtres">
+
+<div class="filtre active"
+onclick="changerFiltre('all',this)">
+
+Tout
+
+</div>
+
+<div class="filtre"
+onclick="changerFiltre('Petit déjeuner',this)">
+
+Petit déjeuner
+
+</div>
+
+<div class="filtre"
+onclick="changerFiltre('Déjeuner',this)">
+
+Déjeuner
+
+</div>
+
+<div class="filtre"
+onclick="changerFiltre('Dîner',this)">
+
+Dîner
+
+</div>
+
+</div>
+
+<div id="historique">
+
+Chargement...
+
+</div>
+
+</div>
+
+<script>
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(
+!firebase.apps.length
+){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db=
+firebase.firestore();
+
+let user=
+JSON.parse(
+localStorage.getItem(
+"user"
+));
+
+let filtreActuel=
+"all";
+
+
+function changerFiltre(
+filtre,
+btn
+){
+
+filtreActuel=
+filtre;
+
+document
+.querySelectorAll(
+".filtre"
+)
+.forEach(e=>{
+
+e.classList.remove(
+"active"
+
+);
+
+});
+
+btn.classList.add(
+"active"
+);
+
+chargerHistorique();
+
+}
+
+
+function chargerHistorique(){
+
+let zone=
+document.getElementById(
+"historique"
+);
+
+db.collection(
+"restaurantHistorique"
+)
+
+.where(
+"controleurId",
+"==",
+user.carte
+)
+
+.orderBy(
+"date",
+"desc"
+)
+
+.onSnapshot((snapshot)=>{
+
+zone.innerHTML="";
+
+if(
+snapshot.empty
+){
+
+zone.innerHTML=
+
+`<div class="card">
+
+Aucun historique
+
+</div>`;
+
+return;
+
+}
+
+snapshot.forEach((doc)=>{
+
+let h=
+doc.data();
+
+
+if(
+
+filtreActuel!=="all"
+
+&&
+
+h.repas!==filtreActuel
+
+){
+
+return;
+
+}
+
+let heure=
+
+new Date(
+h.date
+)
+
+.toLocaleTimeString(
+[],
+{
+
+hour:"2-digit",
+
+minute:"2-digit"
+
+}
+
+);
+
+zone.innerHTML+=`
+
+<div class="item">
+
+<div>
+
+<strong>
+
+${h.nom}
+
+</strong>
+
+<br>
+
+${h.repas}
+
+×
+
+${h.quantite}
+
+</div>
+
+<div>
+
+${heure}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+chargerHistorique();
+
+</script>

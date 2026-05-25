@@ -320,24 +320,6 @@ Diner
 
 <div class="section">
 
-<h3>
-
-Historique récent
-
-</h3>
-
-<div
-id="historique-list"
->
-
-Chargement...
-
-</div>
-
-</div>
-
-<div class="section">
-
 <div
 class="scan-zone"
 onclick="ouvrirScanner()"
@@ -414,6 +396,44 @@ Petit déjeuner
 
 </p>
 
+<hr style="border:none;height:1px;background:#eee;margin:15px 0;">
+
+<p>
+
+💳 Solde actuel :
+
+<strong id="soldeActuel">
+
+0 FCFA
+
+</strong>
+
+</p>
+
+<p>
+
+🎫 Utilisera :
+
+<strong id="resumeUtilisation">
+
+0 ticket
+
+</strong>
+
+</p>
+
+<p>
+
+📊 Restera :
+
+<strong id="resumeReste">
+
+0 ticket • 0 FCFA
+
+</strong>
+
+</p>
+
 </div>
 
 <div class="compteur">
@@ -470,7 +490,46 @@ Annuler
 
 </div>
 
+<div class="section">
+
+<h3>
+
+Dernière activité
+
+</h3>
+
+<div id="historique-list">
+
+Chargement...
+
 </div>
+
+<button
+
+class="valider"
+
+style="
+margin-top:15px;
+height:50px;
+font-size:15px;
+"
+
+onclick="
+window.location.href=
+'historique-restaurant.html'
+"
+
+>
+
+Voir tout →
+
+</button>
+
+</div>
+
+</div>
+
+
 
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -527,6 +586,8 @@ let type="Petit déjeuner";
 let html5QrCode=null;
 let scanBloque=false;
 
+let dernierEtudiantScanne="";
+let dernierScanTemps=0;
 
 
 function choisir(
@@ -687,6 +748,30 @@ scanBloque=false;
 return;
 }
 
+/* anti double scan */
+
+if(
+
+dernierEtudiantScanne===data.carte
+
+&&
+
+Date.now()-dernierScanTemps<3000
+
+){
+
+scanBloque=false;
+
+return;
+
+}
+
+dernierEtudiantScanne=
+data.carte;
+
+dernierScanTemps=
+Date.now();
+
 
 db.collection(
 "users"
@@ -788,6 +873,58 @@ document
 
 ticketsMap[type];
 
+let tickets=
+ticketsMap[type];
+
+let solde=
+etudiant.solde||0;
+
+document
+.getElementById(
+"soldeActuel"
+)
+
+.innerText=
+
+solde+" FCFA";
+
+
+let utiliser=
+Math.min(
+tickets,
+nombre
+);
+
+let reste=
+nombre-
+utiliser;
+
+let retrait=
+reste*prix;
+
+document
+.getElementById(
+"resumeUtilisation"
+)
+
+.innerText=
+
+`${utiliser} ticket(s)
++ ${retrait} FCFA`;
+
+document
+.getElementById(
+"resumeReste"
+)
+
+.innerText=
+
+`${tickets-utiliser}
+ticket(s)
+•
+${solde-retrait}
+FCFA`;
+
 document
 .getElementById(
 "typeAffichage"
@@ -838,6 +975,11 @@ scanBloque=false;
 
 
 function valider(){
+
+if(window.validationEnCours)
+return;
+
+window.validationEnCours=true;
 
 let carte=
 
@@ -952,6 +1094,8 @@ Défalquer ${montant} FCFA du solde ?`
 
 if(!ok){
 
+window.validationEnCours=false;
+
 return;
 
 }
@@ -982,6 +1126,8 @@ nouveauSolde<0
 alert(
 "Solde insuffisant"
 );
+
+window.validationEnCours=false;
 
 return;
 
@@ -1037,23 +1183,19 @@ db.collection(
 
 .add({
 
-nom:
-etudiant.nom,
+nom:etudiant.nom,
 
-carte:
-etudiant.carte,
+carte:etudiant.carte,
 
-repas:
-type,
+repas:type,
 
-quantite:
-nombre,
+quantite:nombre,
 
-controleur:
-user.nom,
+controleur:user.nom,
 
-date:
-Date.now()
+controleurId:user.carte,
+
+date:Date.now()
 
 });
 
@@ -1084,6 +1226,7 @@ alert(
 "Ticket validé ✅"
 );
 
+window.validationEnCours=false;
 
 /* reset */
 
@@ -1106,11 +1249,26 @@ document
 
 
 document
+.getElementById(
+"reader"
+)
+.style.display=
+"none";
+
+document
 .querySelector(
 ".scan-zone"
 )
 .style.display=
 "flex";
+
+/* redémarrage automatique */
+
+setTimeout(()=>{
+
+ouvrirScanner();
+
+},500);
 
 });
 
@@ -1167,12 +1325,27 @@ document
 
 
 document
+.getElementById(
+"reader"
+)
+.style.display=
+"none";
+
+document
 .querySelector(
 ".scan-zone"
 )
 
 .style.display=
 "flex";
+
+/* redémarrage auto */
+
+setTimeout(()=>{
+
+ouvrirScanner();
+
+},500);
 
 }
 
@@ -1188,12 +1361,18 @@ db.collection(
 "restaurantHistorique"
 )
 
+.where(
+"controleurId",
+"==",
+user.carte
+)
+
 .orderBy(
 "date",
 "desc"
 )
 
-.limit(10)
+.limit(1)
 
 .onSnapshot(snapshot=>{
 
