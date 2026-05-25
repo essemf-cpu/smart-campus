@@ -345,75 +345,45 @@ placeholder="Rechercher...">
 </div>
 
 <!-- STATS REPAS -->
-<div id="stats"
-style="
-display:flex;
-gap:10px;
-margin-bottom:15px;
-">
+<div id="stats">
 
-<div class="card stat-card">
+<div class="stat-card">
 
 Petit déjeuner
-<br>
 
-<strong id="stat-petit">
-0
-</strong>
+<strong id="stat-petit">0</strong>
 
-<div class="progress-container">
-
-<div
-id="bar-petit"
-class="progress-bar">
-
-</div>
-
+<div class="mini-bar">
+<div id="bar-petit"
+class="mini-fill"></div>
 </div>
 
 </div>
 
 
-<div class="card stat-card">
+<div class="stat-card">
 
 Déjeuner
-<br>
 
-<strong id="stat-dej">
-0
-</strong>
+<strong id="stat-dej">0</strong>
 
-<div class="progress-container">
-
-<div
-id="bar-dej"
-class="progress-bar">
-
-</div>
-
+<div class="mini-bar">
+<div id="bar-dej"
+class="mini-fill"></div>
 </div>
 
 </div>
 
 
-<div class="card stat-card">
+<div class="stat-card">
 
 Dîner
-<br>
 
-<strong id="stat-diner">
-0
-</strong>
+<strong id="stat-diner">0</strong>
 
-<div
-class="progress-container">
-
-<div
-id="bar-diner"
-class="progress-bar">
-
-</div>
-
+<div class="mini-bar">
+<div id="bar-diner"
+class="mini-fill"></div>
 </div>
 
 </div>
@@ -421,30 +391,15 @@ class="progress-bar">
 </div>
 
 
-<!-- TOTAL AUJOURD'HUI -->
-<div
-class="card total-card">
+<div class="total-card">
 
-<strong>
-
-Total aujourd'hui
-
-</strong>
-
-<div
-style="
-font-size:35px;
-font-weight:bold;
-margin:10px 0;
-">
+<strong>Total aujourd'hui</strong>
 
 <span id="stat-total">
 
 0
 
 </span>
-
-</div>
 
 Tickets contrôlés
 
