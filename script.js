@@ -3611,9 +3611,11 @@ user.carte
 .onSnapshot((snapshot)=>{
 
 notifications=
-notifications.filter(
-n=>n.source!=="restaurant"
-);
+notifications.filter((n)=>{
+
+return n.source!=="restaurant";
+
+});
 
 snapshot.forEach((doc)=>{
 
@@ -3627,23 +3629,15 @@ source:"restaurant",
 
 type:"restaurant",
 
-title:
-r.title||
-
-"Restaurant universitaire",
+title:r.title,
 
 text:r.text,
 
-date:
-r.date||
+date:r.date||Date.now(),
 
-Date.now(),
+icon:"fa-solid fa-utensils",
 
-icon:
-"fa-solid fa-utensils",
-
-iconBg:
-"purple-bg"
+iconBg:"purple-bg"
 
 });
 
@@ -3652,7 +3646,6 @@ iconBg:
 renderNotifications();
 
 });
-
 }
 
 // =====================
