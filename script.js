@@ -4260,7 +4260,7 @@ title:
 "Restaurant universitaire",
 
 text:
-"Ticket ${nomTicket} acheté avec succès",
+`Ticket ${nomTicket} acheté avec succès`,
 
 seen:false,
 
