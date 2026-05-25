@@ -3413,43 +3413,56 @@ return;
 liste.forEach((n)=>{
 
 let dateFormatee=
-new Date(n.date)
-.toLocaleString();
+new Date(
+n.date
+).toLocaleString();
 
-let contenuIcone="";
+console.log("SOURCE :",n.source);
 
-/* avatar ou icône */
+console.log("ICON :",n.icon);
 
-if(n.avatar){
+console.log("AVATAR :",n.avatar);
 
-contenuIcone=`
+console.log("HTML FINAL :",
 
-<img
-src="${n.avatar}"
-class="real-avatar">
+n.source==="friends"
 
-`;
+?
 
-}else{
+`<img src="${
+n.avatar ||
+'assets/default-user.png'
+}" class="real-avatar">`
 
-contenuIcone=`
+:
 
-<i class="${
-n.icon ||
-'fa-solid fa-bell'
-}"></i>
+`<i class="${
+n.icon
+}"></i>`
 
-`;
+);
 
-}
-
-zone.innerHTML+=`
+zone.innerHTML += `
 
 <div class="history-card notification-card">
 
-<div class="history-icon ${n.iconBg || 'purple-bg'}">
+<div class="history-icon ${n.iconBg||''}">
 
-${contenuIcone}
+${
+
+n.source==="friends"
+
+?
+
+`<img
+src="${n.avatar || 'assets/default-user.png'}"
+class="real-avatar">`
+
+:
+
+`<i class="${n.icon}"></i>`
+
+}
 
 </div>
 
@@ -3580,11 +3593,8 @@ text:n.text,
 
 date:n.date||Date.now(),
 
-icon:
-"fa-solid fa-heart",
-
-iconBg:
-"green-bg"
+icon:"fa-solid fa-bell",
+iconBg:"blue-bg"
 
 });
 
@@ -3646,6 +3656,60 @@ iconBg:"purple-bg"
 renderNotifications();
 
 });
+
+/* ========================= */
+/* FILTRES */
+/* ========================= */
+
+document
+.querySelectorAll(".category-pill")
+.forEach((pill)=>{
+
+pill.addEventListener(
+"click",
+()=>{
+
+/* retire ancien actif */
+
+document
+.querySelectorAll(
+".category-pill"
+)
+.forEach((p)=>{
+
+p.classList.remove(
+"active-pill"
+);
+
+});
+
+/* ajoute actif */
+
+pill.classList.add(
+"active-pill"
+);
+
+/* texte -> type */
+
+let type=
+pill.textContent
+.toLowerCase()
+.trim();
+
+if(type==="tout"){
+type="all";
+}
+
+/* applique filtre */
+
+renderNotifications(
+type
+);
+
+});
+
+});
+
 }
 
 // =====================
