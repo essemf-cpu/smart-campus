@@ -82,10 +82,28 @@ window.location.href =
 function login(){
 
 let carte =
-document.getElementById("username").value;
+document.getElementById(
+"username"
+)
+.value
+.trim();
 
 let password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+)
+.value
+.trim();
+
+console.log(
+"Carte :",
+carte
+);
+
+console.log(
+"Password :",
+password
+);
 
 db.collection("users")
 
@@ -104,6 +122,11 @@ password
 .get()
 
 .then((snapshot)=>{
+
+console.log(
+"Documents trouvés :",
+snapshot.size
+);
 
 if(snapshot.empty){
 
@@ -155,10 +178,31 @@ user.role==="controleurRestaurant"
 window.location.href=
 "controle-restaurant.html";
 
-}else{
+}
+
+else if(
+user.role==="responsableRestaurant"
+){
+
+window.location.href=
+"responsable-restaurant.html";
+
+}
+
+else if(
+user.role==="etudiant"
+){
 
 window.location.href=
 "dashboard.html";
+
+}
+
+else{
+
+alert(
+"Rôle inconnu"
+);
 
 }
 
