@@ -269,17 +269,86 @@ opacity:.6;
 
 <div class="top-card">
 
-<h2 id="controleurNom">
+<div
+style="
+display:flex;
+align-items:center;
+gap:15px;
+">
+
+<img
+id="avatarControleur"
+src=""
+style="
+width:70px;
+height:70px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid rgba(255,255,255,.3);
+">
+
+<div
+style="
+flex:1;
+">
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+<h2
+id="controleurNom"
+style="
+margin:0;
+">
 
 Chargement...
 
 </h2>
 
-<p>
+<div
+style="
+background:rgba(255,255,255,.15);
+padding:8px 12px;
+border-radius:20px;
+font-size:13px;
+">
 
-Contrôle restaurant
+🟢 En service
+
+</div>
+
+</div>
+
+<p
+id="matriculeControleur"
+style="
+margin-top:5px;
+opacity:.9;
+">
+
+Matricule : ---
 
 </p>
+
+<p
+id="dateJour"
+style="
+margin-top:5px;
+opacity:.8;
+font-size:13px;
+">
+
+---
+
+</p>
+
+</div>
+
+</div>
 
 </div>
 
@@ -574,10 +643,92 @@ localStorage.getItem(
 "user"
 ));
 
-document.getElementById(
+document
+.getElementById(
 "controleurNom"
-).innerHTML=
+)
+.innerText=
 user.nom;
+
+
+/* matricule */
+
+document
+.getElementById(
+"matriculeControleur"
+)
+.innerText=
+
+"Matricule : "+
+
+(
+user.carte
+||
+"---"
+);
+
+
+/* date */
+
+let aujourdHui=
+new Date();
+
+document
+.getElementById(
+"dateJour"
+)
+.innerText=
+
+aujourdHui
+.toLocaleDateString(
+"fr-FR",
+{
+weekday:"long",
+day:"numeric",
+month:"long",
+year:"numeric"
+}
+);
+
+
+/* avatar */
+
+let avatarParDefaut=
+
+"assets/avatars/controleur.png";
+
+
+document
+.getElementById(
+"avatarControleur"
+)
+.src=
+
+(
+user.avatar &&
+user.avatar.trim()!==""
+)
+
+?
+
+user.avatar
+
+:
+
+avatarParDefaut;
+
+document
+.getElementById(
+"avatarControleur"
+)
+
+.onerror=function(){
+
+this.src=
+
+avatarParDefaut;
+
+};
 
 
 let nombre=1;
@@ -1378,12 +1529,15 @@ user.carte
 
 zone.innerHTML="";
 
-if(snapshot.empty){
+if(
+snapshot.empty
+){
 
 zone.innerHTML=
-"Aucun historique";
+"Aucune activité";
 
 return;
+
 }
 
 snapshot.forEach(doc=>{
@@ -1391,12 +1545,76 @@ snapshot.forEach(doc=>{
 let h=
 doc.data();
 
-let heure=
+let date=
 new Date(
 h.date
+);
+
+let maintenant=
+new Date();
+
+let texteTemps="";
+
+
+/* différence temps */
+
+let diffMinutes=
+
+Math.floor(
+
+(
+maintenant-date
 )
 
-.toLocaleTimeString(
+/
+
+60000
+
+);
+
+
+/* affichage intelligent */
+
+if(
+diffMinutes<1
+){
+
+texteTemps=
+"À l'instant";
+
+}
+
+else if(
+diffMinutes<60
+){
+
+texteTemps=
+
+"Il y a "+
+
+diffMinutes+
+
+" min";
+
+}
+
+else if(
+
+date.toDateString()
+
+===
+
+maintenant.toDateString()
+
+){
+
+texteTemps=
+
+"Aujourd'hui "
+
++
+
+date.toLocaleTimeString(
 [],
 {
 hour:"2-digit",
@@ -1404,14 +1622,80 @@ minute:"2-digit"
 }
 );
 
-zone.innerHTML+=`
+}
+
+else{
+
+let hier=
+new Date();
+
+hier.setDate(
+hier.getDate()-1
+);
+
+if(
+
+date.toDateString()
+
+===
+
+hier.toDateString()
+
+){
+
+texteTemps=
+
+"Hier "
+
++
+
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+else{
+
+texteTemps=
+
+date.toLocaleDateString(
+"fr-FR"
+)
+
++
+
+" "
+
++
+
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+}
+
+
+zone.innerHTML=`
 
 <div class="historique-item">
 
 <div class="historique-left">
 
 <strong>
+
 ${h.nom}
+
 </strong>
 
 <p>
@@ -1426,7 +1710,7 @@ ${h.quantite}
 
 <div class="historique-time">
 
-${heure}
+${texteTemps}
 
 </div>
 
