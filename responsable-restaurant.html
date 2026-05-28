@@ -83,288 +83,181 @@ box-sizing:border-box;
 
 body{
 font-family:Arial,sans-serif;
-background:#f2f3f8;
+background:#f3f5fb;
+color:#222;
 }
 
 .page{
-
-max-width:1000px;
-
+max-width:1400px;
 margin:auto;
-
 padding:20px;
-
 }
 
-.card{
+/* HEADER */
 
-background:white;
-
-padding:20px;
-
-border-radius:22px;
-
-margin-bottom:20px;
-
-}
-
-/* TOP */
-
-.top-card{
-
+.header{
 background:
 linear-gradient(
 135deg,
 #3b1d91,
-#6f43ff,
-#9f7bff
+#6f43ff
 );
 
 color:white;
 
-padding:30px;
+padding:20px;
 
-border-radius:30px;
+border-radius:18px;
 
 display:flex;
-
 justify-content:space-between;
-
 align-items:center;
 
-box-shadow:
-0 10px 30px
-rgba(111,67,255,.25);
-
+margin-bottom:20px;
 }
 
-.user{
-
+.header-left{
 display:flex;
-
 align-items:center;
-
 gap:15px;
-
 }
 
 .avatar{
-
-width:70px;
-height:70px;
-
+width:65px;
+height:65px;
 border-radius:50%;
-
 object-fit:cover;
-
-border:3px solid rgba(255,255,255,.3);
-
+background:white;
+padding:3px;
 }
 
-.service{
-
-background:rgba(
-255,
-255,
-255,
-.15
-);
-
-padding:10px 15px;
-
-border-radius:20px;
-
-}
-
-.badge-admin{
-
+.badge{
+margin-top:6px;
 display:inline-block;
-
-margin-top:10px;
-
-padding:6px 12px;
-
-border-radius:15px;
-
+padding:5px 12px;
+border-radius:12px;
 background:rgba(255,255,255,.15);
-
 font-size:12px;
+}
 
+/* ACTIONS */
+
+.actions{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:12px 18px;
+border:none;
+border-radius:12px;
+background:white;
+cursor:pointer;
 font-weight:bold;
-
-letter-spacing:1px;
-
+box-shadow:0 2px 10px rgba(0,0,0,.05);
 }
 
 /* STATS */
 
 .stats{
-
 display:grid;
-
 grid-template-columns:
-repeat(4,1fr);
-
-gap:10px;
-
-margin-top:20px;
-
-}
-
-.dashboard-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(170px,1fr));
+repeat(auto-fit,minmax(180px,1fr));
 
 gap:15px;
-
-margin:25px 0;
-
-}
-
-.mini-stat{
-
-background:white;
-
-padding:25px;
-
-border-radius:25px;
-
-text-align:center;
-
-box-shadow:
-0 5px 15px
-rgba(0,0,0,.05);
-
-}
-
-.mini-stat strong{
-
-display:block;
-
-font-size:28px;
-
-margin-bottom:8px;
-
-color:#6f43ff;
-
-}
-
-.mini-stat span{
-
-font-size:14px;
-
-opacity:.7;
-
+margin-bottom:20px;
 }
 
 .stat{
-
 background:white;
+padding:18px;
+border-radius:16px;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
 
+.stat strong{
+font-size:28px;
+display:block;
+margin-bottom:5px;
+color:#6f43ff;
+}
+
+/* GRID */
+
+.main-grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+.card{
+background:white;
+border-radius:18px;
 padding:20px;
-
-border-radius:22px;
-
-text-align:center;
-
-box-shadow:
-0 5px 15px
-rgba(0,0,0,.05);
-
-transition:.3s;
-
+box-shadow:0 2px 10px rgba(0,0,0,.05);
 }
 
-.stat:hover{
+/* TABLE */
 
-transform:translateY(-3px);
-
-}
-
-/* CONTROLEURS */
-
-.controleur{
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-padding:15px 0;
-
-border-bottom:
-1px solid #eee;
-
-}
-
-.etat{
-
-font-size:14px;
-
-}
-
-.ajout{
-
+table{
 width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
 
-height:55px;
+th{
+background:#f3f5fb;
+padding:14px;
+text-align:left;
+font-size:14px;
+}
 
-border:none;
+td{
+padding:14px;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
 
-border-radius:20px;
-
-background:
-linear-gradient(
-90deg,
-#6f43ff,
-#8d69ff
-);
-
-color:white;
-
-font-size:16px;
-
+.status-online{
+color:green;
 font-weight:bold;
-
-margin-top:20px;
-
-cursor:pointer;
-
-transition:.3s;
-
 }
 
-.ajout:hover{
-
-transform:scale(1.01);
-
-opacity:.95;
-
+.status-offline{
+color:#888;
 }
 
-@media(max-width:700px){
+/* ACTIVITES */
 
-.stats{
+.activite{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
 
-grid-template-columns:
-repeat(2,1fr);
+/* MOBILE */
 
+@media(max-width:900px){
+
+.main-grid{
+grid-template-columns:1fr;
 }
 
 }
 
 </style>
 
-
 <div class="page">
 
-<div class="top-card">
+<!-- HEADER -->
 
-<div class="user">
+<div class="header">
+
+<div class="header-left">
 
 <img
 class="avatar"
@@ -373,260 +266,135 @@ src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
 <div>
 
 <h2>
-
 Responsable Restaurant
-
 </h2>
 
 <p>
-
-Matricule :
-RESP001
-
+Matricule : RESP001
 </p>
 
-<div class="badge-admin">
-
+<div class="badge">
 ADMIN RESTAURANT
-
 </div>
 
 </div>
 
 </div>
 
-<div class="service">
-
+<div>
 🟢 En service
-
 </div>
 
 </div>
 
-<div class="dashboard-grid">
+<!-- ACTIONS -->
 
-<div class="mini-stat">
+<div class="actions">
 
-<strong id="totalControleurs">
+<button class="btn">
+➕ Ajouter contrôleur
+</button>
 
-0
+<button class="btn">
+📄 Exporter
+</button>
 
-</strong>
+<button class="btn">
+📊 Historique
+</button>
 
-<span>
-
-Contrôleurs
-
-</span>
-
-</div>
-
-<div class="mini-stat">
-
-<strong id="ticketsJour">
-
-0
-
-</strong>
-
-<span>
-
-Tickets aujourd’hui
-
-</span>
-
-</div>
-
-<div class="mini-stat">
-
-<strong id="petitDej">
-
-0
-
-</strong>
-
-<span>
-
-Petit déjeuner
-
-</span>
-
-</div>
-
-<div class="mini-stat">
-
-<strong id="dejeuner">
-
-0
-
-</strong>
-
-<span>
-
-Déjeuner
-
-</span>
-
-</div>
-
-<div class="mini-stat">
-
-<strong id="diner">
-
-0
-
-</strong>
-
-<span>
-
-Dîner
-
-</span>
-
-</div>
-
-<div class="mini-stat">
-
-<strong id="controleursActifs">
-
-0
-
-</strong>
-
-<span>
-
-En ligne
-
-</span>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<strong>
-
-12
-
-</strong>
-
-<br>
-
-Tickets ce soir
-
-</div>
-
-<div class="stat">
-
-<strong>
-
-98%
-
-</strong>
-
-<br>
-
-Taux de contrôle
-
-</div>
-
-</div>
-
-</div>
-
-<div class="stat">
-
-<strong>
-
-6
-
-</strong>
-
-<br>
-
-Contrôleurs
-
-</div>
-
-<div class="stat">
-
-<strong>
-
-132
-
-</strong>
-
-<br>
-
-Tickets
-
-</div>
-
-<div class="stat">
-
-<strong>
-
-40
-
-</strong>
-
-<br>
-
-Petit Déjeuner
-
-</div>
-
-<div class="stat">
-
-<strong>
-
-52
-
-</strong>
-
-<br>
-
-Déjeuner
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-
-👥 Contrôleurs
-
-</h3>
-
-<div id="listeControleurs">
-
-Chargement...
-
-</div>
-
-<button
-class="ajout">
-
-+ Ajouter contrôleur
-
+<button class="btn">
+🚪 Déconnexion
 </button>
 
 </div>
 
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+<strong id="totalControleurs">0</strong>
+Contrôleurs
+</div>
+
+<div class="stat">
+<strong id="ticketsJour">0</strong>
+Tickets aujourd’hui
+</div>
+
+<div class="stat">
+<strong id="petitDej">0</strong>
+Petit déjeuner
+</div>
+
+<div class="stat">
+<strong id="dejeuner">0</strong>
+Déjeuner
+</div>
+
+<div class="stat">
+<strong id="diner">0</strong>
+Dîner
+</div>
+
+<div class="stat">
+<strong id="controleursActifs">0</strong>
+En ligne
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="main-grid">
+
+<!-- TABLEAU -->
 
 <div class="card">
 
 <h3>
-
-📈 Activité récente
-
+👥 Contrôleurs
 </h3>
 
-<br>
+<table>
+
+<thead>
+
+<tr>
+
+<th>Contrôleur</th>
+<th>Tickets</th>
+<th>Dernière activité</th>
+<th>Statut</th>
+
+</tr>
+
+</thead>
+
+<tbody id="listeControleurs">
+
+<tr>
+<td colspan="4">
+Chargement...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- COTE DROIT -->
+
+<div>
+
+<div class="card">
+
+<h3>
+📈 Activité récente
+</h3>
 
 <div id="activites">
 
@@ -634,17 +402,21 @@ Chargement...
 
 </div>
 
+</div>
+
+<br>
+
 <div class="card">
 
 <h3>
-
 📊 Répartition des repas
-
 </h3>
 
 <br>
 
 <canvas id="graphRepas"></canvas>
+
+</div>
 
 </div>
 
@@ -769,28 +541,29 @@ historiqueSnapshot.size;
 
 /* AFFICHAGE */
 
-zone.innerHTML+=`
+/* AFFICHAGE */
 
-<div class="controleur">
+zone.innerHTML += `
 
-<div
-style="
+<tr>
+
+<td>
+
+<div style="
 display:flex;
 align-items:center;
 gap:10px;
 ">
 
 <img
-
 src="${
 c.avatar ||
-
 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
 }"
 
 style="
-width:50px;
-height:50px;
+width:45px;
+height:45px;
 border-radius:50%;
 object-fit:cover;
 ">
@@ -798,15 +571,12 @@ object-fit:cover;
 <div>
 
 <strong>
-
 ${c.nom}
-
 </strong>
 
 <br>
 
-<span
-style="
+<span style="
 font-size:13px;
 opacity:.6;
 ">
@@ -815,57 +585,47 @@ ${c.carte}
 
 </span>
 
-<br>
-
-<span
-style="
-font-size:12px;
-color:gray;
-">
-
-🕒 ${last}
-
-</span>
-
 </div>
 
 </div>
 
-<div
-style="
-text-align:right;
-">
+</td>
 
-<div class="etat">
-
-${
-online
-
-?
-
-"🟢 En ligne"
-
-:
-
-"⚫ Hors ligne"
-}
-
-</div>
-
-<div
-style="
-font-size:13px;
-margin-top:5px;
-opacity:.7;
-">
+<td>
 
 🎫 ${totalTickets}
 
-</div>
+</td>
 
-</div>
+<td>
 
-</div>
+🕒 ${last}
+
+</td>
+
+<td>
+
+<span class="${
+online
+?
+'status-online'
+:
+'status-offline'
+}">
+
+${
+online
+?
+'🟢 En ligne'
+:
+'⚫ Hors ligne'
+}
+
+</span>
+
+</td>
+
+</tr>
 
 `;
 
@@ -981,6 +741,108 @@ ${heure}
 }
 
 chargerActivites();
+
+async function chargerGraphique(){
+
+let petit=0;
+let dej=0;
+let diner=0;
+
+let snapshot =
+
+await db
+.collection(
+"restaurantHistorique"
+)
+.get();
+
+snapshot.forEach(doc=>{
+
+let h = doc.data();
+
+if(
+h.repas==="Petit déjeuner"
+){
+
+petit++;
+
+}
+
+else if(
+h.repas==="Déjeuner"
+){
+
+dej++;
+
+}
+
+else if(
+h.repas==="Dîner"
+){
+
+diner++;
+
+}
+
+});
+
+const ctx =
+
+document
+.getElementById(
+"graphRepas"
+)
+.getContext("2d");
+
+new Chart(ctx,{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+"Petit déjeuner",
+"Déjeuner",
+"Dîner"
+],
+
+datasets:[{
+
+data:[
+petit,
+dej,
+diner
+],
+
+backgroundColor:[
+"#6f43ff",
+"#4caf50",
+"#ff9800"
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+position:"bottom"
+}
+
+}
+
+}
+
+});
+
+}
+
+chargerGraphique();
 
 </script>
 
