@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>
+
+Historique Restaurant
+
+</title>
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<!-- CHART -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f3f5fb;
+color:#222;
+}
+
+.page{
+max-width:1500px;
+margin:auto;
+padding:20px;
+}
+
+/* HEADER */
+
+.header{
+background:
+linear-gradient(
+135deg,
+#3b1d91,
+#6f43ff
+);
+
+color:white;
+
+padding:20px;
+
+border-radius:18px;
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+margin-bottom:20px;
+}
+
+.header h2{
+margin-bottom:5px;
+}
+
+/* ACTIONS */
+
+.actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.btn{
+padding:12px 18px;
+border:none;
+border-radius:12px;
+background:white;
+cursor:pointer;
+font-weight:bold;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:15px;
+
+margin-bottom:20px;
+}
+
+.stat{
+background:white;
+padding:18px;
+border-radius:16px;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+.stat strong{
+display:block;
+font-size:28px;
+margin-bottom:5px;
+color:#6f43ff;
+}
+
+/* FILTRES */
+
+.filters{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.filters input,
+.filters select{
+
+padding:12px;
+
+border:none;
+
+border-radius:12px;
+
+background:white;
+
+min-width:180px;
+
+}
+
+/* GRID */
+
+.main-grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+}
+
+/* TABLE */
+
+.card{
+background:white;
+padding:20px;
+border-radius:18px;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+}
+
+th{
+background:#f3f5fb;
+padding:14px;
+text-align:left;
+font-size:14px;
+}
+
+td{
+padding:14px;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
+
+/* ACTIVITES */
+
+.activity{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+.main-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div>
+
+<h2>
+
+📋 Historique Restaurant
+
+</h2>
+
+<p>
+
+Supervision des contrôles restaurant
+
+</p>
+
+</div>
+
+<div>
+
+🟢 Responsable connecté
+
+</div>
+
+</div>
+
+<!-- ACTIONS -->
+
+<div class="actions">
+
+<button class="btn">
+
+⬅ Retour
+
+</button>
+
+<button class="btn">
+
+📄 Export PDF
+
+</button>
+
+<button class="btn">
+
+📊 Export Excel
+
+</button>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats">
+
+<div class="stat">
+
+<strong id="totalTickets">
+
+0
+
+</strong>
+
+Tickets
+
+</div>
+
+<div class="stat">
+
+<strong id="totalPetit">
+
+0
+
+</strong>
+
+Petit déjeuner
+
+</div>
+
+<div class="stat">
+
+<strong id="totalDej">
+
+0
+
+</strong>
+
+Déjeuner
+
+</div>
+
+<div class="stat">
+
+<strong id="totalDiner">
+
+0
+
+</strong>
+
+Dîner
+
+</div>
+
+</div>
+
+<!-- FILTRES -->
+
+<div class="filters">
+
+<input
+type="text"
+id="search"
+placeholder="Recherche étudiant">
+
+<select id="filtreRepas">
+
+<option value="all">
+
+Tous les repas
+
+</option>
+
+<option>
+
+Petit déjeuner
+
+</option>
+
+<option>
+
+Déjeuner
+
+</option>
+
+<option>
+
+Dîner
+
+</option>
+
+</select>
+
+</div>
+
+<!-- GRID -->
+
+<div class="main-grid">
+
+<!-- TABLEAU -->
+
+<div class="card">
+
+<h3>
+
+🎫 Historique des tickets
+
+</h3>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Étudiant</th>
+<th>Contrôleur</th>
+<th>Repas</th>
+<th>Heure</th>
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody id="historiqueBody">
+
+<tr>
+
+<td colspan="5">
+
+Chargement...
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- COTE -->
+
+<div>
+
+<div class="card">
+
+<h3>
+
+📈 Activité récente
+
+</h3>
+
+<div id="recentes">
+
+Chargement...
+
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>
+
+📊 Répartition repas
+
+</h3>
+
+<br>
+
+<canvas id="graphRepas"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(!firebase.apps.length){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db=
+firebase.firestore();
+
+let recherche="";
+let filtreRepas="all";
+
+/* RECHERCHE */
+
+document
+.getElementById("search")
+
+.addEventListener(
+"input",
+e=>{
+
+recherche=
+e.target.value
+.toLowerCase();
+
+chargerHistorique();
+
+});
+
+document
+.getElementById("filtreRepas")
+
+.addEventListener(
+"change",
+e=>{
+
+filtreRepas=
+e.target.value;
+
+chargerHistorique();
+
+});
+
+/* HISTORIQUE */
+
+function chargerHistorique(){
+
+let body=
+document.getElementById(
+"historiqueBody"
+);
+
+db.collection(
+"restaurantHistorique"
+)
+
+.orderBy(
+"date",
+"desc"
+)
+
+.onSnapshot(snapshot=>{
+
+body.innerHTML="";
+
+let total=0;
+let petit=0;
+let dej=0;
+let diner=0;
+
+snapshot.forEach(doc=>{
+
+let h=
+doc.data();
+
+if(
+
+recherche!=="" &&
+
+!h.nom
+.toLowerCase()
+.includes(
+recherche
+)
+
+){
+
+return;
+
+}
+
+if(
+
+filtreRepas!=="all"
+
+&&
+
+h.repas!==filtreRepas
+
+){
+
+return;
+
+}
+
+total++;
+
+if(
+h.repas==="Petit déjeuner"
+){
+
+petit++;
+
+}
+
+else if(
+h.repas==="Déjeuner"
+){
+
+dej++;
+
+}
+
+else{
+
+diner++;
+
+}
+
+let date=
+new Date(
+h.date
+);
+
+let heure=
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+let jour=
+date.toLocaleDateString(
+"fr-FR"
+);
+
+body.innerHTML+=`
+
+<tr>
+
+<td>
+
+${h.nom}
+
+</td>
+
+<td>
+
+${h.controleurId}
+
+</td>
+
+<td>
+
+${h.repas}
+
+</td>
+
+<td>
+
+${heure}
+
+</td>
+
+<td>
+
+${jour}
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+/* STATS */
+
+document
+.getElementById(
+"totalTickets"
+)
+.innerText=
+total;
+
+document
+.getElementById(
+"totalPetit"
+)
+.innerText=
+petit;
+
+document
+.getElementById(
+"totalDej"
+)
+.innerText=
+dej;
+
+document
+.getElementById(
+"totalDiner"
+)
+.innerText=
+diner;
+
+});
+
+}
+
+chargerHistorique();
+
+/* ACTIVITES */
+
+function chargerRecentes(){
+
+let zone=
+document.getElementById(
+"recentes"
+);
+
+db.collection(
+"restaurantHistorique"
+)
+
+.orderBy(
+"date",
+"desc"
+)
+
+.limit(5)
+
+.onSnapshot(snapshot=>{
+
+zone.innerHTML="";
+
+snapshot.forEach(doc=>{
+
+let h=
+doc.data();
+
+let heure=
+
+new Date(h.date)
+
+.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+zone.innerHTML+=`
+
+<div class="activity">
+
+<div>
+
+<strong>
+
+${h.nom}
+
+</strong>
+
+<br>
+
+<span style="
+font-size:13px;
+opacity:.6;
+">
+
+${h.repas}
+
+</span>
+
+</div>
+
+<div>
+
+${heure}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+chargerRecentes();
+
+/* GRAPH */
+
+async function chargerGraphique(){
+
+let petit=0;
+let dej=0;
+let diner=0;
+
+let snapshot=
+
+await db
+.collection(
+"restaurantHistorique"
+)
+.get();
+
+snapshot.forEach(doc=>{
+
+let h=
+doc.data();
+
+if(
+h.repas==="Petit déjeuner"
+){
+
+petit++;
+
+}
+
+else if(
+h.repas==="Déjeuner"
+){
+
+dej++;
+
+}
+
+else{
+
+diner++;
+
+}
+
+});
+
+const ctx=
+
+document
+.getElementById(
+"graphRepas"
+)
+.getContext("2d");
+
+new Chart(ctx,{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+"Petit déjeuner",
+"Déjeuner",
+"Dîner"
+],
+
+datasets:[{
+
+data:[
+petit,
+dej,
+diner
+],
+
+backgroundColor:[
+"#6f43ff",
+"#4caf50",
+"#ff9800"
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+position:"bottom"
+}
+
+}
+
+}
+
+});
+
+}
+
+chargerGraphique();
+
+</script>
+
+</body>
+</html>

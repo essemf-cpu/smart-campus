@@ -162,12 +162,14 @@ box-shadow:0 2px 10px rgba(0,0,0,.05);
 /* STATS */
 
 .stats{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
 
-gap:15px;
-margin-bottom:20px;
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:12px;
+
 }
 
 .stat{
@@ -182,6 +184,25 @@ font-size:28px;
 display:block;
 margin-bottom:5px;
 color:#6f43ff;
+}
+
+.repas-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:12px;
+
+margin-top:12px;
+
+}
+
+.ticket-card{
+
+margin-top:12px;
+
 }
 
 /* GRID */
@@ -299,12 +320,20 @@ ADMIN RESTAURANT
 📄 Exporter
 </button>
 
-<button class="btn">
+<button
+class="action-btn"
+
+onclick="
+window.location.href=
+'historique-responsable-restaurant.html'
+">
+
 📊 Historique
+
 </button>
 
 <button class="btn">
-🚪 Déconnexion
+Déconnexion
 </button>
 
 </div>
@@ -314,14 +343,18 @@ ADMIN RESTAURANT
 <div class="stats">
 
 <div class="stat">
-<strong id="totalControleurs">0</strong>
+<strong id="totalControleurs">2</strong>
 Contrôleurs
 </div>
 
 <div class="stat">
-<strong id="ticketsJour">0</strong>
-Tickets aujourd’hui
+<strong id="controleursActifs">1</strong>
+En ligne
 </div>
+
+</div>
+
+<div class="repas-grid">
 
 <div class="stat">
 <strong id="petitDej">0</strong>
@@ -338,9 +371,18 @@ Déjeuner
 Dîner
 </div>
 
-<div class="stat">
-<strong id="controleursActifs">0</strong>
-En ligne
+</div>
+
+<div class="stat ticket-card">
+
+<strong id="ticketsJour">
+
+0
+
+</strong>
+
+Tickets aujourd'hui
+
 </div>
 
 </div>
