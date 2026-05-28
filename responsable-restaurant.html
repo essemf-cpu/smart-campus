@@ -19,6 +19,8 @@ Responsable Restaurant
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 
 const firebaseConfig={
@@ -209,6 +211,55 @@ margin-top:20px;
 
 }
 
+.dashboard-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(170px,1fr));
+
+gap:15px;
+
+margin:25px 0;
+
+}
+
+.mini-stat{
+
+background:white;
+
+padding:25px;
+
+border-radius:25px;
+
+text-align:center;
+
+box-shadow:
+0 5px 15px
+rgba(0,0,0,.05);
+
+}
+
+.mini-stat strong{
+
+display:block;
+
+font-size:28px;
+
+margin-bottom:8px;
+
+color:#6f43ff;
+
+}
+
+.mini-stat span{
+
+font-size:14px;
+
+opacity:.7;
+
+}
+
 .stat{
 
 background:white;
@@ -352,36 +403,103 @@ ADMIN RESTAURANT
 
 </div>
 
-<div class="card">
+<div class="dashboard-grid">
 
-<h3>
+<div class="mini-stat">
 
-📊 Centre de supervision
+<strong id="totalControleurs">
 
-</h3>
-
-<br>
-
-<div style="
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-">
-</div>
-
-<div class="stats">
-
-<div class="stat">
-
-<strong>
-
-🟢 4
+0
 
 </strong>
 
-<br>
+<span>
 
-Contrôleurs actifs
+Contrôleurs
+
+</span>
+
+</div>
+
+<div class="mini-stat">
+
+<strong id="ticketsJour">
+
+0
+
+</strong>
+
+<span>
+
+Tickets aujourd’hui
+
+</span>
+
+</div>
+
+<div class="mini-stat">
+
+<strong id="petitDej">
+
+0
+
+</strong>
+
+<span>
+
+Petit déjeuner
+
+</span>
+
+</div>
+
+<div class="mini-stat">
+
+<strong id="dejeuner">
+
+0
+
+</strong>
+
+<span>
+
+Déjeuner
+
+</span>
+
+</div>
+
+<div class="mini-stat">
+
+<strong id="diner">
+
+0
+
+</strong>
+
+<span>
+
+Dîner
+
+</span>
+
+</div>
+
+<div class="mini-stat">
+
+<strong id="controleursActifs">
+
+0
+
+</strong>
+
+<span>
+
+En ligne
+
+</span>
+
+</div>
 
 </div>
 
@@ -510,15 +628,25 @@ class="ajout">
 
 <br>
 
-Fallou Fall
-—
-19:46
+<div id="activites">
 
-<br><br>
+Chargement...
 
-Amy Sy
-—
-19:45
+</div>
+
+<div class="card">
+
+<h3>
+
+📊 Répartition des repas
+
+</h3>
+
+<br>
+
+<canvas id="graphRepas"></canvas>
+
+</div>
 
 </div>
 
@@ -755,11 +883,104 @@ total;
 
 }
 
-</script>
-
-<script>
-
 chargerControleurs();
+
+function chargerActivites(){
+
+let zone =
+document.getElementById(
+"activites"
+);
+
+db.collection(
+"restaurantHistorique"
+)
+
+.orderBy(
+"date",
+"desc"
+)
+
+.limit(5)
+
+.onSnapshot(snapshot=>{
+
+zone.innerHTML="";
+
+if(snapshot.empty){
+
+zone.innerHTML=
+"Aucune activité";
+
+return;
+
+}
+
+snapshot.forEach(doc=>{
+
+let h =
+doc.data();
+
+let heure =
+
+new Date(h.date)
+
+.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+zone.innerHTML+=`
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+">
+
+<div>
+
+<strong>
+
+${h.nom}
+
+</strong>
+
+<br>
+
+<span style="
+font-size:13px;
+opacity:.6;
+">
+
+${h.repas}
+
+</span>
+
+</div>
+
+<div>
+
+${heure}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+chargerActivites();
 
 </script>
 
