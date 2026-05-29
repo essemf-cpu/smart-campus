@@ -106,7 +106,7 @@ linear-gradient(
 
 color:white;
 
-padding:14px 18px;
+padding:12px 16px;
 
 border-radius:18px;
 
@@ -141,9 +141,9 @@ padding:3px;
 
 .header h2{
 
-font-size:20px;
+font-size:18px;
 line-height:1.1;
-margin-bottom:4px;
+margin-bottom:3px;
 
 }
 
@@ -163,7 +163,8 @@ padding:4px 10px;
 
 border-radius:12px;
 
-background:rgba(
+background:
+rgba(
 255,
 255,
 255,
@@ -171,6 +172,16 @@ background:rgba(
 );
 
 font-size:11px;
+
+}
+
+.header > div:last-child{
+
+white-space:nowrap;
+
+font-size:14px;
+
+font-weight:bold;
 
 }
 
@@ -224,9 +235,9 @@ display:grid;
 grid-template-columns:
 repeat(2,1fr);
 
-gap:12px;
+gap:10px;
 
-margin-bottom:12px;
+margin-bottom:10px;
 
 }
 
@@ -237,9 +248,13 @@ display:grid;
 grid-template-columns:
 repeat(3,1fr);
 
-gap:12px;
+gap:10px;
 
-margin-bottom:12px;
+margin-bottom:10px;
+
+font-size:13px;
+
+font-weight:700;
 
 }
 
@@ -247,7 +262,7 @@ margin-bottom:12px;
 
 background:white;
 
-padding:12px;
+padding:8px;
 
 border-radius:14px;
 
@@ -257,28 +272,21 @@ rgba(0,0,0,.05);
 
 }
 
-.stats .stat,
-.repas-grid .stat{
-
-min-height:90px;
-
-}
-
-.ticket-card{
-
-min-height:70px;
-
-}
-
 .stat strong{
 
-font-size:22px;
+font-size:18px;
 
 display:block;
 
 margin-bottom:2px;
 
 color:#6f43ff;
+
+}
+
+.ticket-card{
+
+padding:10px 15px;
 
 }
 
@@ -381,61 +389,21 @@ font-size:14px;
 @media(max-width:900px){
 
 .page{
-
 padding:10px;
-
-}
-
-.header{
-
-padding:12px;
-
-}
-
-.avatar{
-
-width:50px;
-height:50px;
-
-}
-
-.header h2{
-
-font-size:18px;
-
-}
-
-.header p{
-
-font-size:13px;
-
-}
-
-.badge{
-
-font-size:10px;
-
 }
 
 .main-grid{
-
 grid-template-columns:1fr;
-
 }
 
 .card{
-
 padding:15px;
-
 }
 
 th,
 td{
-
 font-size:12px;
-
 padding:10px;
-
 }
 
 }
@@ -1057,6 +1025,75 @@ position:"bottom"
 }
 
 chargerGraphique();
+
+async function chargerStatsJour(){
+
+let petit = 0;
+let dej = 0;
+let diner = 0;
+
+let aujourdHui =
+new Date().toDateString();
+
+let snapshot =
+await db
+.collection("restaurantHistorique")
+.get();
+
+snapshot.forEach(doc=>{
+
+let h = doc.data();
+
+let dateScan =
+new Date(h.date);
+
+if(
+dateScan.toDateString()
+!== aujourdHui
+){
+return;
+}
+
+if(
+h.repas==="Petit déjeuner"
+){
+petit += h.quantite || 1;
+}
+
+else if(
+h.repas==="Déjeuner"
+){
+dej += h.quantite || 1;
+}
+
+else if(
+h.repas==="Dîner"
+){
+diner += h.quantite || 1;
+}
+
+});
+
+document.getElementById(
+"petitDej"
+).innerText = petit;
+
+document.getElementById(
+"dejeuner"
+).innerText = dej;
+
+document.getElementById(
+"diner"
+).innerText = diner;
+
+document.getElementById(
+"ticketsJour"
+).innerText =
+petit + dej + diner;
+
+}
+
+chargerStatsJour();
 
 function deconnexion(){
 
