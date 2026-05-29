@@ -122,6 +122,34 @@ color:white;
 
 }
 
+.actions{
+
+margin:15px 0;
+
+}
+
+.actions button{
+
+width:100%;
+
+height:55px;
+
+border:none;
+
+border-radius:16px;
+
+background:#ff4d4d;
+
+color:white;
+
+font-weight:bold;
+
+font-size:16px;
+
+cursor:pointer;
+
+}
+
 .scan-zone{
 
 height:180px;
@@ -657,6 +685,14 @@ window.location.href=
 
 Voir tout →
 
+</button>
+
+</div>
+
+<div class="btn">
+
+<button onclick="deconnexion()">
+Déconnexion
 </button>
 
 </div>
@@ -1790,6 +1826,26 @@ ${texteTemps}
 }
 
 chargerHistorique();
+
+async function deconnexion(){
+
+await db
+.collection("status")
+.doc(user.carte)
+.update({
+
+online:false
+
+});
+
+localStorage.removeItem(
+"user"
+);
+
+window.location.href=
+"index.html";
+
+}
 
 </script>
 

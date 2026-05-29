@@ -679,9 +679,6 @@ if(statusDoc.exists){
 let s =
 statusDoc.data();
 
-online =
-s.online;
-
 if(s.lastActive){
 
 let date =
@@ -697,6 +694,23 @@ hour:"2-digit",
 minute:"2-digit"
 }
 );
+
+let maintenant =
+Date.now();
+
+let diffMinutes =
+
+(
+maintenant -
+s.lastActive
+)
+
+/
+
+60000;
+
+online =
+diffMinutes < 5;
 
 }
 
