@@ -644,6 +644,7 @@ return;
 }
 
 let total=0;
+let actifs=0;
 
 for(const doc of snapshot.docs){
 
@@ -686,7 +687,18 @@ new Date(
 s.lastActive
 );
 
+let maintenantDate =
+new Date();
+
+if(
+date.toDateString()
+===
+maintenantDate.toDateString()
+){
+
 last =
+"Aujourd'hui "
++
 date.toLocaleTimeString(
 [],
 {
@@ -694,6 +706,55 @@ hour:"2-digit",
 minute:"2-digit"
 }
 );
+
+}
+else{
+
+let hier =
+new Date();
+
+hier.setDate(
+hier.getDate()-1
+);
+
+if(
+date.toDateString()
+===
+hier.toDateString()
+){
+
+last =
+"Hier "
++
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+else{
+
+last =
+date.toLocaleDateString(
+"fr-FR"
+)
++
+" "
++
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+}
 
 let maintenant =
 Date.now();
@@ -706,11 +767,15 @@ s.lastActive
 )
 
 /
-
 60000;
 
 online =
-diffMinutes < 5;
+diffMinutes < 3;
+
+if(online){
+
+    actifs++;
+}
 
 }
 
@@ -829,15 +894,25 @@ online
 
 /* TOTAL */
 
-document.querySelector(
-".stat strong"
+document.getElementById(
+"totalControleurs"
 ).innerText=
-
 total;
+
+document.getElementById(
+"controleursActifs"
+).innerText=
+actifs;
 
 });
 
 }
+
+setInterval(()=>{
+
+chargerControleurs();
+
+},30000);
 
 chargerControleurs();
 
