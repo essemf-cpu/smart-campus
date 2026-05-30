@@ -196,6 +196,16 @@ user.role==="etudiant"
 window.location.href=
 "dashboard.html";
 
+
+}
+
+else if(
+user.role==="serviceInformatique"
+){
+
+window.location.href=
+"service-info.html";
+
 }
 
 else{

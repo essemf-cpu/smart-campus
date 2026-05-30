@@ -488,7 +488,7 @@ Contrôleurs
 </div>
 
 <div class="stat">
-<strong id="controleursActifs">1</strong>
+<strong id="controleursActifs">0</strong>
 En ligne
 </div>
 
@@ -608,12 +608,10 @@ Chargement...
 
 <script>
 
-function chargerControleurs(){
+let controleurs = [];
+let statusMap = {};
 
-let zone =
-document.getElementById(
-"listeControleurs"
-);
+function chargerControleurs(){
 
 db.collection("users")
 
@@ -627,60 +625,88 @@ db.collection("users")
 
 .onSnapshot(async(snapshot)=>{
 
-console.log(
-"Contrôleurs trouvés :",
-snapshot.size
-);
+controleurs=[];
 
-zone.innerHTML="";
+for(const doc of snapshot.docs){
 
-if(snapshot.empty){
+let c = doc.data();
 
-zone.innerHTML=
-"Aucun contrôleur";
+let historiqueSnapshot =
 
-return;
+await db
+.collection(
+"restaurantHistorique"
+)
+.where(
+"controleurId",
+"==",
+c.carte
+)
+.get();
+
+c.totalTickets =
+historiqueSnapshot.size;
+
+controleurs.push(c);
 
 }
+
+afficherControleurs();
+
+});
+
+}
+
+function ecouterStatus(){
+
+db.collection("status")
+
+.onSnapshot(snapshot=>{
+
+statusMap={};
+
+snapshot.forEach(doc=>{
+
+statusMap[
+doc.id
+]=doc.data();
+
+});
+
+afficherControleurs();
+
+});
+
+}
+
+function afficherControleurs(){
+
+let zone =
+document.getElementById(
+"listeControleurs"
+);
+
+let html="";
 
 let total=0;
 let actifs=0;
 
-for(const doc of snapshot.docs){
-
-console.log(
-"Controleur :",
-doc.data()
-);
-
-let c = doc.data();
+for(const c of controleurs){
 
 total++;
 
-/* STATUS */
-
-console.log(
-"Recherche status pour :",
-c.carte
-);
-
-let statusDoc =
-
-await db
-.collection("status")
-.doc(c.carte)
-.get();
-
 let online=false;
 
-let last="Aucune activité";
-
-if(statusDoc.exists){
+let last=
+"Aucune activité";
 
 let s =
-statusDoc.data();
+statusMap[c.carte];
 
-if(s.lastActive){
+if(
+s &&
+s.lastActive
+){
 
 let date =
 new Date(
@@ -696,7 +722,7 @@ date.toDateString()
 maintenantDate.toDateString()
 ){
 
-last =
+last=
 "Aujourd'hui "
 +
 date.toLocaleTimeString(
@@ -710,7 +736,7 @@ minute:"2-digit"
 }
 else{
 
-let hier =
+let hier=
 new Date();
 
 hier.setDate(
@@ -723,7 +749,7 @@ date.toDateString()
 hier.toDateString()
 ){
 
-last =
+last=
 "Hier "
 +
 date.toLocaleTimeString(
@@ -737,7 +763,7 @@ minute:"2-digit"
 }
 else{
 
-last =
+last=
 date.toLocaleDateString(
 "fr-FR"
 )
@@ -756,55 +782,32 @@ minute:"2-digit"
 
 }
 
-let maintenant =
-Date.now();
-
-let diffMinutes =
+let diffMinutes=
 
 (
-maintenant -
+Date.now()
+-
 s.lastActive
 )
 
 /
 60000;
 
-online =
-diffMinutes < 3;
+online=
+
+s.online===true
+&&
+diffMinutes<3;
+
+}
 
 if(online){
 
-    actifs++;
-}
+actifs++;
 
 }
 
-}
-
-/* HISTORIQUE */
-
-let historiqueSnapshot =
-
-await db
-.collection(
-"restaurantHistorique"
-)
-.where(
-"controleurId",
-"==",
-c.carte
-)
-.get();
-
-let totalTickets =
-historiqueSnapshot.size;
-
-
-/* AFFICHAGE */
-
-/* AFFICHAGE */
-
-zone.innerHTML += `
+html+=`
 
 <tr>
 
@@ -854,7 +857,7 @@ ${c.carte}
 
 <td>
 
-🎫 ${totalTickets}
+🎫 ${c.totalTickets}
 
 </td>
 
@@ -892,7 +895,7 @@ online
 
 }
 
-/* TOTAL */
+zone.innerHTML=html;
 
 document.getElementById(
 "totalControleurs"
@@ -904,17 +907,10 @@ document.getElementById(
 ).innerText=
 actifs;
 
-});
-
 }
 
-setInterval(()=>{
-
 chargerControleurs();
-
-},30000);
-
-chargerControleurs();
+ecouterStatus();
 
 function chargerActivites(){
 

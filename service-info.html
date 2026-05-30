@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>
+Service Informatique
+</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f3f5fb;
+}
+
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+
+width:280px;
+
+background:#1f2937;
+
+color:white;
+
+overflow:auto;
+
+}
+
+.logo{
+
+padding:25px;
+
+font-size:22px;
+
+font-weight:bold;
+
+border-bottom:
+1px solid rgba(255,255,255,.1);
+
+}
+
+.menu-item{
+
+padding:16px 25px;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.menu-item:hover{
+
+background:
+rgba(255,255,255,.08);
+
+}
+
+.submenu{
+
+display:none;
+
+background:
+rgba(255,255,255,.03);
+
+}
+
+.submenu div{
+
+padding:12px 45px;
+
+cursor:pointer;
+
+font-size:14px;
+
+}
+
+.submenu div:hover{
+
+background:
+rgba(255,255,255,.08);
+
+}
+
+/* CONTENU */
+
+.content{
+
+flex:1;
+
+padding:25px;
+
+overflow:auto;
+
+}
+
+.top-title{
+
+font-size:28px;
+
+font-weight:bold;
+
+margin-bottom:20px;
+
+}
+
+/* DASHBOARD */
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+
+gap:15px;
+
+margin-bottom:25px;
+
+}
+
+.card{
+
+background:white;
+
+padding:20px;
+
+border-radius:18px;
+
+box-shadow:
+0 2px 10px
+rgba(0,0,0,.05);
+
+}
+
+.card strong{
+
+display:block;
+
+font-size:30px;
+
+color:#6f43ff;
+
+margin-bottom:8px;
+
+}
+
+.activity{
+
+background:white;
+
+padding:20px;
+
+border-radius:18px;
+
+box-shadow:
+0 2px 10px
+rgba(0,0,0,.05);
+
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+.container{
+
+flex-direction:column;
+
+}
+
+.sidebar{
+
+width:100%;
+height:auto;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+
+SMART CAMPUS
+
+</div>
+
+<div
+class="menu-item"
+onclick="dashboard()">
+
+📊 Dashboard
+
+</div>
+
+<div
+class="menu-item"
+onclick="toggle('restaurants')">
+
+🍽 Restaurants
+
+</div>
+
+<div
+id="restaurants"
+class="submenu">
+
+<div onclick="ouvrirRestaurant('Restaurant Central')">
+Restaurant Central
+</div>
+
+<div onclick="ouvrirRestaurant('Restaurant ESP')">
+Restaurant ESP
+</div>
+
+<div onclick="ouvrirRestaurant('Restaurant ENS')">
+Restaurant ENS
+</div>
+
+<div onclick="ouvrirRestaurant('Restaurant Claudel')">
+Restaurant Claudel
+</div>
+
+<div onclick="ouvrirRestaurant('Restaurant ESEA')">
+Restaurant ESEA
+</div>
+
+</div>
+
+<div
+class="menu-item"
+onclick="toggle('residences')">
+
+🏠 Résidences
+
+</div>
+
+<div
+id="residences"
+class="submenu">
+
+<div>
+Grand Campus
+</div>
+
+<div>
+ESP
+</div>
+
+<div>
+ENS
+</div>
+
+<div>
+Claudel
+</div>
+
+<div>
+ESEA
+</div>
+
+</div>
+
+<div
+class="menu-item"
+onclick="toggle('lingerie')">
+
+🧺 Lingerie
+
+</div>
+
+<div
+id="lingerie"
+class="submenu">
+
+<div>
+Grand Campus
+</div>
+
+<div>
+ESP
+</div>
+
+<div>
+ENS
+</div>
+
+<div>
+Claudel
+</div>
+
+<div>
+ESEA
+</div>
+
+</div>
+
+<div
+class="menu-item"
+onclick="toggle('ateliers')">
+
+🔧 Ateliers
+
+</div>
+
+<div
+id="ateliers"
+class="submenu">
+
+<div>
+Grand Campus
+</div>
+
+<div>
+ESP
+</div>
+
+<div>
+ENS
+</div>
+
+<div>
+Claudel
+</div>
+
+<div>
+ESEA
+</div>
+
+</div>
+
+<div
+class="menu-item">
+
+🎓 Étudiants
+
+</div>
+
+<div
+class="menu-item">
+
+⚙ Paramètres
+
+</div>
+
+</div>
+
+<!-- CONTENU -->
+
+<div
+class="content"
+id="contenu">
+
+<div class="top-title">
+
+Dashboard
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+
+<strong>
+
+0
+
+</strong>
+
+Étudiants
+
+</div>
+
+<div class="card">
+
+<strong>
+
+5
+
+</strong>
+
+Restaurants
+
+</div>
+
+<div class="card">
+
+<strong>
+
+5
+
+</strong>
+
+Résidences
+
+</div>
+
+<div class="card">
+
+<strong>
+
+0
+
+</strong>
+
+Contrôleurs
+
+</div>
+
+</div>
+
+<div class="activity">
+
+<h3>
+
+Activités récentes
+
+</h3>
+
+<br>
+
+Aucune activité
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(!firebase.apps.length){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db=
+firebase.firestore();
+
+</script>
+
+<script>
+
+function toggle(id){
+
+let menu=
+document.getElementById(id);
+
+if(
+menu.style.display==="block"
+){
+
+menu.style.display=
+"none";
+
+}
+
+else{
+
+menu.style.display=
+"block";
+
+}
+
+}
+
+function dashboard(){
+
+document
+.getElementById(
+"contenu"
+)
+.innerHTML=`
+
+<div class="top-title">
+
+Dashboard
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+
+<strong>0</strong>
+
+Étudiants
+
+</div>
+
+<div class="card">
+
+<strong>5</strong>
+
+Restaurants
+
+</div>
+
+<div class="card">
+
+<strong>5</strong>
+
+Résidences
+
+</div>
+
+<div class="card">
+
+<strong>0</strong>
+
+Contrôleurs
+
+</div>
+
+</div>
+
+<div class="activity">
+
+<h3>
+
+Activités récentes
+
+</h3>
+
+<br>
+
+Aucune activité
+
+</div>
+
+`;
+
+}
+
+function ouvrirRestaurant(nomRestaurant){
+
+document
+.getElementById(
+"contenu"
+)
+.innerHTML=`
+
+<div class="top-title">
+
+${nomRestaurant}
+
+</div>
+
+<div class="card">
+
+<h3>
+
+Responsable
+
+</h3>
+
+<br>
+
+Aucun responsable
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h3>
+
+Contrôleurs
+
+</h3>
+
+<br>
+
+Aucun contrôleur
+
+<br><br>
+
+<button
+onclick="ajouterControleur()"
+style="
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#6f43ff;
+color:white;
+cursor:pointer;
+">
+
++ Ajouter
+
+</button>
+
+</div>
+
+`;
+
+}
+
+function ajouterControleur(){
+
+alert(
+"Formulaire création contrôleur (étape suivante)"
+);
+
+}
+
+</script>
+
+</body>
+
+</html>
