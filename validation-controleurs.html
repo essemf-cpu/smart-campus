@@ -158,6 +158,12 @@ overflow-x:auto;
 
 }
 
+#listeAttenteMobile{
+
+display:none;
+
+}
+
 table{
 
 border-collapse:collapse;
@@ -283,7 +289,7 @@ box-shadow:
 display:none;
 }
 
-#listeAttente{
+#listeAttenteMobile{
 display:block;
 }
 
@@ -313,8 +319,6 @@ font-size:20px;
 
 font-weight:bold;
 
-color:#222;
-
 margin-bottom:5px;
 
 }
@@ -343,8 +347,6 @@ margin-bottom:10px;
 
 color:#555;
 
-font-size:15px;
-
 }
 
 .controleur-actions{
@@ -360,34 +362,6 @@ margin-top:20px;
 .controleur-actions button{
 
 flex:1;
-
-padding:12px;
-
-border:none;
-
-border-radius:10px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-.btn-valider{
-
-background:#4caf50;
-
-color:white;
-
-}
-
-.btn-refuser{
-
-background:#f44336;
-
-color:white;
-
-margin-left:0;
 
 }
 
@@ -453,7 +427,11 @@ window.location.href=
 
 <div class="card">
 
-<div class="table-container">
+<!-- VERSION DESKTOP -->
+
+<div
+class="table-container"
+>
 
 <table>
 
@@ -477,7 +455,7 @@ window.location.href=
 
 </thead>
 
-<tbody id="listeAttente">
+<tbody id="listeAttenteDesktop">
 
 <tr>
 
@@ -492,6 +470,14 @@ Chargement...
 </tbody>
 
 </table>
+
+</div>
+
+<!-- VERSION MOBILE -->
+
+<div
+id="listeAttenteMobile"
+>
 
 </div>
 
@@ -554,7 +540,9 @@ db.collection("users")
 
 .onSnapshot(snapshot=>{
 
-let html="";
+let htmlDesktop="";
+
+let htmlMobile="";
 
 let total=0;
 
@@ -583,100 +571,183 @@ return;
 
 total++;
 
-if(window.innerWidth <= 768){
+let dateCreation="-";
 
-html += `
-<div class="controleur-card">
+if(c.dateCreation){
 
-<div class="controleur-nom">
-${u.nom}
-</div>
+dateCreation=
 
-<div class="controleur-matricule">
-${u.carte}
-</div>
+new Date(
+c.dateCreation
+)
 
-<div class="controleur-info">
-📍 ${u.site}
-</div>
-
-<div class="controleur-info">
-🍽 ${u.service}
-</div>
-
-<div class="controleur-info">
-📅 ${dateCreation}
-</div>
-
-<div class="controleur-actions">
-
-<button
-class="btn-valider"
-onclick="validerControleur('${doc.id}')"
->
-Valider
-</button>
-
-<button
-class="btn-refuser"
-onclick="refuserControleur('${doc.id}')"
->
-Refuser
-</button>
-
-</div>
-
-</div>
-`;
+.toLocaleDateString(
+"fr-FR"
+);
 
 }
-else{
 
-html += `
+/* DESKTOP */
+
+htmlDesktop += `
+
 <tr>
 
-<td>${u.nom}</td>
+<td>
 
-<td>${u.carte}</td>
+${c.nom}
 
-<td>${u.site}</td>
+</td>
 
-<td>${u.service}</td>
+<td>
 
-<td>${dateCreation}</td>
+${c.carte}
+
+</td>
+
+<td>
+
+${c.site}
+
+</td>
+
+<td>
+
+${c.service}
+
+</td>
+
+<td>
+
+${dateCreation}
+
+</td>
 
 <td>
 
 <button
+
 class="btn-valider"
-onclick="validerControleur('${doc.id}')"
+
+onclick="
+validerControleur(
+'${doc.id}'
+)
+"
+
 >
+
 Valider
+
 </button>
 
 <button
+
 class="btn-refuser"
-onclick="refuserControleur('${doc.id}')"
+
+onclick="
+refuserControleur(
+'${doc.id}'
+)
+"
+
 >
+
 Refuser
+
 </button>
 
 </td>
 
 </tr>
+
 `;
 
-}
+/* MOBILE */
+
+htmlMobile += `
+
+<div class="controleur-card">
+
+<div class="controleur-nom">
+
+${c.nom}
+
+</div>
+
+<div class="controleur-matricule">
+
+${c.carte}
+
+</div>
+
+<div class="controleur-info">
+
+📍 ${c.site}
+
+</div>
+
+<div class="controleur-info">
+
+🍽 ${c.service}
+
+</div>
+
+<div class="controleur-info">
+
+📅 ${dateCreation}
+
+</div>
+
+<div class="controleur-actions">
+
+<button
+
+class="btn-valider"
+
+onclick="
+validerControleur(
+'${doc.id}'
+)
+"
+
+>
+
+Valider
+
+</button>
+
+<button
+
+class="btn-refuser"
+
+onclick="
+refuserControleur(
+'${doc.id}'
+)
+"
+
+>
+
+Refuser
+
+</button>
+
+</div>
+
+</div>
+
+`;
 
 });
 
-if(html===""){
+if(htmlDesktop===""){
 
-html=`
+htmlDesktop=`
 
 <tr>
 
-<td colspan="5">
+<td colspan="6">
 
 Aucun contrôleur en attente
 
@@ -688,18 +759,33 @@ Aucun contrôleur en attente
 
 }
 
-document
-.getElementById(
-"listeAttente"
-)
-.innerHTML=
-html;
+if(htmlMobile===""){
 
-document
-.getElementById(
+htmlMobile=`
+
+<div class="vide">
+
+Aucun contrôleur en attente
+
+</div>
+
+`;
+
+}
+
+document.getElementById(
+"listeAttenteDesktop"
+).innerHTML=
+htmlDesktop;
+
+document.getElementById(
+"listeAttenteMobile"
+).innerHTML=
+htmlMobile;
+
+document.getElementById(
 "totalAttente"
-)
-.innerText=
+).innerText=
 total;
 
 });
@@ -740,10 +826,24 @@ alert(
 
 chargerDemandes();
 
-function refuserControleur(){
+async function refuserControleur(id){
+
+let ok=
+confirm(
+"Refuser ce contrôleur ?"
+);
+
+if(!ok){
+return;
+}
+
+await db
+.collection("users")
+.doc(id)
+.delete();
 
 alert(
-"Fonction Refuser à venir"
+"Contrôleur refusé ❌"
 );
 
 }
