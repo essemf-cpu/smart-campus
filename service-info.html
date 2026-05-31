@@ -645,6 +645,11 @@ doc.id
 
 function ouvrirRestaurant(nomRestaurant){
 
+localStorage.setItem(
+"pageServiceInfo",
+nomRestaurant
+);
+
 let site="";
 
 if(nomRestaurant==="Restaurant Central"){
@@ -669,12 +674,10 @@ document.getElementById("contenu").innerHTML=`
 ${nomRestaurant}
 </div>
 
-<div class="card">
-
-<h3>Responsable</h3>
-
 <div id="zoneResponsable">
+
 Chargement...
+
 </div>
 
 </div>
@@ -709,7 +712,7 @@ style="
 padding:12px 20px;
 border:none;
 border-radius:10px;
-background:#6f43ff;
+background:#1f2937;
 color:white;
 cursor:pointer;
 ">
@@ -730,6 +733,7 @@ cursor:pointer;
 
 chargerResponsable(site,nomRestaurant);
 chargerControleursRestaurant(site,nomRestaurant);
+
 
 }
 
@@ -780,7 +784,7 @@ zone.innerHTML=`
 
 <div
 style="
-background:#111827;
+background:#1f2937;
 color:white;
 padding:20px;
 border-radius:15px;
@@ -794,9 +798,8 @@ align-items:center;
 
 <div
 style="
-font-size:24px;
+font-size:22px;
 font-weight:bold;
-margin-bottom:5px;
 "
 >
 
@@ -806,7 +809,8 @@ ${r.nom}
 
 <div
 style="
-opacity:.8;
+opacity:.7;
+margin-top:5px;
 "
 >
 
@@ -816,16 +820,21 @@ ${r.carte}
 
 <div
 style="
-margin-top:10px;
+margin-top:12px;
 display:inline-block;
-background:#374151;
+background:rgba(
+255,
+255,
+255,
+0.1
+);
 padding:8px 12px;
 border-radius:20px;
 font-size:13px;
 "
 >
 
-RESPONSABLE RESTAURANT
+Responsable ${service}
 
 </div>
 
@@ -834,7 +843,7 @@ RESPONSABLE RESTAURANT
 <div
 style="
 background:#16a34a;
-padding:10px 15px;
+padding:10px 14px;
 border-radius:20px;
 font-weight:bold;
 "
@@ -1217,7 +1226,7 @@ style="
 padding:12px 20px;
 border:none;
 border-radius:10px;
-background:#6f43ff;
+background:#1f2937;
 color:white;
 cursor:pointer;
 margin-right:10px;
@@ -1408,6 +1417,25 @@ ligne.style.display==="table-row"
 :
 
 "table-row";
+
+}
+
+
+let pageSauvegardee =
+localStorage.getItem(
+"pageServiceInfo"
+);
+
+if(pageSauvegardee){
+
+ouvrirRestaurant(
+pageSauvegardee
+);
+
+}
+else{
+
+dashboard();
 
 }
 
