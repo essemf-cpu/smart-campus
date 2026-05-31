@@ -146,9 +146,11 @@ id:doc.id,
 
 };
 
-if(user.valide === false){
+if(user.valide !== true){
 
-alert("Compte non validé");
+alert(
+"Votre compte est en attente de validation par votre responsable."
+);
 
 return;
 }

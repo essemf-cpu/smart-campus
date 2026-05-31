@@ -496,6 +496,8 @@ firebase.firestore();
 
 <script>
 
+let formulaireOuvert = false;
+
 function toggle(id){
 
 let menu=
@@ -587,7 +589,41 @@ Aucune activité
 
 }
 
-function ouvrirRestaurant(nomRestaurant){
+function ouvrirRestaurant(
+nomRestaurant
+){
+
+let site="";
+
+if(
+nomRestaurant==="Restaurant Central"
+){
+site="Grand Campus";
+}
+
+else if(
+nomRestaurant==="Restaurant ESP"
+){
+site="ESP";
+}
+
+else if(
+nomRestaurant==="Restaurant ENS"
+){
+site="ENS";
+}
+
+else if(
+nomRestaurant==="Restaurant Claudel"
+){
+site="Claudel";
+}
+
+else if(
+nomRestaurant==="Restaurant ESEA"
+){
+site="ESEA";
+}
 
 document
 .getElementById(
@@ -617,6 +653,13 @@ Aucun responsable
 
 <br>
 
+<div
+style="
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+">
+
 <div class="card">
 
 <h3>
@@ -632,7 +675,12 @@ Aucun contrôleur
 <br><br>
 
 <button
-onclick="ajouterControleur()"
+onclick="
+ajouterControleur(
+'${site}',
+'${nomRestaurant}'
+)
+"
 style="
 padding:12px 20px;
 border:none;
@@ -642,7 +690,112 @@ color:white;
 cursor:pointer;
 ">
 
-+ Ajouter
+➕ Ajouter
+
+</button>
+
+</div>
+
+<div id="zoneFormulaire">
+
+</div>
+
+</div>
+
+`;
+
+}
+
+function ajouterControleur(
+site,
+service
+){
+
+if(formulaireOuvert){
+return;
+}
+
+formulaireOuvert=true;
+
+document.getElementById(
+"zoneFormulaire"
+).innerHTML=`
+
+<div class="card">
+
+<h3>
+
+ Création contrôleur
+
+</h3>
+
+<br>
+
+<label>
+
+Nom complet
+
+</label>
+
+<br>
+
+<input
+id="nomControleur"
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+">
+
+<label>
+
+Matricule
+
+</label>
+
+<br>
+
+<input
+id="matriculeControleur"
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+">
+
+<button
+onclick="
+creerControleur(
+'${site}',
+'${service}'
+)
+"
+style="
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#6f43ff;
+color:white;
+cursor:pointer;
+margin-right:10px;
+">
+
+Créer
+
+</button>
+
+<button
+onclick="annulerControleur()"
+style="
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+">
+
+Annuler
 
 </button>
 
@@ -652,11 +805,131 @@ cursor:pointer;
 
 }
 
-function ajouterControleur(){
+function annulerControleur(){
+
+formulaireOuvert=false;
+
+document.getElementById(
+"zoneFormulaire"
+).innerHTML="";
+
+}
+
+async function creerControleur(
+site,
+service
+){
+
+let nom =
+
+document.getElementById(
+"nomControleur"
+)
+.value
+.trim();
+
+let carte =
+
+document.getElementById(
+"matriculeControleur"
+)
+.value
+.trim();
+
+if(
+!nom ||
+!carte
+){
 
 alert(
-"Formulaire création contrôleur (étape suivante)"
+"Compléter tous les champs"
 );
+
+return;
+
+}
+
+/* vérification */
+
+let existe =
+
+await db
+.collection("users")
+.doc(carte)
+.get();
+
+if(existe.exists){
+
+alert(
+"Matricule déjà utilisé"
+);
+
+return;
+
+}
+
+/* création */
+
+await db
+.collection("users")
+.doc(carte)
+.set({
+
+nom:nom,
+
+carte:carte,
+
+password:"12345",
+
+role:
+"controleurRestaurant",
+
+site:site,
+
+service:service,
+
+valide:false,
+
+statut:
+"en_attente",
+
+avatar:
+"assets/avatars/controleur.png",
+
+dateCreation:
+Date.now(),
+
+creePar:
+"INFO001"
+
+});
+
+/* status */
+
+await db
+.collection("status")
+.doc(carte)
+.set({
+
+nom:nom,
+
+online:false,
+
+lastActive:null
+
+});
+
+alert(
+
+"Contrôleur créé ✅\n\n"
+
++
+
+"Mot de passe : 12345"
+
+);
+
+annulerControleur();
 
 }
 

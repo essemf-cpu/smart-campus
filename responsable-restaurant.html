@@ -450,8 +450,16 @@ ADMIN RESTAURANT
 
 <div class="actions">
 
-<button class="btn">
-➕ Ajouter contrôleur
+<button
+class="btn"
+onclick="
+window.location.href=
+'validation-controleurs.html'
+"
+>
+
+➕ Valider Contrôleurs
+
 </button>
 
 <button class="btn">
@@ -692,6 +700,10 @@ let total=0;
 let actifs=0;
 
 for(const c of controleurs){
+
+if(c.valide !== true){
+continue;
+}
 
 total++;
 
