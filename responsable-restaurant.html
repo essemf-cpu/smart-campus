@@ -460,6 +460,22 @@ window.location.href=
 
 ➕ Valider Contrôleurs
 
+<span id="badgeValidation"
+style="
+display:none;
+background:red;
+color:white;
+padding:2px 8px;
+border-radius:20px;
+font-size:12px;
+margin-left:8px;
+"
+>
+
+0
+
+</span>
+
 </button>
 
 <button class="btn">
@@ -1202,6 +1218,80 @@ window.location.href=
 "index.html";
 
 }
+
+function chargerBadgeValidation(){
+
+let user =
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+db.collection("users")
+
+.where(
+"role",
+"==",
+"controleurRestaurant"
+)
+
+.where(
+"valide",
+"==",
+false
+)
+
+.onSnapshot(snapshot=>{
+
+let total=0;
+
+snapshot.forEach(doc=>{
+
+let c =
+doc.data();
+
+if(
+c.site===user.site
+&&
+c.service===user.service
+){
+
+total++;
+
+}
+
+});
+
+let badge =
+
+document.getElementById(
+"badgeValidation"
+);
+
+if(total>0){
+
+badge.style.display=
+"inline-block";
+
+badge.innerText=
+total;
+
+}
+
+else{
+
+badge.style.display=
+"none";
+
+}
+
+});
+
+}
+
+chargerBadgeValidation();
 
 </script>
 
