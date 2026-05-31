@@ -178,6 +178,38 @@ rgba(0,0,0,.05);
 
 }
 
+.action-btn{
+
+padding:8px 14px;
+
+border:none;
+
+border-radius:8px;
+
+background:#e5e7eb;
+
+color:#111827;
+
+cursor:pointer;
+
+font-weight:600;
+
+}
+
+.action-btn:hover{
+
+background:#d1d5db;
+
+}
+
+.archive{
+
+background:#fee2e2;
+
+color:#b91c1c;
+
+}
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -589,65 +621,61 @@ Aucune activité
 
 }
 
-function ouvrirRestaurant(
-nomRestaurant
-){
+let statusMap={};
+
+function chargerStatus(){
+
+db.collection("status")
+
+.onSnapshot(snapshot=>{
+
+statusMap={};
+
+snapshot.forEach(doc=>{
+
+statusMap[
+doc.id
+]=doc.data();
+
+});
+
+});
+
+}
+
+function ouvrirRestaurant(nomRestaurant){
 
 let site="";
 
-if(
-nomRestaurant==="Restaurant Central"
-){
+if(nomRestaurant==="Restaurant Central"){
 site="Grand Campus";
 }
-
-else if(
-nomRestaurant==="Restaurant ESP"
-){
+else if(nomRestaurant==="Restaurant ESP"){
 site="ESP";
 }
-
-else if(
-nomRestaurant==="Restaurant ENS"
-){
+else if(nomRestaurant==="Restaurant ENS"){
 site="ENS";
 }
-
-else if(
-nomRestaurant==="Restaurant Claudel"
-){
+else if(nomRestaurant==="Restaurant Claudel"){
 site="Claudel";
 }
-
-else if(
-nomRestaurant==="Restaurant ESEA"
-){
+else if(nomRestaurant==="Restaurant ESEA"){
 site="ESEA";
 }
 
-document
-.getElementById(
-"contenu"
-)
-.innerHTML=`
+document.getElementById("contenu").innerHTML=`
 
 <div class="top-title">
-
 ${nomRestaurant}
-
 </div>
 
 <div class="card">
 
-<h3>
+<h3>Responsable</h3>
 
-Responsable
-
-</h3>
-
-<br>
-
-Aucun responsable
+<div id="zoneResponsable">
+Chargement...
+</div>
 
 </div>
 
@@ -662,17 +690,13 @@ gap:20px;
 
 <div class="card">
 
-<h3>
+<h3>Contrôleurs</h3>
 
-Contrôleurs
-
-</h3>
+<div id="zoneControleurs">
+Chargement...
+</div>
 
 <br>
-
-Aucun contrôleur
-
-<br><br>
 
 <button
 onclick="
@@ -703,6 +727,423 @@ cursor:pointer;
 </div>
 
 `;
+
+chargerResponsable(site,nomRestaurant);
+chargerControleursRestaurant(site,nomRestaurant);
+
+}
+
+function chargerResponsable(site,service){
+
+db.collection("users")
+
+.where(
+"role",
+"==",
+"responsableRestaurant"
+)
+
+.where(
+"site",
+"==",
+site
+)
+
+.where(
+"service",
+"==",
+service
+)
+
+.get()
+
+.then(snapshot=>{
+
+let zone=
+document.getElementById(
+"zoneResponsable"
+);
+
+if(snapshot.empty){
+
+zone.innerHTML=
+"Aucun responsable";
+
+return;
+
+}
+
+let r=
+snapshot.docs[0].data();
+
+zone.innerHTML=`
+
+<div
+style="
+background:#111827;
+color:white;
+padding:20px;
+border-radius:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+"
+>
+
+<div>
+
+<div
+style="
+font-size:24px;
+font-weight:bold;
+margin-bottom:5px;
+"
+>
+
+${r.nom}
+
+</div>
+
+<div
+style="
+opacity:.8;
+"
+>
+
+${r.carte}
+
+</div>
+
+<div
+style="
+margin-top:10px;
+display:inline-block;
+background:#374151;
+padding:8px 12px;
+border-radius:20px;
+font-size:13px;
+"
+>
+
+RESPONSABLE RESTAURANT
+
+</div>
+
+</div>
+
+<div
+style="
+background:#16a34a;
+padding:10px 15px;
+border-radius:20px;
+font-weight:bold;
+"
+>
+
+🟢 En service
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function chargerControleursRestaurant(
+site,
+service
+){
+
+db.collection("users")
+
+.where(
+"role",
+"==",
+"controleurRestaurant"
+)
+
+.where(
+"site",
+"==",
+site
+)
+
+.where(
+"service",
+"==",
+service
+)
+
+.where(
+"valide",
+"==",
+true
+)
+
+.get()
+
+.then(snapshot=>{
+
+let zone=
+document.getElementById(
+"zoneControleurs"
+);
+
+if(snapshot.empty){
+
+zone.innerHTML=
+"Aucun contrôleur";
+
+return;
+
+}
+
+let html=`
+
+<table
+style="
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+"
+>
+
+<thead>
+
+<tr
+style="
+background:#f3f4f6;
+"
+>
+
+<th style="padding:12px;text-align:left;">
+Nom
+</th>
+
+<th style="padding:12px;text-align:left;">
+Matricule
+</th>
+
+<th style="padding:12px;text-align:left;">
+Statut
+</th>
+
+<th style="padding:12px;text-align:left;">
+Dernière activité
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+snapshot.forEach(doc=>{
+
+let c=doc.data();
+
+let statut=
+"⚫ Hors ligne";
+
+let lastActive=
+"Aucune activité";
+
+let s=
+statusMap[c.carte];
+
+if(
+s &&
+s.lastActive
+){
+
+let date=
+new Date(
+s.lastActive
+);
+
+let aujourdHui=
+new Date();
+
+if(
+date.toDateString()
+===
+aujourdHui.toDateString()
+){
+
+lastActive=
+"Aujourd'hui "
++
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+else{
+
+lastActive=
+date.toLocaleDateString(
+"fr-FR"
+)
++
+" "
++
+date.toLocaleTimeString(
+[],
+{
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+}
+
+}
+
+if(
+s &&
+s.online===true
+){
+
+let diffMinutes=
+
+(
+Date.now()
+-
+s.lastActive
+)
+/
+60000;
+
+if(diffMinutes<3){
+
+statut=
+"🟢 En ligne";
+
+}
+
+}
+
+html+=`
+
+<tr
+
+onclick="
+toggleActions(
+'${c.carte}'
+)
+"
+
+style="
+cursor:pointer;
+border-bottom:1px solid #eee;
+"
+
+>
+
+<td style="padding:12px;">
+
+${c.nom}
+
+</td>
+
+<td style="padding:12px;">
+
+${c.carte}
+
+</td>
+
+<td style="padding:12px;">
+
+${statut}
+
+</td>
+
+<td style="padding:12px;">
+
+${lastActive}
+
+</td>
+
+</tr>
+
+<tr
+
+id="actions-${c.carte}"
+
+style="
+display:none;
+background:#fafafa;
+"
+
+>
+
+<td colspan="4">
+
+<div
+style="
+padding:10px;
+display:flex;
+gap:10px;
+"
+>
+
+<button
+class="action-btn"
+>
+
+Modifier
+
+</button>
+
+<button
+class="action-btn"
+>
+
+Muter
+
+</button>
+
+<button
+class="action-btn archive"
+>
+
+Archiver
+
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+
+</tbody>
+
+</table>
+
+`;
+
+zone.innerHTML=
+html;
+
+});
+
+chargerStatus();
 
 }
 
@@ -930,6 +1371,43 @@ alert(
 );
 
 annulerControleur();
+
+}
+
+function toggleActions(carte){
+
+let ligne=
+
+document.getElementById(
+"actions-"+carte
+);
+
+let ouvertes=
+
+document.querySelectorAll(
+'[id^="actions-"]'
+);
+
+ouvertes.forEach(el=>{
+
+if(el!==ligne){
+
+el.style.display="none";
+
+}
+
+});
+
+ligne.style.display=
+
+ligne.style.display==="table-row"
+?
+
+"none"
+
+:
+
+"table-row";
 
 }
 
