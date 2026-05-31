@@ -275,39 +275,119 @@ box-shadow:
 
 /* RESPONSIVE */
 
+/* ===== MOBILE ===== */
+
 @media(max-width:768px){
 
-body{
+.table-container{
+display:none;
+}
+
+#listeAttente{
+display:block;
+}
+
+.controleur-card{
+
+background:white;
+
+border-radius:15px;
+
+padding:18px;
+
+margin-bottom:15px;
+
+box-shadow:
+0 2px 10px rgba(
+0,
+0,
+0,
+0.08
+);
+
+}
+
+.controleur-nom{
+
+font-size:20px;
+
+font-weight:bold;
+
+color:#222;
+
+margin-bottom:5px;
+
+}
+
+.controleur-matricule{
+
+display:inline-block;
+
+background:#f1f1ff;
+
+color:#6f43ff;
+
+padding:6px 12px;
+
+border-radius:8px;
+
+font-weight:bold;
+
+margin-bottom:15px;
+
+}
+
+.controleur-info{
+
+margin-bottom:10px;
+
+color:#555;
+
+font-size:15px;
+
+}
+
+.controleur-actions{
+
+display:flex;
+
+gap:10px;
+
+margin-top:20px;
+
+}
+
+.controleur-actions button{
+
+flex:1;
 
 padding:12px;
 
-}
+border:none;
 
-.top-banner{
+border-radius:10px;
 
-padding:20px;
+font-weight:bold;
 
-gap:15px;
-
-}
-
-.top-banner h1{
-
-font-size:22px;
+cursor:pointer;
 
 }
 
-.badge-attente{
+.btn-valider{
 
-font-size:14px;
+background:#4caf50;
 
-padding:8px 12px;
+color:white;
 
 }
 
-.btn-retour{
+.btn-refuser{
 
-padding:10px 14px;
+background:#f44336;
+
+color:white;
+
+margin-left:0;
 
 }
 
@@ -503,89 +583,90 @@ return;
 
 total++;
 
-html+=`
+if(window.innerWidth <= 768){
 
-<tr>
+html += `
+<div class="controleur-card">
 
-<td>
+<div class="controleur-nom">
+${u.nom}
+</div>
 
-${c.nom}
+<div class="controleur-matricule">
+${u.carte}
+</div>
 
-</td>
+<div class="controleur-info">
+📍 ${u.site}
+</div>
 
-<td>
+<div class="controleur-info">
+🍽 ${u.service}
+</div>
 
-${c.carte}
+<div class="controleur-info">
+📅 ${dateCreation}
+</div>
 
-</td>
+<div class="controleur-actions">
 
-<td>
+<button
+class="btn-valider"
+onclick="validerControleur('${doc.id}')"
+>
+Valider
+</button>
 
-${c.site}
+<button
+class="btn-refuser"
+onclick="refuserControleur('${doc.id}')"
+>
+Refuser
+</button>
 
-</td>
+</div>
 
-<td>
-
-${c.service}
-
-</td>
-
-<td>
-
-${
-c.dateCreation
-?
-
-new Date(
-c.dateCreation
-)
-
-.toLocaleDateString(
-"fr-FR"
-)
-
-:
-
-"-"
+</div>
+`;
 
 }
+else{
 
-</td>
+html += `
+<tr>
+
+<td>${u.nom}</td>
+
+<td>${u.carte}</td>
+
+<td>${u.site}</td>
+
+<td>${u.service}</td>
+
+<td>${dateCreation}</td>
 
 <td>
 
 <button
 class="btn-valider"
-onclick="
-validerControleur(
-'${doc.id}'
-)
-"
+onclick="validerControleur('${doc.id}')"
 >
-
 Valider
-
 </button>
 
 <button
 class="btn-refuser"
-onclick="
-refuserControleur(
-'${doc.id}'
-)
-"
+onclick="refuserControleur('${doc.id}')"
 >
-
 Refuser
-
 </button>
 
 </td>
 
 </tr>
-
 `;
+
+}
 
 });
 
