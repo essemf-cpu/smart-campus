@@ -285,6 +285,66 @@ box-shadow:
 
 @media(max-width:768px){
 
+body{
+padding:12px;
+}
+
+/* BANNIERE */
+
+.top-banner{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+gap:20px;
+
+padding:20px;
+
+}
+
+.top-banner h1{
+
+font-size:22px;
+
+}
+
+.top-banner p{
+
+font-size:15px;
+
+}
+
+/* BADGE + RETOUR */
+
+.top-banner .actions{
+
+width:100%;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.badge-attente{
+
+font-size:14px;
+
+padding:10px 14px;
+
+}
+
+.btn-retour{
+
+padding:10px 16px;
+
+}
+
+/* CARDS CONTROLEURS */
+
 .table-container{
 display:none;
 }
@@ -319,7 +379,7 @@ font-size:20px;
 
 font-weight:bold;
 
-margin-bottom:5px;
+margin-bottom:6px;
 
 }
 
@@ -391,11 +451,7 @@ Demandes de validation en attente
 
 </div>
 
-<div style="
-display:flex;
-align-items:center;
-gap:15px;
-">
+<div class="actions">
 
 <div class="badge-attente">
 
