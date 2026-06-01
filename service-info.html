@@ -622,6 +622,8 @@ Aucune activité
 }
 
 let statusMap={};
+let restaurantOuvert="";
+let siteOuvert="";
 
 function chargerStatus(){
 
@@ -638,6 +640,18 @@ doc.id
 ]=doc.data();
 
 });
+
+if(
+restaurantOuvert &&
+siteOuvert
+){
+
+chargerControleursRestaurant(
+siteOuvert,
+restaurantOuvert
+);
+
+}
 
 });
 
@@ -667,6 +681,12 @@ site="Claudel";
 else if(nomRestaurant==="Restaurant ESEA"){
 site="ESEA";
 }
+
+restaurantOuvert=
+nomRestaurant;
+
+siteOuvert=
+site;
 
 document.getElementById("contenu").innerHTML=`
 
@@ -1107,6 +1127,11 @@ gap:10px;
 
 <button
 class="action-btn"
+onclick="
+modifierControleur(
+'${doc.id}'
+)
+"
 >
 
 Modifier
@@ -1151,8 +1176,6 @@ zone.innerHTML=
 html;
 
 });
-
-chargerStatus();
 
 }
 
@@ -1208,6 +1231,40 @@ Matricule
 
 <input
 id="matriculeControleur"
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+">
+
+<label>
+
+Téléphone
+
+</label>
+
+<br>
+
+<input
+id="telephoneControleur"
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+">
+
+<label>
+
+Email
+
+</label>
+
+<br>
+
+<input
+id="emailControleur"
 style="
 width:100%;
 padding:10px;
@@ -1286,13 +1343,30 @@ document.getElementById(
 .value
 .trim();
 
+let telephone =
+
+document.getElementById(
+"telephoneControleur"
+)
+.value
+.trim();
+
+let email =
+
+document.getElementById(
+"emailControleur"
+)
+.value
+.trim();
+
 if(
 !nom ||
-!carte
+!carte ||
+!telephone
 ){
 
 alert(
-"Compléter tous les champs"
+"Nom, Matricule, Téléphone sont obligatoires"
 );
 
 return;
@@ -1328,6 +1402,10 @@ await db
 nom:nom,
 
 carte:carte,
+
+telephone:telephone,
+
+email:email,
 
 password:"12345",
 
@@ -1420,6 +1498,268 @@ ligne.style.display==="table-row"
 
 }
 
+async function modifierControleur(id){
+
+let doc =
+
+await db
+.collection("users")
+.doc(id)
+.get();
+
+if(!doc.exists){
+
+alert(
+"Contrôleur introuvable"
+);
+
+return;
+
+}
+
+let c =
+doc.data();
+
+document.getElementById(
+"zoneFormulaire"
+).innerHTML=`
+
+<div class="card">
+
+<h3>
+
+Modifier contrôleur
+
+</h3>
+
+<br>
+
+<label>
+
+Nom complet
+
+</label>
+
+<br>
+
+<input
+
+id="editNom"
+
+value="${c.nom}"
+
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+"
+
+>
+
+<label>
+
+Téléphone
+
+</label>
+
+<br>
+
+<input
+
+id="editTelephone"
+
+value="${c.telephone || ''}"
+
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+"
+
+>
+
+<label>
+
+Email
+
+</label>
+
+<br>
+
+<input
+
+id="editEmail"
+
+value="${c.email || ''}"
+
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+"
+
+>
+
+<label>
+
+Matricule
+
+</label>
+
+<br>
+
+<input
+
+id="editCarte"
+
+value="${c.carte}"
+
+disabled
+
+style="
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+background:#f3f4f6;
+"
+
+>
+
+<button
+
+onclick="
+enregistrerModification(
+'${id}'
+)
+"
+
+style="
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#1f2937;
+color:white;
+cursor:pointer;
+margin-right:10px;
+"
+
+>
+
+Enregistrer
+
+</button>
+
+<button
+
+onclick="
+fermerFormulaire()
+"
+
+style="
+padding:12px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+"
+
+>
+
+Annuler
+
+</button>
+
+</div>
+
+`;
+
+}
+
+async function enregistrerModification(id){
+
+let nom =
+
+document.getElementById(
+"editNom"
+)
+.value
+.trim();
+
+let telephone =
+
+document.getElementById(
+"editTelephone"
+)
+.value
+.trim();
+
+let email =
+
+document.getElementById(
+"editEmail"
+)
+.value
+.trim();
+
+if(
+!nom ||
+!telephone
+){
+
+alert(
+"Nom et téléphone sont obligatoires"
+);
+
+return;
+
+}
+
+await db
+.collection("users")
+.doc(id)
+.update({
+
+nom:nom,
+
+telephone:telephone,
+
+email:email
+
+});
+
+alert(
+"Modification enregistrée ✅"
+);
+
+fermerFormulaire();
+
+let pageSauvegardee =
+
+localStorage.getItem(
+"pageServiceInfo"
+);
+
+if(pageSauvegardee){
+
+ouvrirRestaurant(
+pageSauvegardee
+);
+
+}
+
+}
+
+function fermerFormulaire(){
+
+document.getElementById(
+"zoneFormulaire"
+).innerHTML="";
+
+}
+
 
 let pageSauvegardee =
 localStorage.getItem(
@@ -1437,7 +1777,10 @@ else{
 
 dashboard();
 
+
 }
+
+chargerStatus();
 
 </script>
 
