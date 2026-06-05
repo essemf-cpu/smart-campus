@@ -528,6 +528,7 @@ firebase.firestore();
 
 <script>
 
+let filtreControleurs="actifs";
 let formulaireOuvert = false;
 
 function toggle(id){
@@ -657,6 +658,53 @@ restaurantOuvert
 
 }
 
+function changerFiltre(type){
+
+filtreControleurs=type;
+
+document.getElementById(
+"btnActifs"
+).style.background=
+type==="actifs"
+?
+"#1f2937"
+:
+"#e5e7eb";
+
+document.getElementById(
+"btnActifs"
+).style.color=
+type==="actifs"
+?
+"white"
+:
+"black";
+
+document.getElementById(
+"btnArchives"
+).style.background=
+type==="archives"
+?
+"#1f2937"
+:
+"#e5e7eb";
+
+document.getElementById(
+"btnArchives"
+).style.color=
+type==="archives"
+?
+"white"
+:
+"black";
+
+chargerControleursRestaurant(
+siteOuvert,
+restaurantOuvert
+);
+
+}
+
 function ouvrirRestaurant(nomRestaurant){
 
 localStorage.setItem(
@@ -715,10 +763,52 @@ gap:20px;
 
 <h3>Contrôleurs</h3>
 
+<div
+style="
+display:flex;
+gap:10px;
+margin:15px 0;
+"
+>
+
+<button
+id="btnActifs"
+onclick="changerFiltre('actifs')"
+style="
+padding:8px 15px;
+border:none;
+border-radius:20px;
+background:#1f2937;
+color:white;
+cursor:pointer;
+"
+>
+
+Actifs
+
+</button>
+
+<button
+id="btnArchives"
+onclick="changerFiltre('archives')"
+style="
+padding:8px 15px;
+border:none;
+border-radius:20px;
+background:#e5e7eb;
+cursor:pointer;
+"
+>
+
+Archives
+
+</button>
+
+</div>
+
 <div id="zoneControleurs">
 Chargement...
 </div>
-
 <br>
 
 <button
@@ -975,6 +1065,25 @@ Dernière activité
 snapshot.forEach(doc=>{
 
 let c=doc.data();
+
+let archive=
+c.statut==="archive";
+
+if(
+filtreControleurs==="actifs"
+&&
+archive
+){
+return;
+}
+
+if(
+filtreControleurs==="archives"
+&&
+!archive
+){
+return;
+}
 
 let statut=
 "⚫ Hors ligne";
