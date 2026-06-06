@@ -79,7 +79,7 @@ window.location.href =
 // =====================
 // LOGIN
 // =====================
-function login(){
+async function login(){
 
 let carte =
 document.getElementById(
@@ -105,7 +105,9 @@ console.log(
 password
 );
 
-db.collection("users")
+let snapshot =
+
+await db.collection("users")
 
 .where(
 "carte",
@@ -119,9 +121,7 @@ carte
 password
 )
 
-.get()
-
-.then((snapshot)=>{
+.get();
 
 console.log(
 "Documents trouvés :",
@@ -130,9 +130,12 @@ snapshot.size
 
 if(snapshot.empty){
 
-alert("Identifiants incorrects");
+alert(
+"Identifiants incorrects"
+);
 
 return;
+
 }
 
 let doc =
@@ -153,6 +156,30 @@ alert(
 );
 
 return;
+
+}
+
+/* récupération permissions */
+
+let roleDoc =
+
+await db
+.collection("roles")
+.doc(user.role)
+.get();
+
+if(roleDoc.exists){
+
+user.permissions =
+
+roleDoc.data()
+.permissions || [];
+
+}
+else{
+
+user.permissions=[];
+
 }
 
 localStorage.setItem(
@@ -160,9 +187,9 @@ localStorage.setItem(
 JSON.stringify(user)
 );
 
-db.collection("status")
+await db
+.collection("status")
 .doc(user.carte)
-
 .set({
 
 nom:user.nom,
@@ -198,11 +225,20 @@ user.role==="etudiant"
 window.location.href=
 "dashboard.html";
 
-
 }
 
 else if(
-user.role==="serviceInformatique"
+
+user.role==="chefDepartementInformatique"
+
+||
+
+user.role==="agentInformatique"
+
+||
+
+user.role==="chefServiceInformatique"
+
 ){
 
 window.location.href=
@@ -217,8 +253,6 @@ alert(
 );
 
 }
-
-});
 
 }
 

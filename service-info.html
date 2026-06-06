@@ -564,14 +564,11 @@ menu.style.display=
 
 function aPermission(permission){
 
-if(
-!user.permissions
-){
-return false;
-}
-
-return user.permissions.includes(
+return (
+user.permissions &&
+user.permissions.includes(
 permission
+)
 );
 
 }
@@ -1600,6 +1597,20 @@ annulerControleur();
 
 async function archiverControleur(id){
 
+if(
+!aPermission(
+"archiverAgent"
+)
+){
+
+alert(
+"Vous n'êtes pas autorisé à archiver un agent."
+);
+
+return;
+
+}
+
 let ok =
 confirm(
 "Archiver ce contrôleur ?"
@@ -1627,20 +1638,6 @@ user.carte
 alert(
 "Contrôleur archivé ✅"
 );
-
-if(
-!aPermission(
-"archiverAgent"
-)
-){
-
-alert(
-"Vous n'êtes pas autorisé à archiver un agent."
-);
-
-return;
-
-}
 
 chargerControleursRestaurant(
 siteOuvert,
