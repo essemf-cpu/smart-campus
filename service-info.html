@@ -247,6 +247,8 @@ SMART CAMPUS
 
 </div>
 
+<div id="infosUtilisateur"></div>
+
 <div
 class="menu-item"
 onclick="dashboard()">
@@ -573,6 +575,92 @@ permission
 
 }
 
+async function afficherUtilisateurConnecte(){
+
+let user =
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+if(!user){
+return;
+}
+
+let roleNom =
+user.role;
+
+let roleDoc =
+
+await db
+.collection("roles")
+.doc(user.role)
+.get();
+
+if(
+roleDoc.exists
+){
+
+roleNom =
+roleDoc.data().nom;
+
+}
+
+document.getElementById(
+"infosUtilisateur"
+).innerHTML=`
+
+<div
+style="
+padding:15px 20px;
+border-bottom:1px solid rgba(255,255,255,.1);
+"
+>
+
+<div
+style="
+font-weight:bold;
+color:white;
+font-size:18px;
+"
+>
+
+${user.nom}
+
+</div>
+
+<div
+style="
+font-size:13px;
+opacity:.7;
+margin-top:3px;
+"
+>
+
+${user.carte}
+
+</div>
+
+<div
+style="
+font-size:12px;
+color:#60a5fa;
+margin-top:5px;
+"
+>
+
+${roleNom}
+
+</div>
+
+</div>
+
+`;
+
+}
+
 function dashboard(){
 
 document
@@ -803,7 +891,7 @@ cursor:pointer;
 "
 >
 
-Actifs
+Actifs (0)
 
 </button>
 
@@ -819,7 +907,7 @@ cursor:pointer;
 "
 >
 
-Archives
+Archives (0)
 
 </button>
 
@@ -1081,9 +1169,25 @@ Dernière activité
 
 `;
 
+let nbActifs=0;
+let nbArchives=0;
+
 snapshot.forEach(doc=>{
 
 let c=doc.data();
+
+if(
+c.statut==="archive"
+){
+
+nbArchives++;
+
+}
+else{
+
+nbActifs++;
+
+}
 
 let archive=
 c.statut==="archive";
@@ -1253,6 +1357,31 @@ gap:10px;
 "
 >
 
+${
+c.statut==="archive"
+?
+
+`
+
+<button
+class="action-btn"
+onclick="
+reactiverControleur(
+'${doc.id}'
+)
+"
+>
+
+Réactiver
+
+</button>
+
+`
+
+:
+
+`
+
 <button
 class="action-btn"
 onclick="
@@ -1276,7 +1405,6 @@ Muter
 
 <button
 class="action-btn archive"
-
 onclick="
 archiverControleur(
 '${doc.id}'
@@ -1287,6 +1415,10 @@ archiverControleur(
 Archiver
 
 </button>
+
+`
+
+}
 
 </div>
 
@@ -1305,6 +1437,22 @@ html+=`
 </table>
 
 `;
+
+document.getElementById(
+"btnActifs"
+).innerText=
+
+"Actifs ("+
+nbActifs+
+")";
+
+document.getElementById(
+"btnArchives"
+).innerText=
+
+"Archives ("+
+nbArchives+
+")";
 
 zone.innerHTML=
 html;
@@ -1644,6 +1792,57 @@ siteOuvert,
 restaurantOuvert
 );
 
+} 
+
+async function reactiverControleur(id){
+
+if(
+!aPermission(
+"reactiverAgent"
+)
+){
+
+alert(
+"Vous n'êtes pas autorisé à réactiver un agent."
+);
+
+return;
+
+}
+
+let ok =
+confirm(
+"Réactiver ce contrôleur ?"
+);
+
+if(!ok){
+return;
+}
+
+await db
+.collection("users")
+.doc(id)
+.update({
+
+statut:"actif",
+
+dateReactivation:
+Date.now(),
+
+reactivePar:
+user.carte
+
+});
+
+alert(
+"Contrôleur réactivé ✅"
+);
+
+chargerControleursRestaurant(
+siteOuvert,
+restaurantOuvert
+);
+
 }
 
 function toggleActions(carte){
@@ -1966,6 +2165,8 @@ dashboard();
 }
 
 chargerStatus();
+
+afficherUtilisateurConnecte();
 
 </script>
 
