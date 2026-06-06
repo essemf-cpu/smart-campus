@@ -531,6 +531,14 @@ firebase.firestore();
 let filtreControleurs="actifs";
 let formulaireOuvert = false;
 
+let user =
+
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
 function toggle(id){
 
 let menu=
@@ -551,6 +559,20 @@ menu.style.display=
 "block";
 
 }
+
+}
+
+function aPermission(permission){
+
+if(
+!user.permissions
+){
+return false;
+}
+
+return user.permissions.includes(
+permission
+);
 
 }
 
@@ -1257,6 +1279,12 @@ Muter
 
 <button
 class="action-btn archive"
+
+onclick="
+archiverControleur(
+'${doc.id}'
+)
+"
 >
 
 Archiver
@@ -1567,6 +1595,57 @@ alert(
 );
 
 annulerControleur();
+
+}
+
+async function archiverControleur(id){
+
+let ok =
+confirm(
+"Archiver ce contrôleur ?"
+);
+
+if(!ok){
+return;
+}
+
+await db
+.collection("users")
+.doc(id)
+.update({
+
+statut:"archive",
+
+dateArchivage:
+Date.now(),
+
+archivePar:
+user.carte
+
+});
+
+alert(
+"Contrôleur archivé ✅"
+);
+
+if(
+!aPermission(
+"archiverAgent"
+)
+){
+
+alert(
+"Vous n'êtes pas autorisé à archiver un agent."
+);
+
+return;
+
+}
+
+chargerControleursRestaurant(
+siteOuvert,
+restaurantOuvert
+);
 
 }
 
