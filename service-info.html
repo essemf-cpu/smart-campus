@@ -1363,6 +1363,31 @@ c.statut==="archive"
 
 `
 
+${
+aPermission("voirFicheAgent")
+?
+
+`
+<button
+class="action-btn"
+onclick="
+ouvrirFicheAgent(
+'${doc.id}'
+)
+"
+>
+Fiche
+</button>
+`
+:
+``
+}
+
+${
+aPermission("reactiverAgent")
+?
+
+`
 <button
 class="action-btn"
 onclick="
@@ -1375,6 +1400,10 @@ reactiverControleur(
 Réactiver
 
 </button>
+`
+:
+``
+}
 
 `
 
@@ -1382,6 +1411,11 @@ Réactiver
 
 `
 
+${
+aPermission("modifierAgent")
+?
+
+`
 <button
 class="action-btn"
 onclick="
@@ -1394,15 +1428,58 @@ modifierControleur(
 Modifier
 
 </button>
+`
+:
+``
+}
 
+${
+aPermission("voirFicheAgent")
+?
+
+`
 <button
 class="action-btn"
+onclick="
+ouvrirFicheAgent(
+'${doc.id}'
+)
+"
+>
+Fiche
+</button>
+`
+:
+``
+}
+
+${
+aPermission("muterAgent")
+?
+
+`
+<button
+class="action-btn"
+onclick="
+muterControleur(
+'${doc.id}'
+)
+"
 >
 
 Muter
 
 </button>
+`
+:
+``
+}
 
+${
+aPermission("archiverAgent")
+?
+
+`
 <button
 class="action-btn archive"
 onclick="
@@ -1415,6 +1492,10 @@ archiverControleur(
 Archiver
 
 </button>
+`
+:
+``
+}
 
 `
 
@@ -1768,6 +1849,16 @@ if(!ok){
 return;
 }
 
+let agentDoc =
+
+await db
+.collection("users")
+.doc(id)
+.get();
+
+let agent =
+agentDoc.data();
+
 await db
 .collection("users")
 .doc(id)
@@ -1783,6 +1874,30 @@ user.carte
 
 });
 
+await db
+.collection(
+"mouvementsPersonnel"
+)
+.add({
+
+type:"archivage",
+
+agentId:id,
+
+agentNom:
+agent.nom,
+
+agentCarte:
+agent.carte,
+
+effectuePar:
+user.carte,
+
+date:
+Date.now()
+
+});
+
 alert(
 "Contrôleur archivé ✅"
 );
@@ -1792,7 +1907,7 @@ siteOuvert,
 restaurantOuvert
 );
 
-} 
+}
 
 async function reactiverControleur(id){
 
@@ -1819,6 +1934,16 @@ if(!ok){
 return;
 }
 
+let agentDoc =
+
+await db
+.collection("users")
+.doc(id)
+.get();
+
+let agent =
+agentDoc.data();
+
 await db
 .collection("users")
 .doc(id)
@@ -1834,6 +1959,30 @@ user.carte
 
 });
 
+await db
+.collection(
+"mouvementsPersonnel"
+)
+.add({
+
+type:"reactivation",
+
+agentId:id,
+
+agentNom:
+agent.nom,
+
+agentCarte:
+agent.carte,
+
+effectuePar:
+user.carte,
+
+date:
+Date.now()
+
+});
+
 alert(
 "Contrôleur réactivé ✅"
 );
@@ -1842,6 +1991,767 @@ chargerControleursRestaurant(
 siteOuvert,
 restaurantOuvert
 );
+
+}
+
+async function muterControleur(id){
+
+if(
+!aPermission(
+"muterAgent"
+)
+){
+
+alert(
+"Vous n'êtes pas autorisé à muter un agent."
+);
+
+return;
+
+}
+
+let doc =
+
+await db
+.collection("users")
+.doc(id)
+.get();
+
+if(!doc.exists){
+
+alert(
+"Agent introuvable"
+);
+
+return;
+
+}
+
+let agent =
+doc.data();
+
+document.getElementById(
+"zoneFormulaire"
+).innerHTML=`
+
+<div class="card">
+
+<h3>
+
+Mutation de ${agent.nom}
+
+</h3>
+
+<br>
+
+<label>
+
+Nouveau site
+
+</label>
+
+<br>
+
+<select
+id="mutationSite"
+style="
+width:100%;
+padding:10px;
+margin-bottom:15px;
+">
+</select>
+
+<label>
+
+Nouveau service
+
+</label>
+
+<br>
+
+<select
+id="mutationService"
+onchange="
+chargerRolesMutation()
+"
+style="
+width:100%;
+padding:10px;
+margin-bottom:15px;
+">
+</select>
+
+<label>
+
+Nouveau rôle
+
+</label>
+
+<br>
+
+<select
+id="mutationRole"
+style="
+width:100%;
+padding:10px;
+margin-bottom:15px;
+">
+</select>
+
+<label>
+
+Motif
+
+</label>
+
+<br>
+
+<input
+id="motifMutation"
+style="
+width:100%;
+padding:10px;
+margin-bottom:15px;
+">
+
+<button
+onclick="
+validerMutation(
+'${id}'
+)
+"
+class="action-btn"
+>
+
+Valider la mutation
+
+</button>
+
+<button
+onclick="
+fermerFormulaire()
+"
+class="action-btn"
+>
+
+Annuler
+
+</button>
+
+</div>
+
+`;
+
+chargerSitesMutation();
+chargerServicesMutation();
+
+}
+
+async function chargerSitesMutation(){
+
+let select =
+
+document.getElementById(
+"mutationSite"
+);
+
+select.innerHTML="";
+
+let snapshot =
+
+await db
+.collection("sites")
+.get();
+
+snapshot.forEach(doc=>{
+
+let s = doc.data();
+
+select.innerHTML +=
+
+`
+<option value="${s.nom}">
+${s.nom}
+</option>
+`;
+
+});
+
+}
+
+async function chargerServicesMutation(){
+
+let select =
+
+document.getElementById(
+"mutationService"
+);
+
+select.innerHTML="";
+
+let snapshot =
+
+await db
+.collection("services")
+.get();
+
+snapshot.forEach(doc=>{
+
+let s = doc.data();
+
+select.innerHTML +=
+
+`
+<option value="${s.nom}">
+${s.nom}
+</option>
+`;
+
+});
+
+chargerRolesMutation();
+
+}
+
+async function chargerRolesMutation(){
+
+let service =
+
+document.getElementById(
+"mutationService"
+).value;
+
+let select =
+
+document.getElementById(
+"mutationRole"
+);
+
+select.innerHTML="";
+
+let snapshot =
+
+await db
+.collection("roles")
+.where(
+"service",
+"==",
+service
+)
+.get();
+
+snapshot.forEach(doc=>{
+
+let r = doc.data();
+
+select.innerHTML +=
+
+`
+<option value="${doc.id}">
+${r.nom}
+</option>
+`;
+
+});
+
+}
+
+async function validerMutation(id){
+
+let site =
+
+document.getElementById(
+"mutationSite"
+).value;
+
+let service =
+
+document.getElementById(
+"mutationService"
+).value;
+
+let role =
+
+document.getElementById(
+"mutationRole"
+).value;
+
+let motif =
+
+document.getElementById(
+"motifMutation"
+).value
+.trim();
+
+if(!motif){
+
+alert(
+"Motif obligatoire"
+);
+
+return;
+
+}
+
+let ok = confirm(
+"Confirmer la mutation ?"
+);
+
+if(!ok){
+return;
+}
+
+let agentDoc =
+
+await db
+.collection("users")
+.doc(id)
+.get();
+
+let agent =
+agentDoc.data();
+
+let user = JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+await db
+.collection("users")
+.doc(id)
+.update({
+
+site:site,
+
+service:service,
+
+role:role,
+
+motifMutation:motif,
+
+dateMutation:
+Date.now(),
+
+mutePar:
+user.carte
+
+});
+
+await db
+.collection(
+"mouvementsPersonnel"
+)
+.add({
+
+type:"mutation",
+
+agentId:id,
+
+agentNom:
+agent.nom,
+
+agentCarte:
+agent.carte,
+
+ancienSite:
+agent.site,
+
+ancienService:
+agent.service,
+
+ancienRole:
+agent.role,
+
+nouveauSite:
+site,
+
+nouveauService:
+service,
+
+nouveauRole:
+role,
+
+motif:
+motif,
+
+effectuePar:
+user.carte,
+
+date:
+Date.now()
+
+});
+
+alert(
+"Mutation effectuée ✅"
+);
+
+fermerFormulaire();
+
+chargerControleursRestaurant(
+siteOuvert,
+restaurantOuvert
+);
+
+}
+
+async function ouvrirFicheAgent(id){
+
+let doc =
+
+await db
+.collection("users")
+.doc(id)
+.get();
+
+let agent =
+doc.data();
+
+let dateCreation =
+
+agent.dateCreation
+?
+
+new Date(
+agent.dateCreation
+)
+.toLocaleDateString(
+"fr-FR"
+)
+
+:
+
+"Compte historique";
+
+let dateMutation =
+
+agent.dateMutation
+?
+
+new Date(
+agent.dateMutation
+)
+.toLocaleDateString(
+"fr-FR"
+)
+
+:
+
+"Aucune";
+
+let dateArchivage =
+
+agent.dateArchivage
+?
+
+new Date(
+agent.dateArchivage
+)
+.toLocaleDateString(
+"fr-FR"
+)
+
+:
+
+"Aucun";
+
+let dateReactivation =
+
+agent.dateReactivation
+?
+
+new Date(
+agent.dateReactivation
+)
+.toLocaleDateString(
+"fr-FR"
+)
+
+:
+
+"Aucune";
+
+let datePriseFonction =
+
+agent.dateMutation
+?
+
+dateMutation
+
+:
+
+dateCreation;
+
+let roleDoc =
+
+await db
+.collection("roles")
+.doc(agent.role)
+.get();
+
+let nomRole =
+
+agent.role;
+
+if(roleDoc.exists){
+
+nomRole =
+roleDoc.data().nom;
+
+}
+
+document.getElementById(
+"zoneFormulaire"
+).innerHTML =
+
+`
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+"
+>
+
+<h2>
+ Fiche Agent
+</h2>
+
+<button
+onclick="fermerFormulaire()"
+style="
+padding:8px 15px;
+border:none;
+border-radius:8px;
+background:#ef4444;
+color:white;
+cursor:pointer;
+"
+>
+
+✖ Fermer
+
+</button>
+
+</div>
+
+
+
+<div
+style="
+padding:15px;
+background:#f9fafb;
+border-radius:10px;
+margin-bottom:20px;
+"
+>
+
+<h3>
+Informations générales
+</h3>
+
+<p style="margin:10px 0;">
+<b>Nom :</b>
+${agent.nom}
+</p>
+
+<p style="margin:10px 0;">
+<b>Matricule :</b>
+${agent.carte}
+</p>
+
+<p style="margin:10px 0;">
+<b>Statut :</b>
+${agent.statut || "actif"}
+</p>
+
+</div>
+
+<div
+style="
+padding:15px;
+background:#f9fafb;
+border-radius:10px;
+margin-bottom:20px;
+"
+>
+
+<h3>
+Poste actuel
+</h3>
+
+<p style="margin:10px 0;">
+<b>Fonction :</b>
+${nomRole}
+</p>
+
+<p style="margin:10px 0;">
+<b>Service :</b>
+${agent.service}
+</p>
+
+<p style="margin:10px 0;">
+<b>Site :</b>
+${agent.site}
+</p>
+
+</div>
+
+<div
+style="
+padding:15px;
+background:#f9fafb;
+border-radius:10px;
+margin-bottom:20px;
+"
+>
+
+<h3>
+📊 Situation administrative
+</h3>
+
+<p style="margin:12px 0;">
+<b>Date création :</b>
+${dateCreation}
+</p>
+
+<p style="margin:12px 0;">
+<b>Date prise de fonction :</b>
+${datePriseFonction}
+</p>
+
+<p style="margin:12px 0;">
+<b>Dernière mutation :</b>
+${dateMutation}
+</p>
+
+<p style="margin:12px 0;">
+<b>Dernier archivage :</b>
+${dateArchivage}
+</p>
+
+<p style="margin:12px 0;">
+<b>Dernière réactivation :</b>
+${dateReactivation}
+</p>
+
+</div>
+
+<div id="historiqueAgent">
+
+Chargement historique...
+
+</div>
+
+</div>
+`;
+
+chargerHistoriqueAgent(
+agent.carte
+);
+
+}
+
+async function chargerHistoriqueAgent(carte){
+
+let zone =
+
+document.getElementById(
+"historiqueAgent"
+);
+
+let snapshot =
+
+await db
+.collection(
+"mouvementsPersonnel"
+)
+
+.where(
+"agentCarte",
+"==",
+carte
+)
+
+.get();
+
+if(snapshot.empty){
+
+zone.innerHTML =
+
+`
+<hr>
+
+<h3>
+Historique administratif
+</h3>
+
+Aucun mouvement
+`;
+
+return;
+
+}
+
+let html =
+
+`
+<hr>
+
+<h3>
+Historique administratif
+</h3>
+`;
+
+snapshot.forEach(doc=>{
+
+let m =
+doc.data();
+
+let date =
+
+new Date(
+m.date
+)
+
+.toLocaleString(
+"fr-FR"
+);
+
+html +=
+
+`
+<div
+style="
+padding:10px;
+margin-bottom:10px;
+border:1px solid #ddd;
+border-radius:10px;
+"
+>
+
+<b>
+${m.type}
+</b>
+
+<br>
+
+${date}
+
+<br>
+
+Par :
+${m.effectuePar}
+
+</div>
+`;
+
+});
+
+zone.innerHTML =
+html;
 
 }
 
