@@ -994,12 +994,22 @@ return;
 
 }
 
-let r=
-snapshot.docs[0].data();
+let doc =
+snapshot.docs[0];
+
+let r =
+doc.data();
 
 zone.innerHTML=`
 
 <div
+
+onclick="
+toggleActionsResponsable(
+'${doc.id}'
+)
+"
+
 style="
 background:#1f2937;
 color:white;
@@ -1008,6 +1018,7 @@ border-radius:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+cursor:pointer;
 "
 >
 
@@ -1070,11 +1081,101 @@ font-weight:bold;
 
 </div>
 
+<div
+
+id="actions-responsable"
+
+style="
+display:none;
+padding:15px;
+background:#f9fafb;
+border-radius:10px;
+margin-top:10px;
+"
+>
+
+<button
+class="action-btn"
+onclick="
+ouvrirFicheAgent(
+'${doc.id}'
+)
+"
+>
+
+Fiche
+
+</button>
+
+<button
+class="action-btn"
+onclick="
+modifierAgent(
+'${doc.id}'
+)
+"
+>
+
+Modifier
+
+</button>
+
+<button
+class="action-btn"
+onclick="
+muterAgent(
+'${doc.id}'
+)
+"
+>
+
+Muter
+
+</button>
+
+<button
+class="action-btn archive"
+onclick="
+archiverAgent(
+'${doc.id}'
+)
+"
+>
+
+Archiver
+
+</button>
+
 </div>
 
 `;
 
 });
+
+}
+
+function toggleActionsResponsable(){
+
+let zone =
+
+document.getElementById(
+"actions-responsable"
+);
+
+if(
+zone.style.display==="none"
+){
+
+zone.style.display=
+"block";
+
+}
+else{
+
+zone.style.display=
+"none";
+
+}
 
 }
 
@@ -1391,7 +1492,7 @@ aPermission("reactiverAgent")
 <button
 class="action-btn"
 onclick="
-reactiverControleur(
+reactiverAgent(
 '${doc.id}'
 )
 "
@@ -1419,7 +1520,7 @@ aPermission("modifierAgent")
 <button
 class="action-btn"
 onclick="
-modifierControleur(
+modifierAgent(
 '${doc.id}'
 )
 "
@@ -1461,7 +1562,7 @@ aPermission("muterAgent")
 <button
 class="action-btn"
 onclick="
-muterControleur(
+muterAgent(
 '${doc.id}'
 )
 "
@@ -1483,7 +1584,7 @@ aPermission("archiverAgent")
 <button
 class="action-btn archive"
 onclick="
-archiverControleur(
+archiverAgent(
 '${doc.id}'
 )
 "
@@ -1824,7 +1925,7 @@ annulerControleur();
 
 }
 
-async function archiverControleur(id){
+async function archiverAgent(id){
 
 if(
 !aPermission(
@@ -1842,7 +1943,7 @@ return;
 
 let ok =
 confirm(
-"Archiver ce contrôleur ?"
+"Archiver cet agent ?"
 );
 
 if(!ok){
@@ -1899,17 +2000,21 @@ Date.now()
 });
 
 alert(
-"Contrôleur archivé ✅"
+"Agent archivé ✅"
 );
 
 chargerControleursRestaurant(
 siteOuvert,
 restaurantOuvert
 );
+chargerResponsable(
+siteOuvert,
+restaurantOuvert
+);
 
 }
 
-async function reactiverControleur(id){
+async function reactiverAgent(id){
 
 if(
 !aPermission(
@@ -1927,7 +2032,7 @@ return;
 
 let ok =
 confirm(
-"Réactiver ce contrôleur ?"
+"Réactiver cet agent ?"
 );
 
 if(!ok){
@@ -1984,7 +2089,7 @@ Date.now()
 });
 
 alert(
-"Contrôleur réactivé ✅"
+"Agent réactivé ✅"
 );
 
 chargerControleursRestaurant(
@@ -1994,7 +2099,7 @@ restaurantOuvert
 
 }
 
-async function muterControleur(id){
+async function muterAgent(id){
 
 if(
 !aPermission(
@@ -2270,6 +2375,27 @@ document.getElementById(
 "mutationService"
 ).value;
 
+if(
+service==="Restaurant"
+){
+
+if(
+site==="Grand Campus"
+){
+service=
+"Restaurant Central";
+}
+
+else{
+
+service=
+"Restaurant " +
+site;
+
+}
+
+}
+
 let role =
 
 document.getElementById(
@@ -2316,6 +2442,61 @@ localStorage.getItem(
 "user"
 )
 );
+
+if(
+role==="responsableRestaurant"
+){
+
+let snapshot =
+
+await db
+.collection("users")
+
+.where(
+"role",
+"==",
+"responsableRestaurant"
+)
+
+.where(
+"service",
+"==",
+service
+)
+
+.get();
+
+let responsableExiste = false;
+
+snapshot.forEach(doc=>{
+
+if(
+doc.id!==id
+&&
+doc.data().statut!=="archive"
+){
+
+responsableExiste = true;
+
+}
+
+});
+
+if(
+responsableExiste
+){
+
+alert(
+
+"Un responsable est déjà affecté à ce service.\n\nVeuillez d'abord le muter ou l'archiver."
+
+);
+
+return;
+
+}
+
+}
 
 await db
 .collection("users")
@@ -2792,7 +2973,7 @@ ligne.style.display==="table-row"
 
 }
 
-async function modifierControleur(id){
+async function modifierAgent(id){
 
 let doc =
 
@@ -2804,7 +2985,7 @@ await db
 if(!doc.exists){
 
 alert(
-"Contrôleur introuvable"
+"Agent introuvable"
 );
 
 return;
@@ -2822,7 +3003,7 @@ document.getElementById(
 
 <h3>
 
-Modifier contrôleur
+Modifier agent
 
 </h3>
 

@@ -149,6 +149,17 @@ id:doc.id,
 
 };
 
+if(
+user.statut==="archive"
+){
+
+window.location.href=
+"compte-archive.html";
+
+return;
+
+}
+
 if(user.valide !== true){
 
 alert(

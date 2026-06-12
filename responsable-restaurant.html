@@ -424,16 +424,23 @@ src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
 
 <div>
 
-<h2>
-Responsable Restaurant
+<h2 id="nomResponsable">
+Chargement...
 </h2>
 
-<p>
-Matricule : RESP001
+<p id="fonctionResponsable">
+Chargement...
 </p>
 
-<div class="badge">
-ADMIN RESTAURANT
+<p id="matriculeResponsable">
+Chargement...
+</p>
+
+<div
+class="badge"
+id="siteResponsable"
+>
+Chargement...
 </div>
 
 </div>
@@ -507,7 +514,7 @@ Déconnexion
 <div class="stats">
 
 <div class="stat">
-<strong id="totalControleurs">2</strong>
+<strong id="totalControleurs">0</strong>
 Contrôleurs
 </div>
 
@@ -563,9 +570,60 @@ Tickets aujourd'hui
 👥 Contrôleurs
 </h3>
 
+<div
+style="
+display:flex;
+gap:10px;
+margin:15px 0;
+"
+>
+
+<button
+id="btnActifs"
+onclick="
+changerFiltreControleurs(
+'actifs'
+)
+"
+style="
+padding:8px 15px;
+border:none;
+border-radius:20px;
+background:#1f2937;
+color:white;
+cursor:pointer;
+"
+>
+
+Actifs
+
+</button>
+
+<button
+id="btnArchives"
+onclick="
+changerFiltreControleurs(
+'archives'
+)
+"
+style="
+padding:8px 15px;
+border:none;
+border-radius:20px;
+background:#e5e7eb;
+cursor:pointer;
+"
+>
+
+Archivés
+
+</button>
+
+</div>
+
 <table>
 
-<thead>
+<thead id="theadControleurs">
 
 <tr>
 
@@ -632,8 +690,113 @@ Chargement...
 
 <script>
 
+let filtreControleurs =
+
+localStorage.getItem(
+"filtreControleursRestaurant"
+)
+
+||
+
+"actifs";
+
 let controleurs = [];
 let statusMap = {};
+
+function changerFiltreControleurs(
+filtre
+){
+
+filtreControleurs =
+filtre;
+
+localStorage.setItem(
+"filtreControleursRestaurant",
+filtre
+);
+
+document.getElementById(
+"btnActifs"
+).style.background =
+
+filtre==="actifs"
+?
+"#1f2937"
+:
+"#e5e7eb";
+
+document.getElementById(
+"btnActifs"
+).style.color =
+
+filtre==="actifs"
+?
+"white"
+:
+"black";
+
+document.getElementById(
+"btnArchives"
+).style.background =
+
+filtre==="archives"
+?
+"#1f2937"
+:
+"#e5e7eb";
+
+document.getElementById(
+"btnArchives"
+).style.color =
+
+filtre==="archives"
+?
+"white"
+:
+"black";
+
+if(
+filtre==="actifs"
+){
+
+document.getElementById(
+"theadControleurs"
+).innerHTML =
+
+`
+<tr>
+
+<th>Contrôleur</th>
+<th>Tickets</th>
+<th>Dernière activité</th>
+<th>Statut</th>
+
+</tr>
+`;
+
+}
+else{
+
+document.getElementById(
+"theadControleurs"
+).innerHTML =
+
+`
+<tr>
+
+<th>Contrôleur</th>
+<th>Date archivage</th>
+<th>Archivé par</th>
+
+</tr>
+`;
+
+}
+
+afficherControleurs();
+
+}
+
 
 function chargerControleurs(){
 
@@ -651,11 +814,46 @@ db.collection("users")
 
 controleurs=[];
 
+let user =
+JSON.parse(
+localStorage.getItem(
+"user"
+)
+);
+
+function chargerProfilResponsable(){
+
+document.getElementById(
+"nomResponsable"
+).innerText =
+user.nom;
+
+document.getElementById(
+"fonctionResponsable"
+).innerText =
+
+"Responsable " +
+user.service;
+
+document.getElementById(
+"matriculeResponsable"
+).innerText =
+user.carte;
+
+document.getElementById(
+"siteResponsable"
+).innerText =
+user.site;
+
+}
+
 for(const doc of snapshot.docs){
+
 
 let c = doc.data();
 
 let historiqueSnapshot =
+
 
 await db
 .collection(
@@ -671,11 +869,20 @@ c.carte
 c.totalTickets =
 historiqueSnapshot.size;
 
+if(
+c.service !== user.service
+){
+continue;
+}
+
 controleurs.push(c);
+
 
 }
 
 afficherControleurs();
+
+chargerProfilResponsable();
 
 });
 
@@ -715,9 +922,41 @@ let html="";
 let total=0;
 let actifs=0;
 
+let nbActifs=0;
+let nbArchives=0;
+
 for(const c of controleurs){
 
 if(c.valide !== true){
+continue;
+}
+
+if(
+c.statut==="archive"
+){
+nbArchives++;
+}
+else{
+nbActifs++;
+}
+
+let archive =
+
+c.statut==="archive";
+
+if(
+filtreControleurs==="actifs"
+&&
+archive
+){
+continue;
+}
+
+if(
+filtreControleurs==="archives"
+&&
+!archive
+){
 continue;
 }
 
@@ -835,6 +1074,33 @@ actifs++;
 
 }
 
+let dateArchivage = "-";
+
+if(
+c.dateArchivage
+){
+
+dateArchivage =
+
+new Date(
+c.dateArchivage
+)
+
+.toLocaleString(
+"fr-FR"
+);
+
+}
+
+let archivePar =
+
+c.archivePar || "-";
+
+
+if(
+filtreControleurs==="actifs"
+){
+
 html+=`
 
 <tr>
@@ -922,6 +1188,91 @@ online
 `;
 
 }
+else{
+
+html+=`
+
+<tr>
+
+<td>
+
+<div style="
+display:flex;
+align-items:center;
+gap:10px;
+">
+
+<img
+src="${
+c.avatar ||
+'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+}"
+
+style="
+width:45px;
+height:45px;
+border-radius:50%;
+object-fit:cover;
+">
+
+<div>
+
+<strong>
+${c.nom}
+</strong>
+
+<br>
+
+<span style="
+font-size:13px;
+opacity:.6;
+">
+
+${c.carte}
+
+</span>
+
+</div>
+
+</div>
+
+</td>
+
+<td>
+
+${dateArchivage}
+
+</td>
+
+<td>
+
+👤 ${archivePar}
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+}
+
+document.getElementById(
+"btnActifs"
+).innerText =
+
+"Actifs (" +
+nbActifs +
+")";
+
+document.getElementById(
+"btnArchives"
+).innerText =
+
+"Archivés (" +
+nbArchives +
+")";
 
 zone.innerHTML=html;
 
@@ -937,8 +1288,12 @@ actifs;
 
 }
 
+changerFiltreControleurs(
+filtreControleurs
+);
 chargerControleurs();
 ecouterStatus();
+
 
 function chargerActivites(){
 
