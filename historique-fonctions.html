@@ -1,0 +1,478 @@
+<head>
+
+<script src="firebase-app.js"></script>
+
+<script src="firebase-firestore.js"></script>
+
+</head>
+
+<body>
+
+<h2 id="titreHistorique">
+Historique
+</h2>
+
+<div id="listeHistorique">
+Chargement...
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+
+const firebaseConfig={
+
+apiKey:"AIzaSyCrdqwoG_K39s7_mWCeLprvnUDIBGqcfUY",
+
+authDomain:
+"smart-campus-58151.firebaseapp.com",
+
+projectId:
+"smart-campus-58151",
+
+messagingSenderId:
+"631084577067",
+
+appId:
+"1:631084577067:web:bb690c895fc96411dc556e"
+
+};
+
+if(!firebase.apps.length){
+
+firebase.initializeApp(
+firebaseConfig
+);
+
+}
+
+const db=
+firebase.firestore();
+
+</script>
+
+<script>
+
+async function chargerHistorique(){
+
+let service =
+localStorage.getItem(
+"historiqueService"
+);
+
+let zone =
+document.getElementById(
+"listeHistorique"
+);
+
+let snapshot =
+await db
+.collection(
+"historiqueFonctions"
+)
+.where(
+"service",
+"==",
+service
+)
+.get();
+
+if(snapshot.empty){
+
+zone.innerHTML=`
+
+<div
+style="
+background:white;
+padding:15px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+"
+>
+
+Aucun historique disponible
+
+</div>
+
+`;
+
+return;
+
+}
+
+let historiques=[];
+
+snapshot.forEach(doc=>{
+
+historiques.push({
+
+id:doc.id,
+
+...doc.data()
+
+});
+
+});
+
+historiques.sort((a,b)=>{
+
+return b.dateDebut-a.dateDebut;
+
+});
+
+let nbActuels =
+historiques.filter(
+h=>!h.dateFin
+).length;
+
+document.getElementById(
+"titreHistorique"
+).innerHTML=`
+
+<div
+style="
+background:#111827;
+color:white;
+padding:30px;
+border-radius:20px;
+margin-bottom:20px;
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+"
+>
+
+<div>
+
+<h1
+style="
+margin:0;
+font-size:36px;
+font-weight:700;
+letter-spacing:-1px;
+"
+>
+
+📜 Historique des responsables
+
+</h1>
+
+<div
+style="
+margin-top:10px;
+font-size:22px;
+font-weight:600;
+"
+>
+
+${service}
+
+</div>
+
+<div
+style="
+margin-top:15px;
+font-size:14px;
+opacity:.85;
+line-height:1.8;
+"
+>
+
+👥 ${historiques.length}
+responsable(s) enregistré(s)
+
+<br>
+
+🟢 ${nbActuels}
+en fonction
+
+</div>
+
+</div>
+
+<button
+onclick="
+history.back()
+"
+style="
+background:white;
+border:none;
+padding:12px 18px;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+box-shadow:0 2px 8px rgba(0,0,0,.15);
+"
+>
+
+← Retour
+
+</button>
+
+</div>
+
+`;
+
+zone.innerHTML="";
+
+historiques.forEach((h,index)=>{
+
+let actif =
+!h.dateFin;
+
+let debut =
+new Date(
+h.dateDebut
+).toLocaleDateString(
+"fr-FR"
+);
+
+let fin =
+h.dateFin
+
+?
+
+new Date(
+h.dateFin
+).toLocaleDateString(
+"fr-FR"
+)
+
+:
+
+"En fonction";
+
+let finCalcul =
+h.dateFin || Date.now();
+
+let jours =
+Math.floor(
+(finCalcul-h.dateDebut)
+/
+86400000
+);
+
+let roleLabel = {
+
+responsableRestaurant:
+"Responsable Restaurant",
+
+controleurRestaurant:
+"🧾 Contrôleur Restaurant",
+
+chefService:
+"Chef de Service",
+
+chefDepartementRestaurant:
+"🏢 Chef Département Restaurant",
+
+chefDepartementInformatique:
+"Chef Département Informatique",
+
+agentInformatique:
+"Agent Informatique"
+
+}[h.role] || h.role;
+
+let badge = actif
+
+?
+
+`
+<span
+style="
+background:#dcfce7;
+color:#166534;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+"
+>
+🟢 ACTUEL
+</span>
+`
+
+:
+
+`
+<span
+style="
+background:#f3f4f6;
+color:#374151;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+"
+>
+⚫ ANCIEN
+</span>
+`;
+
+zone.innerHTML += `
+
+<div
+style="
+background:white;
+padding:18px;
+margin-bottom:15px;
+border-radius:18px;
+box-shadow:0 4px 12px rgba(0,0,0,.08);
+border-left:6px solid ${
+actif
+?
+'#16a34a'
+:
+'#9ca3af'
+};
+"
+>
+
+<div
+style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+"
+>
+
+<div>
+
+<h3
+style="
+margin:0;
+"
+>
+
+${h.agentNom}
+
+</h3>
+
+<div>
+
+🪪 ${h.agentCarte}
+
+</div>
+
+<div>
+
+${roleLabel}
+
+</div>
+
+</div>
+
+${badge}
+
+</div>
+
+<br>
+
+<button
+onclick="
+toggleHistorique(
+'${h.id}'
+)
+"
+style="
+padding:8px 15px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#f3f4f6;
+"
+>
+
+${index===0 ? 'Masquer détails' : 'Voir détails'}
+
+</button>
+
+<div
+id="details-${h.id}"
+style="
+display:${
+index===0
+?
+'block'
+:
+'none'
+};
+margin-top:15px;
+line-height:1.9;
+"
+>
+
+<div>
+
+<strong>📍 Site :</strong>
+${h.site}
+
+</div>
+
+<div>
+
+<strong>📅 Début :</strong>
+${debut}
+
+</div>
+
+<div>
+
+<strong>📅 Fin :</strong>
+${fin}
+
+</div>
+
+<div>
+
+<strong>⏳ Durée :</strong>
+${jours}
+jour(s)
+
+</div>
+
+<div>
+
+<strong>👤 Créé par :</strong>
+${h.creePar}
+
+</div>
+
+`;
+
+});
+
+}
+
+function toggleHistorique(id){
+
+let bloc =
+document.getElementById(
+"details-"+id
+);
+
+if(
+bloc.style.display==="none"
+){
+
+bloc.style.display="block";
+
+}
+else{
+
+bloc.style.display="none";
+
+}
+
+}
+
+chargerHistorique();
+
+</script>
+
+</body>

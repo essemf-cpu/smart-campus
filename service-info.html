@@ -1000,6 +1000,24 @@ snapshot.docs[0];
 let r =
 doc.data();
 
+let statutResponsable =
+"🟢 En service";
+
+let couleurStatut =
+"#16a34a";
+
+if(
+r.statut==="archive"
+){
+
+statutResponsable =
+"🔴 Hors service";
+
+couleurStatut =
+"#dc2626";
+
+}
+
 zone.innerHTML=`
 
 <div
@@ -1070,14 +1088,14 @@ Responsable ${service}
 
 <div
 style="
-background:#16a34a;
+background:${couleurStatut};
 padding:10px 14px;
 border-radius:20px;
 font-weight:bold;
 "
 >
 
-🟢 En service
+${statutResponsable}
 
 </div>
 
@@ -1107,6 +1125,32 @@ Fiche
 
 </button>
 
+${
+r.statut==="archive"
+
+?
+
+`
+
+<button
+class="action-btn"
+onclick="
+reactiverAgent(
+'${doc.id}'
+)
+"
+>
+
+Réactiver
+
+</button>
+
+`
+
+:
+
+`
+
 <button
 class="action-btn"
 onclick="
@@ -1117,6 +1161,19 @@ modifierAgent(
 >
 
 Modifier
+
+</button>
+
+<button
+class="action-btn"
+onclick="
+ouvrirHistoriqueFonctions(
+'${r.service}'
+)
+"
+>
+
+📜 Historique
 
 </button>
 
@@ -1145,6 +1202,10 @@ archiverAgent(
 Archiver
 
 </button>
+
+`
+
+}
 
 </div>
 
@@ -1640,6 +1701,35 @@ zone.innerHTML=
 html;
 
 });
+
+}
+
+async function getNiveauRole(role){
+
+let doc = await db
+.collection("roles")
+.doc(role)
+.get();
+
+if(!doc.exists){
+return 0;
+}
+
+return parseInt(
+doc.data().niveau || 0
+);
+
+}
+
+function ouvrirHistoriqueFonctions(service){
+
+localStorage.setItem(
+"historiqueService",
+service
+);
+
+window.location.href =
+"historique-fonctions.html";
 
 }
 
@@ -2443,6 +2533,17 @@ localStorage.getItem(
 )
 );
 
+let ancienNiveau =
+await getNiveauRole(
+agent.role
+);
+
+let nouveauNiveau =
+await getNiveauRole(
+role
+);
+
+
 if(
 role==="responsableRestaurant"
 ){
@@ -2498,6 +2599,41 @@ return;
 
 }
 
+if(
+ancienNiveau >= 3
+){
+
+let ancienMandat =
+
+await db
+.collection(
+"historiqueFonctions"
+)
+.where(
+"agentCarte",
+"==",
+agent.carte
+)
+.where(
+"dateFin",
+"==",
+null
+)
+.get();
+
+ancienMandat.forEach(doc=>{
+
+doc.ref.update({
+
+dateFin:
+Date.now()
+
+});
+
+});
+
+}
+
 await db
 .collection("users")
 .doc(id)
@@ -2515,9 +2651,54 @@ dateMutation:
 Date.now(),
 
 mutePar:
+user.carte,
+
+mutationNonLue:true,
+
+messageMutation:
+"Vous avez été muté vers " +
+service,
+
+dateDerniereMutation:
+Date.now()
+
+});
+
+if(
+nouveauNiveau >= 3
+){
+
+await db
+.collection(
+"historiqueFonctions"
+)
+.add({
+
+agentId:id,
+
+agentNom:
+agent.nom,
+
+agentCarte:
+agent.carte,
+
+role:role,
+
+site:site,
+
+service:service,
+
+dateDebut:
+Date.now(),
+
+dateFin:null,
+
+creePar:
 user.carte
 
 });
+
+}
 
 await db
 .collection(
@@ -2569,6 +2750,124 @@ alert(
 );
 
 fermerFormulaire();
+
+let responsableArrivee =
+
+await db
+.collection("users")
+.where(
+"role",
+"==",
+"responsableRestaurant"
+)
+.where(
+"service",
+"==",
+service
+)
+.where(
+"valide",
+"==",
+true
+)
+.limit(1)
+.get();
+
+if(!responsableArrivee.empty){
+
+let resp =
+responsableArrivee.docs[0].data();
+
+await db
+.collection("notifications")
+.add({
+
+destinataire:
+resp.carte,
+
+type:
+"nouvelleAffectation",
+
+titre:
+"Nouvelle affectation",
+
+message:
+
+agent.nom +
+
+" (" +
+
+agent.carte +
+
+") vient d'être affecté à votre restaurant.",
+
+date:
+Date.now(),
+
+lu:false
+
+});
+
+}
+
+let responsableDepart =
+
+await db
+.collection("users")
+.where(
+"role",
+"==",
+"responsableRestaurant"
+)
+.where(
+"service",
+"==",
+agent.service
+)
+.where(
+"valide",
+"==",
+true
+)
+.limit(1)
+.get();
+
+if(!responsableDepart.empty){
+
+let resp =
+responsableDepart.docs[0].data();
+
+await db
+.collection("notifications")
+.add({
+
+destinataire:
+resp.carte,
+
+type:
+"departAgent",
+
+titre:
+"Mutation effectuée",
+
+message:
+
+agent.nom +
+
+" (" +
+
+agent.carte +
+
+") a quitté votre restaurant.",
+
+date:
+Date.now(),
+
+lu:false
+
+});
+
+}
 
 chargerControleursRestaurant(
 siteOuvert,
