@@ -2240,9 +2240,25 @@ Mutation de ${agent.nom}
 <br>
 
 <label>
+Nouveau département
+</label>
 
+<br>
+
+<select
+id="mutationDepartement"
+onchange="
+chargerServicesMutation()
+"
+style="
+width:100%;
+padding:10px;
+margin-bottom:15px;
+">
+</select>
+
+<label>
 Nouveau site
-
 </label>
 
 <br>
@@ -2337,7 +2353,38 @@ Annuler
 
 `;
 
+chargerDepartementsMutation();
 chargerSitesMutation();
+chargerServicesMutation();
+
+}
+
+async function chargerDepartementsMutation(){
+
+let select =
+document.getElementById(
+"mutationDepartement"
+);
+
+select.innerHTML="";
+
+let snapshot =
+await db
+.collection("departements")
+.get();
+
+snapshot.forEach(doc=>{
+
+let d = doc.data();
+
+select.innerHTML += `
+<option value="${doc.id}">
+${d.nom}
+</option>
+`;
+
+});
+
 chargerServicesMutation();
 
 }
@@ -2376,8 +2423,12 @@ ${s.nom}
 
 async function chargerServicesMutation(){
 
-let select =
+let departement =
+document.getElementById(
+"mutationDepartement"
+).value;
 
+let select =
 document.getElementById(
 "mutationService"
 );
@@ -2385,19 +2436,21 @@ document.getElementById(
 select.innerHTML="";
 
 let snapshot =
-
 await db
 .collection("services")
+.where(
+"departement",
+"==",
+departement
+)
 .get();
 
 snapshot.forEach(doc=>{
 
 let s = doc.data();
 
-select.innerHTML +=
-
-`
-<option value="${s.nom}">
+select.innerHTML += `
+<option value="${doc.id}">
 ${s.nom}
 </option>
 `;
